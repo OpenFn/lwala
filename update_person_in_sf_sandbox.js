@@ -1,5 +1,4 @@
 //Deliveries
-// Test github connection from invited admin on OpenFn.
 
 combine( function(state) {
   if(dataValue("$.form.Status.Client_Status")(state)=="Active"){
