@@ -4,6 +4,7 @@ combine( function(state) {
   if(dataValue("$.form.Status.Client_Status")(state)=="Active"){
   //Deliveries
     if (dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery")(state)=="Yes") {
+      //Unskilled delivery: upsert person with delivery information, but no service provided
       if(dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Type")(state)=="Unskilled"){
          upsert("Person__c", "CommCare_ID__c", fields(
           field("Source__c",1),
@@ -16,7 +17,7 @@ combine( function(state) {
         ))(state);
       }
       else{
-          //REVIEWED
+          //Skilled delivery: service provided, and upsert remaining information for person
           create("Service__c", fields(
             field("Source__c",1),
             field("Reason_for_Service__c","Delivery"),
@@ -53,7 +54,7 @@ combine( function(state) {
     }
   
   }
-  //Transfer Outs REVIEWED
+  //Transfer Outs 
   else if(dataValue("$.form.Status.Client_Status")(state)=="Transferred_Out"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
@@ -66,7 +67,7 @@ combine( function(state) {
       
     ))(state);
   }
-  //Lost to Follow Up REVIEWED
+  //Lost to Follow Up 
   else if(dataValue("$.form.Status.Client_Status")(state)=="Lost_to_Follow_Up"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
@@ -111,7 +112,7 @@ combine( function(state) {
 }),
   //Need to update CHWs
 combine(function(state){
-  //Both
+  //Person is added to TT5 (this can only happen to a mother, a child wouldn't be in HAWI before joining TT5)
   if(dataValue("$.form.Basic_Information.Basic_Information.Add_to_TT5")(state)=="Yes"){
     upsert("Person__c","CommCare_ID__c",fields(
       //field("Name",dataValue("$.form.Basic_Information.Basic_Information.final_name")),
@@ -125,7 +126,7 @@ combine(function(state){
     ))(state);
   }
   else{
-  //Both
+  //Person is added to HAWI
     if(dataValue("$.form.Basic_Information.Basic_Information.Add_to_HAWI")(state)=="Yes"){
       upsert("Person__c","CommCare_ID__c",fields(
         //field("Name",dataValue("$.form.Basic_Information.Basic_Information.final_name")),
@@ -152,7 +153,7 @@ combine(function(state){
     }
   }
 }),
-  //ANC1 REVIEWED
+  //ANC1
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_1")(state)=="click_to_enter_anc_1"){
     create("Service__c", fields(
@@ -175,7 +176,7 @@ combine( function(state) {
         
   }
 }),
-  //ANC2 REVIEWED
+  //ANC2
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_2")(state)=="click_to_enter_anc_2"){
     create("Service__c", fields(
@@ -199,7 +200,7 @@ combine( function(state) {
           
   }
 }),
-  //ANC3 REVIEWED
+  //ANC3
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -223,7 +224,7 @@ combine( function(state) {
         
   }
 }),
-  //ANC4 REVIEWED
+  //ANC4 
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -247,7 +248,7 @@ combine( function(state) {
         
   }
 }),
-  //ANC5 REVIEWED
+  //ANC5 
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-3-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -343,7 +344,7 @@ combine( function(state) {
         
   }
 }),
-  //OPV2 REVIEWED
+  //OPV2 
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -367,7 +368,7 @@ combine( function(state) {
           
   }
 }),
-  //OPV3 REVIEWED
+  //OPV3 
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-4-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -391,7 +392,7 @@ combine( function(state) {
         
   }
 }),
-  //Measles 6 REVIEWED 
+  //Measles 6  
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-5-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -415,7 +416,7 @@ combine( function(state) {
         
   }
 }),
-  //Measles 9 REVIEWED 
+  //Measles 9  
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-6-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -440,7 +441,7 @@ combine( function(state) {
   }
 }),
 
-//Measles 18 REVIEWED
+//Measles 18 
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-7-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -464,7 +465,7 @@ combine( function(state) {
         
   }
 }),
-
+//Home Based care for HAWI clients
 combine( function(state) {
   if(dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state)!==undefined&&dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state)!==''){
     create("Service__c", fields(
@@ -483,17 +484,19 @@ combine( function(state) {
         
         return care;
       
-      }), //NEEDS FIXING
+      }), 
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     
     ))(state);
         
   }
 }),
+//Malaria cases
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.CCMM.Home_Test_Result")(state)=="Positive"){
     //REVIEWED
     if(dataValue("$.form.TT5.Child_Information.CCMM.Malaria_Referral")(state)=="Yes"){
+      //This block got moved to the referral section, malaria referral case
       /*create("Service__c", fields(
         field("Source__c",1),
         field("Date__c",dataValue("$.form.Date")),
@@ -508,11 +511,11 @@ combine( function(state) {
         field("Home_Treatment_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
         field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
         field("CommCare_Code__c",dataValue("form.subcase_1.case.@case_id")(state)),
-        relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
-        
+        relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")) 
       ))(state);*/
     }
     else{
+      //Malaria home treatment case
       create("Service__c", fields(
         field("Source__c",1),
         field("Date__c",dataValue("$.form.Date")),
@@ -534,7 +537,7 @@ combine( function(state) {
   }
 }),
 
-//REVIEWED
+//Malnutrition case
 combine(function(state){
   if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)!==undefined){
     create("Service__c", fields(
@@ -566,7 +569,7 @@ combine(function(state){
   }
 }),
 
-//REVIEWED
+//All referrals are sent here (danger sign, malaria, malnutrition, other referral)
 combine(function(state){
   if(dataValue("$.form.Referral")(state)=="Yes"){
     create("Service__c", fields(
@@ -607,7 +610,8 @@ combine(function(state){
   
   }
 }),
-// REVIEWED
+//TO-DO fix array problem
+//HAWI other clinical services received, 
 combine(function(state){
   if(dataValue("$.form.HAWI.Clinical_Services_Rendered[0]")(state)!==undefined){
     each(dataPath("$.form.HAWI.Clinical_Services_Rendered[*]"),
@@ -690,48 +694,9 @@ combine(function(state){
   }
 }),
 
-/*combine(function(state){
-  if(dataValue("$.form.HAWI.Clinical_Service_Q")(state)=="Yes"){
-    
-    create("Service__c", fields(
-      field("Source__c",true),
-      field("Household_CHW__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.chw")),
-      field("Reason_for_Service__c",function(state){
-        var reason='';
-        var name=dataValue("$.form.HAWI.Clinical_Services_Rendered.Purpose")(state);
-        if(name=="Adverse_Drug_Reaction_Side_Effect"){
-          reason="Adverse Drug Reaction/Side Effect";
-        }
-        else if(name=="Pregnancy_Care"){
-          reason="Pregnancy Care (ANC)";
-        }
-        else if(name=="Family_Planning"){
-          reason="Family Planning (FP)"
-        }
-        else{
-          reason=name.replace(/_/g," ");
-        }
-        return reason;
-      }),
-      field("Date__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.Date_of_Clinical_Service")),
-      field("Type_of_Service__c","CHW Mobile Survey"),
-      field("RecordTypeID","01224000000YAuK"),
-      //relationship("Site__r","Label__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.Facility_of_Clinical_Service")),
-      relationship("Site__r","Label__c",function(state){
-        var facility=dataValue("$.form.HAWI.Clinical_Services_Rendered.Facility_of_Clinical_Service")(state);
-        if(facility===''){
-          facility="unknown";
-        }
-        return facility;
-        
-      }),
-      relationship("Person__r","CommCare_ID__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.Case_ID"))
-    
-    ))(state);
-  }
-}),*/
 
-// REVIEWED
+//TO-DO: fix array problem
+// TT5 other clinical services received
 combine(function(state){
   if(dataValue("$.form.TT5.Child_Information.Clinical_Services[0]")(state)!==undefined){
     each(dataPath("$.form.TT5.Child_Information.Clinical_Services[*]"),
@@ -809,82 +774,6 @@ combine(function(state){
     ))(state);
   }
 })
-
-/*each(dataPath("$.form.TT5.Child_Information.Clinical_Services[*]"),
-  create("Service__c", fields(
-    field("Source__c",true),
-    field("Household_CHW__c",dataValue("chw")),
-    field("Reason_for_Service__c",function(state){
-      var reason='';
-      var name=dataValue("Purpose")(state);
-      if(name=="Adverse_Drug_Reaction_Side_Effect"){
-        reason="Adverse Drug Reaction/Side Effect";
-      }
-      else if(name=="Pregnancy_Care"){
-        reason="Pregnancy Care (ANC)";
-      }
-      else if(name=="Family_Planning"){
-        reason="Family Planning (FP)"
-      }
-      else{
-        reason=name.replace(/_/g," ");
-      }
-      return reason;
-    }),
-    field("Date__c",dataValue("Clinical_Date")),
-    field("Type_of_Service__c","CHW Mobile Survey"),
-    field("RecordTypeID","01224000000YAuK"),
-    //relationship("Site__r","Label__c",dataValue("Clinical_Facility")),
-    relationship("Site__r","Label__c",function(state){
-        var facility=dataValue("Clinical_Facility")(state);
-        if(facility===''||facility===undefined){
-          facility="unknown";
-        }
-        return facility;
-        
-      }),
-    relationship("Person__r","CommCare_ID__c",dataValue("Case_ID"))
-  ))
-),*/
-/*combine(function(state){
-  if(dataValue("$.form.TT5.Child_Information.Clinical_Services_Q")(state)=="Yes"){
-    create("Service__c", fields(
-      field("Source__c",true),
-      field("Household_CHW__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.chw")),
-      field("Reason_for_Service__c",function(state){
-        var reason='';
-        var name=dataValue("$.form.TT5.Child_Information.Clinical_Services.Purpose")(state);
-        if(name=="Adverse_Drug_Reaction_Side_Effect"){
-          reason="Adverse Drug Reaction/Side Effect";
-        }
-        else if(name=="Pregnancy_Care"){
-          reason="Pregnancy Care (ANC)";
-        }
-        else if(name=="Family_Planning"){
-          reason="Family Planning (FP)"
-        }
-        else{
-          reason=name.replace(/_/g," ");
-        }
-        return reason;
-      }),
-      field("Date__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.Clinical_Date")),
-      field("Type_of_Service__c","CHW Mobile Survey"),
-      field("RecordTypeID","01224000000YAuK"),
-      //relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.Clinical_Facility")),
-      relationship("Site__r","Label__c",function(state){
-        var facility=dataValue("$.form.TT5.Child_Information.Clinical_Services.Clinical_Facility")(state);
-        if(facility===''||facility===undefined){
-          facility="unknown";
-        }
-        return facility;
-        
-      }),
-      relationship("Person__r","CommCare_ID__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.Case_ID"))
-    
-    ))(state);
-  }
-})*/
 
 ,
 create("Visit__c",fields(
