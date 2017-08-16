@@ -1,6 +1,11 @@
 
 create("Person__c",fields(
-  field("Name",dataValue("$.form.Basic_Information.Person_Name")),
+  //field("Name",dataValue("$.form.Basic_Information.Person_Name")),
+  field("Name",function(state){
+          var name1=dataValue("$.form.Basic_Information.Person_Name")(state);
+          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          return name2;
+        }),
   relationship("RecordType","Name",function(state){
       return(dataValue("$.form.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),

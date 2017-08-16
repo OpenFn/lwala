@@ -27,7 +27,12 @@ combine(function(state){
   if(dataValue("$.form.Person[0].Source")(state)==1){
     each(dataPath("$.form.Person[*]"),
       create("Person__c",fields(
-        field("Name",dataValue("Basic_Information.Person_Name")),
+        //field("Name",dataValue("Basic_Information.Person_Name")),
+        field("Name",function(state){
+          var name1=dataValue("Basic_Information.Person_Name")(state);
+          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          return name2;
+        }),
         relationship("RecordType","Name",function(state){
             return(dataValue("Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
         }),
@@ -166,7 +171,12 @@ combine(function(state){
   }
   else if(dataValue("$.form.Person.Source")(state)==1){
     create("Person__c",fields(
-      field("Name",dataValue("$.form.Person.Basic_Information.Person_Name")),
+      //field("Name",dataValue("$.form.Person.Basic_Information.Person_Name")),
+      field("Name",function(state){
+          var name1=dataValue("$.form.Person.Basic_Information.Person_Name")(state);
+          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          return name2;
+      }),
       relationship("RecordType","Name",function(state){
           return(dataValue("$.form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
       }),
