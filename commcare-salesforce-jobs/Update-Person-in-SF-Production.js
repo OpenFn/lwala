@@ -143,7 +143,7 @@ combine(function(state){
         field("Source__c",1),
         field("Name",function(state){
           var name1=dataValue("$.form.final_name");
-          var name2=str.replace(/\w\S*/g, function(name1){return name1.charAt(0).toUpperCase() + name1.substr(1).toLowerCase();});
+          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         }),
         field("Active_in_HAWI__c","Yes"),
         field("HAWI_Registrant","Yes"),
@@ -157,7 +157,7 @@ combine(function(state){
       upsert("Person__c","CommCare_ID__c",fields(
         field("Name",function(state){
           var name1=dataValue("$.form.final_name");
-          var name2=str.replace(/\w\S*/g, function(name1){return name1.charAt(0).toUpperCase() + name1.substr(1).toLowerCase();});
+          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         }),
         field("Source__c",1),
         field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
