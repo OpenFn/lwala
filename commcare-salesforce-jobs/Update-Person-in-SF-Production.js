@@ -9,10 +9,11 @@ combine( function(state) {
          upsert("Person__c", "CommCare_ID__c", fields(
           field("Source__c",1),
           field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-          field("Name",function(state){
-            var name1=dataValue("$.form.final_name");
-            var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-          }),
+          field("Name",dataValue("$.form.final_name")),
+          //field("Name",function(state){
+          //  var name1=dataValue("$.form.final_name");
+          //  var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          //}),*/
           field("Place_of_Delivery__c",dataValue("Home")),
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
           field("Child_Status__c","Born"),
@@ -35,10 +36,11 @@ combine( function(state) {
             field("Source__c",true),
             field("Child_Status__c","Born"),
             field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-            field("Name",function(state){
-              var name1=dataValue("$.form.final_name");
-              var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-          }),
+            field("Name",dataValue("$.form.final_name")),
+            //field("Name",function(state){
+            //  var name1=dataValue("$.form.final_name");
+             // var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          //}),
             field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
             
           ))(state);
@@ -123,10 +125,11 @@ combine(function(state){
     upsert("Person__c","CommCare_ID__c",fields(
       //field("Name",dataValue("$.form.Basic_Information.Basic_Information.final_name")),
       field("Source__c",1),
-      field("Name",function(state){
-        var name1=dataValue("$.form.final_name");
-        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-      }),
+      field("Name",dataValue("$.form.final_name")),
+      //field("Name",function(state){
+      //  var name1=dataValue("$.form.final_name");
+      //  var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      //}),
       field("Active_TT5_Mother__c","Yes"),
       field("TT5_Mother_Registrant__c","Yes"),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
@@ -141,10 +144,11 @@ combine(function(state){
       upsert("Person__c","CommCare_ID__c",fields(
         //field("Name",dataValue("$.form.Basic_Information.Basic_Information.final_name")),
         field("Source__c",1),
-        field("Name",function(state){
-          var name1=dataValue("$.form.final_name");
-          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-        }),
+        field("Name",dataValue("$.form.final_name")),
+        //field("Name",function(state){
+        //  var name1=dataValue("$.form.final_name");
+        //  var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        //}),
         field("Active_in_HAWI__c","Yes"),
         field("HAWI_Registrant","Yes"),
         field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
@@ -155,10 +159,11 @@ combine(function(state){
     }
     else{
       upsert("Person__c","CommCare_ID__c",fields(
-        field("Name",function(state){
-          var name1=dataValue("$.form.final_name");
-          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-        }),
+        //field("Name",function(state){
+        //  var name1=dataValue("$.form.final_name");
+        //  var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        //}),
+        field("Name",dataValue("$.form.final_name")),
         field("Source__c",1),
         field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
         field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
