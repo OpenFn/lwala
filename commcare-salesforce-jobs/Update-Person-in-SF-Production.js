@@ -13,6 +13,7 @@ combine( function(state) {
           field("Name",function(state){
             var name1=dataValue("$.form.final_name")(state);
             var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+            return name2;
           }),
           field("Place_of_Delivery__c",dataValue("Home")),
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
@@ -40,6 +41,7 @@ combine( function(state) {
             field("Name",function(state){
               var name1=dataValue("$.form.final_name")(state);
               var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+              return name2;
           }),
             field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
             
@@ -129,6 +131,7 @@ combine(function(state){
       field("Name",function(state){
         var name1=dataValue("$.form.final_name")(state);
         var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        return name2
       }),
       field("Active_TT5_Mother__c","Yes"),
       field("TT5_Mother_Registrant__c","Yes"),
@@ -148,6 +151,7 @@ combine(function(state){
         field("Name",function(state){
           var name1=dataValue("$.form.final_name")(state);
           var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          return name2;
         }),
         field("Active_in_HAWI__c","Yes"),
         field("HAWI_Registrant","Yes"),
@@ -162,6 +166,7 @@ combine(function(state){
         field("Name",function(state){
           var name1=dataValue("$.form.final_name")(state);
           var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          return name2;
         }),
         //field("Name",dataValue("$.form.final_name")),
         field("Source__c",1),
