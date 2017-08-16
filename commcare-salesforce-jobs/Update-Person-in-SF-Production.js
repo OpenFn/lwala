@@ -11,7 +11,7 @@ combine( function(state) {
           field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
           field("Name",function(state){
             var name1=dataValue("$.form.final_name");
-            var name2=str.replace(/\w\S*/g, function(name1){return name1.charAt(0).toUpperCase() + name1.substr(1).toLowerCase();});
+            var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
           }),
           field("Place_of_Delivery__c",dataValue("Home")),
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
@@ -37,7 +37,7 @@ combine( function(state) {
             field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
             field("Name",function(state){
               var name1=dataValue("$.form.final_name");
-              var name2=str.replace(/\w\S*/g, function(name1){return name1.charAt(0).toUpperCase() + name1.substr(1).toLowerCase();});
+              var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
           }),
             field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
             
@@ -125,7 +125,7 @@ combine(function(state){
       field("Source__c",1),
       field("Name",function(state){
         var name1=dataValue("$.form.final_name");
-        var name2=str.replace(/\w\S*/g, function(name1){return name1.charAt(0).toUpperCase() + name1.substr(1).toLowerCase();});
+        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
       }),
       field("Active_TT5_Mother__c","Yes"),
       field("TT5_Mother_Registrant__c","Yes"),
