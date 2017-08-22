@@ -673,6 +673,9 @@ combine(function(state){
             else if(facility=='Other_Clinic'){
               facility="Other";
             }
+            else if(facility=="Rongo_Sub-District_Hospital"){
+              facility="Rongo_SubDistrict_Hospital";      
+            }
             return facility;
             
           }),
@@ -713,6 +716,9 @@ combine(function(state){
             }
             else if(facility=='Other_Clinic'){
               facility="Other";
+            }
+            else if(facility=="Rongo_Sub-District_Hospital"){
+              facility="Rongo_SubDistrict_Hospital";      
             }
             return facility;
             
