@@ -1,5 +1,13 @@
 
 
+alterState((state) =>{
+  const person=state.data.form.Person;
+  if(!Array.isArray(person)){
+    state.data.form.Person=[person];
+  }
+  return state;
+});
+
 create("Household__c", fields(
   field("Name","New Household"),
   field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
@@ -169,12 +177,12 @@ combine(function(state){
     )(state);
 
   }
-  else if(dataValue("$.form.Person.Source")(state)==1){
+  /*else if(dataValue("$.form.Person.Source")(state)==1){
     create("Person__c",fields(
       //field("Name",dataValue("$.form.Person.Basic_Information.Person_Name")),
       field("Name",function(state){
           var name1=dataValue("$.form.Person.Basic_Information.Person_Name")(state);
-          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          var name2=name1.replace(/\w\S/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
           return name2;
       }),
       relationship("RecordType","Name",function(state){
@@ -308,7 +316,7 @@ combine(function(state){
         return val;
       }) 
     ))(state);
-  }
+  }*/
 })
 
 
