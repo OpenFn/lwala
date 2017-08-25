@@ -1,3 +1,20 @@
+
+//Alters CommCare arrays so that they are formatted as arrays instead of just single values.
+
+alterState((state) =>{
+  const clinical=state.form.TT5.Child_Information.Clinical_Services;
+  if(!Array.isArray(clinical)){
+    state.form.TT5.Child_Information.Clinical_Services=[clinical];
+  }
+  const clinical1=state.form.HAWI.Clinical_Services_Rendered;
+  if(!Array.isArray(clinical1)){
+    state.form.HAWI.Clinical_Services_Rendered=[clinical1];
+  }
+  return state;
+});
+
+
+
 //Deliveries
 
 combine( function(state) {
@@ -683,60 +700,6 @@ combine(function(state){
       ))
     )(state);
   }
-  else if(dataValue("$.form.HAWI.Clinical_Service_Q")(state)=="Yes"){
-    
-    create("Service__c", fields(
-      field("Source__c",1),
-      field("Household_CHW__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.chw")),
-      field("Reason_for_Service__c",function(state){
-        var reason='';
-        var name=dataValue("$.form.HAWI.Clinical_Services_Rendered.Purpose")(state);
-        if(name=="Adverse_Drug_Reaction_Side_Effect"){
-          reason="Adverse Drug Reaction/Side Effect";
-        }
-        else if(name=="Pregnancy_Care"){
-          reason="Pregnancy Care (ANC)";
-        }
-        else if(name=="Family_Planning"){
-          reason="Family Planning (FP)"
-        }
-        else{
-          reason=name.replace(/_/g," ");
-        }
-        return reason;
-      }),
-      field("Date__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.Date_of_Clinical_Service")),
-      field("Type_of_Service__c","CHW Mobile Survey"),
-      field("RecordTypeID","01224000000YAuK"),
-      //relationship("Site__r","Label__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.Facility_of_Clinical_Service")),
-      relationship("Site__r","Label__c",function(state){
-            var facility=dataValue("Facility_of_Clinical_Service")(state);
-            if(facility===''||facility===undefined){
-              facility="unknown";
-            }
-            else if(facility=='Other_Clinic'){
-              facility="Other";
-            }
-            else if(facility=="Rongo_Sub-District_Hospital"){
-              facility="Rongo_SubDistrict_Hospital";      
-            }
-            return facility;
-            
-       }),
-      /*relationship("Site__r","Label__c",function(state){
-        var facility=dataValue("$.form.HAWI.Clinical_Services_Rendered.Facility_of_Clinical_Service")(state);
-        if(facility===''){
-          facility="unknown";
-        }
-        return facility;
-        
-      }),*/
-      relationship("Person__r","CommCare_ID__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.Case_ID"))
-    
-    ))(state);
-  }
-}),
-
 
 //TO-DO: fix array problem
 // TT5 other clinical services received
@@ -779,45 +742,6 @@ combine(function(state){
       ))
     )(state);
   }
-  else if(dataValue("$.form.TT5.Child_Information.Clinical_Services_Q")(state)=="Yes"){
-    create("Service__c", fields(
-      field("Source__c",true),
-      field("Household_CHW__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.chw")),
-      field("Reason_for_Service__c",function(state){
-        var reason='';
-        var name=dataValue("$.form.TT5.Child_Information.Clinical_Services.Purpose")(state);
-        if(name=="Adverse_Drug_Reaction_Side_Effect"){
-          reason="Adverse Drug Reaction/Side Effect";
-        }
-        else if(name=="Pregnancy_Care"){
-          reason="Pregnancy Care (ANC)";
-        }
-        else if(name=="Family_Planning"){
-          reason="Family Planning (FP)"
-        }
-        else{
-          reason=name.replace(/_/g," ");
-        }
-        return reason;
-      }),
-      field("Date__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.Clinical_Date")),
-      field("Type_of_Service__c","CHW Mobile Survey"),
-      field("RecordTypeID","01224000000YAuK"),
-      //relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.Clinical_Facility")),
-      relationship("Site__r","Label__c",function(state){
-        var facility=dataValue("$.form.TT5.Child_Information.Clinical_Services.Clinical_Facility")(state);
-        if(facility===''||facility===undefined){
-          facility="unknown";
-        }
-        return facility;
-        
-      }),
-      relationship("Person__r","CommCare_ID__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.Case_ID"))
-    
-    ))(state);
-  }
-})
-
 ,
 create("Visit__c",fields(
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
