@@ -2,13 +2,13 @@
 //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
 
 alterState((state) =>{
-  const clinical=state.form.TT5.Child_Information.Clinical_Services;
+  const clinical=state.data.form.TT5.Child_Information.Clinical_Services;
   if(!Array.isArray(clinical)){
-    state.form.TT5.Child_Information.Clinical_Services=[clinical];
+    state.data.form.TT5.Child_Information.Clinical_Services=[clinical];
   }
-  const clinical1=state.form.HAWI.Clinical_Services_Rendered;
+  const clinical1=state.dataform.HAWI.Clinical_Services_Rendered;
   if(!Array.isArray(clinical1)){
-    state.form.HAWI.Clinical_Services_Rendered=[clinical1];
+    state.data. form.HAWI.Clinical_Services_Rendered=[clinical1];
   }
   return state;
 });
