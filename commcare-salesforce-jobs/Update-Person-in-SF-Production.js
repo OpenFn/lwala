@@ -11,7 +11,7 @@ alterState((state) =>{
     
   
   if(dataValue("$.form.HAWI.Clinical_Services_Rendered")(state)!==undefined){
-    const clinical1=state.dataform.HAWI.Clinical_Services_Rendered;
+    const clinical1=state.data.form.HAWI.Clinical_Services_Rendered;
     if(!Array.isArray(clinical1)){
       state.data.form.HAWI.Clinical_Services_Rendered=[clinical1];
     }
