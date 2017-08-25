@@ -673,6 +673,9 @@ combine(function(state){
             else if(facility=='Other_Clinic'){
               facility="Other";
             }
+            else if(facility=="Rongo_Sub-District_Hospital"){
+              facility="Rongo_SubDistrict_Hospital";      
+            }
             return facility;
             
           }),
@@ -707,13 +710,27 @@ combine(function(state){
       field("RecordTypeID","01224000000YAuK"),
       //relationship("Site__r","Label__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.Facility_of_Clinical_Service")),
       relationship("Site__r","Label__c",function(state){
+            var facility=dataValue("Facility_of_Clinical_Service")(state);
+            if(facility===''||facility===undefined){
+              facility="unknown";
+            }
+            else if(facility=='Other_Clinic'){
+              facility="Other";
+            }
+            else if(facility=="Rongo_Sub-District_Hospital"){
+              facility="Rongo_SubDistrict_Hospital";      
+            }
+            return facility;
+            
+       }),
+      /*relationship("Site__r","Label__c",function(state){
         var facility=dataValue("$.form.HAWI.Clinical_Services_Rendered.Facility_of_Clinical_Service")(state);
         if(facility===''){
           facility="unknown";
         }
         return facility;
         
-      }),
+      }),*/
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.HAWI.Clinical_Services_Rendered.Case_ID"))
     
     ))(state);
