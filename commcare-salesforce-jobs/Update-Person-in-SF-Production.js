@@ -699,8 +699,7 @@ combine(function(state){
         relationship("Person__r","CommCare_ID__c",dataValue("Case_ID"))
       ))
     )(state);
-  }
-
+}),
 //TO-DO: fix array problem
 // TT5 other clinical services received
 combine(function(state){
@@ -742,7 +741,7 @@ combine(function(state){
       ))
     )(state);
   }
-,
+}),
 create("Visit__c",fields(
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
