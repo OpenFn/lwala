@@ -3,13 +3,19 @@
 
 alterState((state) =>{
   const clinical=state.data.form.TT5.Child_Information.Clinical_Services;
-  if(!Array.isArray(clinical)){
-    state.data.form.TT5.Child_Information.Clinical_Services=[clinical];
+  if(dataValue("$.form.TT5.Child_Information.Clinical_Services")(state)!==undefined){
+    if(!Array.isArray(clinical)){
+      state.data.form.TT5.Child_Information.Clinical_Services=[clinical];
+    }
   }
+    
   const clinical1=state.dataform.HAWI.Clinical_Services_Rendered;
-  if(!Array.isArray(clinical1)){
-    state.data. form.HAWI.Clinical_Services_Rendered=[clinical1];
+  if(dataValue("$.form.HAWI.Clinical_Services_Rendered")(state)!==undefined){
+    if(!Array.isArray(clinical1)){
+      state.data.form.HAWI.Clinical_Services_Rendered=[clinical1];
+    }
   }
+  
   return state;
 });
 
