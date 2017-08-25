@@ -699,6 +699,7 @@ combine(function(state){
         relationship("Person__r","CommCare_ID__c",dataValue("Case_ID"))
       ))
     )(state);
+  }
 }),
 //TO-DO: fix array problem
 // TT5 other clinical services received
