@@ -186,7 +186,7 @@ combine(function(state){
       ))(state);
     }
     else{
-      if(dataValue("form.@xmlns)(state)!="http://openrosa.org/formdesigner/60AF0A3E-A8A1-425B-B86B-35E0C65C8BC4"){
+      if(dataValue("form.@xmlns")(state)!="http://openrosa.org/formdesigner/60AF0A3E-A8A1-425B-B86B-35E0C65C8BC4"){
         upsert("Person__c","CommCare_ID__c",fields(
           field("Name",function(state){
             var name1=dataValue("$.form.final_name")(state);
