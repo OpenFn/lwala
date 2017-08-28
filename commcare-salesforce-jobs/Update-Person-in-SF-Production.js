@@ -751,13 +751,13 @@ combine(function(state){
     )(state);
   }
 }),
-create("Visit__c",fields(
+/*create("Visit__c",fields(
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
   field("Date__c",dataValue("$.metadata.timeEnd"))
   //field("Location__latitude__s",dataValue("$.metadata.location[0]")),
   //field("Location__longitude__s",dataValue("$.metadata.location[1]"))
-))
+))*/
 
 
   
