@@ -186,20 +186,21 @@ combine(function(state){
       ))(state);
     }
     else{
-      upsert("Person__c","CommCare_ID__c",fields(
-        field("Name",function(state){
-          var name1=dataValue("$.form.final_name")(state);
-          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-          return name2;
-        }),
-        //field("Name",dataValue("$.form.final_name")),
-        field("Source__c",1),
-        field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-        field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
-        field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
-        field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
-      ))(state);
-
+      if(dataValue("form.@xmlns)(state)!="http://openrosa.org/formdesigner/60AF0A3E-A8A1-425B-B86B-35E0C65C8BC4"){
+        upsert("Person__c","CommCare_ID__c",fields(
+          field("Name",function(state){
+            var name1=dataValue("$.form.final_name")(state);
+            var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+            return name2;
+          }),
+          //field("Name",dataValue("$.form.final_name")),
+          field("Source__c",1),
+          field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+          field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
+          field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
+          field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
+        ))(state);
+      }
     }
   }
 }),
