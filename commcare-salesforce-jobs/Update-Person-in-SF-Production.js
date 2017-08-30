@@ -1,6 +1,6 @@
 
 //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
-
+//Ayesha is training now
 alterState((state) =>{
   if(dataValue("$.form.TT5.Child_Information.Clinical_Services")(state)!==undefined){
     const clinical=state.data.form.TT5.Child_Information.Clinical_Services;
