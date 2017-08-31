@@ -22,7 +22,7 @@ create("Service__c", fields(
         }
         return status;
       }),
-      field("Ever_been_breastfed__c",dataValue("$.form.Child_Information.infant_diet.has_ever_been_breastfed")),
+      field("Ever_been_breastfed__c",dataValue("$.form.Child_Information.infant_diet.ever_been_breastfed")),
       field("Age_at_which_breastfed__c",dataValue("$.form.Child_Information.infant_diet.age_at_which_breastfed")),
       field("X24_Hours_Breastfed__c",dataValue("$.form.Child_Information.infant_diet.how_many_times_24_hours")),
       field("Formula_Milk__c",dataValue("$.form.Child_Information.infant_diet.has_had_formula")),
