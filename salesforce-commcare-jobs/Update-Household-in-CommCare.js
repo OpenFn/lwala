@@ -91,6 +91,7 @@ submit(
             "n0:ITNs":dataValue("new[0].Uses_ITNs__c")(state),
             "n0:Active_in_Nutrition_Program":dataValue("new[0].Active_in_Nutrition_Program__c")(state),
             "n0:Nutrition_Group":dataValue("new[0].Nutrition_Group__c")(state),
+            "n0:seed_input_support":dataValue("new[0].Seed_Input_Support__c")(state),
             "n0:name_concat":dataValue("new[0].Name_Concatenation__c")(state),
             "n0:CHW_ID":dataValue("new[0].Household_CHW__c")(state),
             "n0:Improved_Cooking_Method": dataValue("new[0].Cookstove__c")(state),
