@@ -11,13 +11,13 @@ create("Service__c", fields(
       field("MUAC__c",dataValue("$.form.Child_Information.body_specs.MUAC")),
       field("Nutrition_Status__c",function(state){
         var status='';
-        if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)=='normal'){
+        if(dataValue("$.form.Child_Information.malnourished.Nutrition_Status")(state)=='normal'){
           status='Normal';
         }
-        else if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)=='moderate'){
+        else if(dataValue("$.form.Child_Information.malnourished.Nutrition_Status")(state)=='moderate'){
           status='Moderately Malnourished';
         }
-        else if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)=='severe'){
+        else if(dataValue("$.form.Child_Information.malnourished.Nutrition_Status")(state)=='severe'){
           status='Severely Malnourished';
         }
         return status;
