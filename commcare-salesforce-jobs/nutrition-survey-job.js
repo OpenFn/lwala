@@ -11,18 +11,19 @@ create("Service__c", fields(
       field("MUAC__c",dataValue("$.form.Child_Information.body_specs.MUAC")),
       field("Nutrition_Status__c",function(state){
         var status='';
-        if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)=='normal'){
+        if(dataValue("$.form.Child_Information.malnourished.Nutrition_Status")(state)=='normal'){
           status='Normal';
         }
-        else if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)=='moderate'){
+        else if(dataValue("$.form.Child_Information.malnourished.Nutrition_Status")(state)=='moderate'){
           status='Moderately Malnourished';
         }
-        else if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)=='severe'){
+        else if(dataValue("$.form.Child_Information.malnourished.Nutrition_Status")(state)=='severe'){
           status='Severely Malnourished';
         }
         return status;
       }),
-      field("Ever_been_breastfed__c",dataValue("$.form.Child_Information.infant_diet.ever_been_breastfed")),
+      field("Ever_been_breastfed__c",dataValue("$.form.Child_Information.infant_diet.has_ever_been_breastfed")),
+      //field("Ever_been_breastfed__c",dataValue("$.form.Child_Information.infant_diet.ever_been_breastfed")),
       field("Age_at_which_breastfed__c",dataValue("$.form.Child_Information.infant_diet.age_at_which_breastfed")),
       field("X24_Hours_Breastfed__c",dataValue("$.form.Child_Information.infant_diet.how_many_times_24_hours")),
       field("Formula_Milk__c",dataValue("$.form.Child_Information.infant_diet.has_had_formula")),
