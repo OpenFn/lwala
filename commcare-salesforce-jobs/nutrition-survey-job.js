@@ -6,6 +6,7 @@ create("Service__c", fields(
       field("RecordTypeID","01224000000YAuK"),
       field("Reason_for_Service__c","Nutrition Screening"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
+      field("Primary_Caregiver__c",dataValue("$.form.Child_Information.Primary_Caregiver")),
       field("Height__c",dataValue("$.form.Child_Information.body_specs.Height")),
       field("Weight__c",dataValue("$.form.Child_Information.body_specs.Weight")),
       field("MUAC__c",dataValue("$.form.Child_Information.body_specs.MUAC")),
