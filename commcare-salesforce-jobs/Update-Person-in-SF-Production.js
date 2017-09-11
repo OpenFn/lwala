@@ -30,7 +30,7 @@ combine( function(state) {
     if (dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery")(state)=="Yes") {
       //Unskilled delivery: upsert person with delivery information, but no service provided
       if(dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Type")(state)=="Unskilled"){
-         update("Person__c", "CommCare_ID__c", fields(
+         upsert("Person__c", "CommCare_ID__c", fields(
           field("Source__c",1),
           field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
           //field("Name",dataValue("$.form.final_name")),
@@ -57,7 +57,7 @@ combine( function(state) {
             relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
             relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility"))
           ))(state);
-          update("Person__c","CommCare_ID__c",fields(
+          upsert("Person__c","CommCare_ID__c",fields(
             field("Source__c",true),
             field("Child_Status__c","Born"),
             field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
@@ -90,7 +90,7 @@ combine( function(state) {
   }
   //Transfer Outs 
   else if(dataValue("$.form.Status.Client_Status")(state)=="Transferred_Out"){
-    update("Person__c","CommCare_ID__c",fields(
+    upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Transferred Out"),
@@ -103,7 +103,7 @@ combine( function(state) {
   }
   //Lost to Follow Up 
   else if(dataValue("$.form.Status.Client_Status")(state)=="Lost_to_Follow_Up"){
-    update("Person__c","CommCare_ID__c",fields(
+    upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Lost to Follow-Up"),
@@ -116,7 +116,7 @@ combine( function(state) {
   }
   //Data entry error
   else if(dataValue("$.form.Status.Client_Status")(state)=="Data_Entry_Error"){
-    update("Person__c","CommCare_ID__c",fields(
+    upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Data Entry Error"),
@@ -128,7 +128,7 @@ combine( function(state) {
   }
   //client deceased
   else if(dataValue("$.form.Status.Client_Status")(state)=="Deceased"){
-    update("Person__c","CommCare_ID__c",fields(
+    upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Deceased"),
@@ -148,7 +148,7 @@ combine( function(state) {
 combine(function(state){
   //Person is added to TT5 (this can only happen to a mother, a child wouldn't be in HAWI before joining TT5)
   if(dataValue("$.form.Basic_Information.Basic_Information.Add_to_TT5")(state)=="Yes"){
-    update("Person__c","CommCare_ID__c",fields(
+    upsert("Person__c","CommCare_ID__c",fields(
       //field("Name",dataValue("$.form.Basic_Information.Basic_Information.final_name")),
       field("Source__c",1),
       //field("Name",dataValue("$.form.final_name")),
@@ -168,7 +168,7 @@ combine(function(state){
   else{
   //Person is added to HAWI
     if(dataValue("$.form.Basic_Information.Basic_Information.Add_to_HAWI")(state)=="Yes"){
-      update("Person__c","CommCare_ID__c",fields(
+      upsert("Person__c","CommCare_ID__c",fields(
         //field("Name",dataValue("$.form.Basic_Information.Basic_Information.final_name")),
         field("Source__c",1),
         //field("Name",dataValue("$.form.final_name")),
@@ -187,7 +187,7 @@ combine(function(state){
     }
     else{
       if(dataValue("form.@xmlns")(state)!="http://openrosa.org/formdesigner/60AF0A3E-A8A1-425B-B86B-35E0C65C8BC4"){
-        update("Person__c","CommCare_ID__c",fields(
+        upsert("Person__c","CommCare_ID__c",fields(
           field("Name",function(state){
             var name1=dataValue("$.form.final_name")(state);
             var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
