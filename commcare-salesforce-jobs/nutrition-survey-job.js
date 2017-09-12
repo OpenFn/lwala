@@ -39,7 +39,6 @@ create("Service__c", fields(
     field("Yellow_Flesh__c",dataValue("$.form.Child_Information.infant_diet.has_had_yellow_flesh")),
     field("Roots__c",dataValue("$.form.Child_Information.infant_diet.has_had_roots")),
     field("Leafy_Vegetables__c",dataValue("$.form.Child_Information.infant_diet.has_had_leafy_veg")),
-    field("Mango_Paw_Paw__c",dataValue("$.form.Child_Information.infant_diet.has_had_ripe_mango_paw_paw")),
     field("Fruits_or_Vegetables__c",dataValue("$.form.Child_Information.infant_diet.has_had_other_fruit_veg")),
     field("Meat__c",dataValue("$.form.Child_Information.infant_diet.has_had_meat")),
     field("Organ_Meat__c",dataValue("$.form.Child_Information.infant_diet.has_had_organ_meat")),
