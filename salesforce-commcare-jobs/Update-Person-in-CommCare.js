@@ -162,6 +162,8 @@ submit(
           "n0:Delivery_Facility":dataValue("new[0].Delivery_Facility__c")(state),
           "n0:Family_Planning_Method":dataValue("new[0].Family_Planning_Method__c")(state),
           "n0:Child_Status":dataValue("new[0].Child_Status__c")(state),
+          "n0:Active_in_OSG_Mentoring":dataValue("new[0].Active_in_OSG__c")(state),
+          "n0:OSG_Mentoring_Group":dataValue("new[0].OSG_Group__c")(state),
           "n0:OPV_0":dataValue("new[0].OPV_0__c")(state),
           "n0:OPV_PCV_Penta_1":dataValue("new[0].OPV_1__c")(state),
           "n0:OPV_PCV_Penta_2":dataValue("new[0].OPV_2__c")(state),
