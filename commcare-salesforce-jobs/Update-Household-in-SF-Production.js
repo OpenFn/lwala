@@ -32,6 +32,8 @@ combine(function(state){
       field("Number_of_Under_5_Males__c",dataValue("$.form.Household_Information.Number_of_Under_5_Males")),
       field("Number_of_Under_5_Females__c",dataValue("$.form.Household_Information.Number_of_Under_5_Female")),
       field("Number_of_Over_5_Males__c",dataValue("$.form.Household_Information.Number_of_Over_5_Males")),
+      field("Family_Planning__c",dataValue("$.form.Household_Information.family_planning")),
+      field("Family_Planning_Method__c", dataValue("$.form.Household_Information.Family_planning_method")),
       field("Source__c",1)
     ))(state),
     create("Visit__c",fields(
