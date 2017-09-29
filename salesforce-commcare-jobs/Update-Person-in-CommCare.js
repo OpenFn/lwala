@@ -127,19 +127,6 @@ submit(
             var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
             return name2;
           },
-          "n0:owner_id": function(){
-              var id='';
-              if((dataValue("new[0].chw_owner_id__c")(state)===undefined && dataValue("chw")(state)===undefined) ||  dataValue("chw")(state)=="null"){
-                id="acf8595692c76095eb5afd809c628091";
-              }
-              else if(dataValue("new[0].chw_owner_id__c")(state)===undefined){
-                id=dataValue("chw")(state);
-              }
-              else{
-                id=dataValue("new[0].chw_owner_id__c")(state);
-              }
-              return id;
-          },
           "n0:case_type":"Person",
           "n0:parent_id":dataValue("new[0].CommCare_HH_Code__c")(state),
         },
