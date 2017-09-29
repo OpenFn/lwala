@@ -148,6 +148,8 @@ submit(
             "n0:ANC_3":dataValue("new[0].ANC_3__c")(state),
             "n0:ANC_4":dataValue("new[0].ANC_4__c")(state),
             "n0:ANC_5":dataValue("new[0].ANC_5__c")(state),
+            "n0:Active_in_OSG_Mentoring":dataValue("new[0].Active_in_OSG__c")(state),
+            "n0:OSG_Mentoring_Group":dataValue("new[0].OSG_Group__c")(state),
             "n0:sfid":dataValue("new[0].Id")(state),
             "n0:BCG":dataValue("new[0].BCG__c")(state),
             "n0:Delivery_Type":function(){
