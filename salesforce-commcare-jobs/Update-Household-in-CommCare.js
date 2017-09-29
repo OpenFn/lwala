@@ -72,7 +72,16 @@ submit(
           },
           "n0:update": {
             "n0:case_name": dataValue("new[0].Name")(state),
-            "n0:owner_id": dataValue("new[0].chw_owner_id__c")(state),
+            "n0:owner_id": function(){
++              var id='';
++              if(dataValue("new[0].chw_owner_id__c")(state)===undefined){
++                id="acf8595692c76095eb5afd809c628091";
++              }
++              else{
++                id=dataValue("new[0].chw_owner_id__c")(state);
++              }
++              return id;
++           },
             "n0:case_type": "Household",
             "n0:WASH_Compliant": function(){
               var ans="";
