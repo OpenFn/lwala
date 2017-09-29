@@ -26,7 +26,7 @@ submit(
         "Basic_Information":{
           "Phone_Number":dataValue("new[0].Telephone__c")(state),
           "Final_Program":function(){
-            var program='';
+            var program="";
               if(dataValue("new[0].Active_In_Thrive_Thru_5__c")(state)=="Yes"||dataValue("new[0].Active_TT5_Mother__c")(state)=="Yes"){
                 if(dataValue("new[0].Active_In_HAWI__c")(state)=="Yes"){
                   program="Both";

@@ -64,7 +64,7 @@ submit(
         "n0:create":{
             "n0:case_name": dataValue("new[0].Name")(state),
             "n0:owner_id": function(){
-+              var id='';
++              var id="";
 +              if(dataValue("new[0].chw_owner_id__c")(state)===undefined){
 +                id="acf8595692c76095eb5afd809c628091";
 +              }
