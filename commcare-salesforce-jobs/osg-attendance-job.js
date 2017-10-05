@@ -21,7 +21,7 @@ combine(function(state){
     create("Attendance__c",fields(
       field("Activity__c",lastReferenceValue("id")),
       field("Date__c",dataValue("form.info.date")),
-      relationship("Person__r","CommCare_Code__c",attendees[i])
+      relationship("Person__r","CommCare_ID__c",attendees[i])
     ))(state);
   }
 })
