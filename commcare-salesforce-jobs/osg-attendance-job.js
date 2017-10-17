@@ -1,5 +1,6 @@
 create("Activity__c",fields(
   field("Date__c",dataValue("form.info.date")),
+  field("Catchment__c","a002400000pAcOe"),
   field("Module_Type__c",function(state){
     var str1=dataValue("form.module_number")(state).toString().replace(/_/g," ");
     return str1;
