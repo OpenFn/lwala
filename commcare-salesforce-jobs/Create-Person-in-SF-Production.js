@@ -9,6 +9,7 @@ create("Person__c",fields(
   relationship("RecordType","Name",function(state){
       return(dataValue("$.form.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
+  field("Catchment__c","a002400000pAcOe"),
   /*relationship("Area__r","CommCare_User_ID__c",dataValue("form.area")),
   field("Active_in_HAWI__c",function(state){
     if(dataValue("$.form.Basic_Information.HAWI_Status")(state)=="Yes"){
