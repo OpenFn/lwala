@@ -1,5 +1,6 @@
 create("Service__c", fields(
     field("Source__c",1),
+    field("Catchment__c","a002400000pAcOe"),
     field("Date__c",dataValue("$.form.Date")),
     field("Type_of_Service__c","CHW Mobile Survey"),
     field("Household_CHW__c",dataValue("$.form.Household_CHW")),
@@ -55,6 +56,7 @@ combine(function(state){
   if(dataValue("$.form.Child_Information.malnourished.Follow-Up_Required")(state)==="Yes"){
     create("Service__c", fields(
       field("Source__c",1),
+      field("Catchment__c","a002400000pAcOe"),
       field("Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("Household_CHW__c",dataValue("$.form.Household_CHW")),
