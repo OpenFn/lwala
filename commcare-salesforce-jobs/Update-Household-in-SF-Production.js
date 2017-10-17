@@ -40,6 +40,7 @@ combine(function(state){
     create("Visit__c",fields(
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
       field("Date__c",dataValue("$.metadata.timeEnd")),
+      field("Catchment__c","a002400000pAcOe"),
       field("Location__latitude__s",dataValue("$.metadata.location[0]")),
       field("Location__longitude__s",dataValue("$.metadata.location[1]")),
       field("Household_CHW__c",dataValue("form.chw"))
