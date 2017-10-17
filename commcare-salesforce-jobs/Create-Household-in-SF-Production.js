@@ -10,6 +10,7 @@ alterState((state) =>{
 
 create("Household__c", fields(
   field("Name","New Household"),
+  field("Catchment__c","a002400000pAcOe"),
   field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID")),
   field("Area__c",dataValue("$.form.area")),
