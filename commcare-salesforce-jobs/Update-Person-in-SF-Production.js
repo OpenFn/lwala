@@ -23,7 +23,7 @@ alterState((state) =>{
 
 
 //Deliveries
-steps(
+
 combine( function(state) {
   if(dataValue("$.form.Status.Client_Status")(state)=="Active"){
   //Deliveries
@@ -75,17 +75,6 @@ combine( function(state) {
 
       }
       
-    }
-    else{
-      //Name
-      /*upsert("Person__c","CommCare_ID__c",fields(
-            field("Source__c",true),
-            field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-            field("Name",dataValue("$.form.final_name")),
-            field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
-            field("Telephone__c",dataValue("$.form.Basic_Information.Basic_Information.final_telephone")),
-            
-      ))(state);*/
     }
   
   }
@@ -779,20 +768,4 @@ create("Visit__c",fields(
   //field("Location__latitude__s",dataValue("$.metadata.location[0]")),
   //field("Location__longitude__s",dataValue("$.metadata.location[1]"))
 ))
-)
 
-
-  
-
-  
-  
-  
-  
-  
-  
-  
-
-
-
-
-// Your job goes here.// Your job goes here.
