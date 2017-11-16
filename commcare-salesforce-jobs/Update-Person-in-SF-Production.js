@@ -23,7 +23,7 @@ alterState((state) =>{
 
 
 //Deliveries
-
+steps(
 combine( function(state) {
   if(dataValue("$.form.Status.Client_Status")(state)=="Active"){
   //Deliveries
@@ -768,4 +768,4 @@ create("Visit__c",fields(
   //field("Location__latitude__s",dataValue("$.metadata.location[0]")),
   //field("Location__longitude__s",dataValue("$.metadata.location[1]"))
 ))
-
+)
