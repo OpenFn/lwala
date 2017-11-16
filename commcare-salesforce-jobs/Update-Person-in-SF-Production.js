@@ -759,8 +759,8 @@ combine(function(state){
       ))
     )(state);
   }
-}),
-/*create("Visit__c",fields(
+})/*,
+create("Visit__c",fields(
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
   //field("Catchment__c","a002400000pAcOe"),
