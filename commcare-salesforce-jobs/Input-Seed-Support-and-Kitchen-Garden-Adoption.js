@@ -11,9 +11,9 @@ combine(function(state){
 }),
 combine(function(state){
   var kitchen_garden=dataValue("form.kitchen_garden")(state).split(" ");
-  for(i=0;i<input_seed_support.length;i++){
+  for(i=0;i<kitchen_garden.length;i++){
     upsert("Household__c","CommCare_Code__c",fields(
-      field("CommCare_Code__c",input_seed_support[i]),
+      field("CommCare_Code__c",kitchen_garden[i]),
       field("Kitchen_Garden__c","Yes")
     ))(state);
   }
