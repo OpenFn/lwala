@@ -3,7 +3,8 @@ combine(function(state){
     upsert("Household__c","CommCare_Code__c",fields(
       field("CommCare_Code__c",dataValue("form.case.@case_id")),
       field("Active_Household__c",false),
-      field("Inactive_Reason__c",dataValue("form.Reason_for_Inactive"))
+      field("Inactive_Reason__c",dataValue("form.Reason_for_Inactive")),
+      field("Inactive_Date__c",dataValue("$.form.Date"))
     ))(state);
   }
   else{
