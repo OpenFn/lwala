@@ -85,7 +85,7 @@ combine( function(state) {
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Transferred Out"),
       field("Active_in_Thrive_Thru_5__c","No"),
-      field("Inactive_Date",dataValue("$.form.Date")),
+      field("Inactive_Date__c",dataValue("$.form.Date")),
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Date_of_Transfer_Out__c",dataValue("$.form.Status.Date_of_Transfer_Out"))
@@ -102,7 +102,7 @@ combine( function(state) {
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Date_Last_Seen__c",dataValue("$.form.Status.Date_Last_Seen")),
-      field("Inactive_Date",dataValue("$.form.Date"))
+      field("Inactive_Date__c",dataValue("$.form.Date"))
       
     ))(state);
   }
@@ -115,7 +115,7 @@ combine( function(state) {
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Active_in_HAWI__c","No"),
-      field("Inactive_Date",dataValue("$.form.Date"))
+      field("Inactive_Date__c",dataValue("$.form.Date"))
      
       
     ))(state);
@@ -133,7 +133,7 @@ combine( function(state) {
       field("Cause_of_Death__c",function(state){
         return dataValue("$.form.Status.Cause_of_Death")(state).toString().replace(/_/g," ");
       }),
-      field("Inactive_Date",dataValue("$.form.Date"))
+      field("Inactive_Date__c",dataValue("$.form.Date"))
       
     ))(state);
   }
