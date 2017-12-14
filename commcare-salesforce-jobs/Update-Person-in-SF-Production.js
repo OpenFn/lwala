@@ -403,7 +403,7 @@ combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
       field("Source__c",1),
-      field("Catchment__c","a002400000pAcOe"),
+      //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","OPV2"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_2")),
