@@ -58,7 +58,7 @@ combine( function(state) {
             relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
             relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility"))
           ))(state);
-          upsert("Person__c","CommCare_ID__c",fields(
+          /*upsert("Person__c","CommCare_ID__c",fields(
             field("Source__c",true),
             field("Child_Status__c","Born"),
             field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
@@ -70,7 +70,7 @@ combine( function(state) {
           }),
             field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
             
-          ))(state);
+          ))(state);*/
           
 
       }
