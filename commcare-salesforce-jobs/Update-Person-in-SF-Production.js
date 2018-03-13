@@ -58,19 +58,19 @@ combine( function(state) {
             relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
             relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility"))
           ))(state);
-          /*upsert("Person__c","CommCare_ID__c",fields(
-            field("Source__c",true),
-            field("Child_Status__c","Born"),
-            field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+          //upsert("Person__c","CommCare_ID__c",fields(
+            //field("Source__c",true),
+            //field("Child_Status__c","Born"),
+            //field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
             //field("Name",dataValue("$.form.final_name")),
-            field("Name",function(state){
-              var name1=dataValue("$.form.final_name")(state);
-              var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-              return name2;
-          }),
-            field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
+            //field("Name",function(state){
+              //var name1=dataValue("$.form.final_name")(state);
+              //var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+              //return name2;
+          //}),
+            //field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
             
-          ))(state);*/
+          //))(state);
           
 
       }
