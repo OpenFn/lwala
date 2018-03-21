@@ -58,8 +58,10 @@ combine( function(state) {
               var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
               return name2;
             }),
-            field("Place_of_Delivery__c",dataValue("Facility")),
-            field("Delivery_Facility__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
+            field("Place_of_Delivery__c","Facility"),
+            field("Delivery_Facility__c",function(state){
+              return dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility")(state).toString().replace(/_/g," ");
+            }),
             field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
             field("Child_Status__c","Born"),
             field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
