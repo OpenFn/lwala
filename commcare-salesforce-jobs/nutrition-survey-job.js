@@ -69,6 +69,5 @@ combine(function(state){
       field("Purpose_of_Referral__c", dataValue("form.Child_Information.malnourished.Purpose_of_Referral")),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
    ))(state);
-}
-}
-)
+  }
+});
