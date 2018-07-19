@@ -1,4 +1,4 @@
-
+// testing
 //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
 //Ayesha is training now
 alterState((state) =>{
@@ -42,6 +42,7 @@ combine( function(state) {
           field("Place_of_Delivery__c",dataValue("Home")),
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
           field("Child_Status__c","Born"),
+          field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("$.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
           field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
         ))(state);
       }
@@ -64,6 +65,7 @@ combine( function(state) {
             }),
             field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
             field("Child_Status__c","Born"),
+            field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("$.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
             field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
           ))(state);
           /*create("Service__c", fields(
@@ -117,6 +119,20 @@ combine( function(state) {
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Lost to Follow-Up"),
+      field("Active_in_Thrive_Thru_5__c","No"),
+      field("Active_in_HAWI__c","No"),
+      field("Active_TT5_Mother__c","No"),
+      field("Date_Last_Seen__c",dataValue("$.form.Status.Date_Last_Seen")),
+      field("Inactive_Date__c",dataValue("$.form.Date"))
+      
+    ))(state);
+  }
+  //Graduated from Thrive Thru 5
+  else if(dataValue("$.form.Status.Client_Status")(state)=="Graduated_From_TT5"){
+    upsert("Person__c","CommCare_ID__c",fields(
+      field("Source__c",1),
+      field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+      field("Client_Status__c","Graduated From TT5"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
@@ -543,6 +559,21 @@ combine( function(state) {
         
   }
 }),
+//Deworming 
+combine( function(state) {
+  if(dataValue("$.form.TT5.Child_Information.Deworming")(state)=="Yes"){
+    create("Service__c", fields(
+      field("Source__c",1),
+      field("Reason_for_Service__c","Deworming"),
+      field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
+      field("Date__c",dataValue("$.form.Date")),
+      field("Type_of_Service__c","CHW Mobile Survey"),
+      field("RecordTypeID","01224000000YAuK"),
+      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
+    ))(state);
+        
+  }
+}),
 //Home Based care for HAWI clients
 combine( function(state) {
   if(dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state)!==undefined&&dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state)!==''){
@@ -606,6 +637,8 @@ combine( function(state) {
         field("RecordTypeID","01224000000kOto"),
         field("Open_Case__c",1),
         field("Malaria_Status__c","Positive"),
+        field("AL_Tablets__c",dataValue("$.form.TT5.Child_Information.CCMM.AL")),
+        field("Paracetamol_Tablets__c",dataValue("$.form.TT5.Child_Information.CCMM.Paracetamol")),
         field("Follow_Up_By_Date__c",dataValue("$.form.Follow-Up_By_Date")),
         field("Home_Treatment_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
         field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
@@ -663,11 +696,15 @@ combine(function(state){
       field("Referred__c",1),
       field("Follow_Up_By_Date__c",dataValue("$.form.Follow-Up_By_Date")),
       field("Reason_for_Service__c","Referral"),
+      field("Clinic_Zinc__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc")),
+      field("Clinic_ORS__c",dataValue("$.form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS")),
+      field("Home_Zinc__c",dataValue("$.form.TT5.Child_Information.Referrals.diarrhea_home_treatment_zinc")),
+      field("Home_ORS__c",dataValue("$.form.TT5.Child_Information.Referrals.diarrhea_home_treatment_ORS")),
       field("Open_Case__c",1),
-      field("Malaria_Status__c",dataValue("form.TT5.Child_Information.CCMM.Home_Test_Result")),
+      field("Malaria_Status__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Test_Result")),
       field("Home_Treatment__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment")),
       field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
-      field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")(state)),
+      field("CommCare_Code__c",dataValue("$.form.subcase_0.case.@case_id")(state)),
       field("Purpose_of_Referral__c",function(state){
         var purpose='';
         var name=dataValue("$.form.Purpose_of_Referral")(state);
@@ -787,9 +824,6 @@ combine(function(state){
 create("Visit__c",fields(
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
-  //field("Catchment__c","a002400000pAcOe"),
   field("Date__c",dataValue("$.metadata.timeEnd"))
-  //field("Location__latitude__s",dataValue("$.metadata.location[0]")),
-  //field("Location__longitude__s",dataValue("$.metadata.location[1]"))
 ))
 )
