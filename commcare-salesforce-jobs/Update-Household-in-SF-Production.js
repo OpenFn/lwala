@@ -47,14 +47,4 @@ combine(function(state){
       field("Household_CHW__c",dataValue("form.chw"))
     ))(state)
   }
-})
-  
- 
-  
-
-
-
-
-
-
-          // Your job goes here.// Your job goes here.
+});
