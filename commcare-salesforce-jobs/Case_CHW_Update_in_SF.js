@@ -1,4 +1,4 @@
-combine( function(state) {
+combine(function(state) {
   if(dataValue("$.form.CHW.Follow-Up.Follow-Up")(state)=="Yes"){
     if(dataValue("$.form.CHW.Follow-Up.Client_Improved")(state)=="No"){
       upsert("Service__c", "CommCare_Code__c", fields(
@@ -22,16 +22,13 @@ combine( function(state) {
       field("Clinical_Visit_Date__c",dataValue("$.form.CHW.Facility_Services.Facility_Date"))
     ))(state);
   }
-}
-  
-)/*,
-create("Visit__c",fields(
-  relationship("Household__r","Name",dataValue("$.form.Household_Code")),
-  field("Household_CHW__c",dataValue("$.form.CHW_ID")),
-  field("Catchment__c","a002400000pAcOe"),
-  field("Date__c",dataValue("$.metadata.timeEnd")),
-  field("Location__latitude__s",dataValue("$.metadata.location[0]")),
-  field("Location__longitude__s",dataValue("$.metadata.location[1]"))
-))*/
+});
 
-// Your job goes here.// Your job goes here.//Your job
+// create("Visit__c",fields(
+//   relationship("Household__r","Name",dataValue("$.form.Household_Code")),
+//   field("Household_CHW__c",dataValue("$.form.CHW_ID")),
+//   field("Catchment__c","a002400000pAcOe"),
+//   field("Date__c",dataValue("$.metadata.timeEnd")),
+//   field("Location__latitude__s",dataValue("$.metadata.location[0]")),
+//   field("Location__longitude__s",dataValue("$.metadata.location[1]"))
+// ))
