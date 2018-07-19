@@ -149,6 +149,4 @@ create("Visit__c",fields(
   field("Location__latitude__s",dataValue("$.metadata.location[0]")),
   field("Location__longitude__s",dataValue("$.metadata.location[1]"))
 ))
-*/
-
-// Your job goes here.// Your job goes here.
+*/.
