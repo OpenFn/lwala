@@ -826,4 +826,4 @@ create("Visit__c",fields(
   field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
   field("Date__c",dataValue("$.metadata.timeEnd"))
 ))
-)
+);
