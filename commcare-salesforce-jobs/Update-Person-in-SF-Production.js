@@ -569,7 +569,7 @@ combine( function(state) {
       field("Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
-      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
+      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
         
   }
