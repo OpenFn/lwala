@@ -1,4 +1,4 @@
-
+// web edit
 create("Person__c",fields(
   //field("Name",dataValue("$.form.Basic_Information.Person_Name")),
   field("Name",function(state){
@@ -9,7 +9,14 @@ create("Person__c",fields(
   relationship("RecordType","Name",function(state){
       return(dataValue("$.form.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
-  field("Catchment__c","a002400000pAcOe"),
+  field("Catchment__c",function(state){
+    if(dataValue("form.catchment")(state)=="East Kamagambo"){
+      return("a002400000pAcQt");
+    }
+    else{
+      return("a002400000pAcOe");
+    }
+  }),
   /*relationship("Area__r","CommCare_User_ID__c",dataValue("form.area")),
   field("Active_in_HAWI__c",function(state){
     if(dataValue("$.form.Basic_Information.HAWI_Status")(state)=="Yes"){
@@ -149,4 +156,4 @@ create("Visit__c",fields(
   field("Location__latitude__s",dataValue("$.metadata.location[0]")),
   field("Location__longitude__s",dataValue("$.metadata.location[1]"))
 ))
-*/.
+*/
