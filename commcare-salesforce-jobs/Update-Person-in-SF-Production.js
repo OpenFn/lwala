@@ -1,4 +1,4 @@
-// testing back
+// testing back Carrie was here 
 //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
 //Ayesha is training now
 alterState((state) =>{
@@ -8,15 +8,15 @@ alterState((state) =>{
       state.data.form.TT5.Child_Information.Clinical_Services=[clinical];
     }
   }
-    
-  
+
+
   if(dataValue("$.form.HAWI.Clinical_Services_Rendered")(state)!==undefined){
     const clinical1=state.data.form.HAWI.Clinical_Services_Rendered;
     if(!Array.isArray(clinical1)){
       state.data.form.HAWI.Clinical_Services_Rendered=[clinical1];
     }
   }
-  
+
   return state;
 });
 
@@ -48,7 +48,7 @@ combine( function(state) {
       }
       else{
           //Skilled delivery: service provided, and upsert remaining information for person
-          //update: no longer providing service because of Salesforce lock row issue, person upsert here will now run parallel to person upesert for 
+          //update: no longer providing service because of Salesforce lock row issue, person upsert here will now run parallel to person upesert for
           //unskilled delivery
           upsert("Person__c", "CommCare_ID__c", fields(
             field("Source__c",1),
@@ -90,16 +90,16 @@ combine( function(state) {
               //return name2;
           //}),
             //field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
-            
+
           //))(state);
-          
+
 
       }
-      
+
     }
-  
+
   }
-  //Transfer Outs 
+  //Transfer Outs
   else if(dataValue("$.form.Status.Client_Status")(state)=="Transferred_Out"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
@@ -110,10 +110,10 @@ combine( function(state) {
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Date_of_Transfer_Out__c",dataValue("$.form.Status.Date_of_Transfer_Out"))
-      
+
     ))(state);
   }
-  //Lost to Follow Up 
+  //Lost to Follow Up
   else if(dataValue("$.form.Status.Client_Status")(state)=="Lost_to_Follow_Up"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
@@ -124,7 +124,7 @@ combine( function(state) {
       field("Active_TT5_Mother__c","No"),
       field("Date_Last_Seen__c",dataValue("$.form.Status.Date_Last_Seen")),
       field("Inactive_Date__c",dataValue("$.form.Date"))
-      
+
     ))(state);
   }
   //Graduated from Thrive Thru 5
@@ -138,7 +138,7 @@ combine( function(state) {
       field("Active_TT5_Mother__c","No"),
       field("Date_Last_Seen__c",dataValue("$.form.Status.Date_Last_Seen")),
       field("Inactive_Date__c",dataValue("$.form.Date"))
-      
+
     ))(state);
   }
   //Data entry error
@@ -151,8 +151,8 @@ combine( function(state) {
       field("Active_TT5_Mother__c","No"),
       field("Active_in_HAWI__c","No"),
       field("Inactive_Date__c",dataValue("$.form.Date"))
-     
-      
+
+
     ))(state);
   }
   //client deceased
@@ -169,10 +169,10 @@ combine( function(state) {
         return dataValue("$.form.Status.Cause_of_Death")(state).toString().replace(/_/g," ");
       }),
       field("Inactive_Date__c",dataValue("$.form.Date"))
-      
+
     ))(state);
   }
-  
+
 }),
   //Need to update CHWs
 combine(function(state){
@@ -192,7 +192,7 @@ combine(function(state){
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
       field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility"))
-      
+
     ))(state);
   }
   else{
@@ -252,10 +252,10 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
   //ANC2
@@ -277,10 +277,10 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-          
+
   }
 }),
   //ANC3
@@ -302,13 +302,13 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
-  //ANC4 
+  //ANC4
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -327,13 +327,13 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
-  //ANC5 
+  //ANC5
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-3-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -352,10 +352,10 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
   //BCG REVIEWED
@@ -377,10 +377,10 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-          
+
   }
 }),
   //OPV0 REVIEWED
@@ -402,10 +402,10 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
   //OPV1 REVIEWED
@@ -427,13 +427,13 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
-  //OPV2 
+  //OPV2
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -452,13 +452,13 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-          
+
   }
 }),
-  //OPV3 
+  //OPV3
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-4-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -477,13 +477,13 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
-  //Measles 6  
+  //Measles 6
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-5-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -502,13 +502,13 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
-  //Measles 9  
+  //Measles 9
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-6-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -527,14 +527,14 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-          
+
   }
 }),
 
-//Measles 18 
+//Measles 18
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-7-of-anc_3")(state)=="click_to_enter_anc_3"){
     create("Service__c", fields(
@@ -553,13 +553,13 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-        
+
       })
     ))(state);
-        
+
   }
 }),
-//Deworming 
+//Deworming
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Deworming")(state)=="Yes"){
     create("Service__c", fields(
@@ -571,7 +571,7 @@ combine( function(state) {
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
-        
+
   }
 }),
 //Home Based care for HAWI clients
@@ -591,14 +591,14 @@ combine( function(state) {
         var str=dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state);
         care=str.replace(/ /g,";");
         care=care.replace(/_/g," ");
-        
+
         return care;
-      
-      }), 
+
+      }),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
-    
+
     ))(state);
-        
+
   }
 }),
 //Malaria cases
@@ -621,7 +621,7 @@ combine( function(state) {
         field("Home_Treatment_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
         field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
         field("CommCare_Code__c",dataValue("form.subcase_1.case.@case_id")(state)),
-        relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")) 
+        relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
       ))(state);*/
     }
     else{
@@ -644,7 +644,7 @@ combine( function(state) {
         field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
         field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")),
         relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
-        
+
       ))(state);
     }
   }
@@ -722,15 +722,15 @@ combine(function(state){
         }
         return purpose;
       }),
-      
+
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
-      
+
     ))(state);
-  
+
   }
 }),
 //TO-DO fix array problem
-//HAWI other clinical services received, 
+//HAWI other clinical services received,
 combine(function(state){
   if(dataValue("$.form.HAWI.Clinical_Services_Rendered[0]")(state)!==undefined){
     each(dataPath("$.form.HAWI.Clinical_Services_Rendered[*]"),
@@ -768,10 +768,10 @@ combine(function(state){
               facility="Other";
             }
             else if(facility=="Rongo_Sub-District_Hospital"){
-              facility="Rongo_SubDistrict_Hospital";      
+              facility="Rongo_SubDistrict_Hospital";
             }
             return facility;
-            
+
           }),
         relationship("Person__r","CommCare_ID__c",dataValue("Case_ID"))
       ))
@@ -814,7 +814,7 @@ combine(function(state){
               facility="unknown";
             }
             return facility;
-            
+
           }),
         relationship("Person__r","CommCare_ID__c",dataValue("Case_ID"))
       ))
