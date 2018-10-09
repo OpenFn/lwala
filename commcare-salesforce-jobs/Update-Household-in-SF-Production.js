@@ -44,13 +44,13 @@ combine(function(state){
       field("Catchment__c","a002400000pAcOe"),
       field("Location__latitude__s",dataValue("$.metadata.location[0]")),
       field("Location__longitude__s",dataValue("$.metadata.location[1]")),
-      field("Household_CHW__c",dataValue("form.chw"))
-      field("COC_Cycles_Distributed__c",dataValue("$.form.Household_Information.COC_count"))
-      field("Female_Condoms_Distributed__c",dataValue("$.form.Household_Information.female_condoms_count"))
-      field("Male_Condoms_Distributed__c",dataValue("$.form.Household_Information.male_condoms_count"))
-      field("Emergency_Pills_Distributed__c",dataValue("$.form.Household_Information.emergency_pills_count"))
+      field("Household_CHW__c",dataValue("form.chw")),
+      field("COC_Cycles_Distributed__c",dataValue("$.form.Household_Information.COC_count")),
+      field("Female_Condoms_Distributed__c",dataValue("$.form.Household_Information.female_condoms_count")),
+      field("Male_Condoms_Distributed__c",dataValue("$.form.Household_Information.male_condoms_count")),
+      field("Emergency_Pills_Distributed__c",dataValue("$.form.Household_Information.emergency_pills_count")),
       field("POP_Cycles_Distributed__c",dataValue("$.form.Household_Information.POP_count"))
-      
+
     ))(state)
   }
 });
