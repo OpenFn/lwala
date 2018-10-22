@@ -10,7 +10,14 @@ alterState((state) =>{
 
 create("Household__c", fields(
   field("Name","New Household"),
-  field("Catchment__c","a002400000pAcOe"),
+  field("Catchment__c",function(state){
+    if(dataValue("form.catchment")(state)=="East Kamagambo"){
+      return("a002400000pAcQt");
+    }
+    else{
+      return("a002400000pAcOe");
+    }
+  }),
   field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID")),
   field("Area__c",dataValue("$.form.area")),
@@ -131,7 +138,7 @@ combine(function(state){
         field("Parity__c",dataValue("TT5.Mother_Information.Pregnancy_Information.Parity")),
         field("Unique_Patient_Code__c",dataValue("HAWI.Unique_Patient_Code")),
         field("Active_in_Support_Group__c",dataValue("HAWI.Active_in_Support_Group")),
-        
+
         field("Currently_on_ART_s__c",dataValue("HAWI.ART")),
         field("ART_Regimen__c",function(state){
               var art='';
@@ -140,7 +147,7 @@ combine(function(state){
                 art=str.replace(/ /g,"; ");
               }
               return art;
-            
+
             }),
         field("Preferred_Care_Facility__c",function(state){
           var val='';
@@ -173,9 +180,9 @@ combine(function(state){
             val=placeholder.toString().replace(/_/g," ");
           }
           return val;
-        })  
+        })
       ))
-        
+
     )(state);
 
   }
