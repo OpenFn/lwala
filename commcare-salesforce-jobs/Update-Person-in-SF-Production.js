@@ -1,4 +1,4 @@
-// testing back Carrie was here 
+// testing back Carrie was here
 //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
 //Ayesha is training now
 alterState((state) =>{
@@ -42,6 +42,7 @@ combine( function(state) {
           field("Place_of_Delivery__c",dataValue("Home")),
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
           field("Child_Status__c","Born"),
+          field("Immediate_Breastfeeding__c",dataValue("form.TT5.Delivery_Information.Breastfeeding_Delivery")),
           field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("$.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
           field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
         ))(state);
@@ -65,6 +66,7 @@ combine( function(state) {
             }),
             field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
             field("Child_Status__c","Born"),
+            field("Immediate_Breastfeeding__c",dataValue("form.TT5.Delivery_Information.Breastfeeding_Delivery")),
             field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("$.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
             field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
           ))(state);
@@ -212,6 +214,7 @@ combine(function(state){
         field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
         field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
         field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
+        field("Immediate_Breastfeeding__c",dataValue("form.TT5.Delivery_Information.Breastfeeding_Delivery")),
         field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
       ))(state);
     }
@@ -228,6 +231,7 @@ combine(function(state){
           field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
           field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
           field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
+          field("Immediate_Breastfeeding__c",dataValue("form.TT5.Delivery_Information.Breastfeeding_Delivery")),
           field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
         ))(state);
       }
