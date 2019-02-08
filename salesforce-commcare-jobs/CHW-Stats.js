@@ -18,7 +18,7 @@ submit(
         
           "@":{
             "xmlns:n0": "http://commcarehq.org/case/transaction/v2",
-            "case_id": dataValue("new.CommCare_ID__c")(state),
+            "case_id": dataValue("new.Id")(state),
             "date_modified": new Date().toISOString(),
             "user_id": "e298884bfb6ee2d2b38591a6e8ae0228"
           },
