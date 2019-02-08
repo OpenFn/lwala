@@ -23,11 +23,19 @@ submit(
             "user_id": "e298884bfb6ee2d2b38591a6e8ae0228"
           },
           "n0:update":{
-            "n0:total_active_households": dataValue("new.Total_Active_Households__c")(state),
-            "n0:total_tt5_children": dataValue("new.Total_TT5_Children__c")(state),
-            "n0:wash_compliant_households": dataValue("new.WASH_Compliant_Households__c")(state),
-            "n0:monthly_reach": dataValue("new.Monthly_Reach__c")(state),
-            "n0:fully_immunized_tt5_children": dataValue("new.Fully_Immunized_TT5_Children__c")(state)
+            "n0:Total_Active_Households": dataValue("new.Total_Active_Households__c")(state),
+            "n0:Total_TT5_Children": dataValue("new.Total_TT5_Children__c")(state),
+            "n0:WASH_Compliant_Households": dataValue("new.WASH_Compliant_Households__c")(state),
+            "n0:Monthly_Reach": dataValue("new.Total_Monthly_Visits__c")(state),
+            "n0:Fully_Immunized_TT5_Children": dataValue("new.Fully_Immunized_TT5_Children__c")(state),
+            "n0:Skilled_Deliveries": dataValue("new.Skilled_Deliveries__c")(state),
+            "n0:Home_Deliveries": dataValue("new.Home_Deliveries__c")(state),
+            "n0:Deliveries_Under_4_ANCs": dataValue("new.Deliveries_Under_4_ANCs__c")(state),
+            "n0:Total_Contraception_Distributed": dataValue("new.Total_Contraception_Distributed__c")(state),
+            "n0:Total_Difficult_Clients": dataValue("new.Total_Difficult_Clients__c")(state),
+            "n0:Total_Pregnant_Mothers": dataValue("new.Total_Pregnant_Mothers__c")(state),
+            
+            
           }
         };
     }),
