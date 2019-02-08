@@ -13,12 +13,12 @@ submit(
     field("wash_compliant_householdsq", dataValue("new.WASH_Compliant_Households__c")),
     field("monthly_reachq", dataValue("new.Monthly_Reach__c")),
     field("fully_immunized_tt5_childrenq", dataValue("new.Fully_Immunized_TT5_Children__c")),
-    field("commcare_usercase", function(state){
+    field("n0:case", function(state){
       return{
-        "n0:case":{
+        
           "@":{
             "xmlns:n0": "http://commcarehq.org/case/transaction/v2",
-            "case_id": dataValue("new.chw_case_id__c")(state),
+            "case_id": dataValue("new.CommCare_ID__c")(state),
             "date_modified": new Date().toISOString(),
             "user_id": "e298884bfb6ee2d2b38591a6e8ae0228"
           },
@@ -29,8 +29,7 @@ submit(
             "n0:monthly_reach": dataValue("new.Monthly_Reach__c")(state),
             "n0:fully_immunized_tt5_children": dataValue("new.Fully_Immunized_TT5_Children__c")(state)
           }
-        }
-      };
+        };
     }),
     field("n1:meta",function(state){
       return{
