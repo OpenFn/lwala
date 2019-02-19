@@ -52,7 +52,14 @@ combine(function(state){
         relationship("RecordType","Name",function(state){
             return(dataValue("Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
         }),
-        field("Catchment__c","a002400000pAcOe"),
+        field("Catchment__c",function(state){
+          if(dataValue("form.catchment")(state)=="East Kamagambo"){
+            return("a002400000pAcQt");
+          }
+          else{
+            return("a002400000pAcOe");
+          }
+        }),
         /*relationship("Area__r","CommCare_User_ID__c",dataValue("form.area")),
         field("Active_in_HAWI__c",function(state){
           if(dataValue("$.form.Basic_Information.HAWI_Status")(state)=="Yes"){
