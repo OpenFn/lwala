@@ -205,7 +205,7 @@ combine(function(state){
       field("Name",function(state){
         var name1=dataValue("$.form.final_name")(state);
         var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-        return name2
+        return name2;
       }),
       field("Active_TT5_Mother__c","Yes"),
       field("TT5_Mother_Registrant__c","Yes"),
