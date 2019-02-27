@@ -48,7 +48,7 @@ combine( function(state) {
               var1=undefined;
             }
             elif(var1=="yes"){
-              var1="Yes"
+              var1="Yes";
             }
             return var1;
           }),
@@ -81,7 +81,7 @@ combine( function(state) {
                 var1=undefined;
               }
               elif(var1=="yes"){
-                var1="Yes"
+                var1="Yes";
               }
               return var1;
             }),
@@ -238,7 +238,7 @@ combine(function(state){
               var1=undefined;
             }
             elif(var1=="yes"){
-              var1="Yes"
+              var1="Yes";
             }
             return var1;
           }),
@@ -264,7 +264,7 @@ combine(function(state){
               var1=undefined;
             }
             elif(var1=="yes"){
-              var1="Yes"
+              var1="Yes";
             }
             return var1;
           }),
