@@ -45,6 +45,9 @@ combine(function(state){
       //field("Location__latitude__s",dataValue("$.metadata.location[0]")),
       //field("Location__longitude__s",dataValue("$.metadata.location[1]")),
       field("Household_CHW__c",dataValue("form.chw")),
+      field("Supervisor_Visit__c",function(state){
+        return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
+      }),
       field("COC_Cycles_Distributed__c",dataValue("$.form.Household_Information.COC_count")),
       field("Female_Condoms_Distributed__c",dataValue("$.form.Household_Information.female_condoms_count")),
       field("Male_Condoms_Distributed__c",dataValue("$.form.Household_Information.male_condoms_count")),
