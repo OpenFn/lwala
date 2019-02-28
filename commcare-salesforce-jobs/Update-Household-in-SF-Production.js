@@ -54,6 +54,6 @@ combine(function(state){
       field("Emergency_Pills_Distributed__c",dataValue("$.form.Household_Information.emergency_pills_count")),
       field("POP_Cycles_Distributed__c",dataValue("$.form.Household_Information.POP_count"))
 
-    ))(state)
+    ))(state);
   }
 });
