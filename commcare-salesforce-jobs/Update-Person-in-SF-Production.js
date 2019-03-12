@@ -43,7 +43,7 @@ combine( function(state) {
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
           field("Child_Status__c","Born"),
           field("Immediate_Breastfeeding__c",function(state){
-            var var1=dataValue("form.TT5.Delivery_Information.Breastfeeding_Delivery")(state);
+            var var1=dataValue("form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery")(state);
             if(var1=="---"){
               var1=undefined;
             }
@@ -76,7 +76,7 @@ combine( function(state) {
             field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
             field("Child_Status__c","Born"),
             field("Immediate_Breastfeeding__c",function(state){
-              var var1=dataValue("form.TT5.Delivery_Information.Breastfeeding_Delivery")(state);
+              var var1=dataValue("form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery")(state);
               if(var1=="---"){
                 var1=undefined;
               }
@@ -233,7 +233,7 @@ combine(function(state){
         field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
         field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
         field("Immediate_Breastfeeding__c",function(state){
-            var var1=dataValue("form.TT5.Delivery_Information.Breastfeeding_Delivery")(state);
+            var var1=dataValue("form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery")(state);
             if(var1=="---"){
               var1=undefined;
             }
@@ -259,7 +259,7 @@ combine(function(state){
           field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
           field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
           field("Immediate_Breastfeeding__c",function(state){
-            var var1=dataValue("form.TT5.Delivery_Information.Breastfeeding_Delivery")(state);
+            var var1=dataValue("form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery")(state);
             if(var1=="---"){
               var1=undefined;
             }
