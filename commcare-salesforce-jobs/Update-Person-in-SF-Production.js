@@ -642,6 +642,7 @@ combine( function(state) {
   }
 }),
 //Malaria cases
+//Child
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.CCMM.Home_Test_Result")(state)=="Positive"){
     //REVIEWED
@@ -665,7 +666,7 @@ combine( function(state) {
       ))(state);*/
     }
     else{
-      //Malaria home treatment case
+  //Malaria home treatment case
       create("Service__c", fields(
         field("Source__c",1),
         //field("Catchment__c","a002400000pAcOe"),
@@ -682,6 +683,38 @@ combine( function(state) {
         field("Follow_Up_By_Date__c",dataValue("$.form.Follow-Up_By_Date")),
         field("Home_Treatment_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
         field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
+        field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")),
+        relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
+
+      ))(state);
+    }
+  }
+}),
+//Malaria cases
+//HAWI Client
+combine( function(state) {
+  if(dataValue("$.form.HAWI.CCMM.Home_Test_Result")(state)=="Positive"){
+    //REVIEWED
+    if(dataValue("$.form.HAWI.CCMM.Malaria_Referral")(state)=="Yes"){
+    }
+    else{
+      //Malaria home treatment case
+      create("Service__c", fields(
+        field("Source__c",1),
+        //field("Catchment__c","a002400000pAcOe"),
+        field("Date__c",dataValue("$.form.Date")),
+        field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
+        field("Type_of_Service__c","CHW Mobile Survey"),
+        field("Reason_for_Service__c","Malaria (Home Treatment)"),
+        field("Home_Treatment__c",dataValue("$.form.HAWI.CCMM.Home_Treatment")),
+        field("RecordTypeID","01224000000kOto"),
+        field("Open_Case__c",1),
+        field("Malaria_Status__c","Positive"),
+        field("AL_Tablets__c",dataValue("$.form.HAWI.CCMM.AL")),
+        field("Paracetamol_Tablets__c",dataValue("$.form.HAWI.CCMM.Paracetamol")),
+        field("Follow_Up_By_Date__c",dataValue("$.form.Follow-Up_By_Date")),
+        field("Home_Treatment_Date__c",dataValue("$.form.HAWI.CCMM.test_date")),
+        field("Malaria_Home_Test_Date__c",dataValue("$.form.HAWI.CCMM.test_date")),
         field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")),
         relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
 
