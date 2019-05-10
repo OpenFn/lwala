@@ -13,7 +13,7 @@ submit(
     field("n0:case", function(state){
       return{
         "@": {
-            "case_id": dataValue("new[0].Commcare_ID__c")(state),
+            "case_id": dataValue("new[0].CommCare_ID__c")(state),
             "date_modified": new Date().toISOString(),
             "user_id": "e298884bfb6ee2d2b38591a6e8ae0228",
             "xmlns:n0": "http://commcarehq.org/case/transaction/v2"
