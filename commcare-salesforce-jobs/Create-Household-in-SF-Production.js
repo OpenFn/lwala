@@ -21,6 +21,7 @@ create("Household__c", fields(
   field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID")),
   field("Area__c",dataValue("$.form.area")),
+  field("Household_Head_No_Program__c",dataValue("form.No_Program_Head")),
   field("Treats_Drinking_Water__c",dataValue("$.form.Household_Information.Treats_Drinking_Water")),
   field("WASH_Trained__c",dataValue("$.form.Household_Information.WASH_Trained")),
   field("Rubbish_Pit__c",dataValue("$.form.Household_Information.Rubbish_Pit")),
