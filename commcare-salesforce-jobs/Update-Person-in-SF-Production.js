@@ -39,7 +39,7 @@ combine( function(state) {
             var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
             return name2;
           }),
-          field("Place_of_Delivery__c",dataValue("Home")),
+          field("Place_of_Delivery__c","Home"),
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
           field("Child_Status__c","Born"),
           field("Immediate_Breastfeeding__c",function(state){
