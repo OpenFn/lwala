@@ -774,7 +774,7 @@ combine(function(state){
       field("Home_Zinc__c",dataValue("$.form.TT5.Child_Information.Referrals.diarrhea_home_treatment_zinc")),
       field("Home_ORS__c",dataValue("$.form.TT5.Child_Information.Referrals.diarrhea_home_treatment_ORS")),
       field("Open_Case__c",1),
-      field("Malaria_Status__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Test_Result")),
+      field("Malaria_Status__c",dataValue("$.form.Malaria_Status")),
       field("Home_Treatment__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment")),
       field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
       field("CommCare_Code__c",dataValue("$.form.subcase_0.case.@case_id")(state)),
