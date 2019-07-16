@@ -893,13 +893,16 @@ combine(function(state){
       ))
     )(state);
   }
-})/*,
+}),
 create("Visit__c",fields(
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
   field("Supervisor_Visit__c",function(state){
     return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
   }),
+  field("Supervisor_Visit__c",function(state){
+    return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
+  }),
   field("Date__c",dataValue("$.metadata.timeEnd"))
-))*/
+))
 );
