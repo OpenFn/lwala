@@ -1,0 +1,277 @@
+{
+   "data": {
+        "@uiVersion": "1",
+        "@version": "1",
+        "@name": "Enroll Household",
+        "Date": null,
+        "seed_input_support": null,
+        "sfid": null,
+        "Source": null,
+        "New_Household": null,
+        "Run_Code": null,
+        "owner_id": null,
+        "group_id": null,
+        "CHW_Name": null,
+        "CHW_ID": null,
+        "areaid": null,
+        "catchment": null,
+        "Area_Name": null,
+        "area": null,
+        "village": null,
+        "moh_code": null,
+        "enrollment_number": null,
+        "Person": [
+              {
+                 "@template": "",
+                 "Source": null,
+                 "catchment": null,
+                 "sfid": null,
+                 "Date": null,
+                 "Basic_Information": {
+                    "Record_Type": null,
+                    "Child_Status": null,
+                    "DOB": null,
+                    "age": null,
+                    "Gender": null,
+                    "Check_Unborn_Child": null,
+                    "Name": null,
+                    "Person_Name": "Person_1",
+                    "birth_certificate": null,
+                    "enrolled_in_school": null,
+                    "Education_Level": null,
+                    "Contact_Info": {
+                       "contact_phone_number_short": null,
+                       "contact_phone_number": null,
+                       "contact_phone_number_is_verified": null
+                    },
+                    "family_planning": {
+                       "Currently_on_family_planning": null,
+                       "Family_Planning_Method": null
+                    },
+                    "person_info": {
+                       "sleep_under_net": null,
+                       "chronic_illness": null,
+                       "cough_for_2wks": null,
+                       "known_hiv_status": null,
+                       "hiv_status": null,
+                       "disability": null,
+                       "other_disability": null
+                    }
+
+                 },
+                 "TT5": {
+                    "Child_Information": {
+                       "ANCs": {
+                          "LMP": null,
+                          "EDD": null,
+                          "ANC_1_Q": null,
+                          "ANC_1": null,
+                          "ANC_2_Q": null,
+                          "ANC_2": null,
+                          "ANC_3_Q": null,
+                          "ANC_3": null,
+                          "ANC_4_Q": null,
+                          "ANC_4": null,
+                          "ANC_5_Q": null,
+                          "ANC_5": null
+                       },
+                       "Delivery_Information": {
+                          "Skilled_Unskilled": null,
+                          "Birth_Facility": null,
+                          "Other": null,
+                          "Facility_of_Birth": null
+                       },
+                       "Immunizations": {
+                          "BCG_Q": null,
+                          "BCG": null,
+                          "OPV0_Q": null,
+                          "OPV_0": null,
+                          "OPV1_Q": null,
+                          "OPV_PCV_Penta_1": null,
+                          "OPV2_Q": null,
+                          "OPV_PCV_Penta_2": null,
+                          "OPV3_Q": null,
+                          "OPV_PCV_Penta_3": null,
+                          "Measles_6_Q": null,
+                          "Measles_6": null,
+                          "Measles_9_Q": null,
+                          "Measles_9": null,
+                          "Measles_18_Q": null,
+                          "Measles_18": null
+                       },
+                       "Exclusive_Breastfeeding": {
+                          "Exclusive_Breastfeeding2": null,
+                          "Breastfeeding2": null,
+                          "Exclusive_Breastfeeding": null,
+                          "question1": null
+                       },
+                       "nutrition": {
+                          "vitamin_a": null,
+                          "food_groups": null,
+                          "MUAC": null,
+                          "muac_malnourished": null,
+                          "Nutrition_Status": null,
+                          "Malnourished_Initial": null,
+                          "Not_Malnourished": null
+                       }
+                    },
+                    "Mother_Information": {
+                       "Pregnant": null,
+                       "mch_booklet": null,
+                       "Pregnancy_Information": {
+                          "Gravida": null,
+                          "Parity": null
+                       }
+                    }
+                 },
+                 "HAWI": {
+                    "Unique_Patient_Code": null,
+                    "Active_in_Support_Group": null,
+                    "ART": null,
+                    "ARVs": null,
+                    "Preferred_Care_Facility": null
+                 }
+              },
+              {
+                 "@template": "",
+                 "Source": null,
+                 "catchment": null,
+                 "sfid": null,
+                 "Date": null,
+                 "Basic_Information": {
+                    "Record_Type": null,
+                    "Child_Status": null,
+                    "DOB": null,
+                    "age": null,
+                    "Gender": null,
+                    "Check_Unborn_Child": null,
+                    "Name": null,
+                    "Person_Name": "Person_2",
+                    "birth_certificate": null,
+                    "enrolled_in_school": null,
+                    "Education_Level": null,
+                    "Contact_Info": {
+                       "contact_phone_number_short": null,
+                       "contact_phone_number": null,
+                       "contact_phone_number_is_verified": null
+                    },
+                    "family_planning": {
+                       "Currently_on_family_planning": null,
+                       "Family_Planning_Method": null
+                    },
+                    "person_info": {
+                       "sleep_under_net": null,
+                       "chronic_illness": null,
+                       "cough_for_2wks": null,
+                       "known_hiv_status": null,
+                       "hiv_status": null,
+                       "disability": null,
+                       "other_disability": null
+                    }
+
+                 },
+                 "TT5": {
+                    "Child_Information": {
+                       "ANCs": {
+                          "LMP": null,
+                          "EDD": null,
+                          "ANC_1_Q": null,
+                          "ANC_1": null,
+                          "ANC_2_Q": null,
+                          "ANC_2": null,
+                          "ANC_3_Q": null,
+                          "ANC_3": null,
+                          "ANC_4_Q": null,
+                          "ANC_4": null,
+                          "ANC_5_Q": null,
+                          "ANC_5": null
+                       },
+                       "Delivery_Information": {
+                          "Skilled_Unskilled": null,
+                          "Birth_Facility": null,
+                          "Other": null,
+                          "Facility_of_Birth": null
+                       },
+                       "Immunizations": {
+                          "BCG_Q": null,
+                          "BCG": null,
+                          "OPV0_Q": null,
+                          "OPV_0": null,
+                          "OPV1_Q": null,
+                          "OPV_PCV_Penta_1": null,
+                          "OPV2_Q": null,
+                          "OPV_PCV_Penta_2": null,
+                          "OPV3_Q": null,
+                          "OPV_PCV_Penta_3": null,
+                          "Measles_6_Q": null,
+                          "Measles_6": null,
+                          "Measles_9_Q": null,
+                          "Measles_9": null,
+                          "Measles_18_Q": null,
+                          "Measles_18": null
+                       },
+                       "Exclusive_Breastfeeding": {
+                          "Exclusive_Breastfeeding2": null,
+                          "Breastfeeding2": null,
+                          "Exclusive_Breastfeeding": null,
+                          "question1": null
+                       },
+                       "nutrition": {
+                          "vitamin_a": null,
+                          "food_groups": null,
+                          "MUAC": null,
+                          "muac_malnourished": null,
+                          "Nutrition_Status": null,
+                          "Malnourished_Initial": null,
+                          "Not_Malnourished": null
+                       }
+                    },
+                    "Mother_Information": {
+                       "Pregnant": null,
+                       "mch_booklet": null,
+                       "Pregnancy_Information": {
+                          "Gravida": null,
+                          "Parity": null
+                       }
+                    }
+                 },
+                 "HAWI": {
+                    "Unique_Patient_Code": null,
+                    "Active_in_Support_Group": null,
+                    "ART": null,
+                    "ARVs": null,
+                    "Preferred_Care_Facility": null
+                 }
+              }
+            ],
+        "Household_Information": {
+           "Total_Household_Members": null,
+           "Total_Under_5": null,
+           "Total_Over_5": null,
+           "Total_Males": null,
+           "Total_Females": null,
+           "deaths_in_past_6_months": null,
+           "deaths": {
+              "@template": "",
+              "age_dead": null,
+              "gender_dead": null,
+              "cause_of_death_dead": null
+           },
+           "Safe_Water": null,
+           "Treats_Drinking_Water": null,
+           "Active_Handwashing_Station": null,
+           "Functional_Latrine": null,
+           "Rubbish_Pit": null,
+           "Drying_Rack": null,
+           "Kitchen_Garden": null,
+           "Improved_Cooking_Method": null,
+           "Clothesline": null,
+           "WASH_Trained": null,
+           "WASH_Compliant": null,
+           "Core_WASH_Compliant": null
+        },
+        "consent": null,
+        "supervisor_visit": null,
+        "other": null
+      }
+  }
