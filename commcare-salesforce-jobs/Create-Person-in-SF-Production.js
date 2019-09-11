@@ -120,7 +120,7 @@ create("Person__c",fields(
   }),
   field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
   field("Child_Status__c",dataValue("$.form.Basic_Information.Child_Status")),
-  field("Place_of_Delivery_Location__c",function(state){
+  field("Place_of_Delivery__c",function(state){
     var val='';
     var placeholder=''
     if(dataValue("$.form.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state)!==undefined){
