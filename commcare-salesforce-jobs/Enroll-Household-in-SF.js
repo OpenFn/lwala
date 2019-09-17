@@ -9,8 +9,10 @@ alterState((state) =>{
 });
 
 upsert("Household__c", "MOH_household_code__c",fields(
-  field("MOH_household_code__c", dataValue("$.form.moh_code")),
-  field("Name",dataValue("$.form.moh_code")),
+  field("MOH_household_code__c", dataValue("$.form.moh_code")),  field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
+  field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
+  //DONT MAP - field("Household_Code__c", dataValue("$.form.moh_code")),
+  //DONT MAP - field("Name",dataValue("$.form.moh_code")),
   field("Source__c", true),
   //relationship("Household_CHW__r","Name", dataValue("form.CHW_Name")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID")),
@@ -45,7 +47,9 @@ upsert("Household__c", "MOH_household_code__c",fields(
   each(
     dataPath("$.form.Person[*]"),
     upsert("Person__c","CommCare_ID__c", fields(
+      relationship("Household__r", "MOH_household_code__c", state.data.form.moh_code),
       field("CommCare_ID__c",dataValue("case.@case_id")),
+      field("CommCare_HH_Code__c", dataValue("case.index.parent.#text")),
       relationship("RecordType","Name",dataValue("Basic_Information.Record_Type")),
       field("Name",function(state){
         var name1=dataValue("Basic_Information.Person_Name")(state);
