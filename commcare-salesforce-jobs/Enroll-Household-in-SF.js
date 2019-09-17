@@ -33,6 +33,15 @@ upsert("Household__c", "MOH_household_code__c",fields(
   field("Cookstove__c", dataValue("$.form.Household_Information.Improved_Cooking_Method")),
   field("Clothe__c", dataValue("$.form.Household_Information.Clothesline"))
   )),
+  upsert("Visit__c", "CommCare_Visit_ID__c", fields(
+    field("CommCare_Visit_ID__c", dataValue("id")),
+    relationship("Household__r", "MOH_household_code__c", dataValue("$.form.moh_code")),
+    field("Name", "Supervisor Visit"),
+    field("Supervisor_Visit__c", dataValue("$.form.supervisor_visit")),
+    field("Household_CHW__c",dataValue("$.form.CHW_ID")),
+    relationship("Catchment__r","Name", dataValue("$.form.catchment")),
+    field("Date__c",dataValue("$.form.Person[0].Date"))
+  )),
   each(
     dataPath("$.form.Person[*]"),
     upsert("Person__c","CommCare_ID__c", fields(
