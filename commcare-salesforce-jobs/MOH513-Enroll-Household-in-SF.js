@@ -39,10 +39,12 @@ upsert("Household__c", "MOH_household_code__c",fields(
     field("CommCare_Visit_ID__c", dataValue("id")),
     relationship("Household__r", "MOH_household_code__c", dataValue("$.form.moh_code")),
     field("Name", "Supervisor Visit"),
-    field("Supervisor_Visit__c", dataValue("$.form.supervisor_visit")),
+    field("Supervisor_Visit__c",function(state){
+      return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
+    }),
+    field("Date__c",dataValue("$.metadata.timeEnd")),
     field("Household_CHW__c",dataValue("$.form.CHW_ID")),
-    relationship("Catchment__r","Name", dataValue("$.form.catchment")),
-    field("Date__c",dataValue("$.form.Person[0].Date"))
+    relationship("Catchment__r","Name", dataValue("$.form.catchment"))
   )),
   each(
     dataPath("$.form.Person[*]"),
