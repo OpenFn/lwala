@@ -1,4 +1,3 @@
-// github edits
 create("Person__c",fields(
   //field("Name",dataValue("$.form.Basic_Information.Person_Name")),
   field("Name",function(state){
@@ -153,6 +152,18 @@ create("Visit__c",fields(
   field("Household_CHW__c",dataValue("$.form.CHW_ID")),
   field("Catchment__c","a002400000pAcOe"),
   field("Date__c",dataValue("$.metadata.timeEnd")),
-  field("Location__latitude__s",dataValue("$.metadata.location[0]")),
-  field("Location__longitude__s",dataValue("$.metadata.location[1]"))
+//Commenting out old mappings which returned the 1st and 2nd character of location "-0.6986816666666668 34.62730333333333" as "-" and "0"
+//field("Location__latitude__s",dataValue("$.metadata.location[0]")),
+//field("Location__longitude__s",dataValue("$.metadata.location[1]")),
+//New mappings & custom function to pull out substrings of latitude and longitude
+  field("Location__latitude__s", function(state){
+    var lat = state.data.metadata.location;
+    lat = lat.substring(0, lat.indexOf(" "));
+    return lat;
+  }),
+ field("Location__longitude__s", function(state){
+    var long = state.data.metadata.location;
+    long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+15);
+    return long;
+  })
 ))
