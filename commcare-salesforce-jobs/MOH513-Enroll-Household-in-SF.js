@@ -101,7 +101,9 @@ upsert("Household__c", "MOH_household_code__c",fields(
       }),
       field("Knowledge_of_HIV_status__c",dataValue("Basic_Information.person_info.known_hiv_status")),
       field("HIV_Status__c",dataValue("Basic_Information.person_info.hiv_status")),
-      field("Disability__c",dataValue("Basic_Information.person_info.disability")),
+      field("Disability__c",function(state){
+        return dataValue("Basic_Information.person_info.disability")(state).toString().replace(/ /g,";");
+      }),
       field("Other_disability__c",dataValue("Basic_Information.person_info.sleep_under_net")),
       field("LMP__c",dataValue("TT5.Child_Information.ANCs.LMP")),
       field("ANC_1__c",dataValue("TT5.Child_Information.ANCs.ANC_1")),
