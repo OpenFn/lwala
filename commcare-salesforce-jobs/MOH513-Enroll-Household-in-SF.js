@@ -20,7 +20,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
   field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Source__c", true),
   //field("Household_CHW__c",dataValue("$.form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
-  field("Household_CHW__c", "a031x000002S921"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+  field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
   relationship("Catchment__r","Name", dataValue("$.form.catchment")),// check
   field("Area__c", dataValue("$.form.area")),  //CONFIRM IDs MATCH PRODUCTION
   field("Household_village__c", dataValue("$.form.village")),
@@ -50,7 +50,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
     }),
     field("Date__c",dataValue("$.metadata.timeEnd")),
     //field("Household_CHW__c",dataValue("$.form.CHW_ID")),
-    field("Household_CHW__c", "a031x000002S921"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+    field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     relationship("Catchment__r","Name", dataValue("$.form.catchment")),
     field("Location__latitude__s", function(state){
       var lat = state.data.metadata.location;
