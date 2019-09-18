@@ -5,6 +5,13 @@ alterState((state) =>{
   if(!Array.isArray(person)){
     state.data.form.Person=[person];
   }
+  function titleCase(str) {
+   var splitStr = str.toLowerCase().split(' ');
+   for (var i = 0; i < splitStr.length; i++) {
+       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+   }
+   return splitStr.join(' ');
+ }
   return state;
 });
 //Upserting Household, checks if Household exists via MOH Household Code
@@ -102,7 +109,9 @@ upsert("Household__c", "MOH_household_code__c",fields(
       field("Knowledge_of_HIV_status__c",dataValue("Basic_Information.person_info.known_hiv_status")),
       field("HIV_Status__c",dataValue("Basic_Information.person_info.hiv_status")),
       field("Disability__c",function(state){
-        return dataValue("Basic_Information.person_info.disability")(state).toString().replace(/ /g,";");
+        var disability = dataValue("Basic_Information.person_info.disability")(state);
+        const toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+        return toTitleCase;
       }),
       field("Other_disability__c",dataValue("Basic_Information.person_info.sleep_under_net")),
       field("LMP__c",dataValue("TT5.Child_Information.ANCs.LMP")),
