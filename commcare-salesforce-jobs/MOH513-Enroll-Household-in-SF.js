@@ -7,17 +7,15 @@ alterState((state) =>{
   }
   return state;
 });
-
+//Upserting Household, checks if Household exists via MOH Household Code
 upsert("Household__c", "MOH_household_code__c",fields(
   field("MOH_household_code__c", dataValue("$.form.moh_code")),  field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
-  //DONT MAP - field("Household_Code__c", dataValue("$.form.moh_code")),
-  //DONT MAP - field("Name",dataValue("$.form.moh_code")),
   field("Source__c", true),
-  //relationship("Household_CHW__r","Name", dataValue("form.CHW_Name")),
-  field("Household_CHW__c",dataValue("$.form.CHW_ID")),
+  //field("Household_CHW__c",dataValue("$.form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
+  field("Household_CHW__c", "a031x000002S921")), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
   relationship("Catchment__r","Name", dataValue("$.form.catchment")),// check
-  field("Area__c", dataValue("$.form.area")),// check
+  field("Area__c", dataValue("$.form.area")),  //CONFIRM IDs MATCH PRODUCTION
   field("Household_village__c", dataValue("$.form.village")),
   //field("Total_Number_of_Members__c", dataValue("form.Total_Number_of_Members")),
   //field("Deaths_in_the_last_6_months__c", dataValue("form.Household_Information.deaths_in_past_6_months")),
@@ -35,6 +33,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
   field("Cookstove__c", dataValue("$.form.Household_Information.Improved_Cooking_Method")),
   field("Clothe__c", dataValue("$.form.Household_Information.Clothesline"))
   )),
+  //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     field("CommCare_Visit_ID__c", dataValue("id")),
     relationship("Household__r", "MOH_household_code__c", dataValue("$.form.moh_code")),
@@ -44,15 +43,28 @@ upsert("Household__c", "MOH_household_code__c",fields(
     }),
     field("Date__c",dataValue("$.metadata.timeEnd")),
     field("Household_CHW__c",dataValue("$.form.CHW_ID")),
-    relationship("Catchment__r","Name", dataValue("$.form.catchment"))
+    relationship("Catchment__r","Name", dataValue("$.form.catchment")),
+    field("Location__latitude__s", function(state){
+      var lat = state.data.metadata.location;
+      lat = lat.substring(0, lat.indexOf(" "));
+      return lat;
+    }),
+   field("Location__longitude__s", function(state){
+      var long = state.data.metadata.location;
+      long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+15);
+      return long;
+    })
   )),
+  //Upsert Person via CommCare case ID for each person enrolled
   each(
     dataPath("$.form.Person[*]"),
     upsert("Person__c","CommCare_ID__c", fields(
       relationship("Household__r", "MOH_household_code__c", state.data.form.moh_code),
       field("CommCare_ID__c",dataValue("case.@case_id")),
       field("CommCare_HH_Code__c", dataValue("case.index.parent.#text")),
-      relationship("RecordType","Name",dataValue("Basic_Information.Record_Type")),
+      relationship("RecordType","Name",function(state){
+          return(dataValue("Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
+      }),
       field("Name",function(state){
         var name1=dataValue("Basic_Information.Person_Name")(state);
         var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -71,16 +83,18 @@ upsert("Household__c", "MOH_household_code__c",fields(
       field("Child_Status__c",dataValue("Basic_Information.Check_Unborn_Child")),
       field("Child_Status__c",dataValue("Basic_Information.Child_Status")),
       field("Birth_Certificate__c",dataValue("Basic_Information.birth_certificate")),
-      field("Education_Level__c",dataValue("Basic_Information.Education_Level")),
+      field("Education_Level__c", function(state){
+        return(dataValue("Basic_Information.Education_Level")(state).toString().replace(/_/g," "));
+      }),
       field("Telephone__c",dataValue("Basic_Information.Contact_Info.contact_phone_number")),
       field("Family_Planning__c",dataValue("Basic_Information.family_planning.Currently_on_family_planning")),
       field("Family_Planning_Method__c",dataValue("Basic_Information.family_planning.Family_Planning_Method")),
       field("Use_mosquito_net__c",dataValue("Basic_Information.person_info.sleep_under_net")),
       field("Two_weeks_or_more_cough__c",dataValue("Basic_Information.person_info.cough_for_2wks")),
-      field("Chronic_illness__c",dataValue("Basic_Information.person_info.chronic_illness")), //transform multi-select?
-      //field("Chronic_illness__c",function(state){ <trasnform>}),
-      //field("Reason_for_a_refferal__c",dataValue("Basic_Information.person_info.refer_for_cough")),// to transform
-      field("Reason_for_a_refferal__c",function(state){
+      field("Chronic_illness__c", function(state){
+        return dataValue("Basic_Information.person_info.chronic_illness")(state).toString().replace(/ /g,";");
+      }),
+      field("Reason_for_a_refferal__c",function(state){ //add other referral reasons?
         var cough = dataValue("Basic_Information.person_info.refer_for_cough")(state)
         return (cough=="yes" ? "Coughing for more than two weeks" : "");
       }),
@@ -94,7 +108,15 @@ upsert("Household__c", "MOH_household_code__c",fields(
       field("ANC_3__c",dataValue("TT5.Child_Information.ANCs.ANC_3")),
       field("ANC_4__c",dataValue("TT5.Child_Information.ANCs.ANC_4")),
       field("ANC_5__c",dataValue("TT5.Child_Information.ANCs.ANC_5")),
-      field("Delivery_Facility__c",dataValue("TT5.Child_Information.Delivery_Information.Birth_Facility")),
+      field("Delivery_Facility__c", function(state){
+        var val='';
+        var placeholder=''
+        if(dataValue("TT5.Child_Information.Delivery_Information.Birth_Facility")(state)!==undefined){
+          placeholder=dataValue("TT5.Child_Information.Delivery_Information.Birth_Facility")(state);
+          val=placeholder.toString().replace(/_/g," ");
+        }
+        return val;
+      }),
       field("BCG__c",dataValue("TT5.Child_Information.Immunizations.BCG")),
       field("OPV_0__c",dataValue("TT5.Child_Information.Immunizations.OPV_0")),
       field("OPV_1__c",dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_1")),
