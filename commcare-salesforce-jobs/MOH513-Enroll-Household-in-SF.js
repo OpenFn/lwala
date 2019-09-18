@@ -42,7 +42,8 @@ upsert("Household__c", "MOH_household_code__c",fields(
       return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
     }),
     field("Date__c",dataValue("$.metadata.timeEnd")),
-    field("Household_CHW__c",dataValue("$.form.CHW_ID")),
+    //field("Household_CHW__c",dataValue("$.form.CHW_ID")),
+    field("Household_CHW__c", "a031x000002S921"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     relationship("Catchment__r","Name", dataValue("$.form.catchment")),
     field("Location__latitude__s", function(state){
       var lat = state.data.metadata.location;
