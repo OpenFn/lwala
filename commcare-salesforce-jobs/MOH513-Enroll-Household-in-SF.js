@@ -51,7 +51,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
     }),
    field("Location__longitude__s", function(state){
       var long = state.data.metadata.location;
-      long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+15);
+      long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
       return long;
     })
   )),
