@@ -9,11 +9,11 @@ alterState((state) =>{
 });
 //Upserting Household, checks if Household exists via MOH Household Code
 upsert("Household__c", "MOH_household_code__c",fields(
-  field("MOH_household_code__c", dataValue("$.form.moh_code")),  field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
+  field("MOH_household_code__c", dataValue("$.form.moh_code")),
   field("CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Source__c", true),
   //field("Household_CHW__c",dataValue("$.form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
-  field("Household_CHW__c", "a031x000002S921")), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+  field("Household_CHW__c", "a031x000002S921"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
   relationship("Catchment__r","Name", dataValue("$.form.catchment")),// check
   field("Area__c", dataValue("$.form.area")),  //CONFIRM IDs MATCH PRODUCTION
   field("Household_village__c", dataValue("$.form.village")),
@@ -32,7 +32,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
   field("Kitchen_Garden__c", dataValue("$.form.Household_Information.Kitchen_Garden")),
   field("Cookstove__c", dataValue("$.form.Household_Information.Improved_Cooking_Method")),
   field("Clothe__c", dataValue("$.form.Household_Information.Clothesline"))
-  )),
+)),
   //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     field("CommCare_Visit_ID__c", dataValue("id")),
