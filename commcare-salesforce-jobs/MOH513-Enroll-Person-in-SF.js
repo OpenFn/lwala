@@ -11,7 +11,7 @@ upsert("Person__c","CommCare_ID__c", fields(
     return(dataValue("$.form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
   field("Catchment__c",dataValue("catchment")),
-  field("Relation_to_the_head_of_the_household__c",dataValue("$.form.Person.Basic_Information.relation_to_hh")),
+  //field("Relation_to_the_head_of_the_household__c",dataValue("$.form.Person.Basic_Information.relation_to_hh")),UPDATE PICKLIST VALS
   field("Child_Status__c",dataValue("$.form.Person.Basic_Information.Client_Status")),
   field("Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.DOB")),
   field("Gender__c",dataValue("$.form.Person.Basic_Information.Gender")),
