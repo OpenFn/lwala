@@ -30,27 +30,21 @@ upsert("Person__c","CommCare_ID__c", fields(
     return dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state).toString().replace(/ /g,";");
   }),
   field("Two_weeks_or_more_cough__c",dataValue("$.form.Person.Basic_Information.person_info.cough_for_2wks")),
-  field("Reason_for_a_referral__c",function(state){
-    var cough = dataValue("$.form.Person.Basic_Information.person_info.refer_for_cough")(state);
-    var reason = '';
-    if(cough === "Yes" && cough !==undefined){
-     reason = "Coughing for more than 2 weeks";
-   } else {
-     reason = "Other reason"; //TO UPDATE !!
-   }
-   return reason;
+  field("Reason_for_a_refferal__c",function(state){ //add other referral reasons?
+    var cough = dataValue("Basic_Information.person_info.refer_for_cough")(state)
+    return (cough=="yes" ? "Coughing for more than two weeks" : "");
   }),
   field("Knowledge_of_HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.known_hiv_status")),
   field("HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.hiv_status")),
   field("Disability__c",function(state){
-    var disability = dataValue("$.form.Person.Basic_Information.person_info.disability")(state);
-    const toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+    var disability = dataValue("Basic_Information.person_info.disability")(state);
+    var toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
     return toTitleCase;
   }),
   field("Other_disability__c",function(state){
     var disability = dataValue("$.form.Person.Basic_Information.person_info.disability")(state);
-    const toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
-    return toTitleCase; 
+    var toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+    return toTitleCase;
   }),
   field("LMP__c",dataValue("$.form.Person.TT5.Child_Information.ANCs.LMP")),
   field("Source__c",true),
