@@ -43,7 +43,7 @@ upsert("Person__c","CommCare_ID__c", fields(
     return illness;
   }),
   field("Two_weeks_or_more_cough__c",dataValue("$.form.Basic_Information.person_info.cough_for_2wks")),
-  field("Reason_for_a_referral__c",function(state){
+  field("Reason_for_a_refferal__c",function(state){
     var cough = dataValue("$.form.Basic_Information.person_info.refer_for_cough")(state);
     var reason = '';
     if(cough !==undefined){
