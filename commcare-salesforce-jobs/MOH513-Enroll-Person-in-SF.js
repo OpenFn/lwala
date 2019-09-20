@@ -38,12 +38,18 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.hiv_status")),
   field("Disability__c",function(state){
     var disability = dataValue("Basic_Information.person_info.disability")(state);
-    var toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+    var toTitleCase = '';
+    if(disability !==undefined){
+       return toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+    } else{ return toTitleCase === null }
     return toTitleCase;
   }),
   field("Other_disability__c",function(state){
     var disability = dataValue("$.form.Person.Basic_Information.person_info.disability")(state);
-    var toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+    var toTitleCase = '';
+    if(disability !==undefined){
+       return toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+    } else{ return toTitleCase === null }
     return toTitleCase;
   }),
   field("LMP__c",dataValue("$.form.Person.TT5.Child_Information.ANCs.LMP")),
