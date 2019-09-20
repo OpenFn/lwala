@@ -16,7 +16,7 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.DOB")),
   field("Gender__c",dataValue("$.form.Person.Basic_Information.Gender")),
   field("Age_Based_on_Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.age")),
-  field("Check_Unborn_Child__c",dataValue("$.form.Person.Basic_Information.Check_Unborn_Child")),
+  //field("Check_Unborn_Child__c",dataValue("$.form.Person.Basic_Information.Check_Unborn_Child")),
   field("Birth_Certificate__c",dataValue("$.form.Person.Basic_Information.birth_certificate")),
   field("Currently_enrolled_in_school__c",dataValue("$.form.Person.Basic_Information.enrolled_in_school")),
   field("Education_Level__c", function(state){
