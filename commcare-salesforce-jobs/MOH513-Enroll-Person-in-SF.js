@@ -4,8 +4,10 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("CommCare_ID__c",dataValue("$.form.case.@case_id")),
   field("Name",function(state){
     var name1=dataValue("$.form.Basic_Information.Person_Name")(state);
-    var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-    return name2;
+    if( name1!==undefined){
+      return name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+    return name1;
   }),
   relationship("RecordType","Name",function(state){
     var rt = dataValue("$.form.Basic_Information.Record_Type")(state);
