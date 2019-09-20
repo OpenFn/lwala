@@ -44,19 +44,13 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.hiv_status")),
   field("Disability__c",function(state){
     var disability = dataValue("$.form.Person.Basic_Information.person_info.disability")(state);
-    const toTitleCase ='';
-    if(disability !== undefined){
-       toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
-    }
+    const toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
     return toTitleCase;
   }),
   field("Other_disability__c",function(state){
-    var disability = dataValue("$.form.Person.Basic_Information.person_info.other_disability")(state);
-    const toTitleCase ='';
-    if(disability !== undefined){
-       toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
-    }
-    return toTitleCase;
+    var disability = dataValue("$.form.Person.Basic_Information.person_info.disability")(state);
+    const toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+    return toTitleCase; 
   }),
   field("LMP__c",dataValue("$.form.Person.TT5.Child_Information.ANCs.LMP")),
   field("Source__c",true),
