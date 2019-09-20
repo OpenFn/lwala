@@ -4,16 +4,11 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("CommCare_ID__c",dataValue("$.form.Person.case.@case_id")),
   field("Name",function(state){
     var name1=dataValue("$.form.Person.Basic_Information.Person_Name")(state);
-    if( name1!==undefined){
-      return name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-    }
-    return name1;
+    var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    return name2;
   }),
   relationship("RecordType","Name",function(state){
-    var rt = dataValue("$.form.Person.Basic_Information.Record_Type")(state);
-    if(rt !==undefined){
-      return(rt.toString().replace(/_/g," "));
-    }
+    return(dataValue("$.form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
   field("Catchment__c",dataValue("catchment")),
   field("Relation_to_the_head_of_household__c",dataValue("$.form.Person.Basic_Information.relation_to_hh")),
@@ -25,34 +20,24 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Birth_Certificate__c",dataValue("$.form.Person.Basic_Information.birth_certificate")),
   field("Currently_enrolled_in_school__c",dataValue("$.form.Person.Basic_Information.enrolled_in_school")),
   field("Education_Level__c", function(state){
-    var education = dataValue("$.form.Person.Basic_Information.Education_Level")(state);
-    if(education !==undefined){
-      return education.toString().replace(/_/g," ");
-    }
-    return education;
+    return(dataValue("$.form.Person.Basic_Information.Education_Level")(state).toString().replace(/_/g," "));
   }),
   field("Telephone__c",dataValue("$.form.Person.Basic_Information.Contact_Info.contact_phone_number")),
   field("Family_Planning__c",dataValue("$.form.Person.Basic_Information.family_planning.Currently_on_family_planning")),
   field("Family_Planning_Method__c",dataValue("$.form.Person.Basic_Information.family_planning.Family_Planning_Method")),
   field("Use_mosquito_net__c",dataValue("$.form.Person.Basic_Information.person_info.sleep_under_net")),
   field("Chronic_illness__c", function(state){
-    var illness = dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state);
-    if( illness !==undefined){
-      return illness.toString().replace(/ /g,";");
-    }
-    return illness;
+    return dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state).toString().replace(/ /g,";");
   }),
   field("Two_weeks_or_more_cough__c",dataValue("$.form.Person.Basic_Information.person_info.cough_for_2wks")),
-  field("Reason_for_a_refferal__c",function(state){
+  field("Reason_for_a_referral__c",function(state){
     var cough = dataValue("$.form.Person.Basic_Information.person_info.refer_for_cough")(state);
     var reason = '';
-    if(cough !==undefined){
-      if(cough === "Yes"){
-       reason = "Coughing for more than 2 weeks";
-     } else {
-       reason = "Other reason"; //TO UPDATE !!
-     }
-    }
+    if(cough === "Yes" && cough !==undefined){
+     reason = "Coughing for more than 2 weeks";
+   } else {
+     reason = "Other reason"; //TO UPDATE !!
+   }
    return reason;
   }),
   field("Knowledge_of_HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.known_hiv_status")),
