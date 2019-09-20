@@ -76,7 +76,7 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Active_in_Support_Group__c",dataValue("$.form.Person.HAWI.Active_in_Support_Group")),
   field("CommCare_HH_Code__c",dataValue("$.form.Person.case.@case_id")),
   field("Currently_on_ART_s__c",dataValue("$.form.Person.HAWI.ART")),
-  field("ARV_Regimen__c",dataValue("$.form.Person.HAWI.ARVs")),
+  //field("ARV_Regimen__c",dataValue("$.form.Person.HAWI.ARVs")),
   field("Exclusive_Breastfeeding__c",dataValue("$.form.Person.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
   field("Vitamin_A__c",dataValue("$.form.Person.TT5.Child_Information.nutrition.vitamin_a")),
   field("Food_groups_3_times_a_day__c",dataValue("form.TT5.Child_Information.nutrition.food_groups")),
