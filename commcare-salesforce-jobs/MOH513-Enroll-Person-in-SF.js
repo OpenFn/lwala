@@ -117,8 +117,8 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   relationship("Household__r", "MOH_household_code__c", dataValue("$.form.Person.moh_code")),
   field("Name", "Supervisor Visit"),
   field("Supervisor_Visit__c",function(state){
-    var visit = state.data.form.supervisor_visit
-    return visit.toString().replace(/ /g,";");
+    var visit = dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";")
+    return visit.toString().replace(/_/g," ");
   }),
   field("Date__c",dataValue("$.metadata.timeEnd")),
   //field("Household_CHW__c",dataValue("$.form.Person.CHW_ID")),//NEED TO MAP CHW?

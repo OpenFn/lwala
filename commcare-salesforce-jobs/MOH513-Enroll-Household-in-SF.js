@@ -24,7 +24,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
   relationship("Catchment__r","Name", dataValue("$.form.catchment")),// check
   field("Area__c", dataValue("$.form.area")),  //CONFIRM IDs MATCH PRODUCTION
   field("Household_village__c", dataValue("$.form.village")),
-  //field("Total_Number_of_Members__c", dataValue("form.Total_Number_of_Members")),
+  //field("Total_Household_Members__c", dataValue("$.form.Total_Number_of_Members")),
   //field("Deaths_in_the_last_6_months__c", dataValue("form.Household_Information.deaths_in_past_6_months")),
   field("Deaths_in_the_last_6_months__c", function(state){
     const death = state.data.form.Household_Information.deaths_in_past_6_months;
@@ -46,7 +46,8 @@ upsert("Household__c", "MOH_household_code__c",fields(
     relationship("Household__r", "MOH_household_code__c", dataValue("$.form.moh_code")),
     field("Name", "Supervisor Visit"),
     field("Supervisor_Visit__c",function(state){
-      return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
+      var visit = dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";")
+      return visit.toString().replace(/_/g," ");
     }),
     field("Date__c",dataValue("$.metadata.timeEnd")),
     //field("Household_CHW__c",dataValue("$.form.CHW_ID")),
@@ -83,24 +84,34 @@ upsert("Household__c", "MOH_household_code__c",fields(
       field("Client_Status__c", "Active"), //Do we hardcode?
       field("Area__c", state.data.form.area),// check
       field("Household_village__c", state.data.form.village),
-    //  field("Relation_to_the_head_of_the_household__c",dataValue("Basic_Information.relation_to_hh")),
+    /*  TO UPDATE CC PICKLIST VALS
+      field("Relation_to_the_head_of_the_household__c", function(state){
+        var relation = dataValue("Basic_Information.relation_to_hh")(state).toString().replace(/_/g," ");
+        const toTitleCase = relation.charAt(0).toUpperCase() + relation.slice(1);
+        return toTitleCase;
+      }), */
+      //MISSING FIELDS IN SF...
+      //field("TT5_enrollment_status__c",dataValue("Basic_Information.TT5_enrollment_status")),
+      //field("HAWI_enrollment_status__c",dataValue("Basic_Information.person_info.HAWI_enrollment_status")),
       field("Child_Status__c",dataValue("Basic_Information.Child_Status")),
       field("Date_of_Birth__c",dataValue("Basic_Information.DOB")),
       field("Gender__c",dataValue("Basic_Information.Gender")),
-    //  field("Age_Based_on_Date_of_Birth__c",dataValue("case.update.age")),
       field("Child_Status__c",dataValue("Basic_Information.Check_Unborn_Child")),
-      field("Child_Status__c",dataValue("Basic_Information.Child_Status")),
+      //field("Child_Status__c",dataValue("Basic_Information.birth_status")),
       field("Birth_Certificate__c",dataValue("Basic_Information.birth_certificate")),
       field("Education_Level__c", function(state){
         return(dataValue("Basic_Information.Education_Level")(state).toString().replace(/_/g," "));
       }),
+      field("Currently_enrolled_in_school__c",dataValue("Basic_Information.enrolled_in_school")),
       field("Telephone__c",dataValue("Basic_Information.Contact_Info.contact_phone_number")),
       field("Family_Planning__c",dataValue("Basic_Information.family_planning.Currently_on_family_planning")),
       field("Family_Planning_Method__c",dataValue("Basic_Information.family_planning.Family_Planning_Method")),
       field("Use_mosquito_net__c",dataValue("Basic_Information.person_info.sleep_under_net")),
       field("Two_weeks_or_more_cough__c",dataValue("Basic_Information.person_info.cough_for_2wks")),
       field("Chronic_illness__c", function(state){
-        return dataValue("Basic_Information.person_info.chronic_illness")(state).toString().replace(/ /g,";");
+        var illness = dataValue("Basic_Information.person_info.chronic_illness")(state).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';')
+        //var illness = dataValue("Basic_Information.person_info.chronic_illness")(state).toString().replace(/ /g,";")
+        return illness.toString().replace(/_/g," ");
       }),
       field("Reason_for_a_refferal__c",function(state){ //add other referral reasons?
         var cough = dataValue("Basic_Information.person_info.refer_for_cough")(state)
@@ -113,7 +124,20 @@ upsert("Household__c", "MOH_household_code__c",fields(
         const toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
         return toTitleCase;
       }),
-      field("Other_disability__c",dataValue("Basic_Information.person_info.sleep_under_net")),
+      //field("Other_disability__c",dataValue("Basic_Information.person_info.sleep_under_net")),
+      field("Other_disability__c",function(state){
+        var disability = dataValue("Basic_Information.person_info.disability")(state);
+        var toTitleCase = '';
+        if(disability !==undefined){
+           return toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+        } else{ return toTitleCase === null }
+        return toTitleCase;
+      }),
+      field("Unique_Patient_Code__c",dataValue("HAWI.Unique_Patient_Code")),
+      field("Active_in_Support_Group__c",dataValue("$HAWI.Active_in_Support_Group")),
+      field("CommCare_HH_Code__c",dataValue("case.@case_id")),
+      field("Currently_on_ART_s__c",dataValue("HAWI.ART")),
+      //field("ARV_Regimen__c",dataValue("$.form.Person.HAWI.ARVs")),
       field("LMP__c",dataValue("TT5.Child_Information.ANCs.LMP")),
       field("ANC_1__c",dataValue("TT5.Child_Information.ANCs.ANC_1")),
       field("ANC_2__c",dataValue("TT5.Child_Information.ANCs.ANC_2")),
@@ -126,6 +150,23 @@ upsert("Household__c", "MOH_household_code__c",fields(
         if(dataValue("TT5.Child_Information.Delivery_Information.Birth_Facility")(state)!==undefined){
           placeholder=dataValue("TT5.Child_Information.Delivery_Information.Birth_Facility")(state);
           val=placeholder.toString().replace(/_/g," ");
+        }
+        return val;
+      }),
+      field("Place_of_Delivery__c",function(state){
+        var val='';
+        var placeholder=''
+        if(dataValue("TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state)!==undefined){
+          placeholder=dataValue("TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
+          val=placeholder.toString().replace(/_/g," ");
+        } else{ val = null}
+        return val;
+      }),
+      field("Preferred_Care_Facility__c", function(state){
+        var facility = dataValue("HAWI.Preferred_Care_Facility")(state)
+        var val = '';
+        if(facility!==undefined){
+          val = facility.toString().replace(/_/g," ");
         }
         return val;
       }),
