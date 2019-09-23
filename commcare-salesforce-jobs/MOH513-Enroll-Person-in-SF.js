@@ -15,7 +15,7 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Child_Status__c",dataValue("$.form.Person.Basic_Information.Client_Status")),
   field("Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.DOB")),
   field("Gender__c",dataValue("$.form.Person.Basic_Information.Gender")),
-  field("Age_Based_on_Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.age")),
+  //field("Age_Based_on_Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.age")),
   //field("Check_Unborn_Child__c",dataValue("$.form.Person.Basic_Information.Check_Unborn_Child")),
   field("Birth_Certificate__c",dataValue("$.form.Person.Basic_Information.birth_certificate")),
   field("Currently_enrolled_in_school__c",dataValue("$.form.Person.Basic_Information.enrolled_in_school")),
@@ -31,7 +31,7 @@ upsert("Person__c","CommCare_ID__c", fields(
   }),
   field("Two_weeks_or_more_cough__c",dataValue("$.form.Person.Basic_Information.person_info.cough_for_2wks")),
   field("Reason_for_a_refferal__c",function(state){ //add other referral reasons?
-    var cough = dataValue("Basic_Information.person_info.refer_for_cough")(state)
+    var cough = dataValue("$.form.Person.Basic_Information.person_info.refer_for_cough")(state)
     return (cough=="yes" ? "Coughing for more than two weeks" : "");
   }),
   field("Knowledge_of_HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.known_hiv_status")),
@@ -84,16 +84,17 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("MCH_booklet__c",dataValue("$.form.Person.TT5.Mother_Information.mch_booklet")),
   field("Preferred_Care_Facility__c",dataValue("$.form.Person.HAWI.Preferred_Care_Facility")),
   field("Delivery_Facility__c",dataValue("form.TT5.Child_Information.Delivery_Information.Birth_Facility")), //transform?
-/*  field("Delivery_Facility__c",function(state){
+  field("Place_of_Delivery__c",function(state){
     var val='';
     var placeholder=''
-    if(dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Birth_Facility")(state)!==undefined){
-      placeholder=dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Birth_Facility")(state);
+    if(dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state)!==undefined){
+      placeholder=dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
       val=placeholder.toString().replace(/_/g," ");
     } else{ val = null}
     return val;
-  }), */
-field("Place_of_Delivery__c",dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")) //Need transformation?
+  })
+
+ //Need transformation?
   /*field("Place_of_Delivery__c",function(state){
     var val='';
     var placeholder=''
@@ -115,9 +116,10 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r", "MOH_household_code__c", dataValue("$.form.Person.moh_code")),
   field("Name", "Supervisor Visit"),
-/*  field("Supervisor_Visit__c",function(state){
-    return dataValue("$.form.Person.supervisor_visit")(state).toString().replace(/ /g,";");
-  }),*/
+  field("Supervisor_Visit__c",function(state){
+    var visit = state.data.form.supervisor_visit
+    return visit.toString().replace(/ /g,";");
+  }),
   field("Date__c",dataValue("$.metadata.timeEnd")),
   //field("Household_CHW__c",dataValue("$.form.Person.CHW_ID")),//NEED TO MAP CHW?
   //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
