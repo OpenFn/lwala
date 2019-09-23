@@ -134,10 +134,19 @@ upsert("Household__c", "MOH_household_code__c",fields(
         return toTitleCase;
       }),
       field("Unique_Patient_Code__c",dataValue("HAWI.Unique_Patient_Code")),
-      field("Active_in_Support_Group__c",dataValue("$HAWI.Active_in_Support_Group")),
+      field("Active_in_Support_Group__c",dataValue("HAWI.Active_in_Support_Group")),
       field("CommCare_HH_Code__c",dataValue("case.@case_id")),
       field("Currently_on_ART_s__c",dataValue("HAWI.ART")),
       //field("ARV_Regimen__c",dataValue("$.form.Person.HAWI.ARVs")),
+      field("Preferred_Care_Facility__c", dataValue("HAWI.Preferred_Care_Facility")),
+      /*field("Preferred_Care_Facility__c", function(state){
+        var facility = dataValue("HAWI.Preferred_Care_Facility")(state)
+        var val = '';
+        if(facility!==undefined){
+          val = facility.toString().replace(/_/g," ");
+        }
+        return val;
+      }),*/
       field("LMP__c",dataValue("TT5.Child_Information.ANCs.LMP")),
       field("ANC_1__c",dataValue("TT5.Child_Information.ANCs.ANC_1")),
       field("ANC_2__c",dataValue("TT5.Child_Information.ANCs.ANC_2")),
@@ -160,14 +169,6 @@ upsert("Household__c", "MOH_household_code__c",fields(
           placeholder=dataValue("TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
           val=placeholder.toString().replace(/_/g," ");
         } else{ val = null}
-        return val;
-      }),
-      field("Preferred_Care_Facility__c", function(state){
-        var facility = dataValue("HAWI.Preferred_Care_Facility")(state)
-        var val = '';
-        if(facility!==undefined){
-          val = facility.toString().replace(/_/g," ");
-        }
         return val;
       }),
       field("BCG__c",dataValue("TT5.Child_Information.Immunizations.BCG")),
