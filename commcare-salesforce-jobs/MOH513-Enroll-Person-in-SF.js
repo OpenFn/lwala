@@ -2,6 +2,7 @@
 //Upserting person record based on CommCare ID
 upsert("Person__c","CommCare_ID__c", fields(
   field("CommCare_ID__c",dataValue("$.form.Person.case.@case_id")),
+  relationship("Household__r","CommCare_Code__c",dataValue("$.form.Person.case.index.parent.#text")),
   field("Name",function(state){
     var name1=dataValue("$.form.Person.Basic_Information.Person_Name")(state);
     var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -11,12 +12,11 @@ upsert("Person__c","CommCare_ID__c", fields(
     return(dataValue("$.form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
   field("Catchment__c",dataValue("catchment")),
-  //field("Relation_to_the_head_of_the_household__c",dataValue("$.form.Person.Basic_Information.relation_to_hh")),UPDATE PICKLIST VALS
+  //field("Relation_to_the_head_of_the_household__c",dataValue("$.form.Person.Basic_Information.relation_to_hh")), //BAD PICKLIST VAL
   field("Child_Status__c",dataValue("$.form.Person.Basic_Information.Client_Status")),
   field("Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.DOB")),
   field("Gender__c",dataValue("$.form.Person.Basic_Information.Gender")),
-  //field("Age_Based_on_Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.age")),
-  //field("Check_Unborn_Child__c",dataValue("$.form.Person.Basic_Information.Check_Unborn_Child")),
+  //field("Check_Unborn_Child__c",dataValue("$.form.Person.Basic_Information.Check_Unborn_Child")), //MISSING FIELD
   field("Birth_Certificate__c",dataValue("$.form.Person.Basic_Information.birth_certificate")),
   field("Currently_enrolled_in_school__c",dataValue("$.form.Person.Basic_Information.enrolled_in_school")),
   field("Education_Level__c", function(state){
@@ -110,11 +110,12 @@ upsert("Person__c","CommCare_ID__c", fields(
     return val;
   }),*/
 
-)),
+))
 //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
-  relationship("Household__r", "MOH_household_code__c", dataValue("$.form.Person.moh_code")),
+  relationship("Household__r","CommCare_Code__c",dataValue("$.form.Person.case.index.parent.#text")),
+  //relationship("Household__r", "MOH_household_code__c", dataValue("$.form.Person.moh_code")),
   field("Name", "Supervisor Visit"),
   field("Supervisor_Visit__c",function(state){
     var visit = dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";")
@@ -123,7 +124,7 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("Date__c",dataValue("$.metadata.timeEnd")),
   //field("Household_CHW__c",dataValue("$.form.Person.CHW_ID")),//NEED TO MAP CHW?
   //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-  relationship("Catchment__r","Name", dataValue("$.form.Person.catchment")),
+  //relationship("Catchment__r","Name", dataValue("$.form.Person.catchment")), //DO NOT MAP
   field("Location__latitude__s", function(state){
     var lat = state.data.metadata.location;
     lat = lat.substring(0, lat.indexOf(" "));
