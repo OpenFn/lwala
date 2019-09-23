@@ -19,7 +19,7 @@ alterState((state) =>{
 
 
 
-//Deliveries
+//Evaluates client status and how to upsert Person records
 steps(
 combine( function(state) {
   if(dataValue("$.form.Status.Client_Status")(state)=="Active"){
@@ -27,6 +27,8 @@ combine( function(state) {
          upsert("Person__c", "CommCare_ID__c", fields(
           field("Source__c",1),
           field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+          relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+          field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
           field("Client_Status__c", dataValue("$form.Status.Client_Status")),
           field("Name",function(state){
             var name1=dataValue("$.form.Person_Name")(state);
@@ -36,16 +38,19 @@ combine( function(state) {
           relationship("RecordType","Name",function(state){
               return(dataValue("$.form.RecordType")(state).toString().replace(/_/g," "));
           }),
-          field("Individual_birth_plan_counseling__c", dataValue("$.form.case.@case_id")),
-          field("Child_Status__c", dataValue("$.form.parents.parent.case.update.Check_Unborn_Child")),
+          field("Individual_birth_plan_counseling__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan")),
+          field("Pregnancy_danger_signs__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs")),
+          field("Other_danger_signs__c", dataValue("$.form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs")),
+          field("Child_Status__c", dataValue("$.form.TT5.Child_Information.Delivery_Information.child_status")),
           field("Current_Malaria_Status__c", dataValue("$.form.Malaria_Status")),
-          field("Counselled_on_Exclusive_Breastfeeding__c", dataValue("$.form.counseling.consel_the_client")), //multiselect?
+          field("Counselled_on_Exclusive_Breastfeeding__c", dataValue("$.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")), //multiselect?
           field("Unique_Patient_Code__c", dataValue("$.form.case.update.Unique_Patient_Code")),
           field("Active_in_Support_Group__c", dataValue("$.form.case.update.Active_in_Support_Group")),
           field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
           field("HAWI_Defaulter__c",dataValue("$.form.HAWI.Preferred_Care_F.default")), //TRANSFORM to true/false
           field("Date_of_Default__c",dataValue("$.form.HAWI.Preferred_Care_F.date_of_default")),
           field("Persons_temperature__c",dataValue("$.form.treatment_and_tracking.temperature")),
+          field("Days_since_illness_start__c",dataValue("$.form.treatment_and_tracking.duration_of_sickness")),
           //field("TBD__c",dataValue("$.form.treatment_and_tracking.malaria_test")),
           //field("TBD__c",dataValue("$.form.treatment_and_tracking.malaria_test_date")),
           //field("TBD__c",dataValue("$.form.treatment_and_tracking.malaria_test_results")),
@@ -53,11 +58,12 @@ combine( function(state) {
           //field("TBD__c",dataValue("$.form.treatment_and_tracking.diarrhea_treatment_check")),
           //field("TBD__c",dataValue("$.form.treatment_and_tracking.symptoms_check_fever")),
           //field("TBD__c",dataValue("$.form.treatment_and_tracking.fever")),
+          //field("Symptoms_check_cough__c",dataValue("$.form.treatment_and_tracking.symptoms_check_cough")),
 
-
-          field("Place_of_Delivery__c","Home"),
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
           field("Child_Status__c","Born"),
+          field("Place_of_Delivery__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Type")),
+          field("Deliver_Facility__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
           field("Immediate_Breastfeeding__c",function(state){
             var var1=dataValue("form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery")(state);
             if(var1=="---"){
@@ -68,7 +74,6 @@ combine( function(state) {
             }
             return var1;
           }),
-          field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("$.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
           field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
         ))(state);
 
@@ -80,6 +85,8 @@ combine( function(state) {
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Transferred Out"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Inactive_Date__c",dataValue("$.form.Date")),
@@ -94,6 +101,8 @@ combine( function(state) {
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Lost to Follow-Up"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
@@ -108,6 +117,8 @@ combine( function(state) {
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Graduated From TT5"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
@@ -122,6 +133,8 @@ combine( function(state) {
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Data Entry Error"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_TT5_Mother__c","No"),
@@ -131,11 +144,13 @@ combine( function(state) {
 
     ))(state);
   }
-  //client deceased
+  //Deceased
   else if(dataValue("$.form.Status.Client_Status")(state)=="Deceased"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
       field("Client_Status__c","Deceased"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
@@ -166,6 +181,8 @@ combine(function(state){
       field("Active_TT5_Mother__c","Yes"),
       field("TT5_Mother_Registrant__c","Yes"),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
       field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
       field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility"))
 
@@ -186,6 +203,8 @@ combine(function(state){
         field("Active_in_HAWI__c","Yes"),
         field("HAWI_Registrant","Yes"),
         field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+        relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+        field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
         field("Follow_Up_By_Date__c", dataValue("$.form.Follow-Up_By_Date")),
         field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
         field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
@@ -213,6 +232,8 @@ combine(function(state){
           //field("Name",dataValue("$.form.final_name")),
           field("Source__c",1),
           field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
+          relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+          field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
           field("Active_in_Support_Group__c",dataValue("$.form.HAWI.Support_Group")),
           field("Preferred_Care_Facility__c",dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
           field("Immediate_Breastfeeding__c",function(state){
@@ -231,13 +252,13 @@ combine(function(state){
     }
   }
 }),
+//**** UPSERT SERVICE RECORDS ****//
   //ANC1
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_1")(state)=="click_to_enter_anc_1"){
     create("Service__c", fields(
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
-      field( )
       field("Reason_for_Service__c","ANC 1"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_1")),
@@ -853,14 +874,24 @@ combine(function(state){
   }
 }),
 create("Visit__c",fields(
+  field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
+  field("Name", "Supervisor Visit"),
   field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
   field("Supervisor_Visit__c",function(state){
-    return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
+    var visit = dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";")
+    return visit.toString().replace(/_/g," ");
   }),
-  field("Supervisor_Visit__c",function(state){
-    return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
+  field("Date__c",dataValue("$.metadata.timeEnd")),
+  field("Location__latitude__s", function(state){
+    var lat = state.data.metadata.location;
+    lat = lat.substring(0, lat.indexOf(" "));
+    return lat;
   }),
-  field("Date__c",dataValue("$.metadata.timeEnd"))
+ field("Location__longitude__s", function(state){
+    var long = state.data.metadata.location;
+    long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
+    return long;
+  })
 ))
 );
