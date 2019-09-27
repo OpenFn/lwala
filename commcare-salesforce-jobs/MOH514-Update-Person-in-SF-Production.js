@@ -623,80 +623,22 @@ combine( function(state) {
 //Malaria cases
 //Child
 combine( function(state) {
-  if(dataValue("$.form.TT5.Child_Information.CCMM.Home_Test_Result")(state)=="Positive"){
-    //REVIEWED
-    if(dataValue("$.form.TT5.Child_Information.CCMM.Malaria_Referral")(state)=="Yes"){
-      //This block got moved to the referral section, malaria referral case
-      /*create("Service__c", fields(
+  if(dataValue("$.form.treatment_and_tracking.malaria_test")(state)=="yes"){
+      create("Service__c", fields(
         field("Source__c",1),
         field("Date__c",dataValue("$.form.Date")),
         field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
-        field("Referral_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
+        field("Referral_Date__c",dataValue("$.form.Referral_Date")),
         field("Referred__c",1),
         field("Type_of_Service__c","CHW Mobile Survey"),
         field("RecordTypeID","01224000000kOto"),
         field("Open_Case__c",1),
         field("Purpose_of_Referral__c","Malaria"),
-        field("Malaria_Status__c","Positive"),
+        field("Malaria_Status__c",dataValue("$.form.treatment_and_tracking.malaria_test_results")),
         field("Home_Treatment_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
-        field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
-        field("CommCare_Code__c",dataValue("form.subcase_1.case.@case_id")(state)),
+        field("Malaria_Home_Test_Date__c",dataValue("$.form.treatment_and_tracking.malaria_test_date")),
+        field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")(state)),
         relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
-      ))(state);*/
-    }
-    else{
-  //Malaria home treatment case
-      create("Service__c", fields(
-        field("Source__c",1),
-        //field("Catchment__c","a002400000pAcOe"),
-        field("Date__c",dataValue("$.form.Date")),
-        field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
-        field("Type_of_Service__c","CHW Mobile Survey"),
-        field("Reason_for_Service__c","Malaria (Home Treatment)"),
-        field("Home_Treatment__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment")),
-        field("RecordTypeID","01224000000kOto"),
-        field("Open_Case__c",1),
-        field("Malaria_Status__c","Positive"),
-        field("AL_Tablets__c",dataValue("$.form.TT5.Child_Information.CCMM.AL")),
-        field("Paracetamol_Tablets__c",dataValue("$.form.TT5.Child_Information.CCMM.Paracetamol")),
-        field("Follow_Up_By_Date__c",dataValue("$.form.Follow-Up_By_Date")),
-        field("Home_Treatment_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
-        field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
-        field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")),
-        relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
-
-      ))(state);
-    }
-  }
-}),
-//Malaria cases
-//HAWI Client
-combine( function(state) {
-  if(dataValue("$.form.HAWI.CCMM.Home_Test_Result")(state)=="Positive"){
-    //REVIEWED
-    if(dataValue("$.form.HAWI.CCMM.Malaria_Referral")(state)=="Yes"){
-    }
-    else{
-      //Malaria home treatment case
-      create("Service__c", fields(
-        field("Source__c",1),
-        //field("Catchment__c","a002400000pAcOe"),
-        field("Date__c",dataValue("$.form.Date")),
-        field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
-        field("Type_of_Service__c","CHW Mobile Survey"),
-        field("Reason_for_Service__c","Malaria (Home Treatment)"),
-        field("Home_Treatment__c",dataValue("$.form.HAWI.CCMM.Home_Treatment")),
-        field("RecordTypeID","01224000000kOto"),
-        field("Open_Case__c",1),
-        field("Malaria_Status__c","Positive"),
-        field("AL_Tablets__c",dataValue("$.form.HAWI.CCMM.AL")),
-        field("Paracetamol_Tablets__c",dataValue("$.form.HAWI.CCMM.Paracetamol")),
-        field("Follow_Up_By_Date__c",dataValue("$.form.Follow-Up_By_Date")),
-        field("Home_Treatment_Date__c",dataValue("$.form.HAWI.CCMM.test_date")),
-        field("Malaria_Home_Test_Date__c",dataValue("$.form.HAWI.CCMM.test_date")),
-        field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")),
-        relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
-
       ))(state);
     }
   }
@@ -757,7 +699,7 @@ combine(function(state){
       field("Home_Treatment__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment")),
       field("Malaria_Home_Test_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.test_date")),
       field("CommCare_Code__c",dataValue("$.form.subcase_0.case.@case_id")(state)),
-      field("Purpose_of_Referral__c",function(state){
+      field("Purpose_of_Referral__c",function(state){   //********TO UPDATE REFERRAL REASONS
         var purpose='';
         var name=dataValue("$.form.Purpose_of_Referral")(state);
         if(name=="Adverse_Drug_Reaction_Side_Effect"){
@@ -781,11 +723,10 @@ combine(function(state){
 
   }
 }),
-//TO-DO fix array problem
 //HAWI other clinical services received,
 combine(function(state){
-  if(dataValue("$.form.HAWI.Clinical_Services_Rendered[0]")(state)!==undefined){
-    each(dataPath("$.form.HAWI.Clinical_Services_Rendered[*]"),
+  if(dataValue("$.form.HAWI.Clinical_Service_Q")(state)==="yes"){
+  //  each(dataPath("$.form.HAWI.Clinical_Services_Rendered[*]"), //CHECK IF ARRAY
       create("Service__c", fields(
         field("Source__c",1),
         //field("Catchment__c","a002400000pAcOe"),
@@ -826,15 +767,14 @@ combine(function(state){
 
           }),
         relationship("Person__r","CommCare_ID__c",dataValue("Case_ID"))
-      ))
-    )(state);
+      ))//)
+    (state);
   }
 }),
-//TO-DO: fix array problem
 // TT5 other clinical services received
 combine(function(state){
-  if(dataValue("$.form.TT5.Child_Information.Clinical_Services[0]")(state)!==undefined){
-    each(dataPath("$.form.TT5.Child_Information.Clinical_Services[*]"),
+  if(dataValue("$.form.TT5.Clinical_Service_Q")(state)==="yes"){
+    //each(dataPath("$.form.TT5.Child_Information.Clinical_Services[*]"), //CHECK IF ARRAY
       create("Service__c", fields(
         field("Source__c",true),
         //field("Catchment__c","a002400000pAcOe"),
@@ -869,8 +809,8 @@ combine(function(state){
 
           }),
         relationship("Person__r","CommCare_ID__c",dataValue("Case_ID"))
-      ))
-    )(state);
+      ))//)
+      (state);
   }
 }),
 create("Visit__c",fields(
