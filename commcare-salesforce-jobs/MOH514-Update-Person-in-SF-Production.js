@@ -30,14 +30,14 @@ combine( function(state) {
           relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
           field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
           field("Client_Status__c", dataValue("$form.Status.Client_Status")),
-          field("Name",function(state){
+          /*field("Name",function(state){
             var name1=dataValue("$.form.Person_Name")(state);
-            var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-            return name2;
-          }),
-          relationship("RecordType","Name",function(state){
+          //  var name2=name1.replace(/\w\S*///g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          //  return name2;
+          //}),
+          /*relationship("RecordType","Name",function(state){
               return(dataValue("$.form.RecordType")(state).toString().replace(/_/g," "));
-          }),
+          }),*/
           field("Individual_birth_plan_counseling__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan")),
           field("Pregnancy_danger_signs__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs")),
           field("Other_danger_signs__c", dataValue("$.form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs")),
@@ -64,7 +64,7 @@ combine( function(state) {
           field("Child_Status__c","Born"),
           field("Place_of_Delivery__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Type")),
           field("Deliver_Facility__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
-          field("Immediate_Breastfeeding__c",function(state){
+        /*  field("Immediate_Breastfeeding__c",function(state){
             var var1=dataValue("form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery")(state);
             if(var1=="---"){
               var1=undefined;
@@ -73,7 +73,7 @@ combine( function(state) {
               var1="Yes";
             }
             return var1;
-          }),
+          }),*/
           field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"))
         ))(state);
 
@@ -165,6 +165,8 @@ combine( function(state) {
   }
 
 }),
+//TO EDIT AND COMMENT BACK IN?
+/* Replace Sx with S*
   //Need to update CHWs
 combine(function(state){
   //Person is added to TT5 (this can only happen to a mother, a child wouldn't be in HAWI before joining TT5)
@@ -175,7 +177,7 @@ combine(function(state){
       //field("Name",dataValue("$.form.final_name")),
       field("Name",function(state){
         var name1=dataValue("$.form.final_name")(state);
-        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        var name2=name1.replace(/\w\Sx/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         return name2;
       }),
       field("Active_TT5_Mother__c","Yes"),
@@ -197,7 +199,7 @@ combine(function(state){
         //field("Name",dataValue("$.form.final_name")),
         field("Name",function(state){
           var name1=dataValue("$.form.final_name")(state);
-          var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          var name2=name1.replace(/\w\Sx/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
           return name2;
         }),
         field("Active_in_HAWI__c","Yes"),
@@ -226,7 +228,7 @@ combine(function(state){
         upsert("Person__c","CommCare_ID__c",fields(
           field("Name",function(state){
             var name1=dataValue("$.form.final_name")(state);
-            var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+            var name2=name1.replace(/\w\Sx/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
             return name2;
           }),
           //field("Name",dataValue("$.form.final_name")),
@@ -251,8 +253,9 @@ combine(function(state){
       }
     }
   }
-}),
-//**** UPSERT SERVICE RECORDS ****//
+}) */
+//,
+///////UPSERT SERVICE RECORDS ///////
   //ANC1
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_1")(state)=="click_to_enter_anc_1"){
@@ -642,7 +645,7 @@ combine( function(state) {
       ))(state);
     }
   }
-}),
+),
 
 //Malnutrition case
 combine(function(state){
@@ -711,7 +714,7 @@ combine(function(state){
         else if(name=="Family_Planning"){
           purpose="Family Planning (FP)"
         }
-        else{
+        else if(purpose!==undefined){
           purpose=name.replace(/_/g," ");
         }
         return purpose;
@@ -812,12 +815,13 @@ combine(function(state){
       ))//)
       (state);
   }
-}),
-create("Visit__c",fields(
+}), //*/
+upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
   field("Name", "Supervisor Visit"),
-  field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
+  field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
+  //field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")), //CHECK CHW ID !!
   field("Supervisor_Visit__c",function(state){
     var visit = dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";")
     return visit.toString().replace(/_/g," ");
