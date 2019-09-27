@@ -259,7 +259,12 @@ combine(function(state){
   //ANC1
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_1")(state)=="click_to_enter_anc_1"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "anc_1"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","ANC 1"),
@@ -283,7 +288,12 @@ combine( function(state) {
   //ANC2
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_2")(state)=="click_to_enter_anc_2"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "anc_2"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -308,7 +318,12 @@ combine( function(state) {
   //ANC3
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "anc_3"
+        return serviceId
+      })(state),
       field("Source__c",true),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","ANC 3"),
@@ -333,7 +348,12 @@ combine( function(state) {
   //ANC4
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "anc_4"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","ANC 4"),
@@ -358,7 +378,12 @@ combine( function(state) {
   //ANC5
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-3-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "anc_5"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","ANC 5"),
@@ -383,7 +408,12 @@ combine( function(state) {
   //BCG REVIEWED
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-3-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "bcg"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","BCG"),
@@ -408,7 +438,12 @@ combine( function(state) {
   //OPV0 REVIEWED
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "opv0"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","OPV0"),
@@ -433,7 +468,12 @@ combine( function(state) {
   //OPV1 REVIEWED
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-1-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "opv1"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","OPV1"),
@@ -458,7 +498,12 @@ combine( function(state) {
   //OPV2
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "opv2"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","OPV2"),
@@ -483,7 +528,12 @@ combine( function(state) {
   //OPV3
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-4-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "opv3"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","OPV3"),
@@ -508,7 +558,12 @@ combine( function(state) {
   //Measles 6
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-5-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "measles6"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","Measles 6"),
@@ -533,7 +588,12 @@ combine( function(state) {
   //Measles 9
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-6-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "measles9"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","Measles 9"),
@@ -559,7 +619,12 @@ combine( function(state) {
 //Measles 18
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-7-of-anc_3")(state)=="click_to_enter_anc_3"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "measles18"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","Measles 18"),
@@ -584,7 +649,12 @@ combine( function(state) {
 //Deworming
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Deworming")(state)=="Yes"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "deworming"
+        return serviceId
+      })(state),
       field("Source__c",1),
       field("Reason_for_Service__c","Deworming"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -599,7 +669,12 @@ combine( function(state) {
 //Home Based care for HAWI clients
 combine( function(state) {
   if(dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state)!==undefined&&dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state)!==''){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "homecare"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","Home-Based Care"),
@@ -627,7 +702,12 @@ combine( function(state) {
 //Child
 combine( function(state) {
   if(dataValue("$.form.treatment_and_tracking.malaria_test")(state)=="yes"){
-      create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "malaria"
+        return serviceId
+      })(state),
         field("Source__c",1),
         field("Date__c",dataValue("$.form.Date")),
         field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -650,7 +730,12 @@ combine( function(state) {
 //Malnutrition case
 combine(function(state){
   if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)!==undefined){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + "malnutrition"
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Date__c",dataValue("$.form.Date")),
@@ -679,11 +764,16 @@ combine(function(state){
     ))(state);
   }
 }),
-
+//TURN INTO ARRAY --> FOR EACH
 //All referrals are sent here (danger sign, malaria, malnutrition, other referral)
 combine(function(state){
   if(dataValue("$.form.Referral")(state)=="Yes"){
-    create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+      field("CommCare_Code__c",function(state){
+        var id = dataValue("$.id")(state);
+        var serviceId = id + dataValue("$.form.Clinical_Services.Purpose")(state);
+        return serviceId
+      })(state),
       field("Source__c",1),
       //field("Catchment__c","a002400000pAcOe"),
       field("Date__c",dataValue("$.form.Date")),
@@ -726,11 +816,17 @@ combine(function(state){
 
   }
 }),
+//TURN INTO ARRAY
 //HAWI other clinical services received,
 combine(function(state){
   if(dataValue("$.form.HAWI.Clinical_Service_Q")(state)==="yes"){
   //  each(dataPath("$.form.HAWI.Clinical_Services_Rendered[*]"), //CHECK IF ARRAY
-      create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+        field("CommCare_Code__c",function(state){
+          var id = dataValue("$.id")(state);
+          var serviceId = id + dataValue("$.form.Clinical_Services.Purpose")(state);
+          return serviceId
+        })(state),
         field("Source__c",1),
         //field("Catchment__c","a002400000pAcOe"),
         field("Household_CHW__c",dataValue("chw")),
@@ -774,11 +870,17 @@ combine(function(state){
     (state);
   }
 }),
+//TURN INTO ARRAY
 // TT5 other clinical services received
 combine(function(state){
   if(dataValue("$.form.TT5.Clinical_Service_Q")(state)==="yes"){
     //each(dataPath("$.form.TT5.Child_Information.Clinical_Services[*]"), //CHECK IF ARRAY
-      create("Service__c", fields(
+    upsert("Service__c", "CommCare_Code__c", fields(
+        field("CommCare_Code__c",function(state){
+          var id = dataValue("$.id")(state);
+          var serviceId = id + dataValue("$.form.Clinical_Services.Purpose")(state);
+          return serviceId
+        })(state),
         field("Source__c",true),
         //field("Catchment__c","a002400000pAcOe"),
         field("Household_CHW__c",dataValue("chw")),
