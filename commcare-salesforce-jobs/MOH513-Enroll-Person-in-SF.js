@@ -1,5 +1,4 @@
-//MOH513 Enroll Person form
-//Upserting person record based on CommCare ID
+//** MOH513 Enroll Person form ** -> Upserting person record based on CommCare ID
 upsert("Person__c","CommCare_ID__c", fields(
   field("CommCare_ID__c",dataValue("$.form.subcase_0.case.@case_id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
@@ -11,7 +10,6 @@ upsert("Person__c","CommCare_ID__c", fields(
   relationship("RecordType","Name",(state)=>{
     return(dataValue("$.form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
-  //field("Catchment__c",dataValue("catchment")),
   field("Client_Status__c", "Active"),
   field("Relation_to_the_head_of_the_household__c", (state)=>{
     var relation = dataValue("$.form.Person.Basic_Information.relation_to_hh")(state).toString().replace(/_/g," ");
@@ -124,20 +122,18 @@ upsert("Person__c","CommCare_ID__c", fields(
   }),*/
 
 )),
-//Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
+//**Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
-  relationship("Household__r","CommCare_Code__c",dataValue("$.form.Person.case.index.parent.#text")),
-  //relationship("Household__r", "MOH_household_code__c", dataValue("$.form.Person.moh_code")),
+  relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Name", "Supervisor Visit"),
   field("Supervisor_Visit__c",(state)=>{
     var visit = dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";")
     return visit.toString().replace(/_/g," ");
   }),
-  field("Date__c",dataValue("$.metadata.timeEnd")),
-  //field("Household_CHW__c",dataValue("$.form.Person.CHW_ID")),//NEED TO MAP CHW?
-  //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-  //relationship("Catchment__r","Name", dataValue("$.form.Person.catchment")), //DO NOT MAP
+  field("Date__c",dataValue("$.form.Date")),
+  //field("Household_CHW__c",dataValue("$.form.Person.CHW_ID")),//NEED TO MAP CHW ID???
+  field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
   field("Location__latitude__s", (state)=>{
     var lat = state.data.metadata.location;
     lat = lat.substring(0, lat.indexOf(" "));
