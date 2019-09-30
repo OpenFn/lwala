@@ -12,11 +12,14 @@ upsert("Person__c","CommCare_ID__c", fields(
     return(dataValue("$.form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
   field("Catchment__c",dataValue("catchment")),
-  //field("Relation_to_the_head_of_the_household__c",dataValue("$.form.Person.Basic_Information.relation_to_hh")), //BAD PICKLIST VAL
-  field("Child_Status__c",dataValue("$.form.Person.Basic_Information.Client_Status")),
+  field("Relation_to_the_head_of_the_household__c", (state)=>{
+    var relation = dataValue("$.form.Person.Basic_Information.relation_to_hh")(state).toString().replace(/_/g," ");
+    const toTitleCase = relation.charAt(0).toUpperCase() + relation.slice(1);
+    return toTitleCase;
+  }),
+  field("Child_Status__c",dataValue("$.form.Person.Basic_Information.Child_Status")),
   field("Date_of_Birth__c",dataValue("$.form.Person.Basic_Information.DOB")),
   field("Gender__c",dataValue("$.form.Person.Basic_Information.Gender")),
-  //field("Check_Unborn_Child__c",dataValue("$.form.Person.Basic_Information.Check_Unborn_Child")), //MISSING FIELD
   field("Birth_Certificate__c",dataValue("$.form.Person.Basic_Information.birth_certificate")),
   field("Currently_enrolled_in_school__c",dataValue("$.form.Person.Basic_Information.enrolled_in_school")),
   field("Education_Level__c", function(state){
@@ -27,13 +30,10 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Family_Planning_Method__c",dataValue("$.form.Person.Basic_Information.family_planning.Family_Planning_Method")),
   field("Use_mosquito_net__c",dataValue("$.form.Person.Basic_Information.person_info.sleep_under_net")),
   field("Chronic_illness__c", function(state){
-    return dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state).toString().replace(/ /g,";");
+    var illness = dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';')
+    return illness.toString().replace(/_/g," ");
   }),
   field("Two_weeks_or_more_cough__c",dataValue("$.form.Person.Basic_Information.person_info.cough_for_2wks")),
-  field("Reason_for_a_refferal__c",function(state){ //add other referral reasons?
-    var cough = dataValue("$.form.Person.Basic_Information.person_info.refer_for_cough")(state)
-    return (cough=="yes" ? "Coughing for more than two weeks" : "");
-  }),
   field("Knowledge_of_HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.known_hiv_status")),
   field("HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.hiv_status")),
   field("Disability__c",function(state){
@@ -49,8 +49,18 @@ upsert("Person__c","CommCare_ID__c", fields(
     var toTitleCase = '';
     if(disability !==undefined){
       toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
-    } else{  oTitleCase === null }
+    } else{  toTitleCase === null }
     return toTitleCase;
+  }),
+  field("Active_in_Thrive_Thru_5__c", (state)=>{
+    var status = dataValue("$.form.Person.Basic_Information.TT5_enrollment_status")(state);
+    const active = (status == "Enrolled in TT5" ? "Yes" : "No");
+    return active;
+  }),
+  field("Active_in_HAWI__c", (state)=>{
+      var status = dataValue("$.form.Person.Basic_Information.person_info.HAWI_enrollment_status")(state);
+      const active = (status == "Enrolled in HAWI" ? "Yes" : "No");
+      return active;
   }),
   field("LMP__c",dataValue("$.form.Person.TT5.Child_Information.ANCs.LMP")),
   field("Source__c",true),
@@ -67,8 +77,9 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Measles_6__c",dataValue("$.form.Person.TT5.Child_Information.Immunizations.Measles_6")),
   field("Measles_9__c",dataValue("$.form.Person.TT5.Child_Information.Immunizations.Measles_9")),
   field("Measles_18__c",dataValue("$.form.Person.TT5.Child_Information.Immunizations.Measles_18")),
-  field("Pregnant__c",function(state){
-    if(dataValue("$.form.Person.TT5.Mother_Information.Pregnant")(state)=="Yes") return 1;
+  field("Pregnant__c", (state)=>{
+    var preg = dataValue("$.form.Person.TT5.Mother_Information.Pregnant")(state)
+    return (preg == "No" ? false : true);
   }),
   field("Gravida__c",dataValue("$.form.Person.TT5.Mother_Information.Pregnancy_Information.Gravida")),
   field("Parity__c",dataValue("$.form.Person.TT5.Mother_Information.Pregnancy_Information.Parity")),
@@ -76,24 +87,24 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Active_in_Support_Group__c",dataValue("$.form.Person.HAWI.Active_in_Support_Group")),
   field("CommCare_HH_Code__c",dataValue("$.form.Person.case.@case_id")),
   field("Currently_on_ART_s__c",dataValue("$.form.Person.HAWI.ART")),
-  //field("ARV_Regimen__c",dataValue("$.form.Person.HAWI.ARVs")),
+  field("ART_Regimen__c",dataValue("$.form.Person.HAWI.ARVs")),
   field("Exclusive_Breastfeeding__c",dataValue("$.form.Person.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
   field("Vitamin_A__c",dataValue("$.form.Person.TT5.Child_Information.nutrition.vitamin_a")),
   field("Food_groups_3_times_a_day__c",dataValue("form.TT5.Child_Information.nutrition.food_groups")),
   field("Initial_MUAC__c",dataValue("$.form.Person.TT5.Child_Information.nutrition.MUAC")),
   field("MCH_booklet__c",dataValue("$.form.Person.TT5.Mother_Information.mch_booklet")),
-  field("Preferred_Care_Facility__c",dataValue("$.form.Person.HAWI.Preferred_Care_Facility")),
-  field("Delivery_Facility__c",dataValue("form.TT5.Child_Information.Delivery_Information.Birth_Facility")), //transform?
-  field("Place_of_Delivery__c",function(state){
-    var val='';
-    var placeholder=''
-    if(dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state)!==undefined){
-      placeholder=dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
-      val=placeholder.toString().replace(/_/g," ");
-    } else{ val = null}
-    return val;
+  field("Preferred_Care_Facility__c", (state)=>{
+    var facility= dataValue("$.form.Person.HAWI.Preferred_Care_Facility")(state);
+    return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
+  }),
+  field("Delivery_Facility__c", (state)=>{
+    var facility= dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Birth_Facility")(state);
+    return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
+  }),
+  field("Place_of_Delivery__c",(state)=>{
+    var facility= dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
+    return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
   })
-
  //Need transformation?
   /*field("Place_of_Delivery__c",function(state){
     var val='';

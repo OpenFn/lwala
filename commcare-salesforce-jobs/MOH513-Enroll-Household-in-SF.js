@@ -108,7 +108,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
       }),
       field("Currently_enrolled_in_school__c",dataValue("Basic_Information.enrolled_in_school")),
       field("Telephone__c",dataValue("Basic_Information.Contact_Info.contact_phone_number")),
-      field("Family_Planning__c",dataValue("Basic_Information.family_planning.Currently_on_family_planning")),
+      field("Family_Planning__c",dataValue("Basic_Information.family_planning.Currently_on_family_planning")), //transform to Yes/No?
       field("Family_Planning_Method__c",dataValue("Basic_Information.family_planning.Family_Planning_Method")),
       field("Use_mosquito_net__c",dataValue("Basic_Information.person_info.sleep_under_net")),
       field("Two_weeks_or_more_cough__c",dataValue("Basic_Information.person_info.cough_for_2wks")),
