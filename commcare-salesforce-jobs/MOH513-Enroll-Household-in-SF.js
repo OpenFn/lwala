@@ -128,7 +128,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
         return toTitleCase;
       }),
       field("Other_disability__c",(state)=>{
-        var disability = dataValue("Basic_Information.person_info.disability")(state);
+        var disability = dataValue("Basic_Information.person_info.other_disability")(state);
         var toTitleCase = '';
         if(disability !==undefined){
            return toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');

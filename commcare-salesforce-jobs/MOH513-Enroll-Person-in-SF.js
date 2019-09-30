@@ -1,8 +1,8 @@
 //MOH513 Enroll Person form
 //Upserting person record based on CommCare ID
 upsert("Person__c","CommCare_ID__c", fields(
-  field("CommCare_ID__c",dataValue("$.form.Person.case.@case_id")),
-  relationship("Household__r","CommCare_Code__c",dataValue("$.form.Person.case.index.parent.#text")),
+  field("CommCare_ID__c",dataValue("$.form.case.@case_id")),
+  relationship("Household__r","CommCare_Code__c",dataValue("$.form.subcase_0.case.index.parent.#text")),
   field("Name",(state)=>{
     var name1=dataValue("$.form.Person.Basic_Information.Person_Name")(state);
     var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -12,10 +12,7 @@ upsert("Person__c","CommCare_ID__c", fields(
     return(dataValue("$.form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
   //field("Catchment__c",dataValue("catchment")),
-  relationship("Catchment__r","Name", dataValue("form.catchment")),
   field("Client_Status__c", "Active"),
-  field("Area__c", dataValue("form.area")),// check
-  field("Household_village__c", dataValue("form.village")),
   field("Relation_to_the_head_of_the_household__c", (state)=>{
     var relation = dataValue("$.form.Person.Basic_Information.relation_to_hh")(state).toString().replace(/_/g," ");
     const toTitleCase = relation.charAt(0).toUpperCase() + relation.slice(1);
@@ -50,7 +47,7 @@ upsert("Person__c","CommCare_ID__c", fields(
     return toTitleCase;
   }),
   field("Other_disability__c",(state)=>{
-    var disability = dataValue("$.form.Person.Basic_Information.person_info.disability")(state);
+    var disability = dataValue("$.form.Person.Basic_Information.person_info.other_disability")(state);
     var toTitleCase = '';
     if(disability !==undefined){
       toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
