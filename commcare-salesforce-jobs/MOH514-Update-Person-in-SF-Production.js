@@ -30,14 +30,24 @@ combine( function(state) {
           relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
           field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
           field("Client_Status__c", dataValue("$form.Status.Client_Status")),
-          /*field("Name",function(state){
+          field("Name",function(state){
             var name1=dataValue("$.form.Person_Name")(state);
-          //  var name2=name1.replace(/\w\S*///g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-          //  return name2;
-          //}),
-          /*relationship("RecordType","Name",function(state){
+            var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+            return name2;
+          }),
+          relationship("RecordType","Name",function(state){
               return(dataValue("$.form.RecordType")(state).toString().replace(/_/g," "));
-          }),*/
+          }),
+          field("Active_in_Thrive_Thru_5__c", (state)=>{
+            var status = dataValue("$.form.case.update.TT5_enrollment_status")(state);
+            const active = (status == "Enrolled in TT5" ? "Yes" : "No");
+            return active;
+          }),
+          field("Active_in_HAWI__c", (state)=>{
+              var status = dataValue("$.form.case.update.HAWI_enrollment_status")(state);
+              const active = (status == "Enrolled in HAWI" ? "Yes" : "No");
+              return active;
+          }),
           field("Individual_birth_plan_counseling__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan")),
           field("Pregnancy_danger_signs__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs")),
           field("Other_danger_signs__c", dataValue("$.form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs")),
@@ -84,9 +94,17 @@ combine( function(state) {
   else if(dataValue("$.form.Status.Client_Status")(state)=="Transferred_Out"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
+      field("Name",function(state){
+        var name1=dataValue("$.form.Person_Name")(state);
+        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        return name2;
+      }),
+      relationship("RecordType","Name",function(state){
+          return(dataValue("$.form.RecordType")(state).toString().replace(/_/g," "));
+      }),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
+      field("CommCare_HH_Code__c",dataValue("$.form.HH_ID")),
       field("Client_Status__c","Transferred Out"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Inactive_Date__c",dataValue("$.form.Date")),
@@ -102,7 +120,7 @@ combine( function(state) {
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
+      field("CommCare_HH_Code__c",dataValue("$.form.HH_ID")),
       field("Client_Status__c","Lost to Follow-Up"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
@@ -118,7 +136,7 @@ combine( function(state) {
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
+      field("CommCare_HH_Code__c",dataValue("$.form.HH_ID")),
       field("Client_Status__c","Graduated From TT5"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
@@ -134,7 +152,7 @@ combine( function(state) {
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
+      field("CommCare_HH_Code__c",dataValue("$.form.HH_ID")),
       field("Client_Status__c","Data Entry Error"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_TT5_Mother__c","No"),
@@ -917,7 +935,8 @@ combine(function(state){
       ))//)
       (state);
   }
-}), //*/
+})//, //*/
+/*
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
@@ -939,5 +958,5 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
     return long;
   })
-))
+))*/
 );
