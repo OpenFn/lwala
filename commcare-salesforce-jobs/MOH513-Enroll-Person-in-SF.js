@@ -3,15 +3,19 @@
 upsert("Person__c","CommCare_ID__c", fields(
   field("CommCare_ID__c",dataValue("$.form.Person.case.@case_id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.Person.case.index.parent.#text")),
-  field("Name",function(state){
+  field("Name",(state)=>{
     var name1=dataValue("$.form.Person.Basic_Information.Person_Name")(state);
     var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     return name2;
   }),
-  relationship("RecordType","Name",function(state){
+  relationship("RecordType","Name",(state)=>{
     return(dataValue("$.form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
   }),
-  field("Catchment__c",dataValue("catchment")),
+  //field("Catchment__c",dataValue("catchment")),
+  relationship("Catchment__r","Name", dataValue("form.catchment")),
+  field("Client_Status__c", "Active"),
+  field("Area__c", dataValue("form.area")),// check
+  field("Household_village__c", dataValue("form.village")),
   field("Relation_to_the_head_of_the_household__c", (state)=>{
     var relation = dataValue("$.form.Person.Basic_Information.relation_to_hh")(state).toString().replace(/_/g," ");
     const toTitleCase = relation.charAt(0).toUpperCase() + relation.slice(1);
@@ -22,29 +26,30 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Gender__c",dataValue("$.form.Person.Basic_Information.Gender")),
   field("Birth_Certificate__c",dataValue("$.form.Person.Basic_Information.birth_certificate")),
   field("Currently_enrolled_in_school__c",dataValue("$.form.Person.Basic_Information.enrolled_in_school")),
-  field("Education_Level__c", function(state){
-    return(dataValue("$.form.Person.Basic_Information.Education_Level")(state).toString().replace(/_/g," "));
+  field("Education_Level__c", (state)=>{
+    var level = dataValue("$.form.Person.Basic_Information.Education_Level")(state)
+    return(level!==undefined ? level.toString().replace(/_/g," ") : null);
   }),
   field("Telephone__c",dataValue("$.form.Person.Basic_Information.Contact_Info.contact_phone_number")),
   field("Family_Planning__c",dataValue("$.form.Person.Basic_Information.family_planning.Currently_on_family_planning")),
   field("Family_Planning_Method__c",dataValue("$.form.Person.Basic_Information.family_planning.Family_Planning_Method")),
   field("Use_mosquito_net__c",dataValue("$.form.Person.Basic_Information.person_info.sleep_under_net")),
-  field("Chronic_illness__c", function(state){
+  field("Chronic_illness__c", (state)=>{
     var illness = dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';')
     return illness.toString().replace(/_/g," ");
   }),
   field("Two_weeks_or_more_cough__c",dataValue("$.form.Person.Basic_Information.person_info.cough_for_2wks")),
   field("Knowledge_of_HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.known_hiv_status")),
   field("HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.hiv_status")),
-  field("Disability__c",function(state){
-    var disability = dataValue("Basic_Information.person_info.disability")(state);
+  field("Disability__c",(state)=>{
+    var disability = dataValue("$.form.Person.Basic_Information.person_info.disability")(state);
     var toTitleCase = '';
     if(disability !==undefined){
       toTitleCase = disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
     } else{ toTitleCase === null }
     return toTitleCase;
   }),
-  field("Other_disability__c",function(state){
+  field("Other_disability__c",(state)=>{
     var disability = dataValue("$.form.Person.Basic_Information.person_info.disability")(state);
     var toTitleCase = '';
     if(disability !==undefined){
@@ -90,7 +95,7 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("ART_Regimen__c",dataValue("$.form.Person.HAWI.ARVs")),
   field("Exclusive_Breastfeeding__c",dataValue("$.form.Person.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
   field("Vitamin_A__c",dataValue("$.form.Person.TT5.Child_Information.nutrition.vitamin_a")),
-  field("Food_groups_3_times_a_day__c",dataValue("form.TT5.Child_Information.nutrition.food_groups")),
+  field("Food_groups_3_times_a_day__c",dataValue("$.form.TT5.Child_Information.nutrition.food_groups")),
   field("Initial_MUAC__c",dataValue("$.form.Person.TT5.Child_Information.nutrition.MUAC")),
   field("MCH_booklet__c",dataValue("$.form.Person.TT5.Mother_Information.mch_booklet")),
   field("Preferred_Care_Facility__c", (state)=>{
@@ -106,7 +111,7 @@ upsert("Person__c","CommCare_ID__c", fields(
     return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
   })
  //Need transformation?
-  /*field("Place_of_Delivery__c",function(state){
+  /*field("Place_of_Delivery__c",(state)=>{
     var val='';
     var placeholder=''
     if(dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state)!==undefined){
@@ -121,14 +126,14 @@ upsert("Person__c","CommCare_ID__c", fields(
     return val;
   }),*/
 
-))
+)),
 //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.Person.case.index.parent.#text")),
   //relationship("Household__r", "MOH_household_code__c", dataValue("$.form.Person.moh_code")),
   field("Name", "Supervisor Visit"),
-  field("Supervisor_Visit__c",function(state){
+  field("Supervisor_Visit__c",(state)=>{
     var visit = dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";")
     return visit.toString().replace(/_/g," ");
   }),
@@ -136,14 +141,14 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   //field("Household_CHW__c",dataValue("$.form.Person.CHW_ID")),//NEED TO MAP CHW?
   //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
   //relationship("Catchment__r","Name", dataValue("$.form.Person.catchment")), //DO NOT MAP
-  field("Location__latitude__s", function(state){
+  field("Location__latitude__s", (state)=>{
     var lat = state.data.metadata.location;
     lat = lat.substring(0, lat.indexOf(" "));
     return lat;
   }),
- field("Location__longitude__s", function(state){
+ field("Location__longitude__s", (state)=>{
     var long = state.data.metadata.location;
     long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
     return long;
   })
-))
+));
