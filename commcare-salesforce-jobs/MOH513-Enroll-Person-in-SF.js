@@ -1,8 +1,8 @@
 //MOH513 Enroll Person form
 //Upserting person record based on CommCare ID
 upsert("Person__c","CommCare_ID__c", fields(
-  field("CommCare_ID__c",dataValue("$.form.case.@case_id")),
-  relationship("Household__r","CommCare_Code__c",dataValue("$.form.subcase_0.case.index.parent.#text")),
+  field("CommCare_ID__c",dataValue("$.form.subcase_0.case.@case_id")),
+  relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Name",(state)=>{
     var name1=dataValue("$.form.Person.Basic_Information.Person_Name")(state);
     var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -87,7 +87,7 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Parity__c",dataValue("$.form.Person.TT5.Mother_Information.Pregnancy_Information.Parity")),
   field("Unique_Patient_Code__c",dataValue("$.form.Person.HAWI.Unique_Patient_Code")),
   field("Active_in_Support_Group__c",dataValue("$.form.Person.HAWI.Active_in_Support_Group")),
-  field("CommCare_HH_Code__c",dataValue("$.form.Person.case.@case_id")),
+  field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
   field("Currently_on_ART_s__c",dataValue("$.form.Person.HAWI.ART")),
   field("ART_Regimen__c",dataValue("$.form.Person.HAWI.ARVs")),
   field("Exclusive_Breastfeeding__c",dataValue("$.form.Person.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
