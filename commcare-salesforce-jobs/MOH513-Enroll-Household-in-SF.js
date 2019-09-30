@@ -37,7 +37,8 @@ upsert("Household__c", "MOH_household_code__c",fields(
   field("Drying_Rack__c", dataValue("$.form.Household_Information.Drying_Rack")),
   field("Kitchen_Garden__c", dataValue("$.form.Household_Information.Kitchen_Garden")),
   field("Cookstove__c", dataValue("$.form.Household_Information.Improved_Cooking_Method")),
-  field("Clothe__c", dataValue("$.form.Household_Information.Clothesline"))
+  field("Clothe__c", dataValue("$.form.Household_Information.Clothesline")),
+  field("Clothe__c", dataValue("$.form.Household_Information.WASH_Compliant"))
 )),
   //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(
@@ -80,7 +81,7 @@ upsert("Household__c", "MOH_household_code__c",fields(
       }),
       field("Source__c", true),
       relationship("Catchment__r","Name", dataValue("catchment")),// check
-      field("Client_Status__c", "Active"),
+      field("Client_Status__c", "Active"),//To hardcode or to set dynamically?
       field("Area__c", state.data.form.area),// check
       field("Household_village__c", state.data.form.village),
       field("Relation_to_the_head_of_the_household__c", (state)=>{
@@ -116,10 +117,6 @@ upsert("Household__c", "MOH_household_code__c",fields(
         var illness = dataValue("Basic_Information.person_info.chronic_illness")(state).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';')
         return illness.toString().replace(/_/g," ");
       }),
-      /*field("Reason_for_a_refferal__c",(state)=>{ //add other referral reasons?  //Lwala asked to remove mapping for referral reasons
-        var cough = dataValue("Basic_Information.person_info.refer_for_cough")(state)
-        return (cough=="yes" ? "Coughing for more than two weeks" : "");
-      }),*/
       field("Knowledge_of_HIV_status__c",dataValue("Basic_Information.person_info.known_hiv_status")),
       field("HIV_Status__c",dataValue("Basic_Information.person_info.hiv_status")),
       field("Disability__c",(state)=>{
@@ -162,12 +159,14 @@ upsert("Household__c", "MOH_household_code__c",fields(
       field("OPV_0__c",dataValue("TT5.Child_Information.Immunizations.OPV_0")),
       field("OPV_1__c",dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_1")),
       field("OPV_2__c",dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_2")),
+      field("OPV_3__c",dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_3")),
       field("Measles_6__c",dataValue("TT5.Child_Information.Immunizations.Measles_6")),
       field("Measles_9__c",dataValue("TT5.Child_Information.Immunizations.Measles_9")),
       field("Measles_18__c",dataValue("TT5.Child_Information.Immunizations.Measles_18")),
       field("Vitamin_A__c",dataValue("TT5.Child_Information.nutrition.vitamin_a")),
       field("Food_groups_3_times_a_day__c",dataValue("TT5.Child_Information.nutrition.food_groups")),
       field("Initial_MUAC__c",dataValue("TT5.Child_Information.nutrition.MUAC")),
+      field("Exclusive_Breastfeeding__c",dataValue("TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
       field("Pregnant__c", (state)=>{
         var preg = dataValue("TT5.Mother_Information.Pregnant")(state)
         return (preg == "No" ? false : true);
