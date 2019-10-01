@@ -30,8 +30,15 @@ upsert("Person__c","CommCare_ID__c", fields(
   field("Family_Planning_Method__c",dataValue("$.form.Person.Basic_Information.family_planning.Family_Planning_Method")),
   field("Use_mosquito_net__c",dataValue("$.form.Person.Basic_Information.person_info.sleep_under_net")),
   field("Chronic_illness__c", (state)=>{
-    var illness = dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';')
-    return illness.toString().replace(/_/g," ");
+    var chronic = dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state);
+    var illness = '';
+    if(chronic!==undefined){
+      chronic = chronic.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+      return chronic; 
+      illness = chronic.toString().replace(/_/g," ");
+    } else { illness == null}
+    //var illness = dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';')
+    return illness;
   }),
   field("Two_weeks_or_more_cough__c",dataValue("$.form.Person.Basic_Information.person_info.cough_for_2wks")),
   field("Knowledge_of_HIV_Status__c",dataValue("$.form.Person.Basic_Information.person_info.known_hiv_status")),
@@ -137,11 +144,11 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("Location__latitude__s", (state)=>{
     var lat = state.data.metadata.location;
     lat = lat.substring(0, lat.indexOf(" "));
-    return lat;
+    return (lat!==null? lat : null);
   }),
  field("Location__longitude__s", (state)=>{
     var long = state.data.metadata.location;
     long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
-    return long;
+    return (long!==null? long : null);
   })
 ));
