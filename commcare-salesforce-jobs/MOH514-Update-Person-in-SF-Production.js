@@ -85,25 +85,19 @@ combine( function(state) {
   //Transfer Outs
   else if(dataValue("$.form.Status.Client_Status")(state)=="Transferred_Out"){
     upsert("Person__c","CommCare_ID__c",fields(
+      field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
       field("Source__c",1),
       field("Name",(state)=>{
         var name1=dataValue("$.form.Person_Name")(state);
         var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         return name2;
       }),
-      relationship("RecordType","Name",(state)=>{
-          return(dataValue("$.form.RecordType")(state).toString().replace(/_/g," "));
-      }),
-      field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.HH_ID")),
       field("Client_Status__c","Transferred Out"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Inactive_Date__c",dataValue("$.form.Date")),
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Date_of_Transfer_Out__c",dataValue("$.form.Status.Date_of_Transfer_Out"))
-
     ))(state);
   }
   //Lost to Follow Up
@@ -111,15 +105,17 @@ combine( function(state) {
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.HH_ID")),
+      field("Name",(state)=>{
+        var name1=dataValue("$.form.Person_Name")(state);
+        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        return name2;
+      }),
       field("Client_Status__c","Lost to Follow-Up"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Date_Last_Seen__c",dataValue("$.form.Status.Date_Last_Seen")),
       field("Inactive_Date__c",dataValue("$.form.Date"))
-
     ))(state);
   }
   //Graduated from Thrive Thru 5
@@ -127,8 +123,11 @@ combine( function(state) {
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.HH_ID")),
+      field("Name",(state)=>{
+        var name1=dataValue("$.form.Person_Name")(state);
+        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        return name2;
+      }),
       field("Client_Status__c","Graduated From TT5"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
@@ -143,15 +142,16 @@ combine( function(state) {
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.HH_ID")),
+      field("Name",(state)=>{
+        var name1=dataValue("$.form.Person_Name")(state);
+        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        return name2;
+      }),
       field("Client_Status__c","Data Entry Error"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Active_in_HAWI__c","No"),
       field("Inactive_Date__c",dataValue("$.form.Date"))
-
-
     ))(state);
   }
   //Deceased
@@ -159,8 +159,11 @@ combine( function(state) {
     upsert("Person__c","CommCare_ID__c",fields(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
-      relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("$.form.case.@case_id")),
+      field("Name",(state)=>{
+        var name1=dataValue("$.form.Person_Name")(state);
+        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        return name2;
+      }),
       field("Client_Status__c","Deceased"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
@@ -170,13 +173,12 @@ combine( function(state) {
         return dataValue("$.form.Status.Cause_of_Death")(state).toString().replace(/_/g," ");
       }),
       field("Inactive_Date__c",dataValue("$.form.Date"))
-
     ))(state);
   }
 
 }),
-///////UPSERT SERVICE RECORDS ///////
-  //ANC1
+/*** UPSERT SERVICE RECORDS ***/
+//ANC1
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_1")(state)=="click_to_enter_anc_1"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -204,7 +206,7 @@ combine( function(state) {
     ))(state);
   }
 }),
-  //ANC2
+//ANC2
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_2")(state)=="click_to_enter_anc_2"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -214,7 +216,6 @@ combine( function(state) {
         return serviceId;
       }),
       field("Source__c",1),
-      //field("Catchment__c","a002400000pAcOe"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Reason_for_Service__c","ANC 2"),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_2")),
@@ -223,7 +224,6 @@ combine( function(state) {
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
-      //relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.ANCs.Facility2"))
       relationship("Site__r","Label__c",(state)=>{
         var facility=dataValue("$.form.TT5.Child_Information.ANCs.Facility2")(state);
         if(facility===''||facility===undefined){
@@ -235,7 +235,7 @@ combine( function(state) {
     ))(state);
   }
 }),
-  //ANC3
+//ANC3
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -245,7 +245,6 @@ combine( function(state) {
         return serviceId;
       }),
       field("Source__c",true),
-      //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","ANC 3"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_3")),
@@ -254,7 +253,6 @@ combine( function(state) {
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
-      //relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.ANCs.Facility3"))
       relationship("Site__r","Label__c",(state)=>{
         var facility=dataValue("$.form.TT5.Child_Information.ANCs.Facility3")(state);
         if(facility===''||facility===undefined){
@@ -267,7 +265,7 @@ combine( function(state) {
 
   }
 }),
-  //ANC4
+//ANC4
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -277,7 +275,6 @@ combine( function(state) {
         return serviceId;
       }),
       field("Source__c",1),
-      //field("Catchment__c","a002400000pAcOe"),
       field("Reason_for_Service__c","ANC 4"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_4")),
@@ -286,20 +283,17 @@ combine( function(state) {
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
-      //relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.ANCs.Facility4"))
       relationship("Site__r","Label__c",(state)=>{
         var facility=dataValue("$.form.TT5.Child_Information.ANCs.Facility4")(state);
         if(facility===''||facility===undefined){
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
-  //ANC5
+//ANC5
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.ANCs.copy-3-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -317,20 +311,17 @@ combine( function(state) {
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
-      //relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.ANCs.Facility5"))
       relationship("Site__r","Label__c",(state)=>{
         var facility=dataValue("$.form.TT5.Child_Information.ANCs.Facility5")(state);
         if(facility===''||facility===undefined){
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
-  //BCG REVIEWED
+//BCG REVIEWED
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-3-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -352,13 +343,11 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
-  //OPV0 REVIEWED
+//OPV0 REVIEWED
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -374,20 +363,17 @@ combine( function(state) {
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
-      //relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.Immunizations.Facility_OPV_0"))
       relationship("Site__r","Label__c",(state)=>{
         var facility=dataValue("$.form.TT5.Child_Information.Immunizations.Facility_OPV_0")(state);
         if(facility===''||facility===undefined){
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
-  //OPV1 REVIEWED
+//OPV1 REVIEWED
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-1-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -403,20 +389,17 @@ combine( function(state) {
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
-     // relationship("Site__r","Label__c",dataValue("$.form.TT5.Child_Information.Immunizations.Facility_OPV_1"))
       relationship("Site__r","Label__c",(state)=>{
         var facility=dataValue("$.form.TT5.Child_Information.Immunizations.Facility_OPV_1")(state);
         if(facility===''||facility===undefined){
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
-  //OPV2
+//OPV2
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-2-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -438,13 +421,11 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
-  //OPV3
+//OPV3
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-4-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -466,13 +447,11 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
-  //Measles 6
+//Measles 6
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-5-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -494,13 +473,12 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
 
   }
 }),
-  //Measles 9
+//Measles 9
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-6-of-anc_3")(state)=="click_to_enter_anc_3"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -522,13 +500,10 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
-
 //Measles 18
 combine( function(state) {
   if(dataValue("$.form.TT5.Child_Information.Immunizations.copy-7-of-anc_3")(state)=="click_to_enter_anc_3"){
@@ -551,10 +526,8 @@ combine( function(state) {
           facility="unknown";
         }
         return facility;
-
       })
     ))(state);
-
   }
 }),
 //Deworming
@@ -600,9 +573,7 @@ combine( function(state) {
         return care;
       }),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
-
     ))(state);
-
   }
 }),
 //Malaria cases
@@ -633,7 +604,6 @@ combine( function(state) {
     }
   }
 ),
-
 //Malnutrition case
 combine( function(state){
   if(dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(state)!==undefined){
@@ -696,7 +666,7 @@ combine( function(state){
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
-   //Skilled Delivery Referral
+//Skilled Delivery Referral
 combine( function(state){
   if(dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.refer_skilled_delivery")(state)=="yes"){
    upsert("Service__c", "CommCare_Code__c", fields(
@@ -718,7 +688,7 @@ combine( function(state){
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
    ))(state);
  }}),
-  //Prenancy danger signs Referral
+//Prenancy danger signs Referral
 combine( function(state){
   if(dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral")(state)=="Yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -741,7 +711,7 @@ combine( function(state){
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
  }}),
-  //PNC Referral ---> TO UPDATE****
+//PNC Referral ---> TO UPDATE****
 combine( function(state){
   if(dataValue("$.form.PNC")(state)=="Yes"){ //Update when Julia updates group ****
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -763,7 +733,7 @@ combine( function(state){
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
-  //Malnutrition Referral
+//Malnutrition Referral
 combine( function(state){
   if(dataValue("$.form.TT5.Child_Information.Nutrition2.Referral")(state)=="yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -791,8 +761,8 @@ combine( function(state){
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
-  //Child Danger Sign Referral
-  combine( function(state){
+//Child Danger Sign Referral
+combine( function(state){
   if(dataValue("$.form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Referral")(state)=="yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
      field("CommCare_Code__c",(state)=>{
@@ -814,8 +784,8 @@ combine( function(state){
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
-  //TB Referral
-  combine( function(state){
+//TB Referral
+combine( function(state){
   if(dataValue("$.form.treatment_and_tracking.TB_referral")(state)=="yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
      field("CommCare_Code__c",(state)=>{
@@ -840,8 +810,8 @@ combine( function(state){
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
-  //Diarrhea Referral
-  combine( function(state){
+//Diarrhea Referral
+combine( function(state){
   if(dataValue("$.form.treatment_and_tracking.diarrhea_referral")(state)=="yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
      field("CommCare_Code__c",(state)=>{
@@ -866,7 +836,7 @@ combine( function(state){
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
-  //Malaria Referral
+//Malaria Referral
 combine( function(state){
   if(dataValue("$.form.treatment_and_tracking.malaria_referral")(state)=="yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
@@ -926,7 +896,6 @@ combine( function(state){
         field("Date__c",dataValue("Date_of_Clinical_Service")),
         field("Type_of_Service__c","CHW Mobile Survey"),
         field("RecordTypeID","01224000000YAuK"),
-        //relationship("Site__r","Label__c",dataValue("Facility_of_Clinical_Service")),
         relationship("Site__r","Label__c",(state)=>{
             var facility=dataValue("Facility_of_Clinical_Service")(state);
             if(facility===''||facility===undefined){
@@ -946,8 +915,7 @@ combine( function(state){
     )(state);
   }
 }),
-
-// TT5 other clinical services received
+//TT5 other clinical services received
 combine( function(state){
   if(dataValue("$.form.TT5.Clinical_Service_Q")(state)==="yes"){
     each(dataPath("$.form.TT5.Child_Information.Clinical_Services[*]"), //CHECK IF ARRAY
@@ -986,7 +954,6 @@ combine( function(state){
               facility="unknown";
             }
             return facility;
-
           }),
         relationship("Person__r","CommCare_ID__c",dataValue("Case_ID"))
       ))
