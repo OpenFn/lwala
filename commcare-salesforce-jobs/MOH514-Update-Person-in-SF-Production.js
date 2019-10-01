@@ -75,16 +75,6 @@ combine( function(state) {
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
           field("Place_of_Delivery__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Type")),
           field("Deliver_Facility__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
-        /*  field("Immediate_Breastfeeding__c",(state)=>{
-            var var1=dataValue("form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery")(state);
-            if(var1=="---"){
-              var1=undefined;
-            }
-            else if(var1=="yes"){
-              var1="Yes";
-            }
-            return var1;
-          }),*/
           field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
           field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.counseling"))
         ))(state);
@@ -348,7 +338,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "bcg"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","BCG"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -376,7 +366,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "opv0"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","OPV0"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -405,7 +395,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "opv1"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","OPV1"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -434,7 +424,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "opv2"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","OPV2"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -462,7 +452,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "opv3"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","OPV3"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -490,7 +480,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "measles6"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","Measles 6"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -518,7 +508,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "measles9"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","Measles 9"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -547,7 +537,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "measles18"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","Measles 18"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -575,7 +565,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "deworming"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","Deworming"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -594,7 +584,7 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "homecare"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Reason_for_Service__c","Home-Based Care"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
@@ -624,21 +614,21 @@ combine( function(state) {
         var id = dataValue("$.id")(state);
         var serviceId = id + "malaria"
         return serviceId
-      })(state),
-        field("Source__c",1),
-        field("Date__c",dataValue("$.form.Date")),
-        field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
-        field("Referral_Date__c",dataValue("$.form.Referral_Date")),
-        field("Referred__c",1),
-        field("Type_of_Service__c","CHW Mobile Survey"),
-        field("RecordTypeID","01224000000kOto"),
-        field("Open_Case__c",1),
-        field("Purpose_of_Referral__c","Malaria"),
-        field("Malaria_Status__c",dataValue("$.form.treatment_and_tracking.malaria_test_results")),
-        field("Home_Treatment_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
-        field("Malaria_Home_Test_Date__c",dataValue("$.form.treatment_and_tracking.malaria_test_date")),
-        field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")(state)),
-        relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
+      }),
+      field("Source__c",1),
+      field("Date__c",dataValue("$.form.Date")),
+      field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
+      field("Referral_Date__c",dataValue("$.form.Referral_Date")),
+      field("Referred__c",1),
+      field("Type_of_Service__c","CHW Mobile Survey"),
+      field("RecordTypeID","01224000000kOto"),
+      field("Open_Case__c",1),
+      field("Purpose_of_Referral__c","Malaria"),
+      field("Malaria_Status__c",dataValue("$.form.treatment_and_tracking.malaria_test_results")),
+      field("Home_Treatment_Date__c",dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
+      field("Malaria_Home_Test_Date__c",dataValue("$.form.treatment_and_tracking.malaria_test_date")),
+      field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")(state)),
+      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
       ))(state);
     }
   }
@@ -652,7 +642,7 @@ combine( function(state){
         var id = dataValue("$.id")(state);
         var serviceId = id + "malnutrition"
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
@@ -681,15 +671,15 @@ combine( function(state){
   }
 }),
 //Referrals ... check on Site__r mappings and PNC service
+//Other Referrals
 combine( function(state){
-    //Other Referrals
-    if(dataValue("$.form.treatment_and_tracking.symptoms_other_referral")(state)=="yes"){
+  if(dataValue("$.form.treatment_and_tracking.symptoms_other_referral")(state)=="yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
       field("CommCare_Code__c",(state)=>{
-        var id = dataValue("$.id")(state);
-        var serviceId = id + dataValue("$.form.treatment_and_tracking.symptoms_check_other")(state);
+        var id = dataValue("id")(state);
+        var serviceId = id + "other";
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
@@ -707,14 +697,14 @@ combine( function(state){
     ))(state);
   }}),
    //Skilled Delivery Referral
-   combine( function(state){
-   if(dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.refer_skilled_delivery")(state)=="yes"){
+combine( function(state){
+  if(dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.refer_skilled_delivery")(state)=="yes"){
    upsert("Service__c", "CommCare_Code__c", fields(
      field("CommCare_Code__c",(state)=>{
-       var id = dataValue("$.id")(state);
+       var id = dataValue("id")(state);
        var serviceId = id + "skilled_delivery";
        return serviceId
-     })(state),
+     }),
      field("Source__c",1),
      field("Date__c",dataValue("$.form.Date")),
      field("Type_of_Service__c","CHW Mobile Survey"),
@@ -729,14 +719,14 @@ combine( function(state){
    ))(state);
  }}),
   //Prenancy danger signs Referral
-  combine( function(state){
+combine( function(state){
   if(dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral")(state)=="Yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
       field("CommCare_Code__c",(state)=>{
         var id = dataValue("$.id")(state);
         var serviceId = id + "pregnancy_danger_signs";
         return serviceId
-      })(state),
+      }),
       field("Source__c",1),
       field("Date__c",dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral_date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
@@ -752,14 +742,14 @@ combine( function(state){
     ))(state);
  }}),
   //PNC Referral ---> TO UPDATE****
-  combine( function(state){
+combine( function(state){
   if(dataValue("$.form.PNC")(state)=="Yes"){ //Update when Julia updates group ****
     upsert("Service__c", "CommCare_Code__c", fields(
      field("CommCare_Code__c",(state)=>{
        var id = dataValue("$.id")(state);
        var serviceId = id + "pnc";
        return serviceId
-     })(state),
+     }),
      field("Source__c",1),
      field("Date__c",dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral_date")),
      field("Type_of_Service__c","CHW Mobile Survey"),
@@ -774,14 +764,14 @@ combine( function(state){
     ))(state);
   }}),
   //Malnutrition Referral
-  combine( function(state){
+combine( function(state){
   if(dataValue("$.form.TT5.Child_Information.Nutrition2.Referral")(state)=="yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
      field("CommCare_Code__c",(state)=>{
        var id = dataValue("$.id")(state);
        var serviceId = id + "malnutrition";
        return serviceId
-     })(state),
+     }),
      field("Source__c",1),
      field("Date__c",dataValue("$.form.case.update.Date")),
      field("Type_of_Service__c","CHW Mobile Survey"),
@@ -809,7 +799,7 @@ combine( function(state){
        var id = dataValue("$.id")(state);
        var serviceId = id + "child_danger_sign";
        return serviceId
-     })(state),
+     }),
      field("Source__c",1),
      field("Date__c",dataValue("$.form.case.update.Date")),
      field("Type_of_Service__c","CHW Mobile Survey"),
@@ -832,7 +822,7 @@ combine( function(state){
        var id = dataValue("$.id")(state);
        var serviceId = id + "tb";
        return serviceId
-     })(state),
+     }),
      field("Source__c",1),
      field("Date__c",dataValue("$.form.case.update.Date")),
      field("Type_of_Service__c","CHW Mobile Survey"),
@@ -858,7 +848,7 @@ combine( function(state){
        var id = dataValue("$.id")(state);
        var serviceId = id + "diarrhea";
        return serviceId
-     })(state),
+     }),
      field("Source__c",1),
      field("Date__c",dataValue("$.form.case.update.Date")),
      field("Type_of_Service__c","CHW Mobile Survey"),
@@ -884,7 +874,7 @@ combine( function(state){
        var id = dataValue("$.id")(state);
        var serviceId = id + "malaria";
        return serviceId
-     })(state),
+     }),
      field("Source__c",1),
      field("Date__c",dataValue("$.form.case.update.Date")),
      field("Type_of_Service__c","CHW Mobile Survey"),
