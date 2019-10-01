@@ -56,12 +56,12 @@ upsert("Household__c", "MOH_household_code__c",fields(
     field("Location__latitude__s", (state)=>{
       var lat = state.data.metadata.location;
       lat = lat.substring(0, lat.indexOf(" "));
-      return lat;
+      return (lat!==null? lat : null);
     }),
    field("Location__longitude__s", (state)=>{
       var long = state.data.metadata.location;
       long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
-      return long;
+      return (long!==null? long : null);
     })
   )),
   //Upsert Person via CommCare case ID for each person enrolled
