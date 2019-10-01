@@ -24,7 +24,6 @@ upsert("Household__c", "MOH_household_code__c",fields(
   relationship("Catchment__r","Name", dataValue("$.form.catchment")),// check
   field("Area__c", dataValue("$.form.area")),  //CONFIRM IDs MATCH PRODUCTION
   field("Household_village__c", dataValue("$.form.village")),
-  //field("Total_Household_Members__c", dataValue("$.form.Total_Number_of_Members")), //MISSING SF FIELD
   field("Deaths_in_the_last_6_months__c", (state)=>{
     const death = state.data.form.Household_Information.deaths_in_past_6_months;
     return (death > 0 ? "Yes" : "No");
@@ -38,7 +37,8 @@ upsert("Household__c", "MOH_household_code__c",fields(
   field("Kitchen_Garden__c", dataValue("$.form.Household_Information.Kitchen_Garden")),
   field("Cookstove__c", dataValue("$.form.Household_Information.Improved_Cooking_Method")),
   field("Clothe__c", dataValue("$.form.Household_Information.Clothesline")),
-  field("Clothe__c", dataValue("$.form.Household_Information.WASH_Compliant"))
+  field("WASH_Trained__c", dataValue("$.form.Household_Information.WASH_Compliant")),
+  field("Total_household_people__c", dataValue("$.form.Total_Number_of_Members"))
 )),
   //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(

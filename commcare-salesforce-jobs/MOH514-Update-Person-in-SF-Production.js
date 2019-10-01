@@ -48,8 +48,28 @@ combine( function(state) {
               const active = (status == "Enrolled in HAWI" ? "Yes" : "No");
               return active;
           }),
+          field("Reason_for_a_refferal__c", (state)=>{
+            return(dataValue("$.form.treatment_and_tracking.Referral.Purpose_of_Referral")(state).toString().replace(/_/g," "));
+          }),
           field("Individual_birth_plan_counseling__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan")),
-          field("Pregnancy_danger_signs__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs")),
+          field("Pregnancy_danger_signs__c", (state)=>{
+            var signs = dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs")(state);
+            var newSign ='';
+            if(signs !==undefined){
+              signs = signs.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+              newSign = signs.toString().replace(/_/g," ");
+            } else{ newSign = null; }
+            return newSign;
+          }),
+          field("Child_danger_signs__c", (state)=>{
+            var signs = dataValue("$.form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral")(state);
+            var newSign ='';
+            if(signs !==undefined){
+              signs = signs.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
+              newSign = signs.toString().replace(/_/g," ");
+            } else{ newSign = null; }
+            return newSign;
+          }),
           field("Other_danger_signs__c", dataValue("$.form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs")),
           field("Child_Status__c", dataValue("$.form.TT5.Child_Information.Delivery_Information.child_status")),
           field("Current_Malaria_Status__c", dataValue("$.form.Malaria_Status")),
@@ -72,6 +92,9 @@ combine( function(state) {
           field("Fever_over_7days__c",dataValue("$.form.treatment_and_tracking.symptoms_check_fever")),
           field("Cough_over_14days__c",dataValue("$.form.treatment_and_tracking.symptoms_check_cough")),
           field("Diarrhoea_over_14days__c",dataValue("$.form.treatment_and_tracking.symptoms_check_diarrhea")),
+          field("Diarrhoea_less_than_14_days__c",dataValue("$.form.treatment_and_tracking.mild_symptoms_check_diarrhea")),
+          field("Default_on_TB_treatment__c",dataValue("$.form.treatment_and_tracking.patient_default_tb")),
+          field("TB_patients_therapy_observed__c",dataValue("$.form.treatment_and_tracking.observed_tb_therapy")),
           field("Date_of_Birth__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.DOB")),
           field("Place_of_Delivery__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Type")),
           field("Deliver_Facility__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
@@ -192,6 +215,7 @@ combine( function(state) {
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_1")),
       field("ANC_1__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_1")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Purpose_of_Referral__c","ANC 1"),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
@@ -219,6 +243,7 @@ combine( function(state) {
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Reason_for_Service__c","ANC 2"),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_2")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("ANC_2__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_2")),
       field("Purpose_of_Referral__c","ANC 2"),
       field("Type_of_Service__c","CHW Mobile Survey"),
@@ -248,6 +273,7 @@ combine( function(state) {
       field("Reason_for_Service__c","ANC 3"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_3")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("ANC_3__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_3")),
       field("Purpose_of_Referral__c","ANC 3"),
       field("Type_of_Service__c","CHW Mobile Survey"),
@@ -278,6 +304,7 @@ combine( function(state) {
       field("Reason_for_Service__c","ANC 4"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_4")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("ANC_4__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_4")),
       field("Purpose_of_Referral__c","ANC 4"),
       field("Type_of_Service__c","CHW Mobile Survey"),
@@ -306,6 +333,7 @@ combine( function(state) {
       field("Reason_for_Service__c","ANC 5"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_5")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("ANC_5__c",dataValue("$.form.TT5.Child_Information.ANCs.ANC_5")),
       field("Purpose_of_Referral__c","ANC 5"),
       field("Type_of_Service__c","CHW Mobile Survey"),
@@ -334,6 +362,7 @@ combine( function(state) {
       field("Reason_for_Service__c","BCG"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.BCG")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
@@ -360,6 +389,7 @@ combine( function(state) {
       field("Reason_for_Service__c","OPV0"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.OPV_0")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
@@ -386,6 +416,7 @@ combine( function(state) {
       field("Reason_for_Service__c","OPV1"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_1")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
@@ -412,6 +443,7 @@ combine( function(state) {
       field("Reason_for_Service__c","OPV2"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_2")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
@@ -438,6 +470,7 @@ combine( function(state) {
       field("Reason_for_Service__c","OPV3"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_3")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
@@ -464,6 +497,7 @@ combine( function(state) {
       field("Reason_for_Service__c","Measles 6"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.Measles_6")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
@@ -491,6 +525,7 @@ combine( function(state) {
       field("Reason_for_Service__c","Measles 9"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.Measles_9")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
@@ -517,6 +552,7 @@ combine( function(state) {
       field("Reason_for_Service__c","Measles 18"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.TT5.Child_Information.Immunizations.Measles_18")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id")),
@@ -543,6 +579,7 @@ combine( function(state) {
       field("Reason_for_Service__c","Deworming"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.Date")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
@@ -562,6 +599,7 @@ combine( function(state) {
       field("Reason_for_Service__c","Home-Based Care"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Date__c",dataValue("$.form.Date")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
       //field("Home_Based_Care_Rendered__c",'A;B;B'),
@@ -588,6 +626,7 @@ combine( function(state) {
       }),
       field("Source__c",1),
       field("Date__c",dataValue("$.form.Date")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("Referral_Date__c",dataValue("$.form.Referral_Date")),
       field("Referred__c",1),
@@ -615,6 +654,7 @@ combine( function(state){
       }),
       field("Source__c",1),
       field("Date__c",dataValue("$.form.Date")),
+      field("Follow_Up_By_Date__c",dataValue("$.form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("Household_CHW__c",dataValue("$.form.CHW_ID_Final")),
       field("RecordTypeID","01224000000YAuK"),
@@ -948,6 +988,8 @@ combine( function(state){
         field("Date__c",dataValue("Clinical_Date")),
         field("Type_of_Service__c","CHW Mobile Survey"),
         field("RecordTypeID","01224000000YAuK"),
+        field("Clinic_Zinc__c", dataValue("diarrhea_clinic_treatment_zinc")),
+        field("Clinic_ORS__c", dataValue("diarrhea_clinic_treatment_ORS")),
         relationship("Site__r","Label__c",(state)=>{
             var facility=dataValue("Facility_Clinical")(state);
             if(facility===''||facility===undefined){
