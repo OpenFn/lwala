@@ -34,7 +34,7 @@ upsert("Person__c","CommCare_ID__c", fields(
     var illness = '';
     if(chronic!==undefined){
       chronic = chronic.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
-      return chronic; 
+      return chronic;
       illness = chronic.toString().replace(/_/g," ");
     } else { illness == null}
     //var illness = dataValue("$.form.Person.Basic_Information.person_info.chronic_illness")(state).toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';')
@@ -108,26 +108,18 @@ upsert("Person__c","CommCare_ID__c", fields(
     var facility= dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Birth_Facility")(state);
     return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
   }),
-  field("Place_of_Delivery__c",(state)=>{
+  /*field("Place_of_Delivery__c",(state)=>{
     var facility= dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
     return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
-  })
- //Need transformation?
-  /*field("Place_of_Delivery__c",(state)=>{
+  })*/
+  field("Place_of_Delivery__c",(state)=>{
     var val='';
-    var placeholder=''
-    if(dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state)!==undefined){
-      placeholder=dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
-      if(placeholder=='Skilled'){
-        val='Facility';
+    var skilled=dataValue("$.form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
+    if(skilled!==undefined){
+      val = (skilled =='Skilled'? 'Facility' : 'Home');
       }
-      else if(placeholder=='Unskilled'){
-        val='Home';
-      }
-    }
     return val;
-  }),*/
-
+  })
 )),
 //**Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(

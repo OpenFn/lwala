@@ -152,8 +152,15 @@ upsert("Household__c", "MOH_household_code__c",fields(
         return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
       }),
       field("Place_of_Delivery__c",(state)=>{
-        var facility= dataValue("TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
+      /*  var facility= dataValue("TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
         return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
+      }),*/
+        var val='';
+        var skilled=dataValue("TT5.Child_Information.Delivery_Information.Skilled_Unskilled")(state);
+        if(skilled!==undefined){
+          val = (skilled =='Skilled'? 'Facility' : 'Home');
+          }
+        return val;
       }),
       field("BCG__c",dataValue("TT5.Child_Information.Immunizations.BCG")),
       field("OPV_0__c",dataValue("TT5.Child_Information.Immunizations.OPV_0")),
