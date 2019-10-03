@@ -677,6 +677,13 @@ combine( function(state){
           status='Severely Malnourished';
         }
         return status;
+      }),
+      relationship("Site__r","Label__c",(state)=>{
+        var facility=dataValue("$.form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition")(state);
+        if(facility===''||facility===undefined){
+          facility="unknown";
+        }
+        return facility;
       })
     ))(state);
   }
@@ -795,7 +802,7 @@ combine( function(state){
      field("Purpose_of_Referral__c", "Malnutrition"),
      field("Nutrition_Status__c",dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")),
      field("MUAC__c",dataValue("$.form.TT5.Child_Information.Nutrition.MUAC")),
-     field("Nutrition_referral_facility__c", (state)=>{ 
+     field("Nutrition_referral_facility__c", (state)=>{
        var facility = dataValue("$.form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition")(state)
        return(facility!==undefined ? facility.toString().replace(/_/g," ") : null);
      }),
