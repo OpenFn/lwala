@@ -49,7 +49,8 @@ combine( function(state) {
               return active;
           }),
           field("Reason_for_a_refferal__c", (state)=>{
-            return(dataValue("$.form.treatment_and_tracking.Referral.Purpose_of_Referral")(state).toString().replace(/_/g," "));
+            var referral = dataValue("$.form.treatment_and_tracking.Referral.Purpose_of_Referral")(state)
+            return(referral!==undefined ? referral.toString().replace(/_/g," ") : null);
           }),
           field("Individual_birth_plan_counseling__c", dataValue("$.form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan")),
           field("Pregnancy_danger_signs__c", (state)=>{
@@ -794,10 +795,10 @@ combine( function(state){
      field("Purpose_of_Referral__c", "Malnutrition"),
      field("Nutrition_Status__c",dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")),
      field("MUAC__c",dataValue("$.form.TT5.Child_Information.Nutrition.MUAC")),
-     /*field("Nutrition_referral_facility__c", (state)=>{ //DOES NOT EXIST IN SF
+     field("Nutrition_referral_facility__c", (state)=>{ 
        var facility = dataValue("$.form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition")(state)
        return(facility!==undefined ? facility.toString().replace(/_/g," ") : null);
-     }),*/
+     }),
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
@@ -843,10 +844,13 @@ combine( function(state){
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "TB"),
-     /*field("TB_referral_facility__c", (state)=>{ //DOES NOT EXIST IN SF
-       var facility = dataValue("$.form.treatment_and_tracking.TB_referral_facility")(state)
-       return(facility!==undefined ? facility.toString().replace(/_/g," ") : null);
-     }),*/
+     relationship("Site__r","Label__c",(state)=>{
+       var facility=dataValue("$.form.treatment_and_tracking.TB_referral_facility")(state);
+       if(facility===''||facility===undefined){
+         facility="unknown";
+       }
+       return facility;
+     }),
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
@@ -869,10 +873,13 @@ combine( function(state){
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "Diarrhea"),
-     /*field("Diarrhea_referral_facility__c", (state)=>{ //DOES NOT EXIST IN SF
-       var facility = dataValue("$.form.treatment_and_tracking.diarrhea_referral_facility")(state)
-       return(facility!==undefined ? facility.toString().replace(/_/g," ") : null);
-     }),*/
+     relationship("Site__r","Label__c",(state)=>{
+       var facility=dataValue("$.form.treatment_and_tracking.diarrhea_referral_facility")(state);
+       if(facility===''||facility===undefined){
+         facility="unknown";
+       }
+       return facility;
+     }),
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }}),
@@ -895,10 +902,13 @@ combine( function(state){
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "Malaria"),
-     /*field("Malaria_referral_facility__c", (state)=>{ //DOES NOT EXIST IN SF
-       var facility = dataValue("$.form.treatment_and_tracking.diarrhea_referral_facility")(state)
-       return(facility!==undefined ? facility.toString().replace(/_/g," ") : null);
-     }),*/
+     relationship("Site__r","Label__c",(state)=>{
+       var facility=dataValue("$.form.treatment_and_tracking.malaria_referral_facility")(state);
+       if(facility===''||facility===undefined){
+         facility="unknown";
+       }
+       return facility;
+     }),
      relationship("Person__r","CommCare_ID__c",dataValue("$.form.case.@case_id"))
     ))(state);
   }
@@ -979,7 +989,7 @@ combine( function(state){
           else if(name=="Family_Planning"){
             reason="Family Planning (FP)"
           }
-          else{
+          else if (name!==undefined){
             reason=name.replace(/_/g," ");
           }
           return reason;
@@ -1009,18 +1019,25 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
   //field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")), //CHECK CHW ID !!
   field("Supervisor_Visit__c",(state)=>{
-    var visit = dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";")
+    var visit = dataValue("$.form.supervisor_visit")(state)
+    if(visit!==undefined){
+      visit = visit.toString().replace(/ /g,";")
+    }
     return visit.toString().replace(/_/g," ");
   }),
   field("Date__c",dataValue("$.metadata.timeEnd")),
   field("Location__latitude__s", (state)=>{
     var lat = state.data.metadata.location;
-    lat = lat.substring(0, lat.indexOf(" "));
+    if(lat !==null && lat !==undefined){
+      lat = lat.substring(0, lat.indexOf(" "));
+    }
     return lat;
   }),
  field("Location__longitude__s", (state)=>{
     var long = state.data.metadata.location;
-    long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
+    if(long !==null && long !==undefined){
+      long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
+    }
     return long;
   })
 ))
