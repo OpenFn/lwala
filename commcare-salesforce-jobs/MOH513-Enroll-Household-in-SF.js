@@ -37,7 +37,8 @@ upsert("Household__c", "MOH_household_code__c",fields(
   field("Kitchen_Garden__c", dataValue("$.form.Household_Information.Kitchen_Garden")),
   field("Cookstove__c", dataValue("$.form.Household_Information.Improved_Cooking_Method")),
   field("Clothe__c", dataValue("$.form.Household_Information.Clothesline")),
-  field("WASH_Trained__c", dataValue("$.form.Household_Information.WASH_Compliant")),
+  field("WASH_Trained__c", dataValue("$.form.Household_Information.WASH_Trained")),
+  field("WASH_Compliant__c", dataValue("$.form.Household_Information.WASH_Compliant")),
   field("Total_household_people__c", dataValue("$.form.Total_Number_of_Members"))
 )),
   //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
