@@ -100,7 +100,9 @@ combine( function(state) {
           field("Place_of_Delivery__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Type")),
           field("Deliver_Facility__c",dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
           field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
-          field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.counseling"))
+          field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
+          field("Family_Planning__c", dataValue("form.Person.Basic_Information.family_planning.Currently_on_family_planning")),
+          field("Family_Planning_Method__c", dataValue("form.Person.Basic_Information.family_planning.Family_Planning_Method""))
         ))(state);
 
     }
