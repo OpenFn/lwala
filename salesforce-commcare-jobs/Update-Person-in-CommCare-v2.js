@@ -12,8 +12,6 @@ submit(
     field("Source",0),
     field("Status", function(state){
       return{
-
-
         "Client_Status":dataValue("new[0].Client_Status__c")(state),
         "Date_of_Transfer_Out":dataValue("new[0].Date_of_Transfer_Out__c")(state),
         "Date_Last_Seen":dataValue("new[0].Date_Last_Seen__c")(state),

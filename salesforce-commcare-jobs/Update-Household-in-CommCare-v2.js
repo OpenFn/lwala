@@ -9,7 +9,7 @@ submit(
         "name":"Test Update Household" //TO UPDATE
       };
     }),
-    field("Source",false),
+    field("Source",0),
     field("Household_Status",function(state){
       var str='';
       if(dataValue("new[0].Active_Household__c")(state)===false){
