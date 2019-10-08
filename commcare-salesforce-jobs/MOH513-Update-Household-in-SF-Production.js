@@ -8,8 +8,10 @@ combine(function(state){
           var status = dataValue("form.Household_Status")(state)
           return (status=="Yes"? true : false);
         }),
-        field("Inactive_Reason__c", dataValue("form.Reason_for_Inactive")),
-        field("Inactive_Date__c", dataValue("form.Date")),
+        field("Inactive_Reason__c", (state)=>{
+          var reason = dataValue("form.Reason_for_Inactive")(state)
+          return (reason!==undefined ? reason : null);
+        }),
         field("Source__c", 1),
         field("Tippy_Tap__c", dataValue("form.Household_Information.Active_Handwashing_Station")),
         field("Clothe__c", dataValue("form.Household_Information.Clothesline")),
@@ -24,18 +26,9 @@ combine(function(state){
           var deaths = dataValue("form.Household_Information.household_deaths.deaths_in_past_6_months")(state);
           return (deaths > 0 ? "Yes" : "No");
         })
-    ))(state)
-    //,
-    /*,
-    each(
-      dataPath("$.form.Household_Information.household_deaths.deaths[*]"),
-      upsert("Person__c","CommCare_ID__c", fields(
-        relationship("Household__r", "CommCare_Code__c", state.data.form.case.@case_id),
-        field()
-      ))
-    ),*/
-    /*
-    create("Visit__c",fields(
+    ))(state),
+    upsert("Visit__c","CommCare_Visit_ID__c", fields(
+      field("CommCare_Visit_ID__c", dataValue("id")),
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
       field("Date__c",dataValue("$.form.Date")),
       field("Household_CHW__c",dataValue("form.chw")),
@@ -47,7 +40,15 @@ combine(function(state){
         }
         return visit.toString().replace(/_/g," ");
       })
-    ))(state);*/
+    ))(state);
+    /*,
+    each(
+      dataPath("$.form.Household_Information.household_deaths.deaths[*]"),
+      upsert("Person__c","CommCare_ID__c", fields(
+        relationship("Household__r", "CommCare_Code__c", state.data.form.case.@case_id),
+        field()
+      ))
+    ),*/
 /* } Need separate logic depending on Household_Status?
   else{
     upsert("Household__c","CommCare_Code__c",fields(
