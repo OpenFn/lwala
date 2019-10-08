@@ -3,7 +3,7 @@ submit(
     field("@", function(state) {
       return {
         "xmlns:jrm":"http://dev.commcarehq.org/jr/xforms",
-        "xmlns":"http://openrosa.org/formdesigner/980c10cdb3b140101225e25c6e8aff48f471b3d",
+        "xmlns":"http://openrosa.org/formdesigner/7bdbfcc02fd44260837d799d24051449",
         "uiVersion":"1",
         "version":"46",
         "name":"Test Update Household" //TO UPDATE
