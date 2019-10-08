@@ -6,7 +6,7 @@ submit(
         "xmlns":"http://openrosa.org/formdesigner/56DF4599-A4E3-486A-ACA2-64600B1D630A",
         "uiVersion":"1",
         "version":"83",
-        "name":"Enroll New Household Test" //TO UPDATE
+        "name":"Test Enroll Household" //TO UPDATE
       };
     }),
     field("Run_Code","Household_Lwala"),
