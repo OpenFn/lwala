@@ -3,7 +3,7 @@ submit(
     field("@", function(state) {
       return {
         "xmlns:jrm":"http://dev.commcarehq.org/jr/xforms",
-        "xmlns":"http://openrosa.org/formdesigner/56DF4599-A4E3-486A-ACA2-64600B1D630A",
+        "xmlns":"http://openrosa.org/formdesigner/5BA8B924-B541-4E23-AEA9-B3A7F38EF67E",
         "uiVersion":"1",
         "version":"83",
         "name":"Test Enroll Household" //TO UPDATE
