@@ -1019,6 +1019,8 @@ combine( function(state){
     )(state);
   }
 }),
+combine(function(state){
+if(dataValue("form.supervisor_visit")(state)!==undefined){
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.HH_ID")),
@@ -1047,5 +1049,6 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     }
     return long;
   })
-))
+))(state)
+}})
 );

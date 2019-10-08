@@ -1,5 +1,7 @@
 //** MOH513 Enroll Person form ** -> Upserting person record based on CommCare ID
-upsert("Person__c","CommCare_ID__c", fields(
+combine(function(state){
+if(dataValue("$.form.Source")(state)==1){
+  upsert("Person__c","CommCare_ID__c", fields(
   field("CommCare_ID__c",dataValue("$.form.subcase_0.case.@case_id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Name",(state)=>{
@@ -70,7 +72,7 @@ upsert("Person__c","CommCare_ID__c", fields(
       return active;
   }),
   field("LMP__c",dataValue("$.form.Person.TT5.Child_Information.ANCs.LMP")),
-  field("Source__c",true),
+  field("Source__c",1),
   field("ANC_1__c",dataValue("$.form.Person.TT5.Child_Information.ANCs.ANC_1")),
   field("ANC_2__c",dataValue("$.form.Person.TT5.Child_Information.ANCs.ANC_2")),
   field("ANC_3__c",dataValue("$.form.Person.TT5.Child_Information.ANCs.ANC_3")),
@@ -120,9 +122,12 @@ upsert("Person__c","CommCare_ID__c", fields(
       }
     return val;
   })
-)),
+))(state)
+}}),
 //**Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
-upsert("Visit__c", "CommCare_Visit_ID__c", fields(
+combine(function(state){
+if(dataValue("form.supervisor_visit")(state)!==undefined){
+    upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
   field("Name", "Supervisor Visit"),
@@ -143,4 +148,5 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
     return (long!==null? long : null);
   })
-));
+))(state)
+}});
