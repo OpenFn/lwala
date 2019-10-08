@@ -33,9 +33,10 @@ upsert("Household__c","CommCare_Code__c",fields(
     field("Supervisor_Visit__c",(state)=>{
       var visit = dataValue("$.form.supervisor_visit")(state)
       if(visit!==undefined){
-        visit = visit.toString().replace(/ /g,";")
+        visit = visit.toString().replace(/ /g,";");
+        return visit.toString().replace(/_/g," ");
       }
-      return visit.toString().replace(/_/g," ");
+      //return visit;
     })
   ));
     /*,
