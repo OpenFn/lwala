@@ -11,7 +11,11 @@ submit(
     }),
     field("Run_Code","Household_Lwala"),
     field("area",dataValue("new[0].Area__c")),
-    field("name", dataValue("new[0].Name")),
+    //field("name", dataValue("new[0].Name")), //TO UPDATE
+    field("name", (state)=>{
+      var name = dataValue("new[0].Name")(state) + "Test";
+      return name;
+    }),
     field("Source",false),
     field("CHW_ID",dataValue("new[0].Household_CHW__c")),
     field("CHW_Name",dataValue("new[0].Household_CHW_Reporting__c")),
