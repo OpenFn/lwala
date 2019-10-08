@@ -24,21 +24,24 @@ upsert("Household__c","CommCare_Code__c",fields(
       return (deaths > 0 ? "Yes" : "No");
     })
   )),
- upsert("Visit__c","CommCare_Visit_ID__c", fields(
-    field("CommCare_Visit_ID__c", dataValue("id")),
-    relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
-    field("Date__c",dataValue("$.form.Date")),
-    field("Household_CHW__c",dataValue("form.case.update.CHW_ID")),
-    field("Name", "Supervisor Visit"),
-    field("Supervisor_Visit__c",(state)=>{
-      var visit = dataValue("$.form.supervisor_visit")(state)
-      if(visit!==undefined){
-        visit = visit.toString().replace(/ /g,";");
-        return visit.toString().replace(/_/g," ");
-      }
-      //return visit;
-    })
-  ));
+combine(function(state){
+if(dataValue("form.supervisor_visit")(state)!==undefined){
+   upsert("Visit__c","CommCare_Visit_ID__c", fields(
+      field("CommCare_Visit_ID__c", dataValue("id")),
+      relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
+      field("Date__c",dataValue("$.form.Date")),
+      field("Household_CHW__c",dataValue("form.case.update.CHW_ID")),
+      field("Name", "Supervisor Visit"),
+      field("Supervisor_Visit__c",(state)=>{
+        var visit = dataValue("$.form.supervisor_visit")(state)
+        if(visit!==undefined){
+          visit = visit.toString().replace(/ /g,";");
+          return visit.toString().replace(/_/g," ");
+        }
+      })
+    ))(state)
+  }
+});
     /*,
     each(
       dataPath("$.form.Household_Information.household_deaths.deaths[*]"),
