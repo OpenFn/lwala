@@ -112,18 +112,18 @@ combine( function(state) {
       field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
       field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
       field("Family_Planning__c", (state)=>{
-        var method1 = dataValue("form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state)
-        var method2 = dataValue("form.Person.TT5.Mother_Information.family_planning")(state)
+        var method1 = dataValue("form.Basic_Information.family_planning.Currently_on_family_planning")(state)
+        var method2 = dataValue("form.TT5.Mother_Information.family_planning")(state)
         return(method2!==undefined ? method2 : method1);
       }),
       field("Family_Planning_Method__c", (state)=>{
-        var method1 = dataValue("form.Person.Basic_Information.family_planning.Family_Planning_Method")(state)
-        var method2 = dataValue("form.Person.TT5.Mother_Information.family_planning_method")(state)
+        var method1 = dataValue("form.Basic_Information.family_planning.Family_Planning_Method")(state)
+        var method2 = dataValue("form.TT5.Mother_Information.family_planning_method")(state)
         return(method2!==undefined ? method2 : method1);
 
       }),
       field("Pregnant__c", (state)=>{
-        var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state)
+        var preg = dataValue("form.TT5.Mother_Information.Pregnant")(state)
         return (preg=="Yes" ? true : false);
       })
     ))(state);
