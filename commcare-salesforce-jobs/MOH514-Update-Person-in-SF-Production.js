@@ -111,8 +111,21 @@ combine( function(state) {
       field("Deliver_Facility__c",dataValue("form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
       field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
       field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
-      field("Family_Planning__c", dataValue("form.Person.Basic_Information.family_planning.Currently_on_family_planning")),
-      field("Family_Planning_Method__c", dataValue("form.Person.Basic_Information.family_planning.Family_Planning_Method"))
+      field("Family_Planning__c", (state)=>{
+        var method1 = dataValue("form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state)
+        var method2 = dataValue("form.Person.TT5.Mother_Information.family_planning")(state)
+        return(method1!==undefined ? method1 : method2);
+      }),
+      field("Family_Planning_Method__c", (state)=>{
+        var method1 = dataValue("form.Person.Basic_Information.family_planning.Family_Planning_Method")(state)
+        var method2 = dataValue("form.Person.TT5.Mother_Information.family_planning_method")(state)
+        return(method1!==undefined ? method1 : method2);
+
+      }),
+      field("Pregnant__c", (state)=>{
+        var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state)
+        return (preg=="Yes" ? true : false);
+      }),
     ))(state);
   }
 //  }
