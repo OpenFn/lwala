@@ -125,7 +125,7 @@ combine( function(state) {
       field("Pregnant__c", (state)=>{
         var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state)
         return (preg=="Yes" ? true : false);
-      }),
+      })
     ))(state);
   }
 //  }
