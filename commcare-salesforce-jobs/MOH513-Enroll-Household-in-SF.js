@@ -79,9 +79,10 @@ each(
         return(dataValue("Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
     }),
     field("Name",(state)=>{
+      var status = dataValue("Basic_Information.Child_Status")(state)
       var name1=dataValue("Basic_Information.Person_Name")(state);
       var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-      return name2;
+      return (status!=="Unborn" ? name2 : "Unborn Child");
     }),
     field("Source__c", true),
     relationship("Catchment__r","Name", dataValue("catchment")),// check
