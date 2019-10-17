@@ -116,7 +116,8 @@ if(dataValue("form.Source")(state)==1){
   ))(state)
 }}),
 //**Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
-*combine(function(state){
+//*/
+combine(function(state){
 if(dataValue("form.supervisor_visit")(state)!==undefined){
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     field("CommCare_Visit_ID__c", dataValue("id")),
@@ -141,3 +142,4 @@ if(dataValue("form.supervisor_visit")(state)!==undefined){
     })
   ))(state)
 }});
+//*/
