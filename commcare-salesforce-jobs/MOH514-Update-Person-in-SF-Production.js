@@ -114,12 +114,12 @@ combine( function(state) {
       field("Family_Planning__c", (state)=>{
         var method1 = dataValue("form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state)
         var method2 = dataValue("form.Person.TT5.Mother_Information.family_planning")(state)
-        return(method1!==undefined ? method1 : method2);
+        return(method2!==undefined ? method2 : method1);
       }),
       field("Family_Planning_Method__c", (state)=>{
         var method1 = dataValue("form.Person.Basic_Information.family_planning.Family_Planning_Method")(state)
         var method2 = dataValue("form.Person.TT5.Mother_Information.family_planning_method")(state)
-        return(method1!==undefined ? method1 : method2);
+        return(method2!==undefined ? method2 : method1);
 
       }),
       field("Pregnant__c", (state)=>{
