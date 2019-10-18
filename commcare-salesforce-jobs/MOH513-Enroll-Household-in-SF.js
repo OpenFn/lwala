@@ -76,7 +76,9 @@ each(
     field("CommCare_ID__c",dataValue("case.@case_id")),
     field("CommCare_HH_Code__c", dataValue("case.index.parent.#text")),
     relationship("RecordType","Name",(state)=>{
-        return(dataValue("Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
+      var rt = dataValue("Basic_Information.Record_Type")(state)
+      var status = dataValue("Basic_Information.Child_Status")(state)
+      return(status=="Unborn" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
     }),
     field("Name",(state)=>{
       var status = dataValue("Basic_Information.Child_Status")(state)

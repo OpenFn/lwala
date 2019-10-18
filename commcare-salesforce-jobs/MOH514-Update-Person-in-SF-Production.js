@@ -28,22 +28,24 @@ combine( function(state) {
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       relationship("Household__r","CommCare_Code__c",dataValue("form.HH_ID")),
       field("CommCare_HH_Code__c",dataValue("form.case.@case_id")),
-      field("Client_Status__c", dataValue("$form.Status.Client_Status")),
+      field("Client_Status__c", dataValue("form.Status.Client_Status")),
       field("Name",(state)=>{
+        var status = dataValue("form.Status.Client_Status")(state)
         var name1=dataValue("form.Person_Name")(state);
-        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-        return name2;
+        var name2=(name1===undefined ? "No Name" : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
+        return (status!=="Unborn" ? name2 : "Unborn Child");
       }),
       relationship("RecordType","Name",(state)=>{
-          return(dataValue("form.RecordType")(state).toString().replace(/_/g," "));
+        var rt = dataValue("form.case.update.Record_Type")(state)
+        return(rt=="Unborn" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
       }),
       field("Active_in_Thrive_Thru_5__c", (state)=>{
         var status = dataValue("form.case.update.TT5_enrollment_status")(state);
         return (status == "Enrolled in TT5" ? "Yes" : "No");
       }),
       field("Active_in_HAWI__c", (state)=>{
-          var status = dataValue("form.case.update.HAWI_enrollment_status")(state);
-          return (status == "Enrolled in HAWI" ? "Yes" : "No");
+        var status = dataValue("form.case.update.HAWI_enrollment_status")(state);
+        return (status == "Enrolled in HAWI" ? "Yes" : "No");
       }),
       field("Reason_for_a_refferal__c", (state)=>{
         var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state)

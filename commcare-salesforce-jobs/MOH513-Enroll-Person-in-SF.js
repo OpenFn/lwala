@@ -12,7 +12,9 @@ if(dataValue("form.Source")(state)==1){
       return (status!=="Unborn" ? name2 : "Unborn Child");
     }),
     relationship("RecordType","Name",(state)=>{
-      return(dataValue("form.Person.Basic_Information.Record_Type")(state).toString().replace(/_/g," "));
+      var rt = dataValue("form.Person.Basic_Information.Record_Type")(state)
+      var status = dataValue("form.Person.Basic_Information.Child_Status")(state)
+      return(status=="Unborn" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
     }),
     field("Client_Status__c", "Active"),
     field("Relation_to_the_head_of_the_household__c", (state)=>{
@@ -116,7 +118,7 @@ if(dataValue("form.Source")(state)==1){
   ))(state)
 }}),
 //**Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
-//*/
+///*
 combine(function(state){
 if(dataValue("form.supervisor_visit")(state)!==undefined){
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(
