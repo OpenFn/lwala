@@ -16,12 +16,11 @@ alterState((state) =>{
   return state;
 });
 
-
-
 //Evaluates client status and how to upsert Person records
-steps(
-combine( function(state) {
-  if(dataValue("form.Status.Client_Status")(state)=="Active"){
+if(dataValue("form.Source")(state)==1){
+  steps(
+  combine( function(state) {
+  if(dataValue("form.Status.Client_Status")(state)=="Active" && dataValue("form.Source")(state)==1){
   //Deliveries
      upsert("Person__c", "CommCare_ID__c", fields(
       field("Source__c",1),
@@ -30,10 +29,9 @@ combine( function(state) {
       field("CommCare_HH_Code__c",dataValue("form.case.@case_id")),
       field("Client_Status__c", dataValue("form.Status.Client_Status")),
       field("Name",(state)=>{
-        var status = dataValue("form.Status.Client_Status")(state)
-        var name1=dataValue("form.Person_Name")(state);
-        var name2=(name1===undefined ? "No Name" : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
-        return (status!=="Unborn" ? name2 : "Unborn Child");
+        var name1=dataValue("form.Person_Name")(state)
+        var name2=(name1===undefined ? null : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
+        return (name1!==null ? name2 : "Unborn Child");
       }),
       relationship("RecordType","Name",(state)=>{
         var rt = dataValue("form.case.update.RecordType")(state)
@@ -1044,6 +1042,7 @@ combine( function(state){
   }
 }),
   combine( function(state){
+    if(dataValue("form.Source")(state)==1){
     upsert("Visit__c", "CommCare_Visit_ID__c", fields(
       field("CommCare_Visit_ID__c", dataValue("id")),
       relationship("Household__r","CommCare_Code__c",dataValue("form.HH_ID")),
@@ -1074,5 +1073,5 @@ combine( function(state){
         return long;
       })
     ))(state)
-  })
-);
+  }})
+)};
