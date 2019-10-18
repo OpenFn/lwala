@@ -8,7 +8,7 @@ if(dataValue("form.Source")(state)==1){
     field("Name",(state)=>{
       var status = dataValue("form.Person.Basic_Information.Child_Status")(state)
       var name1=dataValue("form.Person.Basic_Information.Person_Name")(state);
-      var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      var name2=(name1===undefined ? "No Name" : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
       return (status!=="Unborn" ? name2 : "Unborn Child");
     }),
     relationship("RecordType","Name",(state)=>{
@@ -119,29 +119,26 @@ if(dataValue("form.Source")(state)==1){
 }}),
 //**Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 ///*
-combine(function(state){
-if(dataValue("form.supervisor_visit")(state)!==undefined){
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     field("CommCare_Visit_ID__c", dataValue("id")),
     relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")),
     field("Name", "CHW Visit"),
     field("Supervisor_Visit__c",(state)=>{
-      var visit = dataValue("form.supervisor_visit")(state).toString().replace(/ /g,";")
-      return visit.toString().replace(/_/g," ");
+      var visit = dataValue("form.supervisor_visit")(state)
+      return(visit!==undefined ? visit.toString().replace(/ /g,";").replace(/_/g," ") : null);
     }),
     field("Date__c",dataValue("form.Date")),
     //field("Household_CHW__c",dataValue("form.Person.CHW_ID")),
     field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     field("Location__latitude__s", (state)=>{
       var lat = state.data.metadata.location;
-      lat = lat.substring(0, lat.indexOf(" "));
-      return (lat!==null? lat : null);
+      //lat = lat.substring(0, lat.indexOf(" "));
+      return (lat!==null? lat.substring(0, lat.indexOf(" ")) : null);
     }),
    field("Location__longitude__s", (state)=>{
       var long = state.data.metadata.location;
-      long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
-      return (long!==null? long : null);
+      //long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
+      return (long!==null? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7) : null);
     })
-  ))(state)
-}});
+  ));
 //*/
