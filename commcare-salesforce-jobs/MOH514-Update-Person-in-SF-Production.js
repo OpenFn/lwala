@@ -100,9 +100,9 @@ if(dataValue("form.Source")(state)==1){
       field("Malaria_Follow_Up__c",dataValue("form.TT5.Child_Information.CCMM.Fever-Follow-Up_By_Date")),
       field("Malaria_Facility__c",dataValue("form.TT5.Child_Information.CCMM.malaria_referral_facility")),
       field("Malaria_Referral__c",dataValue("form.TT5.Child_Information.CCMM.Referral_Date")),
-      //field("Fever_over_7days__c",dataValue("form.treatment_and_tracking.symptoms_check_fever")), //DOES NOT EXIST IN SF, to add back in
-      //field("Cough_over_14days__c",dataValue("form.treatment_and_tracking.symptoms_check_cough")),
-      //field("Diarrhoea_over_14days__c",dataValue("form.treatment_and_tracking.symptoms_check_diarrhea")),
+      field("Fever_over_7days__c",dataValue("form.treatment_and_tracking.symptoms_check_fever")), //DOES NOT EXIST IN SF, to add back in
+      field("Cough_14_days__c",dataValue("form.treatment_and_tracking.symptoms_check_cough")),
+      field("Diarrhoea_over_14days__c",dataValue("form.treatment_and_tracking.symptoms_check_diarrhea")),
       field("Diarrhoea_less_than_14_days__c",dataValue("form.treatment_and_tracking.mild_symptoms_check_diarrhea")),
       field("Default_on_TB_treatment__c",dataValue("form.treatment_and_tracking.patient_default_tb")),
       field("TB_patients_therapy_observed__c",dataValue("form.treatment_and_tracking.observed_tb_therapy")),
