@@ -130,8 +130,8 @@ if(dataValue("form.supervisor_visit")(state)!==undefined){
       return visit.toString().replace(/_/g," ");
     }),
     field("Date__c",dataValue("form.Date")),
-    field("Household_CHW__c",dataValue("form.Person.CHW_ID")),
-    //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+    //field("Household_CHW__c",dataValue("form.Person.CHW_ID")),
+    field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     field("Location__latitude__s", (state)=>{
       var lat = state.data.metadata.location;
       lat = lat.substring(0, lat.indexOf(" "));

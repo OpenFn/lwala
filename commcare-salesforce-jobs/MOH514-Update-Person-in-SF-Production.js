@@ -1048,8 +1048,8 @@ combine( function(state){
       field("CommCare_Visit_ID__c", dataValue("id")),
       relationship("Household__r","CommCare_Code__c",dataValue("form.HH_ID")),
       field("Name", "CHW Visit"),
-      //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
-      field("Household_CHW__c", dataValue("form.CHW_ID_Final")),
+      field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
+      //field("Household_CHW__c", dataValue("form.CHW_ID_Final")),
       field("Supervisor_Visit__c",(state)=>{
         var visit = dataValue("form.supervisor_visit")(state)
         if(visit!==undefined){

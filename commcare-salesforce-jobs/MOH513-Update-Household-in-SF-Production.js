@@ -30,7 +30,8 @@ upsert("Visit__c","CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")),
   field("Date__c",dataValue("form.metadata.timeEnd")),
-  field("Household_CHW__c",dataValue("form.case.update.CHW_ID")),
+  field("Household_CHW__c", "a031x000002S9lm"),
+  //field("Household_CHW__c",dataValue("form.case.update.CHW_ID")),
   field("Name", "CHW Visit"),
   field("Supervisor_Visit__c",(state)=>{
     var visit = dataValue("form.supervisor_visit")(state)
