@@ -36,7 +36,7 @@ combine( function(state) {
         return (status!=="Unborn" ? name2 : "Unborn Child");
       }),
       relationship("RecordType","Name",(state)=>{
-        var rt = dataValue("form.case.update.Record_Type")(state)
+        var rt = dataValue("form.case.update.RecordType")(state)
         return(rt=="Unborn" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
       }),
       field("Active_in_Thrive_Thru_5__c", (state)=>{
