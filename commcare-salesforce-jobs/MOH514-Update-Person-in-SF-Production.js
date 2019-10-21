@@ -45,6 +45,24 @@ if(dataValue("form.Source")(state)==1){
         var status = dataValue("form.case.update.HAWI_enrollment_status")(state);
         return (status == "Enrolled in HAWI" ? "Yes" : "No");
       }),
+      field("Enrollment_Date__c", (state)=>{
+        var status = dataValue("form.case.update.TT5_enrollment_status")(state);
+        var date = dataValue("metadata.timeEnd")(state);
+        return (status == "Enrolled in TT5" ? date : null);
+      }),
+      field("HAWI_Enrollment_Date__c", (state)=>{
+        var status = dataValue("form.case.update.HAWI_enrollment_status")(state);
+        var date = dataValue("metadata.timeEnd")(state);
+        return (status == "Enrolled in HAWI" ? date : null);
+      }),
+      field("Thrive_Thru_5_Registrant__c", (state)=>{
+        var status = dataValue("form.case.update.TT5_enrollment_status")(state);
+        return (status == "Enrolled in TT5" ? "Yes" : "No");
+      }),
+      field("HAWI_Registrant__c", (state)=>{
+        var status = dataValue("form.case.update.HAWI_enrollment_status")(state);
+        return (status == "Enrolled in HAWI" ? "Yes" : "No");
+      }),
       field("Reason_for_a_refferal__c", (state)=>{
         var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state)
         return(referral!==undefined ? referral.toString().replace(/_/g," ") : null);
