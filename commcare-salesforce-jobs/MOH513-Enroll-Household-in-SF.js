@@ -47,7 +47,7 @@ if(dataValue("form.Source")(state)==1){
     //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     field("CommCare_Visit_ID__c", dataValue("id")),
-    relationship("Household__r", "MOH_household_code__c", dataValue("form.moh_code")),
+    relationship("Household__r", "CommCare_Code__c", dataValue("form.case.@case_id")),
     field("Name", "CHW Visit"),
     field("Supervisor_Visit__c",(state)=>{
       var visit = dataValue("form.supervisor_visit")(state).toString().replace(/ /g,";")
@@ -103,6 +103,24 @@ each(
     field("Active_in_HAWI__c", (state)=>{
         var status = dataValue("Basic_Information.person_info.HAWI_enrollment_status")(state);
         return(status=="Enrolled in HAWI" ? "Yes" : "No");
+    }),
+    field("Enrollment_Date__c", (state)=>{
+      var status = dataValue("form.Person.Basic_Information.TT5_enrollment_status")(state);
+      var date = dataValue("metadata.timeEnd")(state);
+      return (status == "Enrolled in TT5" ? date : null);
+    }),
+    field("HAWI_Enrollment_Date__c", (state)=>{
+      var status = dataValue("Basic_Information.person_info.HAWI_enrollment_status")(state);
+      var date = dataValue("metadata.timeEnd")(state);
+      return (status == "Enrolled in HAWI" ? date : null);
+    }),
+    field("Thrive_Thru_5_Registrant__c", (state)=>{
+      var status = dataValue("Basic_Information.TT5_enrollment_status")(state);
+      return (status == "Enrolled in TT5" ? "Yes" : "No");
+    }),
+    field("HAWI_Registrant__c", (state)=>{
+      var status = dataValue("Basic_Information.person_info.HAWI_enrollment_status")(state);
+      return (status == "Enrolled in HAWI" ? "Yes" : "No");
     }),
     field("Date_of_Birth__c",dataValue("Basic_Information.DOB")),
     //field("Child_Status__c",dataValue("Basic_Information.Child_Status")),
