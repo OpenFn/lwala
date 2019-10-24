@@ -71,30 +71,30 @@ combine(function(state){
         return (toTitleCase!==null ? toTitleCase.charAt(0).toUpperCase() + toTitleCase.slice(1) : null);
       }),
       field("Active_in_Thrive_Thru_5__c", (state)=>{
-        var status = dataValue("Basic_Information.TT5_enrollment_status")(state);
-        return(status=="Enrolled in TT5" ? "Yes" : "No");
+        var age = dataValue("Basic_Information.age")(state);
+        return(age<5 ? "Yes" : "No");
       }),
       field("Active_in_HAWI__c", (state)=>{
-          var status = dataValue("Basic_Information.person_info.HAWI_enrollment_status")(state);
-          return(status=="Enrolled in HAWI" ? "Yes" : "No");
+          var status = dataValue("Basic_Information.person_info.hiv_status")(state);
+          return(status=="positive" ? "Yes" : "No");
       }),
       field("Enrollment_Date__c", (state)=>{
-        var status = dataValue("form.Person.Basic_Information.TT5_enrollment_status")(state);
+        var age = dataValue("Basic_Information.age")(state);
         var date = dataValue("metadata.timeEnd")(state);
-        return (status == "Enrolled in TT5" ? date : null);
+        return (age<5 ? date : null);
       }),
       field("HAWI_Enrollment_Date__c", (state)=>{
-        var status = dataValue("Basic_Information.person_info.HAWI_enrollment_status")(state);
+        var status = dataValue("Basic_Information.person_info.hiv_status")(state);
         var date = dataValue("metadata.timeEnd")(state);
-        return (status == "Enrolled in HAWI" ? date : null);
+        return (status == "positive" ? date : null);
       }),
       field("Thrive_Thru_5_Registrant__c", (state)=>{
-        var status = dataValue("Basic_Information.TT5_enrollment_status")(state);
-        return (status == "Enrolled in TT5" ? "Yes" : "No");
+        var age = dataValue("Basic_Information.age")(state);
+        return (age<5 ? "Yes" : "No");
       }),
       field("HAWI_Registrant__c", (state)=>{
-        var status = dataValue("Basic_Information.person_info.HAWI_enrollment_status")(state);
-        return (status == "Enrolled in HAWI" ? "Yes" : "No");
+        var status = dataValue("Basic_Information.person_info.hiv_status")(state);
+        return (status == "positive" ? "Yes" : "No");
       }),
       field("Date_of_Birth__c",dataValue("Basic_Information.DOB")),
       //field("Child_Status__c",dataValue("Basic_Information.Child_Status")),
