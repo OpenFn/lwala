@@ -17,8 +17,7 @@ alterState((state) =>{
 });
 
 //Evaluates client status and how to upsert Person records
-if(dataValue("form.Source")(state)==1){
-  steps(
+steps(
   combine( function(state) {
   if(dataValue("form.Status.Client_Status")(state)=="Active" && dataValue("form.Source")(state)==1){
   //Deliveries
@@ -37,35 +36,13 @@ if(dataValue("form.Source")(state)==1){
         var rt = dataValue("form.case.update.RecordType")(state)
         return(rt=="Unborn" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
       }),
-      field("Active_in_Thrive_Thru_5__c", (state)=>{
-        var status = dataValue("form.case.update.TT5_enrollment_status")(state);
-        return (status == "Enrolled in TT5" ? "Yes" : "No");
-      }),
-      field("Active_in_HAWI__c", (state)=>{
-        var status = dataValue("form.case.update.HAWI_enrollment_status")(state);
-        return (status == "Enrolled in HAWI" ? "Yes" : "No");
-      }),
-      field("Enrollment_Date__c", (state)=>{
-        var status = dataValue("form.case.update.TT5_enrollment_status")(state);
-        var date = dataValue("metadata.timeEnd")(state);
-        return (status == "Enrolled in TT5" ? date : null);
-      }),
-      field("HAWI_Enrollment_Date__c", (state)=>{
-        var status = dataValue("form.case.update.HAWI_enrollment_status")(state);
-        var date = dataValue("metadata.timeEnd")(state);
-        return (status == "Enrolled in HAWI" ? date : null);
-      }),
-      field("Thrive_Thru_5_Registrant__c", (state)=>{
-        var status = dataValue("form.case.update.TT5_enrollment_status")(state);
-        return (status == "Enrolled in TT5" ? "Yes" : "No");
-      }),
-      field("HAWI_Registrant__c", (state)=>{
-        var status = dataValue("form.case.update.HAWI_enrollment_status")(state);
-        return (status == "Enrolled in HAWI" ? "Yes" : "No");
-      }),
       field("Reason_for_a_refferal__c", (state)=>{
         var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state)
-        return(referral!==undefined ? referral.toString().replace(/_/g," ") : null);
+        if(referral!==undefined){
+          return(referral=="HIV_Testing_and_Counseling" ? "HIV counselling or Testing": referral.toString().replace(/_/g," "))
+        } else {return referral==null;}
+        return referral;
+        //return(referral!==undefined ? referral.toString().replace(/_/g," ") : null);
       }),
       field("Individual_birth_plan_counseling__c", dataValue("form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan")),
       field("Pregnancy_danger_signs__c", (state)=>{
@@ -111,14 +88,14 @@ if(dataValue("form.Source")(state)==1){
       field("Persons_temperature__c",dataValue("form.treatment_and_tracking.temperature")),
       field("Days_since_illness_start__c",dataValue("form.treatment_and_tracking.duration_of_sickness")),
       field("Newborn_visited_48_hours_of_delivery__c", dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.visited_after_delivery")),
-      field("Malaria_test__c",dataValue("form.treatment_and_tracking.malaria_test")),
+      //field("Malaria_test__c",dataValue("form.treatment_and_tracking.malaria_test")), //DOES NOT EXIST IN SF
       field("Last_Malaria_Home_Test__c",dataValue("form.treatment_and_tracking.malaria_test_date")),
       field("Current_Malaria_Status__c",dataValue("form.treatment_and_tracking.malaria_test_results")),
       field("Last_Malaria_Home_Treatment__c",dataValue("form.TT5.Child_Information.CCMM.Home_Treatment")),
       field("Malaria_Follow_Up__c",dataValue("form.TT5.Child_Information.CCMM.Fever-Follow-Up_By_Date")),
       field("Malaria_Facility__c",dataValue("form.TT5.Child_Information.CCMM.malaria_referral_facility")),
       field("Malaria_Referral__c",dataValue("form.TT5.Child_Information.CCMM.Referral_Date")),
-      field("Fever_over_7days__c",dataValue("form.treatment_and_tracking.symptoms_check_fever")), //DOES NOT EXIST IN SF, to add back in
+      field("Fever_over_7_days__c",dataValue("form.treatment_and_tracking.symptoms_check_fever")),
       field("Cough_14_days__c",dataValue("form.treatment_and_tracking.symptoms_check_cough")),
       field("Diarrhoea_over_14days__c",dataValue("form.treatment_and_tracking.symptoms_check_diarrhea")),
       field("Diarrhoea_less_than_14_days__c",dataValue("form.treatment_and_tracking.mild_symptoms_check_diarrhea")),
@@ -144,7 +121,7 @@ if(dataValue("form.Source")(state)==1){
         var preg = dataValue("form.TT5.Mother_Information.Pregnant")(state)
         return (preg=="Yes" ? true : false);
       })
-    ))(state);
+    ))(state)
   }
 //  }
   //Transfer Outs
@@ -239,6 +216,39 @@ if(dataValue("form.Source")(state)==1){
       }),
       field("Inactive_Date__c",dataValue("form.Date"))
     ))(state);
+  }
+}),
+//Person is added to TT5 ?
+combine(function(state){
+  if(dataValue("form.case.update.TT5_enrollment_status")(state)=="Enrolled in TT5" || dataValue("form.age")(state)<5){
+    upsert("Person__c","CommCare_ID__c",fields(
+      field("CommCare_ID__c", dataValue("form.case.@case_id")),
+      field("Active_in_Thrive_Thru_5__c", "Yes"),
+      field("Enrollment_Date__c", dataValue("metadata.timeEnd")),
+      field("Thrive_Thru_5_Registrant__c", "Yes" )
+  ))(state)
+  }
+}),
+//Person over age 5
+combine(function(state){
+  if(dataValue("form.age")(state)>5){
+    upsert("Person__c","CommCare_ID__c",fields(
+      field("CommCare_ID__c", dataValue("form.case.@case_id")),
+      field("Active_in_Thrive_Thru_5__c", "No"),
+      field("Thrive_Thru_5_Registrant__c", "No" )
+  ))(state)
+  }
+}),
+//Person is added to HAWI ?
+combine(function(state){
+  if(dataValue("form.case.update.HAWI_enrollment_status")(state)=="Enrolled in HAWI" || dataValue("form.hiv_status")(state)=="positive"){
+    upsert("Person__c","CommCare_ID__c",fields(
+      field("CommCare_ID__c", dataValue("form.case.@case_id")),
+      field("Active_in_HAWI__c", "Yes"),
+      field("HAWI_Enrollment_Date__c", dataValue("metadata.timeEnd")),
+      field("HAWI_Registrant__c", "Yes" ),
+      field("HIV_Status__c", "positive")
+  ))(state)
   }
 }),
 /*** UPSERT SERVICE RECORDS ***/
@@ -1092,4 +1102,4 @@ combine( function(state){
       })
     ))(state)
   }})
-)};
+);
