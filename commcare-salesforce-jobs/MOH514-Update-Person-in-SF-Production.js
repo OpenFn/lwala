@@ -251,6 +251,16 @@ combine(function(state){
   ))(state)
   }
 }),
+//Person is NOT enrolled in HAWI
+combine(function(state){
+  if(dataValue("form.case.update.HAWI_enrollment_status")(state)=="Not enrolled in HAWI"){
+    upsert("Person__c","CommCare_ID__c",fields(
+      field("CommCare_ID__c", dataValue("form.case.@case_id")),
+      field("Active_in_HAWI__c", "No"),
+      field("HAWI_Registrant__c", "No" )
+  ))(state)
+  }
+}),
 /*** UPSERT SERVICE RECORDS ***/
 //ANC1
 combine( function(state) {
