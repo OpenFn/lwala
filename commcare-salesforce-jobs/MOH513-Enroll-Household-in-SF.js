@@ -46,7 +46,7 @@ combine(function(state){
   each(
     dataPath("$.form.Person[*]"),
     upsert("Person__c","CommCare_ID__c", fields(
-      //relationship("Household__r", "CommCare_Code__c", dataValue("case.index.parent.#text")),
+      relationship("Household__r", "CommCare_Code__c", dataValue("case.index.parent.#text")),
       field("CommCare_ID__c",dataValue("case.@case_id")),
       field("CommCare_HH_Code__c", dataValue("case.index.parent.#text")),
       relationship("RecordType","Name",(state)=>{
