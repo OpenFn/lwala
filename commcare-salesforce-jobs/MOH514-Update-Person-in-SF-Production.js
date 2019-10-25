@@ -220,7 +220,7 @@ steps(
 }),
 //Person is added to TT5 ?
 combine(function(state){
-  if(dataValue("form.case.update.TT5_enrollment_status")(state)=="Enrolled in TT5" || dataValue("form.age")(state)<5 || dataValue("form.case.update.Active_in_TT5")(state)=="Yes"){
+  if(dataValue("form.case.update.TT5_enrollment_status")(state)=="Enrolled in TT5" || (dataValue("form.age")(state)<5 && dataValue("form.age")(state)>0) || dataValue("form.case.update.Active_in_TT5")(state)=="Yes"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       field("Active_in_Thrive_Thru_5__c", "Yes"),
@@ -231,7 +231,7 @@ combine(function(state){
 }),
 //Person over age 5 / NOT active in TT5
 combine(function(state){
-  if(dataValue("form.age")(state)>5 || dataValue("form.case.update.Active_in_TT5")(state)=="No"){
+  if(dataValue("form.age")(state)>5 || dataValue("form.age")(state)==0 || dataValue("form.case.update.Active_in_TT5")(state)=="No"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       field("Active_in_Thrive_Thru_5__c", "No"),

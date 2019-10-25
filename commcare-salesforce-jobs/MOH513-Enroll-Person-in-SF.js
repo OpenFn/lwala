@@ -63,7 +63,7 @@ if(dataValue("form.Source")(state)==1){
     }),
     field("Active_in_Thrive_Thru_5__c", (state)=>{
       var age = dataValue("form.Person.Basic_Information.age")(state);
-      return (age<5 ? "Yes" : "No");
+      return (age<5 && age>0 ? "Yes" : "No");
       //var status = dataValue("form.Person.Basic_Information.TT5_enrollment_status")(state);
       //return (status == "Enrolled in TT5" ? "Yes" : "No");
     }),
@@ -78,7 +78,7 @@ if(dataValue("form.Source")(state)==1){
       var age = dataValue("form.Person.Basic_Information.age")(state);
       var date = dataValue("metadata.timeEnd")(state);
       //return (status == "Enrolled in TT5" ? date : null);
-      return (age<5 ? date : null);
+      return (age<5 && age>0 ? date : null);
     }),
     field("HAWI_Enrollment_Date__c", (state)=>{
       var date = dataValue("metadata.timeEnd")(state);
@@ -89,7 +89,7 @@ if(dataValue("form.Source")(state)==1){
     }),
     field("Thrive_Thru_5_Registrant__c", (state)=>{
       var age = dataValue("form.Person.Basic_Information.age")(state);
-      return (age<5 ? "Yes" : "No");
+      return (age<5 && age>0 ? "Yes" : "No");
       //var status = dataValue("form.Person.Basic_Information.TT5_enrollment_status")(state);
       //return (status == "Enrolled in TT5" ? "Yes" : "No");
     }),

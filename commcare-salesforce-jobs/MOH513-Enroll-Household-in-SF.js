@@ -72,7 +72,7 @@ combine(function(state){
       }),
       field("Active_in_Thrive_Thru_5__c", (state)=>{
         var age = dataValue("Basic_Information.age")(state);
-        return(age<5 ? "Yes" : "No");
+        return(age<5 && age>0 ? "Yes" : "No");
       }),
       field("Active_in_HAWI__c", (state)=>{
           var status = dataValue("Basic_Information.person_info.hiv_status")(state);
@@ -81,7 +81,7 @@ combine(function(state){
       field("Enrollment_Date__c", (state)=>{
         var age = dataValue("Basic_Information.age")(state);
         var date = dataValue("metadata.timeEnd")(state);
-        return (age<5 ? date : null);
+        return (age<5 && age>0 ? date : null);
       }),
       field("HAWI_Enrollment_Date__c", (state)=>{
         var status = dataValue("Basic_Information.person_info.hiv_status")(state);
@@ -90,7 +90,7 @@ combine(function(state){
       }),
       field("Thrive_Thru_5_Registrant__c", (state)=>{
         var age = dataValue("Basic_Information.age")(state);
-        return (age<5 ? "Yes" : "No");
+        return (age<5 && age>0 ? "Yes" : "No");
       }),
       field("HAWI_Registrant__c", (state)=>{
         var status = dataValue("Basic_Information.person_info.hiv_status")(state);
@@ -203,4 +203,4 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     return (long!==null? long : null);
   })
 ))(state)
-}); 
+});
