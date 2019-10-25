@@ -177,8 +177,7 @@ combine(function(state){
       field("Parity__c",dataValue("TT5.Mother_Information.Pregnancy_Information.Parity"))
     ))
   )(state)
-}})
-/*,
+}}),
 //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 combine(function(state){
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
@@ -204,4 +203,4 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     return (long!==null? long : null);
   })
 ))(state)
-}); */
+}); 
