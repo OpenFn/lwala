@@ -220,7 +220,7 @@ steps(
 }),
 //Person is added to TT5 ?
 combine(function(state){
-  if(dataValue("form.case.update.TT5_enrollment_status")(state)=="Enrolled in TT5" || dataValue("form.age")(state)<5){
+  if(dataValue("form.case.update.TT5_enrollment_status")(state)=="Enrolled in TT5" || dataValue("form.age")(state)<5 || dataValue("form.case.update.Active_in_TT5")(state)=="Yes"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       field("Active_in_Thrive_Thru_5__c", "Yes"),
@@ -229,9 +229,9 @@ combine(function(state){
   ))(state)
   }
 }),
-//Person over age 5
+//Person over age 5 / NOT active in TT5
 combine(function(state){
-  if(dataValue("form.age")(state)>5){
+  if(dataValue("form.age")(state)>5 || dataValue("form.case.update.Active_in_TT5")(state)=="No"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       field("Active_in_Thrive_Thru_5__c", "No"),
@@ -241,7 +241,7 @@ combine(function(state){
 }),
 //Person is added to HAWI ?
 combine(function(state){
-  if(dataValue("form.case.update.HAWI_enrollment_status")(state)=="Enrolled in HAWI" || dataValue("form.hiv_status")(state)=="positive"){
+  if(dataValue("form.case.update.HAWI_enrollment_status")(state)=="Enrolled in HAWI" || dataValue("form.hiv_status")(state)=="positive" || dataValue("form.case.update.Active_in_HAWI")(state)=="Yes"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       field("Active_in_HAWI__c", "Yes"),
