@@ -134,7 +134,6 @@ combine(function(state){
       }),
       field("Unique_Patient_Code__c",dataValue("HAWI.Unique_Patient_Code")),
       field("Active_in_Support_Group__c",dataValue("HAWI.Active_in_Support_Group")),
-      field("CommCare_HH_Code__c",dataValue("case.@case_id")),
       field("Currently_on_ART_s__c",dataValue("HAWI.ART")),
       field("ART_Regimen__c",dataValue("form.Person.HAWI.ARVs")),
       field("Preferred_Care_Facility__c", (state)=>{
@@ -178,8 +177,10 @@ combine(function(state){
       field("Parity__c",dataValue("TT5.Mother_Information.Pregnancy_Information.Parity"))
     ))
   )(state)
-}}),
+}})
+/*,
 //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
+combine(function(state){
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r", "CommCare_Code__c", dataValue("form.case.@case_id")),
@@ -202,4 +203,5 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
     return (long!==null? long : null);
   })
-))
+))(state)
+}); */

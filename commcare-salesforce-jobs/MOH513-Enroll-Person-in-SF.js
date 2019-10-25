@@ -3,7 +3,7 @@ combine(function(state){
 if(dataValue("form.Source")(state)==1){
   upsert("Person__c","CommCare_ID__c", fields(
     field("CommCare_ID__c",dataValue("form.subcase_0.case.@case_id")),
-    relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")),
+    //relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")),
     relationship("Catchment__r","Name", dataValue("form.catchment")),
     field("Name",(state)=>{
       var status = dataValue("form.Person.Basic_Information.Child_Status")(state)
