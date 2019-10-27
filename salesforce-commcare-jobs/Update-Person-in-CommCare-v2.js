@@ -8,7 +8,9 @@ submit(
         },
         "uiVersion":"1",
         "version":"81",
-        "name":"Update Person Test" //TO UPDATE
+        "name":function(){
+          return(dataValue("new[0].Catchment__c")(state)=="a001p000017gpfZAAQ" ? "Update Person MOH" : "Update Person");
+        },
       };
     }),
     field("Source",0),
