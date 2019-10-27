@@ -3,10 +3,18 @@ submit(
     field("@", function(state) {
       return {
         "xmlns:jrm":"http://dev.commcarehq.org/jr/xforms",
-        "xmlns":"http://openrosa.org/formdesigner/457C806C-B47D-44F0-BE4B-7E88F7162D1D",
+        "xmlns": function(){
+          var formId ='';
+          if("new[0].Catchment__c"=="a001p000017gpfZ"){ //If catchment = SK, return new MOH forms
+            formId=="http://openrosa.org/formdesigner/457C806C-B47D-44F0-BE4B-7E88F7162D1D";
+          } else{
+            formId=="http://openrosa.org/formdesigner/a34af027a7fa943998c39f64bc84a337a668114a";
+          }
+          return formId;
+        },
         "uiVersion":"1",
         "version":"81",
-        "name":"Test Update Person" //TO UPDATE
+        "name":"Update Person" //TO UPDATE
       };
     }),
     field("Source",0),

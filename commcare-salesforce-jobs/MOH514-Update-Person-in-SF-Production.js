@@ -69,7 +69,7 @@ steps(
         var rt = dataValue("form.RecordType")(state)
         if(status!==undefined){
           return status;
-        } else if(rt=="Unborn"){
+        } else if(rt=="Unborn" && status!=="Born"){
           return status = "Unborn";
         } else{
           return status = "Born"; }
@@ -135,6 +135,7 @@ steps(
         return name2;
       }),
       field("Client_Status__c","Transferred Out"),
+      field("Active_TT5_Mother__c", "No"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Inactive_Date__c",dataValue("form.Date")),
       field("Active_in_HAWI__c","No"),
@@ -154,6 +155,7 @@ steps(
       }),
       field("Client_Status__c","Lost to Follow-Up"),
       field("Active_in_Thrive_Thru_5__c","No"),
+      field("Active_TT5_Mother__c", "No"),
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Date_Last_Seen__c",dataValue("form.Status.Date_Last_Seen")),
@@ -172,6 +174,7 @@ steps(
       }),
       field("Client_Status__c","Graduated From TT5"),
       field("Active_in_Thrive_Thru_5__c","No"),
+      field("Active_TT5_Mother__c", "No"),
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Date_Last_Seen__c",dataValue("form.Status.Date_Last_Seen")),
@@ -220,18 +223,22 @@ steps(
 }),
 //Person is added to TT5 ?
 combine(function(state){
-  if(dataValue("form.case.update.TT5_enrollment_status")(state)=="Enrolled in TT5" || (dataValue("form.age")(state)<5 && dataValue("form.age")(state)>0) || dataValue("form.case.update.Active_in_TT5")(state)=="Yes"){
+  if(dataValue("form.case.update.TT5_enrollment_status")(state)=="Enrolled in TT5" || dataValue("form.age")(state)<5 || dataValue("form.case.update.Active_in_TT5")(state)=="Yes" || dataValue("form.case.update.Pregnant")=="Yes"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       field("Active_in_Thrive_Thru_5__c", "Yes"),
       field("Enrollment_Date__c", dataValue("metadata.timeEnd")),
-      field("Thrive_Thru_5_Registrant__c", "Yes" )
+      field("Thrive_Thru_5_Registrant__c", "Yes" ),
+      field("Active_TT5_Mother__c", (state)=>{
+        var preg = dataValue("form.case.update.Pregnant")(state);
+        return(preg=="Yes" ? "Yes" : null );
+      })
   ))(state)
   }
 }),
 //Person over age 5 / NOT active in TT5
 combine(function(state){
-  if(dataValue("form.age")(state)>5 || dataValue("form.age")(state)==0 || dataValue("form.case.update.Active_in_TT5")(state)=="No"){
+  if(dataValue("form.age")(state)>5 || dataValue("form.case.update.Active_in_TT5")(state)=="No"){
     upsert("Person__c","CommCare_ID__c",fields(
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       field("Active_in_Thrive_Thru_5__c", "No"),
