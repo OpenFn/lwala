@@ -3,10 +3,12 @@ submit(
     field("@", function(state) {
       return {
         "xmlns:jrm":"http://dev.commcarehq.org/jr/xforms",
-        "xmlns":"http://openrosa.org/formdesigner/7bdbfcc02fd44260837d799d24051449",
+        "xmlns":function(){
+          return(dataValue("new[0].Catchment__c")(state)=="a001p000017gpfZAAQ" ? "http://openrosa.org/formdesigner/7bdbfcc02fd44260837d799d24051449" : "http://openrosa.org/formdesigner/980c10cdb3b140101225e25c6e8aff48f471b3d");
+        },
         "uiVersion":"1",
         "version":"46",
-        "name":"Test Update Household" //TO UPDATE
+        "name":"Update Household"
       };
     }),
     field("Source",0),

@@ -3,10 +3,14 @@ submit(
     field("@", function(state) {
       return {
         "xmlns:jrm":"http://dev.commcarehq.org/jr/xforms",
-        "xmlns":"http://openrosa.org/formdesigner/7ba853f2918145b18fc83404e08f0726",
+        "xmlns":function(){
+          return(dataValue("new[0].Catchment__c")(state)=="a001p000017gpfZAAQ" ? "http://openrosa.org/formdesigner/7ba853f2918145b18fc83404e08f0726" : "http://openrosa.org/formdesigner/7BDB73FA-AEF1-46A2-929A-AA92813C5D38");
+        },
         "uiVersion":"1",
         "version":"967",
-        "name":"Test Enroll Person" //TO UPDATE
+        "name":function(){
+          return(dataValue("new[0].Catchment__c")(state)=="a001p000017gpfZAAQ" ? "Enroll Person" : "Enroll a Person");
+        },
       };
     }),
     field("Source",0),

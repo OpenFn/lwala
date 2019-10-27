@@ -3,10 +3,14 @@ submit(
     field("@", function(state) {
       return {
         "xmlns:jrm":"http://dev.commcarehq.org/jr/xforms",
-        "xmlns":"http://openrosa.org/formdesigner/5BA8B924-B541-4E23-AEA9-B3A7F38EF67E",
+        "xmlns":function(){
+          return(dataValue("new[0].Catchment__c")(state)=="a001p000017gpfZAAQ" ? "http://openrosa.org/formdesigner/5BA8B924-B541-4E23-AEA9-B3A7F38EF67E" : "http://openrosa.org/formdesigner/56DF4599-A4E3-486A-ACA2-64600B1D630A");
+        },
         "uiVersion":"1",
         "version":"83",
-        "name":"Test Enroll Household" //TO UPDATE
+        "name":function(){
+          return(dataValue("new[0].Catchment__c")(state)=="a001p000017gpfZAAQ" ? "Enroll Household" : "Enroll New Household");
+        },
       };
     }),
     field("Run_Code","Household_Lwala"),
