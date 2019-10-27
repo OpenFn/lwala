@@ -3,7 +3,7 @@ submit(
     field("@", function(state) {
       return {
         "xmlns:jrm":"http://dev.commcarehq.org/jr/xforms",
-        "xmlns": function(){
+        "xmlns": function(state){
           var formId ='';
           if(dataValue("new[0].Catchment__c")(state)=="a001p000017gpfZ"){ //If catchment = SK, return new MOH forms
             formId=="http://openrosa.org/formdesigner/457C806C-B47D-44F0-BE4B-7E88F7162D1D";
