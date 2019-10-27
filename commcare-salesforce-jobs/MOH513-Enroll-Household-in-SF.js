@@ -70,9 +70,14 @@ combine(function(state){
         var toTitleCase= (relation!==undefined ? relation.toString().replace(/_/g," ") : null);
         return (toTitleCase!==null ? toTitleCase.charAt(0).toUpperCase() + toTitleCase.slice(1) : null);
       }),
+      field("Active_TT5_Mother__c", (state)=>{
+        var preg = dataValue("TT5.Mother_Information.Pregnant")(state);
+        return(preg=="Yes" ? "Yes" : null );
+      }),
       field("Active_in_Thrive_Thru_5__c", (state)=>{
         var age = dataValue("Basic_Information.age")(state);
-        return(age<5 && age>0 ? "Yes" : "No");
+        var preg = dataValue("TT5.Mother_Information.Pregnant")(state);
+        return(age<5 || preg=="Yes" ? "Yes" : "No");
       }),
       field("Active_in_HAWI__c", (state)=>{
           var status = dataValue("Basic_Information.person_info.hiv_status")(state);
@@ -81,7 +86,8 @@ combine(function(state){
       field("Enrollment_Date__c", (state)=>{
         var age = dataValue("Basic_Information.age")(state);
         var date = dataValue("metadata.timeEnd")(state);
-        return (age<5 && age>0 ? date : null);
+        var preg = dataValue("TT5.Mother_Information.Pregnant")(state);
+        return(age<5 || preg=="Yes" ? date : null);
       }),
       field("HAWI_Enrollment_Date__c", (state)=>{
         var status = dataValue("Basic_Information.person_info.hiv_status")(state);
@@ -90,14 +96,14 @@ combine(function(state){
       }),
       field("Thrive_Thru_5_Registrant__c", (state)=>{
         var age = dataValue("Basic_Information.age")(state);
-        return (age<5 && age>0 ? "Yes" : "No");
+        var preg = dataValue("TT5.Mother_Information.Pregnant")(state);
+        return(age<5 || preg=="Yes" ? "Yes" : "No");
       }),
       field("HAWI_Registrant__c", (state)=>{
         var status = dataValue("Basic_Information.person_info.hiv_status")(state);
         return (status == "positive" ? "Yes" : "No");
       }),
       field("Date_of_Birth__c",dataValue("Basic_Information.DOB")),
-      //field("Child_Status__c",dataValue("Basic_Information.Child_Status")),
       field("Child_Status__c", (state)=>{
         var dob = dataValue("Basic_Information.DOB")(state)
         var status = dataValue("Basic_Information.Child_Status")(state)

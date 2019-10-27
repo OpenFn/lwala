@@ -61,43 +61,38 @@ if(dataValue("form.Source")(state)==1){
       var toTitleCase = (disability!==undefined ? disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';') : null);
       return toTitleCase;
     }),
+    field("Active_TT5_Mother__c", (state)=>{
+      var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);
+      return(preg=="Yes" ? "Yes" : null)
+    }),
     field("Active_in_Thrive_Thru_5__c", (state)=>{
       var age = dataValue("form.Person.Basic_Information.age")(state);
-      return (age<5 && age>0 ? "Yes" : "No");
-      //var status = dataValue("form.Person.Basic_Information.TT5_enrollment_status")(state);
-      //return (status == "Enrolled in TT5" ? "Yes" : "No");
+      var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);
+      return (age<5 || preg=="Yes" ? "Yes" : "No");
     }),
     field("Active_in_HAWI__c", (state)=>{
-      //var status = dataValue("form.Person.Basic_Information.person_info.HAWI_enrollment_status")(state);
       var status = dataValue("form.Person.Basic_Information.person_info.hiv_status")(state);
       return (status == "positive" ? "Yes" : "No");
-      //return (status == "Enrolled in HAWI" ? "Yes" : "No");
     }),
     field("Enrollment_Date__c", (state)=>{
-      //var status = dataValue("form.Person.Basic_Information.TT5_enrollment_status")(state);
       var age = dataValue("form.Person.Basic_Information.age")(state);
       var date = dataValue("metadata.timeEnd")(state);
-      //return (status == "Enrolled in TT5" ? date : null);
-      return (age<5 && age>0 ? date : null);
+      var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);
+      return (age<5 || preg=="Yes" ? date : null);
     }),
     field("HAWI_Enrollment_Date__c", (state)=>{
       var date = dataValue("metadata.timeEnd")(state);
       var status = dataValue("form.Person.Basic_Information.person_info.hiv_status")(state);
       return (status == "positive" ? date : null);
-      //var status = dataValue("form.Person.Basic_Information.person_info.HAWI_enrollment_status")(state);
-      //return (status == "Enrolled in HAWI" ? date : null);
     }),
     field("Thrive_Thru_5_Registrant__c", (state)=>{
       var age = dataValue("form.Person.Basic_Information.age")(state);
-      return (age<5 && age>0 ? "Yes" : "No");
-      //var status = dataValue("form.Person.Basic_Information.TT5_enrollment_status")(state);
-      //return (status == "Enrolled in TT5" ? "Yes" : "No");
+      var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);
+      return (age<5 || preg=="Yes"? "Yes" : "No");
     }),
     field("HAWI_Registrant__c", (state)=>{
       var status = dataValue("form.Person.Basic_Information.person_info.hiv_status")(state);
       return (status == "positive" ? "Yes" : "No");
-      //var status = dataValue("form.Person.Basic_Information.person_info.HAWI_enrollment_status")(state);
-      //return (status == "Enrolled in HAWI" ? "Yes" : "No");
     }),
     field("LMP__c",dataValue("form.Person.TT5.Child_Information.ANCs.LMP")),
     field("Source__c",1),
