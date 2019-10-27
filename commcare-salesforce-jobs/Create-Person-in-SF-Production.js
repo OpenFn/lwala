@@ -149,6 +149,7 @@ create("Person__c",fields(
 ),
 create("Visit__c",fields(
   relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
+  field("CommCare_Visit_ID__c", dataValue("id")),
   field("Household_CHW__c",dataValue("$.form.CHW_ID")),
   field("Catchment__c","a002400000pAcOe"),
   field("Date__c",dataValue("$.metadata.timeEnd")),
