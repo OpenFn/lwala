@@ -69,7 +69,7 @@ steps(
         var rt = dataValue("form.RecordType")(state)
         if(status!==undefined){
           return status;
-        } else if(rt=="Unborn"){
+        } else if(rt=="Unborn" && status!=="Born"){
           return status = "Unborn";
         } else{
           return status = "Born"; }
