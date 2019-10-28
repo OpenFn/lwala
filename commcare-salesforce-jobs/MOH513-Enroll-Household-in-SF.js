@@ -89,13 +89,13 @@ combine(function(state){
       }),
       field("Enrollment_Date__c", (state)=>{
         var age = dataValue("Basic_Information.age")(state);
-        var date = state.data.metadata.timeEnd;
+        var date = state.data.form.meta.timeEnd;
         var preg = dataValue("TT5.Mother_Information.Pregnant")(state);
         return(age<5 || preg=="Yes" ? date : null);
       }),
       field("HAWI_Enrollment_Date__c", (state)=>{
         var status = dataValue("Basic_Information.person_info.hiv_status")(state);
-        var date = state.data.metadata.timeEnd;
+        var date = state.data.form.meta.timeEnd;
         return (status == "positive" ? date : null);
       }),
       field("Thrive_Thru_5_Registrant__c", (state)=>{
