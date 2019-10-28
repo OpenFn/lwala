@@ -67,12 +67,11 @@ steps(
       field("Child_Status__c", (state)=>{
         var status = dataValue("form.case.update.child_status")(state)
         var rt = dataValue("form.RecordType")(state)
-        if(status!==undefined){
-          return status;
-        } else if(rt=="Unborn" && status!=="Yes"){
+        if(status!==undefined && rt=="Unborn" && status!=="Yes"){
           return status = "Unborn";
         } else{
-          return status = "Born"; }
+          return status = "Born";
+        }
         return status;
       }),
       field("Current_Malaria_Status__c", dataValue("form.Malaria_Status")),
