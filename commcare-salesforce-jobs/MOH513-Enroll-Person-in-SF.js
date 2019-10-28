@@ -68,7 +68,7 @@ if(dataValue("form.Source")(state)==1){
     field("TT5_Mother_Registrant__c", (state)=>{
       var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);
       return(preg=="Yes" ? "Yes" : null);
-    })
+    }),
     field("Active_in_Thrive_Thru_5__c", (state)=>{
       var age = dataValue("form.Person.Basic_Information.age")(state);
       var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);
@@ -146,6 +146,14 @@ if(dataValue("form.Source")(state)==1){
     })
   ))(state)
 }}),
+//**Update HH Members Total_Number_of_Members
+combine(function(state){
+if(dataValue("form.Person.Updated_Total_Household_Members")(state)!==null && dataValue("form.Person.Updated_Total_Household_Members")(state)!==undefined){
+  upsert("Household__c","CommCare_Code__c",fields(
+      field("CommCare_Code__c",dataValue("form.case.@case_id")),
+      field("Total_household_people__c", dataValue("Updated_Total_Household_Members"))
+  ))}
+}),
 //**Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 ///*
   upsert("Visit__c", "CommCare_Visit_ID__c", fields(
