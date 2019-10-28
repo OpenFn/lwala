@@ -65,11 +65,11 @@ steps(
       }),
       field("Other_danger_signs__c", dataValue("form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs")),
       field("Child_Status__c", (state)=>{
-        var status = dataValue("form.TT5.Child_Information.Delivery_Information.child_status")(state)
+        var status = dataValue("form.case.update.child_status")(state)
         var rt = dataValue("form.RecordType")(state)
         if(status!==undefined){
           return status;
-        } else if(rt=="Unborn" && status!=="Born"){
+        } else if(rt=="Unborn" && status!=="Yes"){
           return status = "Unborn";
         } else{
           return status = "Born"; }
