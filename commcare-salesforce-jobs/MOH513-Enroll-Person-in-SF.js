@@ -63,8 +63,12 @@ if(dataValue("form.Source")(state)==1){
     }),
     field("Active_TT5_Mother__c", (state)=>{
       var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);
-      return(preg=="Yes" ? "Yes" : null)
+      return(preg=="Yes" ? "Yes" : null);
     }),
+    field("TT5_Mother_Registrant__c", (state)=>{
+      var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);
+      return(preg=="Yes" ? "Yes" : null);
+    })
     field("Active_in_Thrive_Thru_5__c", (state)=>{
       var age = dataValue("form.Person.Basic_Information.age")(state);
       var preg = dataValue("form.Person.TT5.Mother_Information.Pregnant")(state);

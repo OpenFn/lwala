@@ -136,6 +136,7 @@ steps(
         return name2;
       }),
       field("Client_Status__c","Transferred Out"),
+      field("TT5_Mother_Registrant__c", "No"),
       field("Active_TT5_Mother__c", "No"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Inactive_Date__c",dataValue("form.Date")),
@@ -157,8 +158,8 @@ steps(
       field("Client_Status__c","Lost to Follow-Up"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_TT5_Mother__c", "No"),
+      field("TT5_Mother_Registrant__c", "No"),
       field("Active_in_HAWI__c","No"),
-      field("Active_TT5_Mother__c","No"),
       field("Date_Last_Seen__c",dataValue("form.Status.Date_Last_Seen")),
       field("Inactive_Date__c",dataValue("form.Date"))
     ))(state);
@@ -176,6 +177,7 @@ steps(
       field("Client_Status__c","Graduated From TT5"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_TT5_Mother__c", "No"),
+      field("TT5_Mother_Registrant__c", "No"),
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
       field("Date_Last_Seen__c",dataValue("form.Status.Date_Last_Seen")),
@@ -196,6 +198,7 @@ steps(
       field("Client_Status__c","Data Entry Error"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_TT5_Mother__c","No"),
+      field("TT5_Mother_Registrant__c", "No"),
       field("Active_in_HAWI__c","No"),
       field("Inactive_Date__c",dataValue("form.Date"))
     ))(state);
@@ -214,6 +217,7 @@ steps(
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
       field("Active_TT5_Mother__c","No"),
+      field("TT5_Mother_Registrant__c", "No"),
       field("Date_of_Death__c",dataValue("form.Status.Date_of_Death")),
       field("Cause_of_Death__c",(state)=>{
         return dataValue("form.Status.Cause_of_Death")(state).toString().replace(/_/g," ");
@@ -231,6 +235,10 @@ combine(function(state){
       field("Enrollment_Date__c", dataValue("metadata.timeEnd")),
       field("Thrive_Thru_5_Registrant__c", "Yes" ),
       field("Active_TT5_Mother__c", (state)=>{
+        var preg = dataValue("form.case.update.Pregnant")(state);
+        return(preg=="Yes" ? "Yes" : null );
+      }),
+      field("TT5_Mother_Registrant__c", (state)=>{
         var preg = dataValue("form.case.update.Pregnant")(state);
         return(preg=="Yes" ? "Yes" : null );
       })
