@@ -28,9 +28,23 @@ steps(
       field("CommCare_HH_Code__c",dataValue("form.case.@case_id")),
       field("Client_Status__c", dataValue("form.Status.Client_Status")),
       field("Name",(state)=>{
-        var name1=dataValue("form.Person_Name")(state)
-        var name2=(name1===undefined ? null : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
-        return (name1!==null ? name2 : "Unborn Child");
+        var personName=dataValue("form.Person_Name")(state);
+        var unbornName=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name")(state);
+        var newName='';
+
+        if(personName===undefined){
+          if(unbornName===undefined{
+            newName=="Unborn Child";
+          }else{
+            newName==unbornName.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
+          }
+        }else{
+          newName==personName.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
+        }
+        return newName;
+        //var name1=dataValue("form.Person_Name")(state);
+        //var name2=(name1===undefined ? null : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
+        //return (name1!==null ? name2 : "Unborn Child");
       }),
       relationship("RecordType","Name",(state)=>{
         var rt = dataValue("form.case.update.RecordType")(state)
@@ -39,8 +53,8 @@ steps(
       field("Reason_for_a_refferal__c", (state)=>{
         var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state)
         if(referral!==undefined){
-          return(referral=="HIV_Testing_and_Counseling" ? "HIV counselling or Testing": referral.toString().replace(/_/g," "))
-        } else {return referral==null;}
+          (referral==="HIV_Testing_and_Counseling" ? "HIV counselling or Testing": referral.toString().replace(/_/g," "))
+        } else {referral===null;}
         return referral;
         //return(referral!==undefined ? referral.toString().replace(/_/g," ") : null);
       }),
@@ -100,7 +114,17 @@ steps(
       field("Diarrhoea_less_than_14_days__c",dataValue("form.treatment_and_tracking.mild_symptoms_check_diarrhea")),
       field("Default_on_TB_treatment__c",dataValue("form.treatment_and_tracking.patient_default_tb")),
       field("TB_patients_therapy_observed__c",dataValue("form.treatment_and_tracking.observed_tb_therapy")),
-      field("Date_of_Birth__c",dataValue("form.TT5.Child_Information.Delivery_Information.DOB")),
+      field("Date_of_Birth__c",(state)=>{
+        var dob1=dataValue("form.TT5.Child_Information.Delivery_Information.DOB")(state)
+        var dob2=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.DOB")(state)
+        var newDOB='';
+        if(dob1===undefined){
+          if(dob2!==undefined){
+            newDOB==dob2;
+          }else{ newDOB==null}
+        }else{newDOB==dob1}
+        return newDOB;
+      }),
       field("Place_of_Delivery__c",dataValue("form.TT5.Child_Information.Delivery_Information.Delivery_Type")),
       field("Deliver_Facility__c",dataValue("form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
       field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
@@ -267,7 +291,7 @@ combine(function(state){
   ))(state)
   }
 }),
-/*** UPSERT SERVICE RECORDS ***/
+//--- UPSERT SERVICE RECORDS ---/
 //ANC1
 combine( function(state) {
   if(dataValue("form.TT5.Child_Information.ANCs.copy-1-of-anc_1")(state)=="click_to_enter_anc_1"){
@@ -825,9 +849,9 @@ combine( function(state){
       relationship("Person__r","CommCare_ID__c",dataValue("form.case.@case_id"))
     ))(state);
  }}),
-//PNC Referral ---> TO UPDATE****
+//PNC Referral ---> TO UPDATE
 combine( function(state){
-  if(dataValue("form.PNC")(state)=="Yes"){ //Update when Julia updates group ****
+  if(dataValue("form.PNC")(state)=="Yes"){ //Update when Julia updates group ???
     upsert("Service__c", "CommCare_Code__c", fields(
      field("CommCare_Code__c",(state)=>{
        var id = dataValue("id")(state);
