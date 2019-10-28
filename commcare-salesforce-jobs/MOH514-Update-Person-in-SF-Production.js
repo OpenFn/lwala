@@ -30,8 +30,8 @@ steps(
       field("Name",(state)=>{
         var name1=dataValue("form.Person_Name")(state);
         var name2=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name")(state);
-        var newName='';
-        if(name1===undefined || name1===""){
+        var newName='Test';
+        if(name1===undefined || name1==="" || name1===null){
           newName=="Alan";
           /*
           if(name2!==undefined && name2!== null){
