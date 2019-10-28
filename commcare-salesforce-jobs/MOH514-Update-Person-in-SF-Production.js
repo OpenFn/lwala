@@ -32,11 +32,13 @@ steps(
         var name2=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name")(state);
         var newName='';
         if(name1===undefined || name1===""){
+          newName=="Alan";
+          /*
           if(name2!==undefined && name2!== null){
-            newName===name2.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-          }else{newName==="Unborn Child"}
+          //  newName===name2.replace(/\w\S*/ //g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        /*  }else{newName==="Unborn Child"}
         }else{
-          newName===name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        //  newName===name1.replace(/\w\S*/ //g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         }
         return newName;
         //var name1=dataValue("form.Person_Name")(state);
