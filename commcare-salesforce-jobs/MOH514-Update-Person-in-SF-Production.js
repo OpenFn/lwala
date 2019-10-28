@@ -68,9 +68,9 @@ steps(
         var status = dataValue("form.case.update.child_status")(state)
         var rt = dataValue("form.RecordType")(state)
         if(status!==undefined && rt=="Unborn" && status!=="Yes"){
-          return status = "Unborn";
+          status = "Unborn";
         } else{
-          return status = "Born";
+          status = "Born";
         }
         return status;
       }),
