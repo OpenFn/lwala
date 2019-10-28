@@ -15,7 +15,6 @@ alterState((state) =>{
 
   return state;
 });
-
 //Evaluates client status and how to upsert Person records
 steps(
   combine( function(state) {
@@ -29,33 +28,18 @@ steps(
       field("Client_Status__c", dataValue("form.Status.Client_Status")),
       field("Name",(state)=>{
         var name1=dataValue("form.Person_Name")(state);
-        var name2=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name")(state);
-        var newName='Test';
-        if(name1===undefined || name1==="" || name1===null){
-          newName=="Alan";
-          /*
-          if(name2!==undefined && name2!== null){
-          //  newName===name2.replace(/\w\S*/ //g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-        /*  }else{newName==="Unborn Child"}
-        }else{
-        //  newName===name1.replace(/\w\S*/ //g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-        }
-        return newName;
-        //var name1=dataValue("form.Person_Name")(state);
-        //var name2=(name1===undefined ? null : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
-        //return (name1!==null ? name2 : "Unborn Child");
+        var unborn=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name")(state);
+        var name2=(name1===undefined || name1==='' ? unborn : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
+        return (name1!==null ? name2 : "Unborn Child");
       }),
       relationship("RecordType","Name",(state)=>{
         var rt = dataValue("form.case.update.RecordType")(state)
         return(rt=="Unborn" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
       }),
       field("Reason_for_a_refferal__c", (state)=>{
-        var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state)
-        if(referral!==undefined){
-          (referral==="HIV_Testing_and_Counseling" ? "HIV counselling or Testing": referral.toString().replace(/_/g," "))
-        } else {referral===null;}
-        return referral;
-        //return(referral!==undefined ? referral.toString().replace(/_/g," ") : null);
+        var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state);
+        var reason =(referral==="HIV_Testing_and_Counseling" ? referral==="HIV counselling or Testing": referral);
+        return(reason===null ? reason.toString().replace(/_/g," ") : null);
       }),
       field("Individual_birth_plan_counseling__c", dataValue("form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan")),
       field("Pregnancy_danger_signs__c", (state)=>{
@@ -63,8 +47,8 @@ steps(
         var newSign ='';
         if(signs !==undefined){
           signs = signs.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
-          newSign = signs.toString().replace(/_/g," ");
-        } else{ newSign = null; }
+          return newSign = signs.toString().replace(/_/g," ");
+        } else{ return newSign = null; }
         return newSign;
       }),
       field("Child_danger_signs__c", (state)=>{
@@ -72,11 +56,10 @@ steps(
         var newSign ='';
         if(signs !==undefined){
           signs = signs.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
-          newSign = signs.toString().replace(/_/g," ");
-        } else{ newSign = null; }
+          return newSign = signs.toString().replace(/_/g," ");
+        } else{ return newSign = null; }
         return newSign;
       }),
-      field("Other_danger_signs__c", dataValue("form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs")),
       field("Child_Status__c", (state)=>{
         var status = dataValue("form.case.update.child_status")(state)
         var rt = dataValue("form.RecordType")(state)
@@ -94,7 +77,7 @@ steps(
       field("Preferred_Care_Facility__c",dataValue("form.HAWI.Preferred_Care_F.Preferred_Care_Facility")),
       field("HAWI_Defaulter__c",(state)=>{
         var hawi = dataValue("form.HAWI.Preferred_Care_F.default")(state)
-        return(hawi=="Yes" ? true : false)
+        return(hawi=="Yes" ? true : false);
       }),
       field("Date_of_Default__c",dataValue("form.HAWI.Preferred_Care_F.date_of_default")),
       field("Persons_temperature__c",dataValue("form.treatment_and_tracking.temperature")),
@@ -109,23 +92,19 @@ steps(
       field("Malaria_Referral__c",dataValue("form.TT5.Child_Information.CCMM.Referral_Date")),
       field("Fever_over_7_days__c",dataValue("form.treatment_and_tracking.symptoms_check_fever")),
       field("Cough_14_days__c",dataValue("form.treatment_and_tracking.symptoms_check_cough")),
-      field("Diarrhoea_over_14days__c",dataValue("form.treatment_and_tracking.symptoms_check_diarrhea")),
+      field("Diarrhoea_over_14_days__c",dataValue("form.treatment_and_tracking.symptoms_check_diarrhea")),
       field("Diarrhoea_less_than_14_days__c",dataValue("form.treatment_and_tracking.mild_symptoms_check_diarrhea")),
       field("Default_on_TB_treatment__c",dataValue("form.treatment_and_tracking.patient_default_tb")),
       field("TB_patients_therapy_observed__c",dataValue("form.treatment_and_tracking.observed_tb_therapy")),
-      field("Date_of_Birth__c",(state)=>{
-        var dob1=dataValue("form.TT5.Child_Information.Delivery_Information.DOB")(state)
-        var dob2=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.DOB")(state)
-        var newDOB='';
-        if(dob1===undefined){
-          if(dob2!==undefined){
-            newDOB==dob2;
-          }else{ newDOB==null}
-        }else{newDOB==dob1}
-        return newDOB;
+      field("Date_of_Birth__c",dataValue("form.case.update.DOB")),
+      field("Place_of_Delivery__c",(state)=>{
+        var facility=dataValue("form.TT5.Child_Information.Delivery_Type")(state);
+        if(facility!==undefined){
+           return (facility=='Skilled'? 'Facility' : 'Home');
+          }
+        return facility;
       }),
-      field("Place_of_Delivery__c",dataValue("form.TT5.Child_Information.Delivery_Information.Delivery_Type")),
-      field("Deliver_Facility__c",dataValue("form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
+      field("Delivery_Facility__c",dataValue("form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
       field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
       field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
       field("Family_Planning__c", (state)=>{
