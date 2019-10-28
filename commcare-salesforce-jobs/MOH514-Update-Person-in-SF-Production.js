@@ -28,18 +28,15 @@ steps(
       field("CommCare_HH_Code__c",dataValue("form.case.@case_id")),
       field("Client_Status__c", dataValue("form.Status.Client_Status")),
       field("Name",(state)=>{
-        var personName=dataValue("form.Person_Name")(state);
-        var unbornName=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name")(state);
+        var name1=dataValue("form.Person_Name")(state);
+        var name2=dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name")(state);
         var newName='';
-
-        if(personName===undefined){
-          if(unbornName===undefined){
-            newName=="Unborn Child";
-          }else{
-            newName==unbornName.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
-          }
+        if(name1===undefined || name1===null){
+          if(name2!==undefined && name2!== null){
+            newName===name2.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          }else{newName==="Unborn Child"}
         }else{
-          newName==personName.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
+          newName===name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         }
         return newName;
         //var name1=dataValue("form.Person_Name")(state);
