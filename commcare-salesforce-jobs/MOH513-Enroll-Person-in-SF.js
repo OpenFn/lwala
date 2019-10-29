@@ -125,8 +125,9 @@ if(dataValue("form.Source")(state)==1){
     field("Currently_on_ART_s__c",dataValue("form.Person.HAWI.ART")),
     field("ART_Regimen__c",dataValue("form.Person.HAWI.ARVs")),
     field("Exclusive_Breastfeeding__c",dataValue("form.Person.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
+    field("Immediate_Breastfeeding__c",dataValue("form.subcase_0.case.update.Immediate_Breastfeeding")),
     field("Vitamin_A__c",dataValue("form.Person.TT5.Child_Information.nutrition.vitamin_a")),
-    field("Food_groups_3_times_a_day__c",dataValue("form.TT5.Child_Information.nutrition.food_groups")),
+    field("Food_groups_3_times_a_day__c",dataValue("form.Person.TT5.Child_Information.nutrition.food_groups")),
     field("Initial_MUAC__c",dataValue("form.Person.TT5.Child_Information.nutrition.MUAC")),
     field("MCH_booklet__c",dataValue("form.Person.TT5.Mother_Information.mch_booklet")),
     field("Preferred_Care_Facility__c", (state)=>{

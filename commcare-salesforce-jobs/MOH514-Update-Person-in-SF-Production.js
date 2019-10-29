@@ -82,8 +82,7 @@ steps(
       field("Date_of_Default__c",dataValue("form.HAWI.Preferred_Care_F.date_of_default")),
       field("Persons_temperature__c",dataValue("form.treatment_and_tracking.temperature")),
       field("Days_since_illness_start__c",dataValue("form.treatment_and_tracking.duration_of_sickness")),
-      field("Newborn_visited_48_hours_of_delivery__c", dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.visited_after_delivery")),
-      //field("Malaria_test__c",dataValue("form.treatment_and_tracking.malaria_test")), //DOES NOT EXIST IN SF
+      field("Newborn_visited_48_hours_of_delivery__c", dataValue("form.TT5.Child_Information.newborn_visited_48_hours_of_delivery")),
       field("Last_Malaria_Home_Test__c",dataValue("form.treatment_and_tracking.malaria_test_date")),
       field("Current_Malaria_Status__c",dataValue("form.treatment_and_tracking.malaria_test_results")),
       field("Last_Malaria_Home_Treatment__c",dataValue("form.TT5.Child_Information.CCMM.Home_Treatment")),
@@ -96,6 +95,12 @@ steps(
       field("Diarrhoea_less_than_14_days__c",dataValue("form.treatment_and_tracking.mild_symptoms_check_diarrhea")),
       field("Default_on_TB_treatment__c",dataValue("form.treatment_and_tracking.patient_default_tb")),
       field("TB_patients_therapy_observed__c",dataValue("form.treatment_and_tracking.observed_tb_therapy")),
+      field("Injuries_and_wounds_managed__c", dataValue("Injuries_and_wounds_managed")),
+      field("Injuries_or_wounds__c", dataValue("form.case.update.Injuries_or_wounds")),
+      field("Currently_on_ART_s__c", dataValue("form.case.update.ART")),
+      field("ART_Regimen__c", dataValue("form.case.update.ARVs")),
+      field("Immediate_Breastfeeding__c", dataValue("form.case.update.Immediate_Breastfeeding")),
+      field("Verbal_autopsy__c", dataValue("form.case.update.verbal_autopsy")),
       field("Date_of_Birth__c",dataValue("form.case.update.DOB")),
       field("Place_of_Delivery__c",(state)=>{
         var facility=dataValue("form.TT5.Child_Information.Delivery_Type")(state);
@@ -104,7 +109,7 @@ steps(
           }
         return facility;
       }),
-      field("Delivery_Facility__c",dataValue("form.TT5.Child_Information.Delivery_Information.Delivery_Facility")),
+      field("Delivery_Facility__c",dataValue("form.case.update.Delivery_Facility")),
       field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
       field("Counselled_on_Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.counseling")),
       field("Family_Planning__c", (state)=>{
@@ -213,6 +218,7 @@ steps(
         var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         return name2;
       }),
+      field("Verbal_autopsy__c", dataValue("form.case.update.verbal_autopsy")),
       field("Client_Status__c","Deceased"),
       field("Active_in_Thrive_Thru_5__c","No"),
       field("Active_in_HAWI__c","No"),
