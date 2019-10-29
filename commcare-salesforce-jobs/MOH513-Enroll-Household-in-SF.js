@@ -19,8 +19,8 @@ upsert("Household__c", "CommCare_Code__c",fields(
   field("MOH_household_code__c", dataValue("form.moh_code")),
   field("CommCare_Code__c",dataValue("form.case.@case_id")),
   field("Source__c", true),
-  //field("Household_CHW__c",dataValue("form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
-  field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+  field("Household_CHW__c",dataValue("form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
+  //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
   relationship("Catchment__r","Name", dataValue("form.catchment")),// check
   field("Area__c", dataValue("form.area")),  //CONFIRM IDs MATCH PRODUCTION
   field("Household_village__c", dataValue("form.village")),
@@ -199,8 +199,8 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     return visit.toString().replace(/_/g," ");
   }),
   field("Date__c",dataValue("metadata.timeEnd")),
-  //field("Household_CHW__c",dataValue("form.CHW_ID")),
-  field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+  field("Household_CHW__c",dataValue("form.CHW_ID")),
+  //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
   relationship("Catchment__r","Name", dataValue("form.catchment")),
   field("Location__latitude__s", (state)=>{
     var lat = state.data.metadata.location;
