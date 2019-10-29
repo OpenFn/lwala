@@ -846,7 +846,7 @@ combine( function(state){
  }}),
 //PNC Referral ---> TO UPDATE
 combine( function(state){
-  if(dataValue("form.PNC")(state)=="Yes"){ //Update when Julia updates group ???
+  if(dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc")(state)=="yes"){ //Update when Julia updates group ???
     upsert("Service__c", "CommCare_Code__c", fields(
      field("CommCare_Code__c",(state)=>{
        var id = dataValue("id")(state);
@@ -854,12 +854,12 @@ combine( function(state){
        return serviceId
      }),
      field("Source__c",1),
-     field("Date__c",dataValue("form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral_date")),
+     field("Date__c",dataValue("form.Date")),
      field("Type_of_Service__c","CHW Mobile Survey"),
      field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
      field("RecordTypeID","01224000000kOto"),
      field("Referred__c",1),
-     field("Follow_Up_By_Date__c",dataValue("form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.Follow-Up_By_Date")), //UPDATE
+     field("Follow_Up_By_Date__c",dataValue("form.Follow-Up_By_Date")), //UPDATE
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "PNC"),
@@ -1110,7 +1110,7 @@ combine( function(state){
       field("CommCare_Visit_ID__c", dataValue("id")),
       relationship("Household__r","CommCare_Code__c",dataValue("form.HH_ID")),
       field("Name", "CHW Visit"),
-      field("Household_CHW__c", dataValue("form.CHW_ID_Final")), 
+      field("Household_CHW__c", dataValue("form.CHW_ID_Final")),
       field("Supervisor_Visit__c",(state)=>{
         var visit = dataValue("form.supervisor_visit")(state)
         if(visit!==undefined){
