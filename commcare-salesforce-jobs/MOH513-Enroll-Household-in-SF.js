@@ -56,7 +56,7 @@ combine(function(state){
       }),
       field("Name",(state)=>{
         var status = dataValue("Basic_Information.Child_Status")(state)
-        var name1=dataValue("Basic_Information.Person_Name")(state);
+        var name1=dataValue("Basic_Information.Name")(state);
         var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         return (status!=="Unborn" ? name2 : "Unborn Child");
       }),
