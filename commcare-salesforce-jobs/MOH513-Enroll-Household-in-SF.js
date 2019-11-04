@@ -204,13 +204,13 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   relationship("Catchment__r","Name", dataValue("form.catchment")),
   field("Location__latitude__s", (state)=>{
     var lat = state.data.metadata.location;
-    lat = lat.substring(0, lat.indexOf(" "));
-    return (lat!==null? lat : null);
+    //lat = lat.substring(0, lat.indexOf(" "));
+    return (lat!==null? lat.substring(0, lat.indexOf(" ")) : null);
   }),
  field("Location__longitude__s", (state)=>{
     var long = state.data.metadata.location;
-    long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
-    return (long!==null? long : null);
+    //long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
+    return (long!==null? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7) : null);
   })
 ))(state)
 });
