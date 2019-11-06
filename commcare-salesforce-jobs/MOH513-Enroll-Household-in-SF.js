@@ -57,7 +57,7 @@ combine(function(state){
       field("Name",(state)=>{
         var status = dataValue("Basic_Information.Child_Status")(state)
         var name1=dataValue("Basic_Information.Name")(state);
-        var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        var name2=(name1===undefined || name1==='' ? "Unborn Child" : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
         return (status!=="Unborn" ? name2 : "Unborn Child");
       }),
       field("Source__c", true),
@@ -187,7 +187,8 @@ combine(function(state){
       field("Parity__c",dataValue("TT5.Mother_Information.Pregnancy_Information.Parity"))
     ))
   )(state)
-}}),
+}})
+/*,
 //Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 combine(function(state){
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
@@ -213,4 +214,4 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     return (long!==null? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7) : null);
   })
 ))(state)
-});
+}); */
