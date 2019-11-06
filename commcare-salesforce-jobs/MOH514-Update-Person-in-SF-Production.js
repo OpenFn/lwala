@@ -24,7 +24,7 @@ steps(
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       relationship("Household__r","CommCare_Code__c",dataValue("form.HH_ID")),
-      field("CommCare_HH_Code__c",dataValue("form.case.@case_id")),
+      field("CommCare_HH_Code__c",dataValue("form.HH_ID")),
       field("Client_Status__c", dataValue("form.Status.Client_Status")),
       field("Name",(state)=>{
         var name1=dataValue("form.Person_Name")(state);
