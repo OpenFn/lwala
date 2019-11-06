@@ -789,7 +789,10 @@ combine( function(state){
       field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
       field("RecordTypeID","01224000000kOto"),
       field("Referred__c",1),
-      field("Follow_Up_By_Date__c",dataValue("form.Follow-Up_By_Date")),
+      field("Follow_Up_By_Date__c",(state)=>{
+  var date = dataValue("form.Follow-Up_By_Date")(state)
+  return(date===null || date==="" ? null : date);
+}),
       field("Reason_for_Service__c","Referral"),
       field("Open_Case__c",1),
       field("Purpose_of_Referral__c",(state)=>{
@@ -814,7 +817,10 @@ combine( function(state){
      field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
      field("RecordTypeID","01224000000kOto"),
      field("Referred__c",1),
-     field("Follow_Up_By_Date__c",dataValue("form.Follow-Up_By_Date")),
+     field("Follow_Up_By_Date__c",(state)=>{
+  var date = dataValue("form.Follow-Up_By_Date")(state)
+  return(date===null || date==="" ? null : date);
+}),
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "Skilled Delivery"),
@@ -859,7 +865,10 @@ combine( function(state){
      field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
      field("RecordTypeID","01224000000kOto"),
      field("Referred__c",1),
-     field("Follow_Up_By_Date__c",dataValue("form.Follow-Up_By_Date")), //UPDATE
+     field("Follow_Up_By_Date__c",(state)=>{
+       var date = dataValue("form.Follow-Up_By_Date")(state)
+       return(date===null || date==="" ? null : date);
+      }), 
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "PNC"),
@@ -881,7 +890,10 @@ combine( function(state){
      field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
      field("RecordTypeID","01224000000kOto"),
      field("Referred__c",1),
-     field("Follow_Up_By_Date__c",dataValue("form.Follow-Up_By_Date")), //UPDATE
+     field("Follow_Up_By_Date__c",(state)=>{
+  var date = dataValue("form.Follow-Up_By_Date")(state)
+  return(date===null || date==="" ? null : date);
+}), //UPDATE
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "Malnutrition"),
@@ -932,7 +944,10 @@ combine( function(state){
      field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
      field("RecordTypeID","01224000000kOto"),
      field("Referred__c",1),
-     field("Follow_Up_By_Date__c",dataValue("form.Follow-Up_By_Date")),
+     field("Follow_Up_By_Date__c",(state)=>{
+  var date = dataValue("form.Follow-Up_By_Date")(state)
+  return(date===null || date==="" ? null : date);
+}),
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "TB"),
@@ -961,7 +976,10 @@ combine( function(state){
      field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
      field("RecordTypeID","01224000000kOto"),
      field("Referred__c",1),
-     field("Follow_Up_By_Date__c",dataValue("form.Follow-Up_By_Date")),
+     field("Follow_Up_By_Date__c",(state)=>{
+  var date = dataValue("form.Follow-Up_By_Date")(state)
+  return(date===null || date==="" ? null : date);
+}),
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "Diarrhea"),
@@ -990,7 +1008,10 @@ combine( function(state){
      field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
      field("RecordTypeID","01224000000kOto"),
      field("Referred__c",1),
-     field("Follow_Up_By_Date__c",dataValue("form.Follow-Up_By_Date")),
+     field("Follow_Up_By_Date__c",(state)=>{
+  var date = dataValue("form.Follow-Up_By_Date")(state)
+  return(date===null || date==="" ? null : date);
+}),
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "Malaria"),
