@@ -22,7 +22,7 @@ upsert("Household__c", "CommCare_Code__c",fields(
   field("Household_CHW__c",dataValue("form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
   //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
   relationship("Catchment__r","Name", dataValue("form.catchment")),// check
-  field("Area__c", dataValue("form.area")),  //CONFIRM IDs MATCH PRODUCTION
+  field("Area__c", dataValue("form.area")),
   field("Household_village__c", dataValue("form.village")),
   field("Deaths_in_the_last_6_months__c", (state)=>{
     var death = dataValue("form.Household_Information.deaths_in_past_6_months")(state)
@@ -61,9 +61,9 @@ combine(function(state){
         return (status!=="Unborn" ? name2 : "Unborn Child");
       }),
       field("Source__c", true),
-      relationship("Catchment__r","Name", dataValue("catchment")),// check
-      field("Client_Status__c", "Active"),//To hardcode or to set dynamically?
-      field("Area__c", state.data.form.area),// check
+      relationship("Catchment__r","Name", dataValue("catchment")),
+      field("Client_Status__c", "Active"),
+      //field("Area__c", state.data.form.area),// check
       field("Household_village__c", state.data.form.village),
       field("Relation_to_the_head_of_the_household__c", (state)=>{
         var relation = dataValue("Basic_Information.relation_to_hh")(state);
