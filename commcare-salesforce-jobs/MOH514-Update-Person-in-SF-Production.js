@@ -34,7 +34,7 @@ steps(
       }),
       relationship("RecordType","Name",(state)=>{
         var rt = dataValue("form.case.update.RecordType")(state)
-        return(rt==="Unborn" || rt===null ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
+        return(rt==="Unborn" || rt==="" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
       }),
       field("Reason_for_a_refferal__c", (state)=>{
         var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state);
@@ -868,7 +868,7 @@ combine( function(state){
      field("Follow_Up_By_Date__c",(state)=>{
        var date = dataValue("form.Follow-Up_By_Date")(state)
        return(date===null || date==="" ? null : date);
-      }), 
+      }),
      field("Reason_for_Service__c","Referral"),
      field("Open_Case__c",1),
      field("Purpose_of_Referral__c", "PNC"),
