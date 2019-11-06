@@ -34,7 +34,7 @@ steps(
       }),
       relationship("RecordType","Name",(state)=>{
         var rt = dataValue("form.case.update.RecordType")(state)
-        return(rt=="Unborn" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
+        return(rt==="Unborn" || rt===null ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
       }),
       field("Reason_for_a_refferal__c", (state)=>{
         var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state);
@@ -91,9 +91,9 @@ steps(
       field("Malaria_Follow_Up__c",dataValue("form.TT5.Child_Information.CCMM.Fever-Follow-Up_By_Date")),
       field("Malaria_Facility__c",dataValue("form.TT5.Child_Information.CCMM.malaria_referral_facility")),
       field("Malaria_Referral__c",dataValue("form.TT5.Child_Information.CCMM.Referral_Date")),
-      field("Fever_over_7_days__c",dataValue("form.treatment_and_tracking.symptoms_check_fever")),
-      field("Cough_14_days__c",dataValue("form.treatment_and_tracking.symptoms_check_cough")),
-      field("Diarrhoea_over_14_days__c",dataValue("form.treatment_and_tracking.symptoms_check_diarrhea")),
+      field("Fever_over_7days__c",dataValue("form.treatment_and_tracking.symptoms_check_fever")),
+      field("Cough_over_14days__c",dataValue("form.treatment_and_tracking.symptoms_check_cough")),
+      field("Diarrhoea_over_14days__c",dataValue("form.treatment_and_tracking.symptoms_check_diarrhea")),
       field("Diarrhoea_less_than_14_days__c",dataValue("form.treatment_and_tracking.mild_symptoms_check_diarrhea")),
       field("Default_on_TB_treatment__c",dataValue("form.treatment_and_tracking.patient_default_tb")),
       field("TB_patients_therapy_observed__c",dataValue("form.treatment_and_tracking.observed_tb_therapy")),
