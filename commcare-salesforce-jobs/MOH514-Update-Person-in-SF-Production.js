@@ -39,7 +39,7 @@ steps(
       field("Reason_for_a_refferal__c", (state)=>{
         var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state);
         var reason =(referral==="HIV_Testing_and_Counseling" ? referral==="HIV counselling or Testing": referral);
-        return(reason===null ? reason.toString().replace(/_/g," ") : null);
+        return(reason!==null ? reason.toString().replace(/_/g," ") : null);
       }),
       field("Individual_birth_plan_counseling__c", dataValue("form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan")),
       field("Pregnancy_danger_signs__c", (state)=>{
