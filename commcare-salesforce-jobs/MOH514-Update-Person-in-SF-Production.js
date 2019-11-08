@@ -33,11 +33,12 @@ steps(
         return (name1!==null ? name2 : "Unborn Child");
       }),
       relationship("RecordType","Name",(state)=>{
-        var rt = dataValue("form.case.update.RecordType")(state)
+        var rt = dataValue("form.case.update.Record_Type")(state)
         return(rt==="Unborn" || rt==="" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
       }),
       field("Reason_for_a_refferal__c", (state)=>{
-        var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state);
+        var referral = dataValue("form.Purpose_of_Referral")(state);
+        //var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state);
         var reason = (referral==="HIV_Testing_and_Counseling" ? "HIV counselling or Testing" : referral);
         return (reason!==undefined ? reason.toString().replace(/_/g," ") : null);
       }),
@@ -110,7 +111,7 @@ steps(
         return facility;
       }),
       field("Delivery_Facility__c",(state)=>{
-        var facility= dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Delivery_Facility")(state);
+        var facility= dataValue("form.TT5.Child_Information.Delivery_Facility")(state);
         return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
       }),
       field("Exclusive_Breastfeeding__c",dataValue("form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding")),
