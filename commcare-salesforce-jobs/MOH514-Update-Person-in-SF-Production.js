@@ -33,7 +33,7 @@ steps(
         return (name1!==null ? name2 : "Unborn Child");
       }),
       relationship("RecordType","Name",(state)=>{
-        var rt = dataValue("form.case.update.Record_Type")(state)
+        var rt = dataValue("form.RecordType")(state)
         return(rt==="Unborn" || rt==="" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
       }),
       field("Reason_for_a_refferal__c", (state)=>{
