@@ -1081,7 +1081,7 @@ combine( function(state){
 }),
 //TT5 other clinical services received
 combine( function(state){
-  if(dataValue("form.TT5.Clinical_Service_Q")(state)==="yes"){
+  if(dataValue("form.TT5.Child_Information.Clinical_Service_Q")(state)==="yes"){
     each(dataPath("form.TT5.Child_Information.Clinical_Services[*]"), //CHECK IF ARRAY
     upsert("Service__c", "CommCare_Code__c", fields(
         field("CommCare_Code__c",(state)=>{
