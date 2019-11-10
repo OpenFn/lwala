@@ -53,7 +53,7 @@ steps(
         return newSign;
       }),
       field("Child_danger_signs__c", (state)=>{
-        var signs = dataValue("form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral")(state);
+        var signs = dataValue("form.TT5malariald_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral")(state);
         var newSign ='';
         if(signs !==undefined){
           signs = signs.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';');
@@ -704,7 +704,7 @@ combine( function(state) {
 //Malaria cases
 //Child
 combine( function(state) {
-  if(dataValue("form.treatment_and_tracking.malaria_test")(state)=="yes"){
+  if(dataValue("form.treatment_and_tracking.malaria_test")(state)==="yes"){
     upsert("Service__c", "CommCare_Code__c", fields(
       field("CommCare_Code__c",(state)=>{
         var id = dataValue("id")(state);
@@ -713,7 +713,10 @@ combine( function(state) {
       }),
       field("Source__c",1),
       field("Date__c",dataValue("form.Date")),
-      field("Follow_Up_By_Date__c",dataValue("form.Date")),
+      field("Follow_Up_By_Date__c",(state)=>{
+        var date = dataValue("form.Follow-Up_By_Date")(state)
+        return(date!==undefined || date!==""? date : null);
+      }),
       field("Household_CHW__c",dataValue("form.CHW_ID_Final")),
       field("Referral_Date__c",dataValue("form.Referral_Date")),
       field("Referred__c",1),
@@ -724,7 +727,6 @@ combine( function(state) {
       field("Malaria_Status__c",dataValue("form.treatment_and_tracking.malaria_test_results")),
       field("Home_Treatment_Date__c",dataValue("form.TT5.Child_Information.CCMM.Home_Treatment_Date")),
       field("Malaria_Home_Test_Date__c",dataValue("form.treatment_and_tracking.malaria_test_date")),
-      field("CommCare_Code__c",dataValue("form.subcase_0.case.@case_id")(state)),
       relationship("Person__r","CommCare_ID__c",dataValue("form.case.@case_id"))
       ))(state);
     }
@@ -1081,14 +1083,14 @@ combine( function(state){
 }),
 //TT5 other clinical services received
 combine( function(state){
-  if(dataValue("form.TT5.Child_Information.Clinical_Service_Q")(state)==="yes"){
-    each(dataPath("form.TT5.Child_Information.Clinical_Services[*]"), //CHECK IF ARRAY
+  if(dataValue("form.TT5.Child_Information.Clinical_Services_Q")(state)==="Yes"){
+    each(dataPath("form.TT5.Child_Information.Clinical_Services[*]"),
     upsert("Service__c", "CommCare_Code__c", fields(
         field("CommCare_Code__c",(state)=>{
           var id = state.data.id;
           var serviceId = id + dataValue("Purpose")(state);
           return serviceId;
-        })(state),
+        }),
         field("Source__c",true),
         field("Household_CHW__c",dataValue("chw")),
         field("Reason_for_Service__c",(state)=>{
@@ -1126,6 +1128,7 @@ combine( function(state){
     )(state);
   }
 }),
+//Upsert Visit records
   combine( function(state){
     if(dataValue("form.Source")(state)==1){
     upsert("Visit__c", "CommCare_Visit_ID__c", fields(
@@ -1152,4 +1155,24 @@ combine( function(state){
       })
     ))(state)
   }})
+  ,
+  //Map Zinc and ors
+  combine( function(state){
+    if(dataValue("form.TT5.Child_Information.Clinical_Services_Q")(state)==="Yes"){
+      each(dataPath("form.TT5.Child_Information.Clinical_Services[*]"), 
+        upsert("Person__c", "CommCare_ID__c", fields(
+         field("Source__c",1),
+         field("CommCare_ID__c", dataValue("Case_ID")),
+         field("Child_zinc__c", (state)=>{
+           var zinc = dataValue("diarrhea_clinic_treatment_zinc")(state)
+           return (zinc==="Yes" ? "Yes" : undefined)
+         }),
+         field("Child_ORS__c", (state)=>{
+           var ors = dataValue("diarrhea_clinic_treatment_ORS")(state)
+           return (ors==="Yes" ? "Yes" : undefined)
+         })
+        ))
+      )(state);
+    }
+  })
 );
