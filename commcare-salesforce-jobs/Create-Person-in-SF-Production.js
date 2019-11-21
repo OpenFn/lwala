@@ -159,12 +159,10 @@ create("Visit__c",fields(
 //New mappings & custom function to pull out substrings of latitude and longitude
   field("Location__latitude__s", function(state){
     var lat = state.data.metadata.location;
-    lat = lat.substring(0, lat.indexOf(" "));
-    return lat;
+    return (lat!==null? lat.substring(0, lat.indexOf(" ")) : null);
   }),
  field("Location__longitude__s", function(state){
     var long = state.data.metadata.location;
-    long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+15);
-    return long;
+    return (long!==null? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7) : null);
   })
 ))
