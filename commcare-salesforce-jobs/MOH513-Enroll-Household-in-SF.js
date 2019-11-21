@@ -188,30 +188,3 @@ combine(function(state){
     ))
   )(state)
 }})
-/*,
-//Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
-combine(function(state){
-upsert("Visit__c", "CommCare_Visit_ID__c", fields(
-  field("CommCare_Visit_ID__c", dataValue("id")),
-  relationship("Household__r", "CommCare_Code__c", dataValue("form.case.@case_id")),
-  field("Name", "CHW Visit"),
-  field("Supervisor_Visit__c",(state)=>{
-    var visit = dataValue("form.supervisor_visit")(state).toString().replace(/ /g,";")
-    return visit.toString().replace(/_/g," ");
-  }),
-  field("Date__c",dataValue("metadata.timeEnd")),
-  field("Household_CHW__c",dataValue("form.CHW_ID")),
-  //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-  relationship("Catchment__r","Name", dataValue("form.catchment")),
-  field("Location__latitude__s", (state)=>{
-    var lat = state.data.metadata.location;
-    //lat = lat.substring(0, lat.indexOf(" "));
-    return (lat!==null? lat.substring(0, lat.indexOf(" ")) : null);
-  }),
- field("Location__longitude__s", (state)=>{
-    var long = state.data.metadata.location;
-    //long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
-    return (long!==null? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7) : null);
-  })
-))(state)
-}); */

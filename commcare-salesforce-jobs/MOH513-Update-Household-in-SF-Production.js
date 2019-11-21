@@ -30,7 +30,7 @@ upsert("Visit__c","CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
   relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")),
   field("Date__c",dataValue("form.metadata.timeEnd")),
-  //field("Household_CHW__c", "a031x000002S9lm"),
+  //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
   field("Household_CHW__c",dataValue("form.chw")),
   field("Name", "CHW Visit"),
   field("Supervisor_Visit__c",(state)=>{
@@ -41,39 +41,3 @@ upsert("Visit__c","CommCare_Visit_ID__c", fields(
     }
   })
 ));
-    /*,
-    each(
-      dataPath("form.Household_Information.household_deaths.deaths[*]"),
-      upsert("Person__c","CommCare_ID__c", fields(
-        relationship("Household__r", "CommCare_Code__c", state.data.form.case.@case_id),
-        field()
-      ))
-    ),*/
-/* } Need separate logic depending on Household_Status?
-  else{
-    upsert("Household__c","CommCare_Code__c",fields(
-      field("CommCare_Code__c",dataValue("form.case.@case_id")),
-      field("CommCare_HH_Code__c", dataValue("form.case.@case_id")),
-      field("Active_Household__c", false),
-      field("Inactive_Reason__c", dataValue("form.Reason_for_Inactive")),
-      field("Inactive_Date__c", dataValue("form.Date")),
-      field("Deaths_in_the_last_6_months__c", (state)=>{
-        var deaths = dataValue("form.Household_Information.household_deaths.deaths_in_past_6_months")(state);
-        return (deaths > 0 ? "Yes" : "No");
-      })
-    )(state),
-    create("Visit__c",fields(
-      relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")),
-      field("Date__c",dataValue("form.Date")),
-      field("Catchment__c","a002400000pAcOe"),
-      field("Household_CHW__c",dataValue("form.chw")),
-      field("Supervisor_Visit__c",(state)=>{
-        var visit = dataValue("form.supervisor_visit")(state)
-        if(visit!==undefined){
-          visit = visit.toString().replace(/ /g,";")
-        }
-        return visit.toString().replace(/_/g," ");
-      })
-    ))(state);
- } */
-//});

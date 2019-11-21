@@ -1,3 +1,4 @@
+/*** MOH514 - Update Person form ***/
 alterState((state) =>{
   if(dataValue("form.TT5.Child_Information.Clinical_Services")(state)!==undefined){
     const clinical=state.data.form.TT5.Child_Information.Clinical_Services;
@@ -1154,12 +1155,11 @@ combine( function(state){
         return (long!==null? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7) : null);
       })
     ))(state)
-  }})
-  ,
+  }}),
   //Map Zinc and ors
   combine( function(state){
     if(dataValue("form.TT5.Child_Information.Clinical_Services_Q")(state)==="Yes"){
-      each(dataPath("form.TT5.Child_Information.Clinical_Services[*]"), 
+      each(dataPath("form.TT5.Child_Information.Clinical_Services[*]"),
         upsert("Person__c", "CommCare_ID__c", fields(
          field("Source__c",1),
          field("CommCare_ID__c", dataValue("Case_ID")),
