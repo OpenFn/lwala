@@ -1,4 +1,5 @@
-create("Person__c",fields(
+//changed from create to upsert operation
+upsert("Person__c","CommCare_ID__c",fields(
   //field("Name",dataValue("$.form.Basic_Information.Person_Name")),
   field("Name",function(state){
           var name1=dataValue("$.form.Basic_Information.Person_Name")(state);
@@ -163,6 +164,6 @@ create("Visit__c",fields(
   }),
  field("Location__longitude__s", function(state){
     var long = state.data.metadata.location;
-    return (long!==null? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7) : null);
+    return (long!==null? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+6) : null);
   })
 ))
