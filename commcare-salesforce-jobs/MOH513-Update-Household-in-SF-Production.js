@@ -1,6 +1,7 @@
 upsert("Household__c","CommCare_Code__c",fields(
   field("CommCare_Code__c",dataValue("form.case.@case_id")),
   field("MOH_household_code__c", dataValue("form.Household_Information.moh_code")),
+  field("MOH_household_code_linked__c", dataValue("form.MOH_household_code_linked)), // new mapping for linked MOH code
   field("Active_Household__c", (state)=>{
     var status = dataValue("form.Household_Status")(state)
     return (status=="Yes"? true : false);
@@ -20,6 +21,8 @@ upsert("Household__c","CommCare_Code__c",fields(
   field("Treats_Drinking_Water__c", dataValue("form.Household_Information.Treats_Drinking_Water")),
   field("WASH_Trained__c", dataValue("form.Household_Information.WASH_Trained")),
   field("Uses_ITNs__c", dataValue("form.Household_Information.ITNs")),
+  field("family_planning__c", dataValue("form.Household_Information.family_planning")), // new mapping for family planning
+  field("Family_planning_method__c", dataValue("form.Household_Information.Family_planning_method")), // new mapping for family planning method
   field("Deaths_in_the_last_6_months__c", (state)=>{
     var deaths = dataValue("form.Household_Information.household_deaths.deaths_in_past_6_months")(state);
     return (deaths > 0 ? "Yes" : "No");
@@ -28,7 +31,7 @@ upsert("Household__c","CommCare_Code__c",fields(
 
 upsert("Visit__c","CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
-  relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")),
+  relationship("Household__r","CommCare___c",dataValue("form.case.@case_id")),
   field("Date__c",dataValue("form.metadata.timeEnd")),
   //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
   field("Household_CHW__c",dataValue("form.chw")),
