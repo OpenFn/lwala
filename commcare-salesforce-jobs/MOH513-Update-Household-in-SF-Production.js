@@ -1,7 +1,7 @@
 upsert("Household__c","CommCare_Code__c",fields(
   field("CommCare_Code__c",dataValue("form.case.@case_id")),
   field("MOH_household_code__c", dataValue("form.Household_Information.moh_code")),
-  field("MOH_household_code_linked__c", dataValue("form.MOH_household_code_linked)), // new mapping for linked MOH code
+  field("MOH_household_code_linked__c", dataValue("form.MOH_household_code_linked")), // new mapping for linked MOH code
   field("Active_Household__c", (state)=>{
     var status = dataValue("form.Household_Status")(state)
     return (status=="Yes"? true : false);
