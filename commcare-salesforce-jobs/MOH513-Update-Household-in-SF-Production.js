@@ -31,7 +31,7 @@ upsert("Household__c","CommCare_Code__c",fields(
 
 upsert("Visit__c","CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
-  relationship("Household__r","CommCare_Code___c",dataValue("form.case.@case_id")),
+  relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")),
   field("Date__c",dataValue("form.metadata.timeEnd")),
   //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
   field("Household_CHW__c",dataValue("form.chw")),
