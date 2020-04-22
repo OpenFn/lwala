@@ -22,7 +22,7 @@ steps(
   if(dataValue("form.Status.Client_Status")(state)=="Active" && dataValue("form.Source")(state)==1){
   //Deliveries
      upsert("Person__c", "CommCare_ID__c", fields(
-      field("deworming_medication__c", dataValue("form.TT5.Deworming"), //new mapping for deworming
+      field("deworming_medication__c", dataValue("form.TT5.Deworming")), //new mapping for deworming
       field("Source__c",1),
       field("CommCare_ID__c", dataValue("form.case.@case_id")),
       relationship("Household__r","CommCare_Code__c",dataValue("form.HH_ID")),
