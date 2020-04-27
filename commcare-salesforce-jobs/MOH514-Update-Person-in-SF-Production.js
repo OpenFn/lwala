@@ -34,7 +34,7 @@ steps(
         var name2=(name1===undefined || name1==='' ? unborn : name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}));
         return (name1!==null ? name2 : "Unborn Child");
       }),
-       field("Gender__c", dataValue(form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Sex")) // new mapping for sex after delivery
+      field("Gender__c", dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Sex")), // new mapping for sex after delivery
       relationship("RecordType","Name",(state)=>{
         var rt = dataValue("form.RecordType")(state)
         return(rt==="Unborn" || rt==="" ? "Child" : rt.toString().replace(/_/g," ")); //convert Unborn children to Child RT
