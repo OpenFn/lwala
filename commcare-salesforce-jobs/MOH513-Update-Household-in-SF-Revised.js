@@ -22,14 +22,16 @@ upsert("Household__c","CommCare_Code__c",fields(
     return (reason!==undefined ? reason : null);
   }),
   field("Source__c", 1),
-  field("Tippy_Tap__c", dataValue("form.Household_Information.Active_Handwashing_Station")),
-  field("Clothe__c", dataValue("form.Household_Information.Clothesline")),
-  field("Drying_Rack__c", dataValue("form.Household_Information.Drying_Rack")),
-  field("Pit_Latrine__c", dataValue("form.Household_Information.Functional_Latrine")),
-  field("Cookstove__c", dataValue("form.Household_Information.Improved_Cooking_Method")),
-  field("Kitchen_Garden__c", dataValue("form.Household_Information.Kitchen_Garden")),
-  field("Rubbish_Pit__c", dataValue("form.Household_Information.Rubbish_Pit")),
+  //field("Household_village__c", dataValue("form.village")),
+  //field("Access_to_safe_water__c", dataValue("form.Household_Information.Safe_Water")), //new add?
   field("Treats_Drinking_Water__c", dataValue("form.Household_Information.Treats_Drinking_Water")),
+  field("Tippy_Tap__c", dataValue("form.Household_Information.Active_Handwashing_Station")),
+  field("Pit_Latrine__c", dataValue("form.Household_Information.Functional_Latrine")),
+  field("Rubbish_Pit__c", dataValue("form.Household_Information.Rubbish_Pit")),
+  field("Drying_Rack__c", dataValue("form.Household_Information.Drying_Rack")),
+  field("Kitchen_Garden__c", dataValue("form.Household_Information.Kitchen_Garden")),
+  field("Cookstove__c", dataValue("form.Household_Information.Improved_Cooking_Method")),
+  field("Clothe__c", dataValue("form.Household_Information.Clothesline")),
   field("WASH_Trained__c", dataValue("form.Household_Information.WASH_Trained")),
   field("Uses_ITNs__c", dataValue("form.Household_Information.ITNs")),
   field("family_planning__c", dataValue("form.Household_Information.family_planning")), // new mapping
