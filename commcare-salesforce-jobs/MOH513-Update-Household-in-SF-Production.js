@@ -57,7 +57,8 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
       visit = visit.toString().replace(/ /g,";");
       return visit.toString().replace(/_/g," ");
     }
-  }),
+  })
+  /*,
   field("Location__latitude__s", (state)=>{
     var lat = state.data.metadata.location[`#text`];
     //lat = lat.substring(0, lat.indexOf(" "));
@@ -67,5 +68,5 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
     var long = state.data.metadata.location[`#text`];
     //long = long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7);
     return (long!==null && long!==undefined ? long.substring(long.indexOf(" ")+1, long.indexOf(" ")+7) : null);
-  })
+  })*/
 ));
