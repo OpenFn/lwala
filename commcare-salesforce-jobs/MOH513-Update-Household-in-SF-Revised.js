@@ -22,8 +22,8 @@ upsert("Household__c","CommCare_Code__c",fields(
     return (reason!==undefined ? reason : null);
   }),
   field("Source__c", 1),
-  //field("Household_village__c", dataValue("form.village")), //add to all MOH forms? Double check this is in all CommCare MoH forms
-  //field("Access_to_safe_water__c", dataValue("form.Household_Information.Safe_Water")), //new add?
+  field("Household_village__c", dataValue("form.village")), //add to all MOH forms? Double check this is in all CommCare MoH forms
+  field("Access_to_safe_water__c", dataValue("form.Household_Information.Safe_Water")), //new add?
   field("Treats_Drinking_Water__c", dataValue("form.Household_Information.Treats_Drinking_Water")),
   field("Tippy_Tap__c", dataValue("form.Household_Information.Active_Handwashing_Station")),
   field("Pit_Latrine__c", dataValue("form.Household_Information.Functional_Latrine")),
