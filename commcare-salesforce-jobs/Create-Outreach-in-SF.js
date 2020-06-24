@@ -15,6 +15,7 @@ upsert(
       return newArea;
     }),
     relationship("Outreach_Area__r", "Name", (state) => {
+      var catchment = dataValue("form.where_was_the_outreach_conducted")(state);
       var area = dataValue("form.outreach_area_NK")(state)
         ? dataValue("form.outreach_area_NK")(state)
         : dataValue("form.outreach_area_SK")(state);
@@ -23,7 +24,12 @@ upsert(
         .map(
           (word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
         )
-        .join(" ") + " Area") : '');
+        .join(" ") + " Area") : catchment
+        .split(/_/g)
+        .map(
+          (word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
+        )
+        .join(" "));
       return newArea; //+ " Area";
     }),
     relationship("RecordType", "Name", "FP Community Outreach Distribution"), 
