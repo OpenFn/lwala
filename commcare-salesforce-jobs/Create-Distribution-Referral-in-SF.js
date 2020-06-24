@@ -13,12 +13,8 @@ upsert(
     field("Referral_Date__c", dataValue("form.Referral_Date")),
     field("Referral_Method__c", (state) => {
       var method = dataValue("form.referral_method")(state);
-      var newMethod = method
-        .split(/_/g)
-        .map(
-          (word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
-        )
-        .join(" ");
+      var newMethod = (method ? method.split(/_/g).map((word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
+        ).join(" ") : "");
       return newMethod;
     }),
     field("Implant_Type__c", (state) => {
@@ -28,7 +24,7 @@ upsert(
         if (type === "implanon") {
           newType = "3-year Implanon";
         } else {
-          newType = type === "jadelle" ? "5-year Jadelle" : null;
+          newType = (type === "jadelle" ? "5-year Jadelle" : null);
         }
       }
       return newType;
