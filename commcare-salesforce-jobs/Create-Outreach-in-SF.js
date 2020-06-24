@@ -18,13 +18,13 @@ upsert(
       var area = dataValue("form.outreach_area_NK")(state)
         ? dataValue("form.outreach_area_NK")(state)
         : dataValue("form.outreach_area_SK")(state);
-      var newArea = area
+      var newArea = (area ? (area
         .split(/_/g)
         .map(
           (word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
         )
-        .join(" ");
-      return newArea + " Area";
+        .join(" ") + " Area") : '');
+      return newArea; //+ " Area";
     }),
     relationship("RecordType", "Name", "FP Community Outreach Distribution"), 
     field("Outreach_Date__c", dataValue("form.outreach_date")),
