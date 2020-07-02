@@ -16,23 +16,29 @@ upsert(
     }),
     relationship("Outreach_Area__r", "Name", (state) => {
       var catchment = dataValue("form.where_was_the_outreach_conducted")(state);
-      var area = dataValue("form.outreach_area_NK")(state)
+      var area1 = dataValue("form.outreach_area_NK")(state)
         ? dataValue("form.outreach_area_NK")(state)
         : dataValue("form.outreach_area_SK")(state);
-      var newArea = (area ? (area
-        .split(/_/g)
-        .map(
-          (word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
-        )
-        .join(" ") + " Area") : catchment
-        .split(/_/g)
-        .map(
-          (word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
-        )
-        .join(" "));
-      return newArea; //+ " Area";
+      var area = area1 ? area1 : dataValue("form.outreach_area_EK")(state);
+
+      var newArea = area
+        ? area
+            .split(/_/g)
+            .map(
+              (word) =>
+                `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
+            )
+            .join(" ") + " Area"
+        : catchment
+            .split(/_/g)
+            .map(
+              (word) =>
+                `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
+            )
+            .join(" ");
+      return newArea;
     }),
-    relationship("RecordType", "Name", "FP Community Outreach Distribution"), 
+    relationship("RecordType", "Name", "FP Community Outreach Distribution"),
     field("Outreach_Date__c", dataValue("form.outreach_date")),
     field("Male_Condoms__c", dataValue("form.male_condoms_total")),
     field("Female_Condoms__c", dataValue("form.female_condoms_total")),
