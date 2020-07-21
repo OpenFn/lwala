@@ -42,7 +42,12 @@ upsert("Household__c", "CommCare_Code__c",fields(
   field("Clothe__c", dataValue("form.Household_Information.Clothesline")),
   field("WASH_Trained__c", dataValue("form.Household_Information.WASH_Trained")),
   field("Uses_ITNs__c", dataValue("form.Household_Information.ITNs")),
-  field("Total_household_people__c", dataValue("form.Total_Number_of_Members"))
+  field("Total_household_people__c", dataValue("form.Total_Number_of_Members")),
+  field("Supervisor_Visit__c",(state)=>{
+    var visit = dataValue("form.supervisor_visit")(state); 
+    var newVisit = visit ? visit.toString().replace(/ /g,";") : null; 
+    return newVisit ? newVisit.toString().replace(/_/g," ") : null; 
+  })
 )),
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
