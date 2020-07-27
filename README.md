@@ -8,6 +8,11 @@ Lwala's OpenFn project*
 ## Data Flows
 OpenFn jobs are used to automate the following data flows between CommCare and Salesforce. This integration is event-driven (triggered whenever a record is created/ updated). 
 
+There are some reference data tables that need to be consistent across the CommCare and Salesforce applications to ensure successful integration: 
+1. **Locations** (Sites, Catchments, Areas) --> Ensure the Salesforce `Label` for these location records is consistent across Salesforce and CommCare. 
+2. **CHWs** (Salesforce Record Ids) --> Ensure the Salesforce unique `Id` for each CHW is captured in CommCare . 
+3. **Record Types** (Salesforce types to segment Persons - i.e., Child, Male Adult, Female Adult, Youth) --> If referenced in CommCare forms, the `Names` need to be aligned. 
+
 ### (1) CommCare --> Salesforce
 CHWs register households, patients, and visits, and use CommCare as a tool for ongoing data collection and case management. As soon as the following CommCare forms are submitted, these [`CommCare-Salesforce-Jobs`](https://github.com/OpenFn/lwala/tree/master/commcare-salesforce-jobs) execute to forward data to Salesforce. 
 
@@ -46,9 +51,11 @@ When these Salesforce outbound messages are received as new Messages in OpenFn, 
 4. Update cases in CommCare when SF records are update ([see `Update` jobs here](https://github.com/OpenFn/lwala/tree/master/salesforce-commcare-jobs)) 
 
 # Troubleshooting Notes
-## Common Errors
-1. `FIELD_CUSTOM_VALIDATION_EXCEPTION: Duplicate Visit`: Ignore. Salesforce-side error that occurs when OpenFn attempts to insert more than 1 Visit record within the same day. Forces failure to prevent duplicate data. *To revisit and consider re-design so that there are never expected failures in OpenFn.*
-2. `UNABLE_TO_LOCK_ROW`: Re-run to reprocess successfully. This is a Salesforce-side error that occurs when multiple automation flows attempt to update the same record at the same time. *To try lowering OpenFn run concurrency to see if this reduces occurrence of this error.*
+[See here](https://docs.google.com/document/d/1EjpZg2PNSl2K2gUmnFoSaEqxQsednKhyu7rp0wbEA90/edit) for the master troubleshooting user guide. 
+## Common OpenFn Errors
+1. `FIELD_CUSTOM_VALIDATION_EXCEPTION: Duplicate Visit`: Ignore. Salesforce-side error that occurs when OpenFn attempts to insert more than 1 Visit record within the same day. Forces failure to prevent duplicate data. *This is NOT best practice - to revisit and consider re-design so that there are never expected failures in OpenFn.*
+2. `UNABLE_TO_LOCK_ROW`: Re-run to reprocess successfully. This is an error related to the Salesforce design that occurs when multiple automation flows attempt to update the same record at the same time. *To try lowering OpenFn run concurrency to see if this reduces occurrence of this error.*
+3. `REQUIRED_FIELD_MISSING`: Occurs when a Salesforce field is made "required", but the corresponding data is not provided by and/ or not mapped by OpenFn. To troubleshoot, update the OpenFn mappings as needed and re-process Messages. 
 
 ## Questions? Need help? 
 Contact support@openfn.org for troubleshooting guidance. 
