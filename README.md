@@ -1,6 +1,6 @@
 # Lwala CommCare SIMBA Connection
 
-Lwala uses OpenFn to integrate its Salesforce patient database and CommCare CHW mobile application. The OpenFn jobs in this repository automate a bi-directional dataflow between the CommCare and Salesforce systems, ensuring regular data syncs and feedback loops for CHWs. 
+Lwala uses OpenFn to integrate its Salesforce database and CommCare CHW mobile application. The OpenFn jobs in this repository automate a bi-directional dataflow between the CommCare and Salesforce systems, ensuring regular data syncs and feedback loops for CHWs. 
 
 *N.B. Any commits to the `master` branch will be automatically deployed to
 Lwala's OpenFn project*
