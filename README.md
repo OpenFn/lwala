@@ -8,6 +8,7 @@ Lwala's OpenFn project*
 ## Data Flows
 OpenFn jobs are used to automate the following data flows between CommCare and Salesforce. This integration is event-driven (triggered whenever a record is created/ updated). 
 
+### Reference Tables
 There are some reference data tables that need to be consistent across the CommCare and Salesforce applications to ensure successful integration: 
 1. **Locations** (Sites, Catchments, Areas) --> Ensure the Salesforce `Label` for these location records is consistent across Salesforce and CommCare. 
 2. **CHWs** (Salesforce Record Ids) --> Ensure the Salesforce unique `Id` for each CHW is captured in CommCare . 
