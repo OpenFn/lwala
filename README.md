@@ -6,11 +6,11 @@ Lwala uses OpenFn to integrate its Salesforce patient database and CommCare CHW 
 Lwala's OpenFn project*
 
 ## Flows
-### CommCare --> Salesforce
+### (1) CommCare --> Salesforce
 CHWs register households, patients, and visits, and use CommCare as a tool for ongoing data collection and case management. As soon as the following CommCare data are updated, these [`CommCare-Salesforce-Jobs`](https://github.com/OpenFn/lwala/tree/master/commcare-salesforce-jobs) execute to forward data to Salesforce. 
 1. 
 
-### Salesforce --> CommCare
+### (2) Salesforce --> CommCare
 There are multiple Apex Triggers in Salesforce on the `Household` and `Patient` objects that send outbound messages to Lwala's OpenFn inbox when specific updates are made in the Salesforce system. These include: 
 1. Households: ... (runs after Households created/updated)
 2. Patients: ... (runs after Patients created/updated)
