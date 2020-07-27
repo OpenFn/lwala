@@ -26,6 +26,12 @@ _MOH Data Collection Forms_ (These forms were introduced to support MOH partners
 5. Outreach Registration ([`nutrition-survey-job.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/nutrition-survey-job.js))
 6. Distribution and Referrals ([`nutrition-survey-job.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/nutrition-survey-job.js))
 
+_Deprecated Forms & Archived Jobs_
+1. Input Seed Support and Kitchen Garden Adoption
+2. OSG Mentoring Attendance
+3. Register Training
+4. Schedule Appointment
+
 ### (2) Salesforce --> CommCare
 There are multiple Apex Triggers in Salesforce on the `Household` and `Patient` objects that send outbound messages to Lwala's OpenFn inbox when specific updates are made in the Salesforce system. These include: 
 1. Households: [trigger name...] (runs after Households created/updated)
