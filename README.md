@@ -5,7 +5,9 @@ Lwala uses OpenFn to integrate its Salesforce database and CommCare CHW mobile a
 *N.B. Any commits to the `master` branch will be automatically deployed to
 Lwala's OpenFn project*
 
-## Flows
+## Data Flows
+OpenFn jobs are used to automate the following data flows between CommCare and Salesforce. This integration is event-driven (triggered whenever a record is created/ updated). 
+
 ### (1) CommCare --> Salesforce
 CHWs register households, patients, and visits, and use CommCare as a tool for ongoing data collection and case management. As soon as the following CommCare forms are submitted, these [`CommCare-Salesforce-Jobs`](https://github.com/OpenFn/lwala/tree/master/commcare-salesforce-jobs) execute to forward data to Salesforce. 
 
@@ -43,7 +45,16 @@ When these Salesforce outbound messages are received as new Messages in OpenFn, 
 3. Create cases in CommCare when new SF records created ([see `Create` jobs here](https://github.com/OpenFn/lwala/tree/master/salesforce-commcare-jobs))
 4. Update cases in CommCare when SF records are update ([see `Update` jobs here](https://github.com/OpenFn/lwala/tree/master/salesforce-commcare-jobs)) 
 
-## Training Notes
+# Troubleshooting Notes
+## Common Errors
+1. `FIELD_CUSTOM_VALIDATION_EXCEPTION: Duplicate Visit`: Ignore. Salesforce-side error that occurs when OpenFn attempts to insert more than 1 Visit record within the same day. Forces failure to prevent duplicate data. *To revisit and consider re-design so that there are never expected failures in OpenFn.*
+2. `UNABLE_TO_LOCK_ROW`: Re-run to reprocess successfully. This is a Salesforce-side error that occurs when multiple automation flows attempt to update the same record at the same time. *To try lowering OpenFn run concurrency to see if this reduces occurrence of this error.*
+
+## Questions? Need help? 
+Contact support@openfn.org for troubleshooting guidance. 
+
+# Training Notes
+[See here](https://drive.google.com/drive/u/0/folders/1VGt8ARnowGzXvaN-CstolK94crnVRmlR) for prior training materials, and see this [Offline Testing Guide](https://docs.google.com/document/d/1nD4wwklkcmv0oxNk_diHyhxhVcq2jAlg2iGTFvxHeU4/edit?usp=sharing) for using `openfn-devtools` to test and edit jobs offline. 
 
 ### Development process
 Propose a change by creating an issue, then feature branch named `###_issue` and
