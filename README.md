@@ -10,21 +10,21 @@ Lwala's OpenFn project*
 CHWs register households, patients, and visits, and use CommCare as a tool for ongoing data collection and case management. As soon as the following CommCare forms are submitted, these [`CommCare-Salesforce-Jobs`](https://github.com/OpenFn/lwala/tree/master/commcare-salesforce-jobs) execute to forward data to Salesforce. 
 
 _Lwala Application Forms_ (These are the original CommCare forms still live in some areas, but to be eventually replaced by the MOH forms.)
-1. Enroll a Person
-2. Enroll New Household
-3. Update Person
-4. CHW Household Survey
-5. Change Household CHW
-6. Enroll Household in Nutrition Program
-7. Nutrition Survey
+1. Enroll a Person ([`Create-Person-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Create-Person-in-SF-Production.js))
+2. Enroll New Household ([`Create-Household-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Create-Household-in-SF-Production.js))
+3. Update Person ([`Update-Person-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Update-Person-in-SF-Production.js))
+4. CHW Household Survey ([`Update-Household-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Update-Household-in-SF-Production.js))
+5. Change Household CHW ([`CHW-Reassignment-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/CHW-Reassignment-Production.js))
+6. Enroll Household in Nutrition Program ([`Enroll-in-Nutrition-Group-in-SF.jss`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Enroll-in-Nutrition-Group-in-SF.js))
+7. Nutrition Survey ([`nutrition-survey-job.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/nutrition-survey-job.js))
 
 _MOH Data Collection Forms_ (These forms were introduced to support MOH partnership requirements, but are only live in some areas.)
-1. Enroll Person
-2. Enroll Household 
-3. Update Person
-4. Update Houshold
-5. Outreach Registration
-6. Distribution and Referrals
+1. Enroll Person ([`MOH513-Enroll-Person-in-SF.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Enroll-Person-in-SF.js))
+2. Enroll Household ([`MOH513-Enroll-Household-in-SF.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Enroll-Household-in-SF.js))
+3. Update Person ([`MOH514-Update-Person-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH514-Update-Person-in-SF-Production.js))
+4. Update Houshold ([`MOH513-Update-Household-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Update-Household-in-SF-Production.js))
+5. Outreach Registration ([`nutrition-survey-job.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/nutrition-survey-job.js))
+6. Distribution and Referrals ([`nutrition-survey-job.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/nutrition-survey-job.js))
 
 ### (2) Salesforce --> CommCare
 There are multiple Apex Triggers in Salesforce on the `Household` and `Patient` objects that send outbound messages to Lwala's OpenFn inbox when specific updates are made in the Salesforce system. These include: 
