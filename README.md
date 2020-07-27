@@ -1,12 +1,25 @@
 # Lwala CommCare SIMBA Connection
 
-(Some project description here...)
+Lwala uses OpenFn to integrate its Salesforce patient database and CommCare CHW mobile application. The OpenFn jobs in this repository automate a bi-directional dataflow between the CommCare and Salesforce systems, ensuring regular data syncs and feedback loops for CHWs. 
 
 *N.B. Any commits to the `master` branch will be automatically deployed to
 Lwala's OpenFn project*
 
-## Jobs
-...
+## Flows
+### CommCare --> Salesforce
+CHWs register households, patients, and visits, and use CommCare as a tool for ongoing data collection and case management. As soon as the following CommCare data are updated, these [`CommCare-Salesforce-Jobs`](https://github.com/OpenFn/lwala/tree/master/commcare-salesforce-jobs) execute to forward data to Salesforce. 
+1. 
+
+### Salesforce --> CommCare
+There are multiple Apex Triggers in Salesforce on the `Household` and `Patient` objects that send outbound messages to Lwala's OpenFn inbox when specific updates are made in the Salesforce system. These include: 
+1. Households: ... (runs after Households created/updated)
+2. Patients: ... (runs after Patients created/updated)
+
+When these Salesforce outbound messages are received as new Messages in OpenFn, the following jobs are triggered to update data in CommCare. 
+1. Send CHW Stats to CommCare -[`CHW-Stats.js`](https://github.com/OpenFn/lwala/blob/master/salesforce-commcare-jobs/CHW-Stats.js)
+2. Close cases in CommCare - [`Close-Household-Case.js`](https://github.com/OpenFn/lwala/blob/master/salesforce-commcare-jobs/Close-Household-Case.js) and [`Close-Person-Case.js`](https://github.com/OpenFn/lwala/blob/master/salesforce-commcare-jobs/Close-Person-Case.js)
+3. Create cases in CommCare when new SF records created ([see `Create` jobs here](https://github.com/OpenFn/lwala/tree/master/salesforce-commcare-jobs))
+4. Update cases in CommCare when SF records are update ([see `Update` jobs here](https://github.com/OpenFn/lwala/tree/master/salesforce-commcare-jobs)) 
 
 ## Training Notes
 
