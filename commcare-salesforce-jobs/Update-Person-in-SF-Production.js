@@ -394,7 +394,7 @@ steps(
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_1");
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_1")(state);
             return id + date + "ANC1";
           }),
           field("Source__c", 1),
@@ -434,7 +434,7 @@ steps(
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_2");
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_2")(state);
             return id + date + "ANC2";
           }),
           field("Source__c", 1),
@@ -474,7 +474,7 @@ steps(
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_3");
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_3")(state);
             return id + date + "ANC3";
           }),
           field("Source__c", true),
@@ -514,7 +514,7 @@ steps(
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_4");
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_4")(state);
             return id + date + "ANC4";
           }),
           field("Source__c", 1),
@@ -554,7 +554,7 @@ steps(
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_5");
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_5")(state);
             return id + date + "ANC5";
           }),
           field("Source__c", 1),
