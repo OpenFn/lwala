@@ -31,6 +31,7 @@ combine(function(state){
     ))(state),
     upsert("Visit__c", "CommCare_Visit_ID__c", fields(
       field("CommCare_Visit_ID__c", dataValue("id")),
+      field("Name", "CHW Visit"),
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
       field("Date__c",dataValue("$.metadata.timeEnd")),
       field("CommCare_Visit_ID__c", dataValue("id")),

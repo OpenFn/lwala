@@ -1410,6 +1410,7 @@ steps(
         "CommCare_Code__c",
         dataValue("$.form.HH_ID")
       ),
+      field("Name", "CHW Visit"),
       field("CommCare_Visit_ID__c", dataValue("id")),
       field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
       field("Supervisor_Visit__c", function (state) {

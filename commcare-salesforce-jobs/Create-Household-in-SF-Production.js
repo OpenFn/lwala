@@ -179,9 +179,6 @@ combine(function(state){
           return val;
         })
       ))
-
     )(state);
-
   }
- 
 })

@@ -259,6 +259,7 @@ upsert(
         "CommCare_Code__c",
         dataValue("$.form.case.@case_id")
       ),
+      field("Name", "CHW Visit"),
       field("CommCare_Visit_ID__c", dataValue("id")),
       field("Household_CHW__c", dataValue("$.form.CHW_ID")),
       field("Catchment__c", function (state) {
