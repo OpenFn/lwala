@@ -693,7 +693,6 @@ combine( function(state) {
       field("Follow_Up_By_Date__c",dataValue("form.Date")),
       field("Type_of_Service__c","CHW Mobile Survey"),
       field("RecordTypeID","01224000000YAuK"),
-      //field("Home_Based_Care_Rendered__c",'A;B;B'),
       field("Home_Based_Care_Rendered__c",(state)=>{
         var care='';
         var str=dataValue("form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state);
