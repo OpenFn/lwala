@@ -1,3 +1,6 @@
+//DEPRECATED. Note changes made here have been merged with the master MOH513-Update-Household-in-SF.js//
+//This job was previously used for testing before changes merged with original jobs. //
+
 alterState((state) => {
   const deaths = state.data.form.household_deaths.deaths;
   if (!Array.isArray(deaths)) {
