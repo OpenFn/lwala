@@ -1,4 +1,11 @@
-create("Service__c", fields(
+upsert("Service__c", "Service_UID__c", fields(
+    field("Service_UID__c", (state) => {
+      const id = dataValue("form.subcase_0.case.@case_id")(state);
+      const date = dataValue(
+        "$.form.Date"
+      )(state);
+      return id + date + "Nutrition-Screening";
+    }),
     field("Source__c",1),
     field("Catchment__c","a002400000pAcOe"),
     field("Date__c",dataValue("$.form.Date")),
@@ -54,7 +61,14 @@ create("Service__c", fields(
 ),
 combine(function(state){
   if(dataValue("$.form.Child_Information.malnourished.Follow-Up_Required")(state)==="Yes"){
-    create("Service__c", fields(
+    upsert("Service__c", "Service_UID__c", fields(
+      field("Service_UID__c", (state) => {
+        const id = dataValue("form.subcase_0.case.@case_id")(state);
+        const date = dataValue(
+          "$.form.Date"
+        )(state);
+        return id + date + "Nutrition-Referral";
+      }),
       field("Source__c",1),
       field("Catchment__c","a002400000pAcOe"),
       field("Date__c",dataValue("$.form.Date")),
