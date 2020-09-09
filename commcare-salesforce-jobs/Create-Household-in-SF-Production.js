@@ -1,5 +1,4 @@
 //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
-
 alterState((state) =>{
   const person=state.data.form.Person;
   if(!Array.isArray(person)){
@@ -8,7 +7,7 @@ alterState((state) =>{
   return state;
 });
 
-create("Household__c", fields(
+upsert("Household__c", "CommCare_Code__c", fields(
   field("Name","New Household"),
   field("Catchment__c",function(state){
     if(dataValue("form.catchment")(state)=="East Kamagambo"){
@@ -37,14 +36,11 @@ create("Household__c", fields(
   field("Number_of_Under_5_Females__c",dataValue("$.form.Household_Information.Number_of_Under_5_Females")),
   field("Number_of_Over_5_Males__c",dataValue("$.form.Household_Information.Number_of_Over_5_Males")),
   field("Source__c",true)
-  //field("Geolocation__latitude__s",dataValue("$.metadata.location[0]")),
-  //field("Geolocation__longitude__s",dataValue("$.metadata.location[1]"))
 )),
 combine(function(state){
   if(dataValue("$.form.Person[0].Source")(state)==1){
     each(dataPath("$.form.Person[*]"),
-      create("Person__c",fields(
-        //field("Name",dataValue("Basic_Information.Person_Name")),
+      upsert("Person__c", "CommCare_ID__c", fields(
         field("Name",function(state){
           var name1=dataValue("Basic_Information.Person_Name")(state);
           var name2=name1.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -61,12 +57,6 @@ combine(function(state){
             return("a002400000pAcOe");
           }
         }),
-        /*relationship("Area__r","CommCare_User_ID__c",dataValue("form.area")),
-        field("Active_in_HAWI__c",function(state){
-          if(dataValue("$.form.Basic_Information.HAWI_Status")(state)=="Yes"){
-            return("Yes");
-          }
-        }),*/
         field("HAWI_Registrant__c",function(state){
           if(dataValue("Basic_Information.HAWI_Status")(state)=="Yes"){
             return("Yes");
@@ -155,7 +145,6 @@ combine(function(state){
                 art=str.replace(/ /g,"; ");
               }
               return art;
-
             }),
         field("Preferred_Care_Facility__c",function(state){
           var val='';
