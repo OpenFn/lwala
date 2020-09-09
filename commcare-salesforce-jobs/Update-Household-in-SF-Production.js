@@ -9,15 +9,6 @@ combine(function(state){
   }
   else{
     create("Survey__c",fields(
-  /*relationship("Household_CHW__r","Name",function(state){
-    if(dataValue("$.form.Household_Information.CHW_Name")(state)!==null){
-      return(dataValue("$.form.Household_Information.Final_CHW_Name")(state).toString().replace(/_/g," "));
-    }
-  }),
-  relationship("Area__r","Name",function(state){
-    return(dataValue("$.metadata.username")(state).toString().charAt(0).toUpperCase()+dataValue("$.metadata.username")(state).toString().slice(1,-3)+" Area");
-  }),*/
-  //field("Source__c",1),
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
       field("Catchment__c","a002400000pAcOe"),
       field("Treats_Drinking_Water__c",dataValue("$.form.Household_Information.Treats_Drinking_Water")),
@@ -38,13 +29,12 @@ combine(function(state){
       field("Family_Planning_Method__c", dataValue("$.form.Household_Information.Family_planning_method")),
       field("Source__c",1)
     ))(state),
-    create("Visit__c",fields(
+    upsert("Visit__c", "CommCare_Visit_ID__c", fields(
+      field("CommCare_Visit_ID__c", dataValue("id")),
       relationship("Household__r","CommCare_Code__c",dataValue("$.form.case.@case_id")),
       field("Date__c",dataValue("$.metadata.timeEnd")),
       field("CommCare_Visit_ID__c", dataValue("id")),
       field("Catchment__c","a002400000pAcOe"),
-      //field("Location__latitude__s",dataValue("$.metadata.location[0]")),
-      //field("Location__longitude__s",dataValue("$.metadata.location[1]")),
       field("Household_CHW__c",dataValue("form.chw")),
       field("Supervisor_Visit__c",function(state){
         return dataValue("$.form.supervisor_visit")(state).toString().replace(/ /g,";");
@@ -54,7 +44,6 @@ combine(function(state){
       field("Male_Condoms_Distributed__c",dataValue("$.form.Household_Information.male_condoms_count")),
       field("Emergency_Pills_Distributed__c",dataValue("$.form.Household_Information.emergency_pills_count")),
       field("POP_Cycles_Distributed__c",dataValue("$.form.Household_Information.POP_count"))
-
     ))(state);
   }
 });
