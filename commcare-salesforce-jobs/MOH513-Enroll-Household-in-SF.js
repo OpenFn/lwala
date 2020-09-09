@@ -133,6 +133,7 @@ combine(function(state){
       field("HIV_Status__c",dataValue("Basic_Information.person_info.hiv_status")),
       field("Disability__c",(state)=>{
         var disability = dataValue("Basic_Information.person_info.disability")(state);
+        (disability.includes("none")) ? disability = undefined : disability;
         var toTitleCase = (disability!==undefined ? disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';') : null);
         return toTitleCase;
       }),
