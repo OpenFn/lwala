@@ -26,22 +26,6 @@
       "#type": "data",
       "TT5": {
         "Child_Information": {
-          "ANCs": {
-            "ANC_1": "2020-05-04",
-            "ANC_2": "2020-06-18",
-            "ANC_3": "2020-08-11",
-            "ANC_4": "2020-09-03",
-            "ANC_5": "2020-09-08",
-            "EDD_Label": "OK",
-            "Facility4": "Other",
-            "anc_1": "OK",
-            "anc_2": "OK",
-            "anc_3": "OK",
-            "anc_4": "OK",
-            "anc_5": "OK",
-            "copy-2-of-anc_3": "click_to_enter_anc_3",
-            "copy-3-of-anc_3": ""
-          },
           "Delivery_Information": {
             "Check_Unborn_Child": "",
             "Delivery": "No",
@@ -59,7 +43,6 @@
         "@user_id": "68b9804d82734fe68268b5a4ed4a8e7d",
         "@xmlns": "http://commcarehq.org/case/transaction/v2",
         "update": {
-          "ANC_4": "2020-09-03",
           "Active_in_HAWI": "No",
           "Active_in_TT5": "Yes",
           "Child_Status": "Unborn",
