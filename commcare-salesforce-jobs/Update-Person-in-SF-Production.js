@@ -1406,9 +1406,8 @@ steps(
       )(state);
     }
   }),
-  create(
-    "Visit__c",
-    fields(
+  upsert("Visit__c", "CommCare_Visit_ID__c", fields(
+    field("CommCare_Visit_ID__c", dataValue("id")),
       relationship(
         "Household__r",
         "CommCare_Code__c",
