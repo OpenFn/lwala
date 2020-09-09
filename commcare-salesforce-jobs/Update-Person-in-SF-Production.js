@@ -1006,7 +1006,7 @@ steps(
             dataValue("$.form.case.@case_id")
           )
         )
-      )(state);
+      ))(state);
     }
   }),
   //Malaria cases
