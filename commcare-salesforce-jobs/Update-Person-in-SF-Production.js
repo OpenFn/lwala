@@ -1216,7 +1216,7 @@ steps(
   //All referrals are sent here (danger sign, malaria, malnutrition, other referral)
   combine(function (state) {
     if (dataValue("$.form.Referral")(state) == "Yes") {
-      create( "Service__c", "Service_UID__c",
+      upsert( "Service__c", "Service_UID__c",
         fields(
           field("Source__c", 1),
           field("Service_UID__c", (state) => {
