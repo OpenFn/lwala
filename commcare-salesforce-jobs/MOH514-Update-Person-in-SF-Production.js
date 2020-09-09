@@ -67,9 +67,10 @@ steps(
       field("Child_Status__c", (state)=>{
         var status = dataValue("form.case.update.child_status")(state)
         var rt = dataValue("form.RecordType")(state)
-        if(status!==undefined && rt=="Unborn" && status!=="Yes"){
+        //if(status!==undefined && rt=="Unborn" && status!=="Yes"){ //Q: child_status not present?
+        if(status!==undefined && rt=="Unborn"){
           status = "Unborn";
-        } else{
+        } else if (status!==undefined && rt=="Born"){
           status = "Born";
         }
         return status;
