@@ -17,9 +17,6 @@ alterState((state) => { //Alters CommCare arrays so that they are formatted as a
       state.data.form.HAWI.Clinical_Services_Rendered = [clinical1];
     }
   }
-
-  co;
-
   return state;
 });
 
