@@ -607,11 +607,8 @@ steps(
   //** Immunization Services ************************************************//
   //BCG REVIEWED
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.copy-3-of-anc_3")(
-        state
-      ) == "click_to_enter_anc_3"
-    ) {
+    const { Immunizations } = state.data.form.TT5.Child_Information;
+    if (Immunizations && Immunizations.BCG_h && Immunizations.BCG_h === "") {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -652,10 +649,8 @@ steps(
   }),
   //OPV0 REVIEWED
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.anc_3")(state) ==
-      "click_to_enter_anc_3"
-    ) {
+    const { Immunizations } = state.data.form.TT5.Child_Information;
+    if (Immunizations && Immunizations.OPV0_h && Immunizations.OPV0_h === "") {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -696,11 +691,8 @@ steps(
   }),
   //OPV1 REVIEWED
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.copy-1-of-anc_3")(
-        state
-      ) == "click_to_enter_anc_3"
-    ) {
+    const { Immunizations } = state.data.form.TT5.Child_Information;
+    if (Immunizations && Immunizations.OPV1_h && Immunizations.OPV1_h === "") {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -743,11 +735,8 @@ steps(
   }),
   //OPV2
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.copy-2-of-anc_3")(
-        state
-      ) == "click_to_enter_anc_3"
-    ) {
+    const { Immunizations } = state.data.form.TT5.Child_Information;
+    if (Immunizations && Immunizations.OPV2_h && Immunizations.OPV2_h === "") {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -790,11 +779,8 @@ steps(
   }),
   //OPV3
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.copy-4-of-anc_3")(
-        state
-      ) == "click_to_enter_anc_3"
-    ) {
+    const { Immunizations } = state.data.form.TT5.Child_Information;
+    if (Immunizations && Immunizations.OPV3_h && Immunizations.OPV3_h === "") {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -837,10 +823,11 @@ steps(
   }),
   //Measles 6
   combine(function (state) {
+    const { Immunizations } = state.data.form.TT5.Child_Information;
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.copy-5-of-anc_3")(
-        state
-      ) == "click_to_enter_anc_3"
+      Immunizations &&
+      Immunizations.Measles6_h &&
+      Immunizations.Measles6_h === ""
     ) {
       upsert(
         "Service__c",
@@ -882,10 +869,11 @@ steps(
   }),
   //Measles 9
   combine(function (state) {
+    const { Immunizations } = state.data.form.TT5.Child_Information;
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.copy-6-of-anc_3")(
-        state
-      ) == "click_to_enter_anc_3"
+      Immunizations &&
+      Immunizations.Measles9_h &&
+      Immunizations.Measles9_h === ""
     ) {
       upsert(
         "Service__c",
@@ -928,10 +916,11 @@ steps(
 
   //Measles 18
   combine(function (state) {
+    const { Immunizations } = state.data.form.TT5.Child_Information;
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.copy-7-of-anc_3")(
-        state
-      ) == "click_to_enter_anc_3"
+      Immunizations &&
+      Immunizations.Measles18_h &&
+      Immunizations.Measles18_h === ""
     ) {
       upsert(
         "Service__c",
