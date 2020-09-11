@@ -608,7 +608,7 @@ steps(
   //BCG REVIEWED
   combine(function (state) {
     const { Immunizations } = state.data.form.TT5.Child_Information;
-    if (Immunizations && Immunizations.BCG_h && Immunizations.BCG_h === "") {
+    if (Immunizations && Immunizations.BCG_h) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -650,7 +650,7 @@ steps(
   //OPV0 REVIEWED
   combine(function (state) {
     const { Immunizations } = state.data.form.TT5.Child_Information;
-    if (Immunizations && Immunizations.OPV0_h && Immunizations.OPV0_h === "") {
+    if (Immunizations && Immunizations.OPV0_h) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -692,7 +692,7 @@ steps(
   //OPV1 REVIEWED
   combine(function (state) {
     const { Immunizations } = state.data.form.TT5.Child_Information;
-    if (Immunizations && Immunizations.OPV1_h && Immunizations.OPV1_h === "") {
+    if (Immunizations && Immunizations.OPV1_h) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -736,7 +736,7 @@ steps(
   //OPV2
   combine(function (state) {
     const { Immunizations } = state.data.form.TT5.Child_Information;
-    if (Immunizations && Immunizations.OPV2_h && Immunizations.OPV2_h === "") {
+    if (Immunizations && Immunizations.OPV2_h) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -780,7 +780,7 @@ steps(
   //OPV3
   combine(function (state) {
     const { Immunizations } = state.data.form.TT5.Child_Information;
-    if (Immunizations && Immunizations.OPV3_h && Immunizations.OPV3_h === "") {
+    if (Immunizations && Immunizations.OPV3_h) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -824,11 +824,7 @@ steps(
   //Measles 6
   combine(function (state) {
     const { Immunizations } = state.data.form.TT5.Child_Information;
-    if (
-      Immunizations &&
-      Immunizations.Measles6_h &&
-      Immunizations.Measles6_h === ""
-    ) {
+    if (Immunizations && Immunizations.Measles6_h) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -870,11 +866,7 @@ steps(
   //Measles 9
   combine(function (state) {
     const { Immunizations } = state.data.form.TT5.Child_Information;
-    if (
-      Immunizations &&
-      Immunizations.Measles9_h &&
-      Immunizations.Measles9_h === ""
-    ) {
+    if (Immunizations && Immunizations.Measles9_h) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -917,11 +909,7 @@ steps(
   //Measles 18
   combine(function (state) {
     const { Immunizations } = state.data.form.TT5.Child_Information;
-    if (
-      Immunizations &&
-      Immunizations.Measles18_h &&
-      Immunizations.Measles18_h === ""
-    ) {
+    if (Immunizations && Immunizations.Measles18_h) {
       upsert(
         "Service__c",
         "Service_UID__c",
