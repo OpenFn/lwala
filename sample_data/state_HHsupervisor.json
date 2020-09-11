@@ -1,0 +1,123 @@
+{
+  "configuration": {
+    "loginUrl": "https://cs109.salesforce.com/",
+    "username": "anthony@lwalacommunityalliance.org.partial",
+    "password": "see LP - lwala sandbox",
+    "securityToken": "test-token"
+  },
+  "data": {
+    "__query_params": {
+      "app_id": "fc491785fa909e85fbdb63a9b346fa6c"
+    },
+    "app_id": "fc491785fa909e85fbdb63a9b346fa6c",
+    "archived": false,
+    "attachments": {
+      "form.xml": {
+        "content_type": "text/xml",
+        "length": 2538,
+        "url": "https://www.commcarehq.org/a/lwala-community-alliance/api/form/attachment/26f10d37-5df5-4630-b6ad-4740a072710a/form.xml"
+      }
+    },
+    "build_id": "ae0a7ece528546d694ede59ba4bfb3cc",
+    "domain": "lwala-community-alliance",
+    "edited_by_user_id": null,
+    "edited_on": null,
+    "form": {
+      "#type": "data",
+      "@name": "Update Household",
+      "@uiVersion": "1",
+      "@version": "3233",
+      "@xmlns": "http://openrosa.org/formdesigner/7bdbfcc02fd44260837d799d24051449",
+      "Case_ID": "fbb52afd-a5f9-4264-bbdd-cedb25a6b792",
+      "Date": "2020-09-10",
+      "Female_Head_Name": "",
+      "Household_Information": {
+        "Active_Handwashing_Station": "No",
+        "Clothesline": "Yes",
+        "Drying_Rack": "Yes",
+        "Family_planning_method": "Implant",
+        "Functional_Latrine": "Yes",
+        "ITNs": "Yes",
+        "Improved_Cooking_Method": "No",
+        "Kitchen_Garden": "Yes",
+        "Rubbish_Pit": "Yes",
+        "Treats_Drinking_Water": "No",
+        "WASH_Compliant": "No",
+        "WASH_Trained": "Yes",
+        "household_deaths": {
+          "deaths_in_past_6_months": "0"
+        }
+      },
+      "Household_Status": "Yes",
+      "MOH_household_code_linked": "",
+      "Male_Head_Name": "",
+      "Name": "16155",
+      "Source": "1",
+      "case": {
+        "@case_id": "fbb52afd-a5f9-4264-bbdd-cedb25a6b792",
+        "@date_modified": "2020-09-10T07:06:43.939000Z",
+        "@user_id": "a2ce760aab9542548975a33de87cfbba",
+        "@xmlns": "http://commcarehq.org/case/transaction/v2",
+        "update": {
+          "Active_Handwashing_Station": "No",
+          "Clothesline": "Yes",
+          "Drying_Rack": "Yes",
+          "Functional_Latrine": "Yes",
+          "ITNs": "Yes",
+          "Improved_Cooking_Method": "No",
+          "Kitchen_Garden": "Yes",
+          "Last_Visit": "2020-09-10",
+          "Name": "16155",
+          "Rubbish_Pit": "Yes",
+          "Treats_Drinking_Water": "No",
+          "WASH_Compliant": "No",
+          "WASH_Trained": "Yes"
+        }
+      },
+      "chw": "a031p00001mqyVmAAI",
+      "meta": {
+        "@xmlns": "http://openrosa.org/jr/xforms",
+        "appVersion": "CommCare Android, version \"2.49.2\"(461605). App v3310. CommCare Version 2.49. Build 461605, built on: 2020-06-16",
+        "app_build_version": 3310,
+        "commcare_version": "2.49.2",
+        "deviceID": "commcare_b6c4e43c-47b8-4d42-82a8-108816d12b67",
+        "drift": "0",
+        "geo_point": null,
+        "instanceID": "26f10d37-5df5-4630-b6ad-4740a072710a",
+        "location": {
+          "@xmlns": "http://commcarehq.org/xforms"
+        },
+        "timeEnd": "2020-09-10T07:06:43.939000Z",
+        "timeStart": "2020-09-10T07:05:31.902000Z",
+        "userID": "a2ce760aab9542548975a33de87cfbba",
+        "username": "test"
+      },
+      "supervisor_visit": "chewschas"
+    },
+    "id": "26f10d37-5df5-4630-b6ad-4740a072710a",
+    "indexed_on": "2020-09-10T07:56:18.086366",
+    "initial_processing_complete": true,
+    "is_phone_submission": true,
+    "metadata": {
+      "appVersion": "CommCare Android, version \"2.49.2\"(461605). App v3310. CommCare Version 2.49. Build 461605, built on: 2020-06-16",
+      "app_build_version": 3310,
+      "commcare_version": "2.49.2",
+      "deviceID": "commcare_b6c4e43c-47b8-4d42-82a8-108816d12b67",
+      "drift": "0",
+      "geo_point": null,
+      "instanceID": "26f10d37-5df5-4630-b6ad-4740a072710a",
+      "location": null,
+      "timeEnd": "2020-09-10T07:06:43.939000Z",
+      "timeStart": "2020-09-10T07:05:31.902000Z",
+      "userID": "a2ce760aab9542548975a33de87cfbba",
+      "username": "test"
+    },
+    "problem": null,
+    "received_on": "2020-09-10T07:56:17.791086Z",
+    "resource_uri": "",
+    "server_modified_on": "2020-09-10T07:56:17.882078Z",
+    "type": "data",
+    "uiversion": "1",
+    "version": "3233"
+  }
+}
