@@ -44,9 +44,21 @@ upsert("Household__c", "CommCare_Code__c",fields(
   field("Uses_ITNs__c", dataValue("form.Household_Information.ITNs")),
   field("Total_household_people__c", dataValue("form.Total_Number_of_Members")),
   field("Supervisor_Visit__c",(state)=>{
-    var visit = dataValue("form.supervisor_visit")(state); 
-    var newVisit = visit ? visit.toString().replace(/ /g,";") : null; 
-    return newVisit ? newVisit.toString().replace(/_/g," ") : null; 
+    var visit = "";
+    var value = dataValue("$.form.supervisor_visit")(state);
+    if (value == "community_health_nurse") {
+      visit = "Community Health Nurse";
+    } else if (value == "chw_supervisor") {
+      visit = "CHW Supervisor";
+    } else if (value == "chewschas") {
+      visit = "CHEWs/CHAs";
+    } else if (value == "other") {
+      visit = "Other";
+    } else if (value == "none") {
+      visit = "None";
+    }
+
+    return visit;
   })
 )),
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
@@ -57,10 +69,20 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("Household_CHW__c",dataValue("form.chw")),
   field("Name", "CHW Visit"),
   field("Supervisor_Visit__c",(state)=>{
-    var visit = dataValue("form.supervisor_visit")(state)
-    if(visit!==undefined){
-      visit = visit.toString().replace(/ /g,";");
-      return visit.toString().replace(/_/g," ");
+    var visit = "";
+    var value = dataValue("$.form.supervisor_visit")(state);
+    if (value == "community_health_nurse") {
+      visit = "Community Health Nurse";
+    } else if (value == "chw_supervisor") {
+      visit = "CHW Supervisor";
+    } else if (value == "chewschas") {
+      visit = "CHEWs/CHAs";
+    } else if (value == "other") {
+      visit = "Other";
+    } else if (value == "none") {
+      visit = "None";
     }
+
+    return visit;
   })
 ));

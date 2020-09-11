@@ -1425,9 +1425,21 @@ steps(
       field("CommCare_Visit_ID__c", dataValue("id")),
       field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
       field("Supervisor_Visit__c", function (state) {
-        return dataValue("$.form.supervisor_visit")(state)
-          .toString()
-          .replace(/ /g, ";");
+        var visit = "";
+        var value = dataValue("$.form.supervisor_visit")(state);
+        if (value == "community_health_nurse") {
+          visit = "Community Health Nurse";
+        } else if (value == "chw_supervisor") {
+          visit = "CHW Supervisor";
+        } else if (value == "chewschas") {
+          visit = "CHEWs/CHAs";
+        } else if (value == "other") {
+          visit = "Other";
+        } else if (value == "none") {
+          visit = "None";
+        }
+
+        return visit;
       }),
       field("Date__c", dataValue("$.metadata.timeEnd"))
     )
