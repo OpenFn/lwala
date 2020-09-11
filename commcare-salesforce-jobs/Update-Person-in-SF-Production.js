@@ -18,7 +18,17 @@ alterState((state) => {
       state.data.form.HAWI.Clinical_Services_Rendered = [clinical1];
     }
   }
-  return state;
+
+  const supervisorMap = {
+    community_health_nurse: "Community Health Nurse",
+    chw_supervisor: "CHW Supervisor",
+    chewschas: "CHEWs/CHAs",
+    other: "Other",
+    none: "None",
+  };
+
+  return { ...state, supervisorMap };
+
 });
 
 //Deliveries
@@ -1424,23 +1434,8 @@ steps(
       field("Name", "CHW Visit"),
       field("CommCare_Visit_ID__c", dataValue("id")),
       field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-      field("Supervisor_Visit__c", function (state) {
-        var visit = "";
-        var value = dataValue("$.form.supervisor_visit")(state);
-        if (value == "community_health_nurse") {
-          visit = "Community Health Nurse";
-        } else if (value == "chw_supervisor") {
-          visit = "CHW Supervisor";
-        } else if (value == "chewschas") {
-          visit = "CHEWs/CHAs";
-        } else if (value == "other") {
-          visit = "Other";
-        } else if (value == "none") {
-          visit = "None";
-        }
-
-        return visit;
-      }),
+      field("Supervisor_Visit__c", state => 
+              state.supervisorMap[state.data.form.supervisor_visit]),
       field("Date__c", dataValue("$.metadata.timeEnd"))
     )
   )

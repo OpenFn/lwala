@@ -1,13 +1,13 @@
 //MOH513 Update Household Form
 alterState((state) =>{
-  function titleCase(str) {
-   var splitStr = str.toLowerCase().split(' ');
-   for (var i = 0; i < splitStr.length; i++) {
-       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-   }
-   return splitStr.join(' ');
- }
-  return state;
+  const supervisorMap = {
+    community_health_nurse: "Community Health Nurse",
+    chw_supervisor: "CHW Supervisor",
+    chewschas: "CHEWs/CHAs",
+    other: "Other",
+    none: "None",
+  };
+  return { ...state, supervisorMap };
 });
 //Upserting Household, checks if Household exists via MOH Household Code
 upsert("Household__c", "CommCare_Code__c",fields(
@@ -43,23 +43,8 @@ upsert("Household__c", "CommCare_Code__c",fields(
   field("WASH_Trained__c", dataValue("form.Household_Information.WASH_Trained")),
   field("Uses_ITNs__c", dataValue("form.Household_Information.ITNs")),
   field("Total_household_people__c", dataValue("form.Total_Number_of_Members")),
-  field("Supervisor_Visit__c",(state)=>{
-    var visit = "";
-    var value = dataValue("$.form.supervisor_visit")(state);
-    if (value == "community_health_nurse") {
-      visit = "Community Health Nurse";
-    } else if (value == "chw_supervisor") {
-      visit = "CHW Supervisor";
-    } else if (value == "chewschas") {
-      visit = "CHEWs/CHAs";
-    } else if (value == "other") {
-      visit = "Other";
-    } else if (value == "none") {
-      visit = "None";
-    }
-
-    return visit;
-  })
+  field("Supervisor_Visit__c", state =>
+    state.supervisorMap[state.data.form.supervisor_visit])
 )),
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
@@ -68,21 +53,6 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
   field("Household_CHW__c",dataValue("form.chw")),
   field("Name", "CHW Visit"),
-  field("Supervisor_Visit__c",(state)=>{
-    var visit = "";
-    var value = dataValue("$.form.supervisor_visit")(state);
-    if (value == "community_health_nurse") {
-      visit = "Community Health Nurse";
-    } else if (value == "chw_supervisor") {
-      visit = "CHW Supervisor";
-    } else if (value == "chewschas") {
-      visit = "CHEWs/CHAs";
-    } else if (value == "other") {
-      visit = "Other";
-    } else if (value == "none") {
-      visit = "None";
-    }
-
-    return visit;
-  })
+  field("Supervisor_Visit__c", state =>
+    state.supervisorMap[state.data.form.supervisor_visit])
 ));
