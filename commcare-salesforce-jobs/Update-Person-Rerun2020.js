@@ -1,8 +1,8 @@
 // To update service data missing from Salesforce; this job only includes person and service updates,
 // No visit data to re-insert
-alterState((state) => {
+alterState(state => {
   if (
-    dataValue("$.form.TT5.Child_Information.Clinical_Services")(state) !==
+    dataValue('$.form.TT5.Child_Information.Clinical_Services')(state) !==
     undefined
   ) {
     const clinical = state.data.form.TT5.Child_Information.Clinical_Services;
@@ -12,7 +12,7 @@ alterState((state) => {
   }
 
   if (
-    dataValue("$.form.HAWI.Clinical_Services_Rendered")(state) !== undefined
+    dataValue('$.form.HAWI.Clinical_Services_Rendered')(state) !== undefined
   ) {
     const clinical1 = state.data.form.HAWI.Clinical_Services_Rendered;
     if (!Array.isArray(clinical1)) {
@@ -391,33 +391,33 @@ steps(
   //ANC1
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_1")(state) ==
-      "click_to_enter_anc_1"
+      dataValue('$.form.TT5.Child_Information.ANCs.copy-1-of-anc_1')(state) ==
+      'click_to_enter_anc_1'
     ) {
       //Q: Change this criteria??
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "ANC 1"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'ANC 1'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.ANCs.ANC_1")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.ANCs.ANC_1')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.ANCs.Facility1"
+              '$.form.TT5.Child_Information.ANCs.Facility1'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -428,32 +428,32 @@ steps(
   //ANC2
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_2")(state) ==
-      "click_to_enter_anc_2"
+      dataValue('$.form.TT5.Child_Information.ANCs.copy-1-of-anc_2')(state) ==
+      'click_to_enter_anc_2'
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-          field("Reason_for_Service__c", "ANC 2"),
+          field('Source__c', 1),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
+          field('Reason_for_Service__c', 'ANC 2'),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.ANCs.ANC_2")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.ANCs.ANC_2')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.ANCs.Facility2"
+              '$.form.TT5.Child_Information.ANCs.Facility2'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -464,32 +464,32 @@ steps(
   //ANC3
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_3")(state) ==
-      "click_to_enter_anc_3"
+      dataValue('$.form.TT5.Child_Information.ANCs.copy-1-of-anc_3')(state) ==
+      'click_to_enter_anc_3'
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", true),
-          field("Reason_for_Service__c", "ANC 3"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', true),
+          field('Reason_for_Service__c', 'ANC 3'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.ANCs.ANC_3")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.ANCs.ANC_3')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.ANCs.Facility3"
+              '$.form.TT5.Child_Information.ANCs.Facility3'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -500,32 +500,32 @@ steps(
   //ANC4
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-2-of-anc_3")(state) ==
-      "click_to_enter_anc_3"
+      dataValue('$.form.TT5.Child_Information.ANCs.copy-2-of-anc_3')(state) ==
+      'click_to_enter_anc_3'
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "ANC 4"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'ANC 4'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.ANCs.ANC_4")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.ANCs.ANC_4')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.ANCs.Facility4"
+              '$.form.TT5.Child_Information.ANCs.Facility4'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -536,32 +536,32 @@ steps(
   //ANC5
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-3-of-anc_3")(state) ==
-      "click_to_enter_anc_3"
+      dataValue('$.form.TT5.Child_Information.ANCs.copy-3-of-anc_3')(state) ==
+      'click_to_enter_anc_3'
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "ANC 5"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'ANC 5'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.ANCs.ANC_5")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.ANCs.ANC_5')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.ANCs.Facility5"
+              '$.form.TT5.Child_Information.ANCs.Facility5'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -572,32 +572,32 @@ steps(
   //BCG REVIEWED
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.BCG_h")(state) !==
+      dataValue('$.form.TT5.Child_Information.Immunizations.BCG_h')(state) !==
       null
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "BCG"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'BCG'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.BCG_h")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.Immunizations.BCG_h')
           ), //WAS `BCG` - did q name change?
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.Immunizations.Facility_BCG"
+              '$.form.TT5.Child_Information.Immunizations.Facility_BCG'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -608,32 +608,32 @@ steps(
   //OPV0 REVIEWED
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.OPV0_h")(state) !==
+      dataValue('$.form.TT5.Child_Information.Immunizations.OPV0_h')(state) !==
       null
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "OPV0"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'OPV0'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.OPV0_h")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.Immunizations.OPV0_h')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.Immunizations.Facility_OPV_0"
+              '$.form.TT5.Child_Information.Immunizations.Facility_OPV_0'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -644,32 +644,32 @@ steps(
   //OPV1 REVIEWED
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.OPV1_h")(state) !==
+      dataValue('$.form.TT5.Child_Information.Immunizations.OPV1_h')(state) !==
       null
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "OPV1"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'OPV1'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.OPV1_h")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.Immunizations.OPV1_h')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.Immunizations.Facility_OPV_1"
+              '$.form.TT5.Child_Information.Immunizations.Facility_OPV_1'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -680,32 +680,32 @@ steps(
   //OPV2
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.OPV2_h")(state) !==
+      dataValue('$.form.TT5.Child_Information.Immunizations.OPV2_h')(state) !==
       null
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "OPV2"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'OPV2'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.OPV2_h")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.Immunizations.OPV2_h')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.Immunizations.Facility_OPV_2"
+              '$.form.TT5.Child_Information.Immunizations.Facility_OPV_2'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -716,32 +716,32 @@ steps(
   //OPV3
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.OPV3_h")(state) !==
+      dataValue('$.form.TT5.Child_Information.Immunizations.OPV3_h')(state) !==
       null
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "OPV3"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'OPV3'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.OPV3_h")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.Immunizations.OPV3_h')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.Immunizations.Facility_OPV_3"
+              '$.form.TT5.Child_Information.Immunizations.Facility_OPV_3'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -752,33 +752,33 @@ steps(
   //Measles 6
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.Measles6_h")(
+      dataValue('$.form.TT5.Child_Information.Immunizations.Measles6_h')(
         state
       ) !== null
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "Measles 6"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'Measles 6'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.Measles6_h")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.Immunizations.Measles6_h')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.Immunizations.Facility_Measles_6"
+              '$.form.TT5.Child_Information.Immunizations.Facility_Measles_6'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -789,33 +789,33 @@ steps(
   //Measles 9
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.Measles9_h")(
+      dataValue('$.form.TT5.Child_Information.Immunizations.Measles9_h')(
         state
       ) !== null
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "Measles 9"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'Measles 9'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.Measles9_h")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.Immunizations.Measles9_h')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.Immunizations.Facility_Measles_9"
+              '$.form.TT5.Child_Information.Immunizations.Facility_Measles_9'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -827,33 +827,33 @@ steps(
   //Measles 18
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Immunizations.Measles18_h")(
+      dataValue('$.form.TT5.Child_Information.Immunizations.Measles18_h')(
         state
       ) !== null
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "Measles 18"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'Measles 18'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
-            "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.Measles18_h")
+            'Date__c',
+            dataValue('$.form.TT5.Child_Information.Immunizations.Measles18_h')
           ),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
-          relationship("Site__r", "Label__c", function (state) {
+          relationship('Site__r', 'Label__c', function (state) {
             var facility = dataValue(
-              "$.form.TT5.Child_Information.Immunizations.Facility_Measles_18"
+              '$.form.TT5.Child_Information.Immunizations.Facility_Measles_18'
             )(state);
-            if (facility === "" || facility === undefined) {
-              facility = "unknown";
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
             }
             return facility;
           })
@@ -863,20 +863,20 @@ steps(
   }),
   //Deworming
   combine(function (state) {
-    if (dataValue("$.form.TT5.Child_Information.Deworming")(state) == "Yes") {
+    if (dataValue('$.form.TT5.Child_Information.Deworming')(state) == 'Yes') {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "Deworming"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-          field("Date__c", dataValue("$.form.Date")),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'Deworming'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
+          field('Date__c', dataValue('$.form.Date')),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           )
         )
       )(state);
@@ -885,36 +885,36 @@ steps(
   //Home Based care for HAWI clients
   combine(function (state) {
     if (
-      dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(
+      dataValue('$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(
         state
       ) !== undefined &&
-      dataValue("$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(
+      dataValue('$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(
         state
-      ) !== ""
+      ) !== ''
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "Home-Based Care"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-          field("Date__c", dataValue("$.form.Date")),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
-          field("Home_Based_Care_Rendered__c", function (state) {
-            var care = "";
+          field('Source__c', 1),
+          field('Reason_for_Service__c', 'Home-Based Care'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
+          field('Date__c', dataValue('$.form.Date')),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
+          field('Home_Based_Care_Rendered__c', function (state) {
+            var care = '';
             var str = dataValue(
-              "$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided"
+              '$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided'
             )(state);
-            care = str.replace(/ /g, ";");
-            care = care.replace(/_/g, " ");
+            care = str.replace(/ /g, ';');
+            care = care.replace(/_/g, ' ');
 
             return care;
           }),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           )
         )
       )(state);
@@ -924,58 +924,58 @@ steps(
   //Child
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.CCMM.Home_Test_Result")(state) ==
-      "Positive"
+      dataValue('$.form.TT5.Child_Information.CCMM.Home_Test_Result')(state) ==
+      'Positive'
     ) {
       //REVIEWED
       if (
-        dataValue("$.form.TT5.Child_Information.CCMM.Malaria_Referral")(
+        dataValue('$.form.TT5.Child_Information.CCMM.Malaria_Referral')(
           state
-        ) !== "Yes"
+        ) !== 'Yes'
       ) {
         create(
-          "Service__c",
+          'Service__c',
           fields(
-            field("Source__c", 1),
-            field("Date__c", dataValue("$.form.Date")),
-            field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-            field("Type_of_Service__c", "CHW Mobile Survey"),
-            field("Reason_for_Service__c", "Malaria (Home Treatment)"),
+            field('Source__c', 1),
+            field('Date__c', dataValue('$.form.Date')),
+            field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
+            field('Type_of_Service__c', 'CHW Mobile Survey'),
+            field('Reason_for_Service__c', 'Malaria (Home Treatment)'),
             field(
-              "Home_Treatment__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment")
+              'Home_Treatment__c',
+              dataValue('$.form.TT5.Child_Information.CCMM.Home_Treatment')
             ),
-            field("RecordTypeID", "01224000000kOto"),
-            field("Open_Case__c", 1),
-            field("Malaria_Status__c", "Positive"),
+            field('RecordTypeID', '01224000000kOto'),
+            field('Open_Case__c', 1),
+            field('Malaria_Status__c', 'Positive'),
             field(
-              "AL_Tablets__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.AL")
-            ),
-            field(
-              "Paracetamol_Tablets__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.Paracetamol")
+              'AL_Tablets__c',
+              dataValue('$.form.TT5.Child_Information.CCMM.AL')
             ),
             field(
-              "Follow_Up_By_Date__c",
-              dataValue("$.form.Follow-Up_By_Date")
+              'Paracetamol_Tablets__c',
+              dataValue('$.form.TT5.Child_Information.CCMM.Paracetamol')
             ),
             field(
-              "Home_Treatment_Date__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.test_date")
+              'Follow_Up_By_Date__c',
+              dataValue('$.form.Follow-Up_By_Date')
             ),
             field(
-              "Malaria_Home_Test_Date__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.test_date")
+              'Home_Treatment_Date__c',
+              dataValue('$.form.TT5.Child_Information.CCMM.test_date')
             ),
             field(
-              "CommCare_Code__c",
-              dataValue("form.subcase_0.case.@case_id")
+              'Malaria_Home_Test_Date__c',
+              dataValue('$.form.TT5.Child_Information.CCMM.test_date')
+            ),
+            field(
+              'CommCare_Code__c',
+              dataValue('form.subcase_0.case.@case_id')
             ),
             relationship(
-              "Person__r",
-              "CommCare_ID__c",
-              dataValue("$.form.case.@case_id")
+              'Person__r',
+              'CommCare_ID__c',
+              dataValue('$.form.case.@case_id')
             )
           )
         )(state);
@@ -985,50 +985,50 @@ steps(
   //Malaria cases
   //HAWI Client
   combine(function (state) {
-    if (dataValue("$.form.HAWI.CCMM.Home_Test_Result")(state) == "Positive") {
+    if (dataValue('$.form.HAWI.CCMM.Home_Test_Result')(state) == 'Positive') {
       //REVIEWED
-      if (dataValue("$.form.HAWI.CCMM.Malaria_Referral")(state) !== "Yes") {
+      if (dataValue('$.form.HAWI.CCMM.Malaria_Referral')(state) !== 'Yes') {
         //Malaria home treatment case
         create(
-          "Service__c",
+          'Service__c',
           fields(
-            field("Source__c", 1),
-            field("Date__c", dataValue("$.form.Date")),
-            field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-            field("Type_of_Service__c", "CHW Mobile Survey"),
-            field("Reason_for_Service__c", "Malaria (Home Treatment)"),
+            field('Source__c', 1),
+            field('Date__c', dataValue('$.form.Date')),
+            field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
+            field('Type_of_Service__c', 'CHW Mobile Survey'),
+            field('Reason_for_Service__c', 'Malaria (Home Treatment)'),
             field(
-              "Home_Treatment__c",
-              dataValue("$.form.HAWI.CCMM.Home_Treatment")
+              'Home_Treatment__c',
+              dataValue('$.form.HAWI.CCMM.Home_Treatment')
             ),
-            field("RecordTypeID", "01224000000kOto"),
-            field("Open_Case__c", 1),
-            field("Malaria_Status__c", "Positive"),
-            field("AL_Tablets__c", dataValue("$.form.HAWI.CCMM.AL")),
+            field('RecordTypeID', '01224000000kOto'),
+            field('Open_Case__c', 1),
+            field('Malaria_Status__c', 'Positive'),
+            field('AL_Tablets__c', dataValue('$.form.HAWI.CCMM.AL')),
             field(
-              "Paracetamol_Tablets__c",
-              dataValue("$.form.HAWI.CCMM.Paracetamol")
-            ),
-            field(
-              "Follow_Up_By_Date__c",
-              dataValue("$.form.Follow-Up_By_Date")
+              'Paracetamol_Tablets__c',
+              dataValue('$.form.HAWI.CCMM.Paracetamol')
             ),
             field(
-              "Home_Treatment_Date__c",
-              dataValue("$.form.HAWI.CCMM.test_date")
+              'Follow_Up_By_Date__c',
+              dataValue('$.form.Follow-Up_By_Date')
             ),
             field(
-              "Malaria_Home_Test_Date__c",
-              dataValue("$.form.HAWI.CCMM.test_date")
+              'Home_Treatment_Date__c',
+              dataValue('$.form.HAWI.CCMM.test_date')
             ),
             field(
-              "CommCare_Code__c",
-              dataValue("form.subcase_0.case.@case_id")
+              'Malaria_Home_Test_Date__c',
+              dataValue('$.form.HAWI.CCMM.test_date')
+            ),
+            field(
+              'CommCare_Code__c',
+              dataValue('form.subcase_0.case.@case_id')
             ),
             relationship(
-              "Person__r",
-              "CommCare_ID__c",
-              dataValue("$.form.case.@case_id")
+              'Person__r',
+              'CommCare_ID__c',
+              dataValue('$.form.case.@case_id')
             )
           )
         )(state);
@@ -1039,60 +1039,60 @@ steps(
   //Malnutrition case
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Nutrition2.Nutrition_Status")(
+      dataValue('$.form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
         state
       ) !== undefined
     ) {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Date__c", dataValue("$.form.Date")),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-          field("RecordTypeID", "01224000000YAuK"),
-          field("Reason_for_Service__c", "Nutrition Screening"),
+          field('Source__c', 1),
+          field('Date__c', dataValue('$.form.Date')),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
+          field('RecordTypeID', '01224000000YAuK'),
+          field('Reason_for_Service__c', 'Nutrition Screening'),
           field(
-            "Clinical_Visit_Date__c",
-            dataValue("$.form.TT5.Child_Information.Nutrition2.Clinical_Date")
+            'Clinical_Visit_Date__c',
+            dataValue('$.form.TT5.Child_Information.Nutrition2.Clinical_Date')
           ),
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           ),
           field(
-            "Height__c",
-            dataValue("$.form.TT5.Child_Information.Nutrition.Height")
+            'Height__c',
+            dataValue('$.form.TT5.Child_Information.Nutrition.Height')
           ),
           field(
-            "Weight__c",
-            dataValue("$.form.TT5.Child_Information.Nutrition.Weight")
+            'Weight__c',
+            dataValue('$.form.TT5.Child_Information.Nutrition.Weight')
           ),
           field(
-            "MUAC__c",
-            dataValue("$.form.TT5.Child_Information.Nutrition.MUAC")
+            'MUAC__c',
+            dataValue('$.form.TT5.Child_Information.Nutrition.MUAC')
           ),
-          field("Nutrition_Status__c", function (state) {
-            var status = "";
+          field('Nutrition_Status__c', function (state) {
+            var status = '';
             if (
               dataValue(
-                "$.form.TT5.Child_Information.Nutrition2.Nutrition_Status"
-              )(state) == "normal"
+                '$.form.TT5.Child_Information.Nutrition2.Nutrition_Status'
+              )(state) == 'normal'
             ) {
-              status = "Normal";
+              status = 'Normal';
             } else if (
               dataValue(
-                "$.form.TT5.Child_Information.Nutrition2.Nutrition_Status"
-              )(state) == "moderate"
+                '$.form.TT5.Child_Information.Nutrition2.Nutrition_Status'
+              )(state) == 'moderate'
             ) {
-              status = "Moderately Malnourished";
+              status = 'Moderately Malnourished';
             } else if (
               dataValue(
-                "$.form.TT5.Child_Information.Nutrition2.Nutrition_Status"
-              )(state) == "severe"
+                '$.form.TT5.Child_Information.Nutrition2.Nutrition_Status'
+              )(state) == 'severe'
             ) {
-              status = "Severely Malnourished";
+              status = 'Severely Malnourished';
             }
             return status;
           })
@@ -1103,75 +1103,75 @@ steps(
 
   //All referrals are sent here (danger sign, malaria, malnutrition, other referral)
   combine(function (state) {
-    if (dataValue("$.form.Referral")(state) == "Yes") {
+    if (dataValue('$.form.Referral')(state) == 'Yes') {
       create(
-        "Service__c",
+        'Service__c',
         fields(
-          field("Source__c", 1),
-          field("Date__c", dataValue("$.form.Date")),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-          field("RecordTypeID", "01224000000kOto"),
-          field("Referred__c", 1),
-          field("Follow_Up_By_Date__c", dataValue("$.form.Follow-Up_By_Date")),
-          field("Reason_for_Service__c", "Referral"),
+          field('Source__c', 1),
+          field('Date__c', dataValue('$.form.Date')),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
+          field('RecordTypeID', '01224000000kOto'),
+          field('Referred__c', 1),
+          field('Follow_Up_By_Date__c', dataValue('$.form.Follow-Up_By_Date')),
+          field('Reason_for_Service__c', 'Referral'),
           field(
-            "Clinic_Zinc__c",
+            'Clinic_Zinc__c',
             dataValue(
-              "$.form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc"
+              '$.form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc'
             )
           ),
           field(
-            "Clinic_ORS__c",
+            'Clinic_ORS__c',
             dataValue(
-              "$.form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS"
+              '$.form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS'
             )
           ),
           field(
-            "Home_Zinc__c",
+            'Home_Zinc__c',
             dataValue(
-              "$.form.TT5.Child_Information.Referrals.diarrhea_home_treatment_zinc"
+              '$.form.TT5.Child_Information.Referrals.diarrhea_home_treatment_zinc'
             )
           ),
           field(
-            "Home_ORS__c",
+            'Home_ORS__c',
             dataValue(
-              "$.form.TT5.Child_Information.Referrals.diarrhea_home_treatment_ORS"
+              '$.form.TT5.Child_Information.Referrals.diarrhea_home_treatment_ORS'
             )
           ),
-          field("Open_Case__c", 1),
-          field("Malaria_Status__c", dataValue("$.form.Malaria_Status")),
+          field('Open_Case__c', 1),
+          field('Malaria_Status__c', dataValue('$.form.Malaria_Status')),
           field(
-            "Home_Treatment__c",
-            dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment")
+            'Home_Treatment__c',
+            dataValue('$.form.TT5.Child_Information.CCMM.Home_Treatment')
           ),
           field(
-            "Malaria_Home_Test_Date__c",
-            dataValue("$.form.TT5.Child_Information.CCMM.test_date")
+            'Malaria_Home_Test_Date__c',
+            dataValue('$.form.TT5.Child_Information.CCMM.test_date')
           ),
           field(
-            "CommCare_Code__c",
-            dataValue("$.form.subcase_0.case.@case_id")(state)
+            'CommCare_Code__c',
+            dataValue('$.form.subcase_0.case.@case_id')(state)
           ),
-          field("Purpose_of_Referral__c", function (state) {
-            var purpose = "";
-            var name = dataValue("$.form.Purpose_of_Referral")(state);
-            if (name == "Adverse_Drug_Reaction_Side_Effect") {
-              purpose = "Adverse Drug Reaction/Side Effect";
-            } else if (name == "Pregnancy_Care") {
-              purpose = "Pregnancy Care (ANC)";
-            } else if (name == "Family_Planning") {
-              purpose = "Family Planning (FP)";
+          field('Purpose_of_Referral__c', function (state) {
+            var purpose = '';
+            var name = dataValue('$.form.Purpose_of_Referral')(state);
+            if (name == 'Adverse_Drug_Reaction_Side_Effect') {
+              purpose = 'Adverse Drug Reaction/Side Effect';
+            } else if (name == 'Pregnancy_Care') {
+              purpose = 'Pregnancy Care (ANC)';
+            } else if (name == 'Family_Planning') {
+              purpose = 'Family Planning (FP)';
             } else {
-              purpose = name.replace(/_/g, " ");
+              purpose = name.replace(/_/g, ' ');
             }
             return purpose;
           }),
 
           relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+            'Person__r',
+            'CommCare_ID__c',
+            dataValue('$.form.case.@case_id')
           )
         )
       )(state);
@@ -1180,46 +1180,46 @@ steps(
   //HAWI other clinical services received,
   combine(function (state) {
     if (
-      dataValue("$.form.HAWI.Clinical_Services_Rendered[0]")(state) !==
+      dataValue('$.form.HAWI.Clinical_Services_Rendered[0]')(state) !==
       undefined
     ) {
       each(
-        dataPath("$.form.HAWI.Clinical_Services_Rendered[*]"),
+        dataPath('$.form.HAWI.Clinical_Services_Rendered[*]'),
         create(
-          "Service__c",
+          'Service__c',
           fields(
-            field("Source__c", 1),
+            field('Source__c', 1),
             //field("Catchment__c","a002400000pAcOe"),
-            field("Household_CHW__c", dataValue("chw")),
-            field("Reason_for_Service__c", function (state) {
-              var reason = "";
-              var name = dataValue("Purpose")(state);
-              if (name == "Adverse_Drug_Reaction_Side_Effect") {
-                reason = "Adverse Drug Reaction/Side Effect";
-              } else if (name == "Pregnancy_Care") {
-                reason = "Pregnancy Care (ANC)";
-              } else if (name == "Family_Planning") {
-                reason = "Family Planning (FP)";
+            field('Household_CHW__c', dataValue('chw')),
+            field('Reason_for_Service__c', function (state) {
+              var reason = '';
+              var name = dataValue('Purpose')(state);
+              if (name == 'Adverse_Drug_Reaction_Side_Effect') {
+                reason = 'Adverse Drug Reaction/Side Effect';
+              } else if (name == 'Pregnancy_Care') {
+                reason = 'Pregnancy Care (ANC)';
+              } else if (name == 'Family_Planning') {
+                reason = 'Family Planning (FP)';
               } else {
-                reason = name.replace(/_/g, " ");
+                reason = name.replace(/_/g, ' ');
               }
               return reason;
             }),
-            field("Date__c", dataValue("Date_of_Clinical_Service")),
-            field("Type_of_Service__c", "CHW Mobile Survey"),
-            field("RecordTypeID", "01224000000YAuK"),
-            relationship("Site__r", "Label__c", function (state) {
-              var facility = dataValue("Facility_of_Clinical_Service")(state);
-              if (facility === "" || facility === undefined) {
-                facility = "unknown";
-              } else if (facility == "Other_Clinic") {
-                facility = "Other";
-              } else if (facility == "Rongo_Sub-District_Hospital") {
-                facility = "Rongo_SubDistrict_Hospital";
+            field('Date__c', dataValue('Date_of_Clinical_Service')),
+            field('Type_of_Service__c', 'CHW Mobile Survey'),
+            field('RecordTypeID', '01224000000YAuK'),
+            relationship('Site__r', 'Label__c', function (state) {
+              var facility = dataValue('Facility_of_Clinical_Service')(state);
+              if (facility === '' || facility === undefined) {
+                facility = 'unknown';
+              } else if (facility == 'Other_Clinic') {
+                facility = 'Other';
+              } else if (facility == 'Rongo_Sub-District_Hospital') {
+                facility = 'Rongo_SubDistrict_Hospital';
               }
               return facility;
             }),
-            relationship("Person__r", "CommCare_ID__c", dataValue("Case_ID"))
+            relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
           )
         )
       )(state);
@@ -1228,42 +1228,42 @@ steps(
   // TT5 other clinical services received
   combine(function (state) {
     if (
-      dataValue("$.form.TT5.Child_Information.Clinical_Services[0]")(state) !==
+      dataValue('$.form.TT5.Child_Information.Clinical_Services[0]')(state) !==
       undefined
     ) {
       each(
-        dataPath("$.form.TT5.Child_Information.Clinical_Services[*]"),
+        dataPath('$.form.TT5.Child_Information.Clinical_Services[*]'),
         create(
-          "Service__c",
+          'Service__c',
           fields(
-            field("Source__c", true),
+            field('Source__c', true),
             //field("Catchment__c","a002400000pAcOe"),
-            field("Household_CHW__c", dataValue("chw")),
-            field("Reason_for_Service__c", function (state) {
-              var reason = "";
-              var name = dataValue("Purpose")(state);
-              if (name == "Adverse_Drug_Reaction_Side_Effect") {
-                reason = "Adverse Drug Reaction/Side Effect";
-              } else if (name == "Pregnancy_Care") {
-                reason = "Pregnancy Care (ANC)";
-              } else if (name == "Family_Planning") {
-                reason = "Family Planning (FP)";
+            field('Household_CHW__c', dataValue('chw')),
+            field('Reason_for_Service__c', function (state) {
+              var reason = '';
+              var name = dataValue('Purpose')(state);
+              if (name == 'Adverse_Drug_Reaction_Side_Effect') {
+                reason = 'Adverse Drug Reaction/Side Effect';
+              } else if (name == 'Pregnancy_Care') {
+                reason = 'Pregnancy Care (ANC)';
+              } else if (name == 'Family_Planning') {
+                reason = 'Family Planning (FP)';
               } else {
-                reason = name.replace(/_/g, " ");
+                reason = name.replace(/_/g, ' ');
               }
               return reason;
             }),
-            field("Date__c", dataValue("Clinical_Date")),
-            field("Type_of_Service__c", "CHW Mobile Survey"),
-            field("RecordTypeID", "01224000000YAuK"),
-            relationship("Site__r", "Label__c", function (state) {
-              var facility = dataValue("Clinical_Facility")(state);
-              if (facility === "" || facility === undefined) {
-                facility = "unknown";
+            field('Date__c', dataValue('Clinical_Date')),
+            field('Type_of_Service__c', 'CHW Mobile Survey'),
+            field('RecordTypeID', '01224000000YAuK'),
+            relationship('Site__r', 'Label__c', function (state) {
+              var facility = dataValue('Clinical_Facility')(state);
+              if (facility === '' || facility === undefined) {
+                facility = 'unknown';
               }
               return facility;
             }),
-            relationship("Person__r", "CommCare_ID__c", dataValue("Case_ID"))
+            relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
           )
         )
       )(state);
