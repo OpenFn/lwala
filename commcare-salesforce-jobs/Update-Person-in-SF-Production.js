@@ -394,10 +394,8 @@ steps(
   //** ANC Services ************************************************//
   //ANC1
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs")(state) !== undefined &&
-      dataValue("$.form.TT5.Child_Information.ANCs.ANC_1")(state) !== undefined
-    ) {
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_1) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -438,10 +436,8 @@ steps(
   }),
   //ANC2
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs")(state) !== undefined &&
-      dataValue("$.form.TT5.Child_Information.ANCs.ANC_2")(state) !== undefined
-    ) {
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_2) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -482,10 +478,8 @@ steps(
   }),
   //ANC3
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs")(state) !== undefined &&
-      dataValue("$.form.TT5.Child_Information.ANCs.ANC_3")(state) !== undefined
-    ) {
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_3) {
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -526,10 +520,8 @@ steps(
   }),
   //ANC4
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs")(state) !== undefined &&
-      dataValue("$.form.TT5.Child_Information.ANCs.ANC_4")(state) !== undefined
-    ) {
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_4) {
       console.log("Inserting ANC4");
       upsert(
         "Service__c",
@@ -571,10 +563,8 @@ steps(
   }),
   //ANC5
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs")(state) !== undefined &&
-      dataValue("$.form.TT5.Child_Information.ANCs.ANC_5")(state) !== undefined
-    ) {
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_5) {
       upsert(
         "Service__c",
         "Service_UID__c",
