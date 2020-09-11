@@ -1,4 +1,5 @@
-alterState((state) => { //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
+alterState((state) => {
+  //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
   if (
     dataValue("$.form.TT5.Child_Information.Clinical_Services")(state) !==
     undefined
@@ -58,7 +59,10 @@ steps(
                   "$.form.TT5.Child_Information.Delivery_Information.DOB"
                 )
               ),
-              field("Child_Status__c", dataValue("form.case.update.Child_Status")),
+              field(
+                "Child_Status__c",
+                dataValue("form.case.update.Child_Status")
+              ),
               field("Immediate_Breastfeeding__c", function (state) {
                 var var1 = dataValue(
                   "form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery"
@@ -117,7 +121,10 @@ steps(
                   "$.form.TT5.Child_Information.Delivery_Information.DOB"
                 )
               ),
-              field("Child_Status__c", dataValue("form.case.update.Child_Status")),
+              field(
+                "Child_Status__c",
+                dataValue("form.case.update.Child_Status")
+              ),
               field("Immediate_Breastfeeding__c", function (state) {
                 var var1 = dataValue(
                   "form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery"
@@ -387,15 +394,17 @@ steps(
   //** ANC Services ************************************************//
   //ANC1
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_1")(state) ==
-      "click_to_enter_anc_1"
-    ) {
-      upsert("Service__c", "Service_UID__c",
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_1) {
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_1")(state);
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_1")(
+              state
+            );
             return id + date + "ANC1";
           }),
           field("Source__c", 1),
@@ -427,15 +436,17 @@ steps(
   }),
   //ANC2
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_2")(state) ==
-      "click_to_enter_anc_2"
-    ) {
-      upsert("Service__c", "Service_UID__c",
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_2) {
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_2")(state);
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_2")(
+              state
+            );
             return id + date + "ANC2";
           }),
           field("Source__c", 1),
@@ -467,15 +478,17 @@ steps(
   }),
   //ANC3
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-1-of-anc_3")(state) ==
-      "click_to_enter_anc_3"
-    ) {
-      upsert("Service__c", "Service_UID__c",
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_3) {
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_3")(state);
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_3")(
+              state
+            );
             return id + date + "ANC3";
           }),
           field("Source__c", true),
@@ -507,15 +520,18 @@ steps(
   }),
   //ANC4
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-2-of-anc_3")(state) ==
-      "click_to_enter_anc_3"
-    ) {
-      upsert("Service__c", "Service_UID__c",
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_4) {
+      console.log("Inserting ANC4");
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_4")(state);
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_4")(
+              state
+            );
             return id + date + "ANC4";
           }),
           field("Source__c", 1),
@@ -547,15 +563,17 @@ steps(
   }),
   //ANC5
   combine(function (state) {
-    if (
-      dataValue("$.form.TT5.Child_Information.ANCs.copy-3-of-anc_3")(state) ==
-      "click_to_enter_anc_3"
-    ) {
-      upsert("Service__c", "Service_UID__c",
+    const { ANCs } = state.data.form.TT5.Child_Information;
+    if (ANCs && ANCs.ANC_5) {
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_5")(state);
+            const date = dataValue("$.form.TT5.Child_Information.ANCs.ANC_5")(
+              state
+            );
             return id + date + "ANC5";
           }),
           field("Source__c", 1),
@@ -594,7 +612,9 @@ steps(
         state
       ) == "click_to_enter_anc_3"
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
@@ -636,7 +656,9 @@ steps(
       dataValue("$.form.TT5.Child_Information.Immunizations.anc_3")(state) ==
       "click_to_enter_anc_3"
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
@@ -679,7 +701,9 @@ steps(
         state
       ) == "click_to_enter_anc_3"
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
@@ -724,7 +748,9 @@ steps(
         state
       ) == "click_to_enter_anc_3"
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Source__c", 1),
           field("Service_UID__c", (state) => {
@@ -769,7 +795,9 @@ steps(
         state
       ) == "click_to_enter_anc_3"
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Source__c", 1),
           field("Service_UID__c", (state) => {
@@ -814,7 +842,9 @@ steps(
         state
       ) == "click_to_enter_anc_3"
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
@@ -857,7 +887,9 @@ steps(
         state
       ) == "click_to_enter_anc_3"
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
@@ -901,7 +933,9 @@ steps(
         state
       ) == "click_to_enter_anc_3"
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
@@ -941,13 +975,13 @@ steps(
   //Deworming
   combine(function (state) {
     if (dataValue("$.form.TT5.Child_Information.Deworming")(state) == "Yes") {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue(
-              "$.form.Date"
-            )(state);
+            const date = dataValue("$.form.Date")(state);
             return id + date + "Deworming";
           }),
           field("Source__c", 1),
@@ -975,39 +1009,40 @@ steps(
         state
       ) !== ""
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           fields(
             field("Service_UID__c", (state) => {
               const id = dataValue("$.form.case.@case_id")(state);
-              const date = dataValue(
-                "$.form.Date"
-              )(state);
+              const date = dataValue("$.form.Date")(state);
               return id + date + "Home-Based-Care";
             }),
-          field("Source__c", 1),
-          field("Reason_for_Service__c", "Home-Based Care"),
-          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-          field("Date__c", dataValue("$.form.Date")),
-          field("Type_of_Service__c", "CHW Mobile Survey"),
-          field("RecordTypeID", "01224000000YAuK"),
-          field("Home_Based_Care_Rendered__c", function (state) {
-            var care = "";
-            var str = dataValue(
-              "$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided"
-            )(state);
-            care = str.replace(/ /g, ";");
-            care = care.replace(/_/g, " ");
+            field("Source__c", 1),
+            field("Reason_for_Service__c", "Home-Based Care"),
+            field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+            field("Date__c", dataValue("$.form.Date")),
+            field("Type_of_Service__c", "CHW Mobile Survey"),
+            field("RecordTypeID", "01224000000YAuK"),
+            field("Home_Based_Care_Rendered__c", function (state) {
+              var care = "";
+              var str = dataValue(
+                "$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided"
+              )(state);
+              care = str.replace(/ /g, ";");
+              care = care.replace(/_/g, " ");
 
-            return care;
-          }),
-          relationship(
-            "Person__r",
-            "CommCare_ID__c",
-            dataValue("$.form.case.@case_id")
+              return care;
+            }),
+            relationship(
+              "Person__r",
+              "CommCare_ID__c",
+              dataValue("$.form.case.@case_id")
+            )
           )
         )
-      ))(state);
+      )(state);
     }
   }),
   //Malaria cases
@@ -1032,9 +1067,7 @@ steps(
           fields(
             field("Service_UID__c", (state) => {
               const id = dataValue("$.form.case.@case_id")(state);
-              const date = dataValue(
-                "$.form.Date"
-              )(state);
+              const date = dataValue("$.form.Date")(state);
               return id + date + "Malaria-Home-Treatment";
             }),
             field("Source__c", 1),
@@ -1098,9 +1131,7 @@ steps(
             field("Source__c", 1),
             field("Service_UID__c", (state) => {
               const id = dataValue("$.form.case.@case_id")(state);
-              const date = dataValue(
-                "$.form.Date"
-              )(state);
+              const date = dataValue("$.form.Date")(state);
               return id + date + "Malaria-Home-Treatment";
             }),
             field("Date__c", dataValue("$.form.Date")),
@@ -1153,14 +1184,14 @@ steps(
         state
       ) !== undefined
     ) {
-      upsert("Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Source__c", 1),
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue(
-              "$.form.Date"
-            )(state);
+            const date = dataValue("$.form.Date")(state);
             return id + date + "Nutrition-Screening";
           }),
           field("Date__c", dataValue("$.form.Date")),
@@ -1220,14 +1251,14 @@ steps(
   //All referrals are sent here (danger sign, malaria, malnutrition, other referral)
   combine(function (state) {
     if (dataValue("$.form.Referral")(state) == "Yes") {
-      upsert( "Service__c", "Service_UID__c",
+      upsert(
+        "Service__c",
+        "Service_UID__c",
         fields(
           field("Source__c", 1),
           field("Service_UID__c", (state) => {
             const id = dataValue("$.form.case.@case_id")(state);
-            const date = dataValue(
-              "$.form.Date"
-            )(state);
+            const date = dataValue("$.form.Date")(state);
             return id + date + "Referral";
           }),
           field("Date__c", dataValue("$.form.Date")),
@@ -1314,9 +1345,7 @@ steps(
           fields(
             field("Service_UID__c", (state) => {
               const id = dataValue("$.form.case.@case_id")(state);
-              const date = dataValue(
-                "$.form.Date"
-              )(state);
+              const date = dataValue("$.form.Date")(state);
               return id + date + "HAWI-Other-Services";
             }),
             field("Source__c", 1),
@@ -1371,9 +1400,7 @@ steps(
             field("Source__c", true),
             field("Service_UID__c", (state) => {
               const id = dataValue("$.form.case.@case_id")(state);
-              const date = dataValue(
-                "$.form.Date"
-              )(state);
+              const date = dataValue("$.form.Date")(state);
               return id + date + "TT5-Other-Services";
             }),
             field("Household_CHW__c", dataValue("chw")),
@@ -1407,8 +1434,11 @@ steps(
       )(state);
     }
   }),
-  upsert("Visit__c", "CommCare_Visit_ID__c", fields(
-    field("CommCare_Visit_ID__c", dataValue("id")),
+  upsert(
+    "Visit__c",
+    "CommCare_Visit_ID__c",
+    fields(
+      field("CommCare_Visit_ID__c", dataValue("id")),
       relationship(
         "Household__r",
         "CommCare_Code__c",
