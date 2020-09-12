@@ -90,6 +90,7 @@ steps(
                   "$.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling"
                 )
               ),
+              field("Telephone__c", dataValue("form.case.update.contact_phone_number")),
               field(
                 "Exclusive_Breastfeeding__c",
                 dataValue(
