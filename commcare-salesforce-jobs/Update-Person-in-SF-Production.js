@@ -637,7 +637,7 @@ steps(
           field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
           field(
             "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.BCG")
+            dataValue("$.form.TT5.Child_Information.Immunizations.BCG_h")
           ),
           field("Type_of_Service__c", "CHW Mobile Survey"),
           field("RecordTypeID", "01224000000YAuK"),
