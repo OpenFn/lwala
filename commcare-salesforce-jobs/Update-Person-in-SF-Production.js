@@ -810,7 +810,7 @@ steps(
           field(
             "Date__c",
             dataValue(
-              "$.form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_3"
+              "$.form.TT5.Child_Information.Immunizations.OPV3_h"
             )
           ),
           field("Type_of_Service__c", "CHW Mobile Survey"),
