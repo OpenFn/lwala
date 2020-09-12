@@ -44,8 +44,8 @@ upsert("Household__c","CommCare_Code__c",fields(
   field("Clothe__c", dataValue("form.Household_Information.Clothesline")),
   field("WASH_Trained__c", dataValue("form.Household_Information.WASH_Trained")),
   field("Uses_ITNs__c", dataValue("form.Household_Information.ITNs")),
-  field("Family_planning__c", dataValue("form.Household_Information.family_planning")), // new mapping
-  field("Family_planning_method__c", dataValue("form.Household_Information.Family_planning_method")), // new mapping
+  //field("Family_planning__c", dataValue("form.Household_Information.family_planning")), // new mapping
+  //field("Family_planning_method__c", dataValue("form.Household_Information.Family_planning_method")), // new mapping
   field("Deaths_in_the_last_6_months__c", (state) => {
     var deaths = dataValue("form.household_deaths.deaths_in_past_6_months")(state);
     return (deaths > 0 ? "Yes" : "No");
