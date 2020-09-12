@@ -169,25 +169,4 @@ upsert(
         field("Inactive_Date__c", dataValue("Date"))
       )
     )
-  ),
-  upsert(
-    "Visit__c",
-    "CommCare_Visit_ID__c",
-    fields(
-      field("CommCare_Visit_ID__c", dataValue("id")),
-      relationship(
-        "Household__r",
-        "CommCare_Code__c",
-        dataValue("form.case.@case_id")
-      ),
-      field("Date__c", dataValue("form.metadata.timeEnd")),
-      //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
-      field("Household_CHW__c", dataValue("form.chw")),
-      field("Name", "CHW Visit"),
-      /*field("Supervisor_Visit__c", (state) =>
-        state.data.form.supervisor_visit
-          ? state.supervisorMap[state.data.form.supervisor_visit]
-          : null
-      )*/
-    )
   );
