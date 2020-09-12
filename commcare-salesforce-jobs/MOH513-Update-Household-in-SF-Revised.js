@@ -184,10 +184,10 @@ upsert(
       //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
       field("Household_CHW__c", dataValue("form.chw")),
       field("Name", "CHW Visit"),
-      field("Supervisor_Visit__c", (state) =>
+      /*field("Supervisor_Visit__c", (state) =>
         state.data.form.supervisor_visit
           ? state.supervisorMap[state.data.form.supervisor_visit]
           : null
-      )
+      )*/
     )
   );
