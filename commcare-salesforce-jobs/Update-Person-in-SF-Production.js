@@ -321,7 +321,7 @@ steps(
             }),
             field("Active_in_HAWI__c", "Yes"),
             field("HAWI_Registrant__c", "Yes"),
-            field("HAWI_Enrollment_Date__c", dataValue("form.date")),
+            field("HAWI_Enrollment_Date__c", dataValue("metadata.timeEnd")),
             field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
             field(
               "Active_in_Support_Group__c",
