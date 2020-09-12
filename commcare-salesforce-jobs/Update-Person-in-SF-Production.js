@@ -1032,23 +1032,15 @@ steps(
       )(state);
     }
   }),
+
   //Malaria cases
   //Child
   combine(function (state) {
     if (
       dataValue("$.form.TT5.Child_Information.CCMM.Home_Test_Result")(state) ==
       "Positive"
-    ) {
-      //REVIEWED
-      if (
-        dataValue("$.form.TT5.Child_Information.CCMM.Malaria_Referral")(
-          state
-        ) == "Yes"
-      ) {
-        //This block got moved to the referral section, malaria referral case
-      } else {
-        //Malaria home treatment case
-        upsert(
+    ) { 
+      upsert(
           "Service__c",
           "Service_UID__c",
           fields(
@@ -1100,69 +1092,63 @@ steps(
             )
           )
         )(state);
-      }
-    }
-  }),
+    }}),
   //Malaria cases
   //HAWI Client
   combine(function (state) {
     if (dataValue("$.form.HAWI.CCMM.Home_Test_Result")(state) == "Positive") {
-      //REVIEWED
-      if (dataValue("$.form.HAWI.CCMM.Malaria_Referral")(state) == "Yes") {
-      } else {
-        //Malaria home treatment case
-        upsert(
-          "Service__c",
-          "Service_UID__c",
-          fields(
-            field("Source__c", 1),
-            field("Service_UID__c", (state) => {
-              const id = dataValue("$.form.case.@case_id")(state);
-              const date = dataValue("$.form.Date")(state);
-              return id + date + "Malaria-Home-Treatment";
-            }),
-            field("Date__c", dataValue("$.form.Date")),
-            field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-            field("Type_of_Service__c", "CHW Mobile Survey"),
-            field("Reason_for_Service__c", "Malaria (Home Treatment)"),
-            field(
-              "Home_Treatment__c",
-              dataValue("$.form.HAWI.CCMM.Home_Treatment")
-            ),
-            field("RecordTypeID", "01224000000kOto"),
-            field("Open_Case__c", 1),
-            field("Malaria_Status__c", "Positive"),
-            field("AL_Tablets__c", dataValue("$.form.HAWI.CCMM.AL")),
-            field(
-              "Paracetamol_Tablets__c",
-              dataValue("$.form.HAWI.CCMM.Paracetamol")
-            ),
-            field(
-              "Follow_Up_By_Date__c",
-              dataValue("$.form.Follow-Up_By_Date")
-            ),
-            field(
-              "Home_Treatment_Date__c",
-              dataValue("$.form.HAWI.CCMM.test_date")
-            ),
-            field(
-              "Malaria_Home_Test_Date__c",
-              dataValue("$.form.HAWI.CCMM.test_date")
-            ),
-            field(
-              "CommCare_Code__c",
-              dataValue("form.subcase_0.case.@case_id")
-            ),
-            relationship(
-              "Person__r",
-              "CommCare_ID__c",
-              dataValue("$.form.case.@case_id")
-            )
-          )
-        )(state);
-      }
+     //Malaria home treatment case
+     upsert(
+      "Service__c",
+      "Service_UID__c",
+      fields(
+        field("Source__c", 1),
+        field("Service_UID__c", (state) => {
+          const id = dataValue("$.form.case.@case_id")(state);
+          const date = dataValue("$.form.Date")(state);
+          return id + date + "Malaria-Home-Treatment";
+        }),
+        field("Date__c", dataValue("$.form.Date")),
+        field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Reason_for_Service__c", "Malaria (Home Treatment)"),
+        field(
+          "Home_Treatment__c",
+          dataValue("$.form.HAWI.CCMM.Home_Treatment")
+        ),
+        field("RecordTypeID", "01224000000kOto"),
+        field("Open_Case__c", 1),
+        field("Malaria_Status__c", "Positive"),
+        field("AL_Tablets__c", dataValue("$.form.HAWI.CCMM.AL")),
+        field(
+          "Paracetamol_Tablets__c",
+          dataValue("$.form.HAWI.CCMM.Paracetamol")
+        ),
+        field(
+          "Follow_Up_By_Date__c",
+          dataValue("$.form.Follow-Up_By_Date")
+        ),
+        field(
+          "Home_Treatment_Date__c",
+          dataValue("$.form.HAWI.CCMM.test_date")
+        ),
+        field(
+          "Malaria_Home_Test_Date__c",
+          dataValue("$.form.HAWI.CCMM.test_date")
+        ),
+        field(
+          "CommCare_Code__c",
+          dataValue("form.subcase_0.case.@case_id")
+        ),
+        relationship(
+          "Person__r",
+          "CommCare_ID__c",
+          dataValue("$.form.case.@case_id")
+        )
+      )
+    )(state);
     }
-  }),
+  }), 
 
   //Malnutrition case
   combine(function (state) {
@@ -1233,7 +1219,7 @@ steps(
         )
       )(state);
     }
-  }),
+  }), 
 
   //All referrals are sent here (danger sign, malaria, malnutrition, other referral)
   combine(function (state) {
@@ -1370,7 +1356,7 @@ steps(
         )
       )(state);
     }
-  }),
+  }), 
   //TO-DO: fix array problem
   // TT5 other clinical services received
   combine(function (state) {
