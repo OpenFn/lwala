@@ -21,7 +21,8 @@ upsert("Household__c", "CommCare_Code__c",fields(
   field("Source__c", true),
   field("Household_CHW__c",dataValue("form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
   //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-  relationship("Catchment__r","Name", dataValue("form.catchment")),// check
+  relationship("Catchment__r","Name", dataValue("form.catchment")),
+  field("Household_village__c", dataValue("form.village")),
   field("Area__c", dataValue("form.area")),
   field("Deaths_in_the_last_6_months__c", (state)=>{
     var death = dataValue("form.Household_Information.deaths_in_past_6_months")(state)
