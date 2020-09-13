@@ -151,6 +151,7 @@ combine(function(state){
         var facility= dataValue("HAWI.Preferred_Care_Facility")(state);
         return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
       }),
+      field("MCH_booklet__c", dataValue("TT5.Mother_Information.mch_booklet")),
       field("LMP__c",dataValue("TT5.Child_Information.ANCs.LMP")),
       field("ANC_1__c",dataValue("TT5.Child_Information.ANCs.ANC_1")),
       field("ANC_2__c",dataValue("TT5.Child_Information.ANCs.ANC_2")),
