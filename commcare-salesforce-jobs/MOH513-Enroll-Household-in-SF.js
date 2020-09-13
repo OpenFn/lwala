@@ -111,7 +111,7 @@ combine(function(state){
       field("Child_Status__c", (state)=>{
         var dob = dataValue("Basic_Information.DOB")(state)
         var status = dataValue("Basic_Information.Child_Status")(state)
-        return(dob!==undefined || status=="Born" ? "Born" : "Unborn") //what about deceased?
+        return(dob!==undefined || status=="Born" || status=="Unborn" ? status : null) //what about deceased?
       }),
       field("Gender__c",dataValue("Basic_Information.Gender")),
       field("Birth_Certificate__c",dataValue("Basic_Information.birth_certificate")),
@@ -134,7 +134,7 @@ combine(function(state){
       field("HIV_Status__c",dataValue("Basic_Information.person_info.hiv_status")),
       field("Disability__c",(state)=>{
         var disability = dataValue("Basic_Information.person_info.disability")(state);
-        (disability.includes("none")) ? disability = undefined : disability;
+        (disability && disability.includes("none")) ? disability = undefined : disability;
         var toTitleCase = (disability!==undefined ? disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';') : null);
         return toTitleCase;
       }),
