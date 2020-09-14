@@ -28,7 +28,6 @@ alterState((state) => {
   };
 
   return { ...state, supervisorMap };
-
 });
 
 //Deliveries
@@ -1434,8 +1433,11 @@ steps(
       field("Name", "CHW Visit"),
       field("CommCare_Visit_ID__c", dataValue("id")),
       field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-      field("Supervisor_Visit__c", state => 
-              state.supervisorMap[state.data.form.supervisor_visit]),
+      field("Supervisor_Visit__c", (state) =>
+        state.supervisorMap[state.data.form.supervisor_visit]
+          ? state.supervisorMap[state.data.form.supervisor_visit]
+          : null
+      ),
       field("Date__c", dataValue("$.metadata.timeEnd"))
     )
   )
