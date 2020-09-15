@@ -21,7 +21,8 @@ upsert("Household__c", "CommCare_Code__c",fields(
   field("Source__c", true),
   field("Household_CHW__c",dataValue("form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
   //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-  relationship("Catchment__r","Name", dataValue("form.catchment")),// check
+  relationship("Catchment__r","Name", dataValue("form.catchment")),
+  field("Household_village__c", dataValue("form.village")),
   field("Area__c", dataValue("form.area")),
   field("Deaths_in_the_last_6_months__c", (state)=>{
     var death = dataValue("form.Household_Information.deaths_in_past_6_months")(state)
@@ -62,7 +63,7 @@ combine(function(state){
       field("Source__c", true),
       relationship("Catchment__r","Name", dataValue("catchment")),
       field("Client_Status__c", "Active"),
-      //field("Area__c", state.data.form.area),// check
+      field("Area__c", state.data.form.area),
       field("Household_village__c", state.data.form.village),
       field("Relation_to_the_head_of_the_household__c", (state)=>{
         var relation = dataValue("Basic_Information.relation_to_hh")(state);
@@ -110,7 +111,7 @@ combine(function(state){
       field("Child_Status__c", (state)=>{
         var dob = dataValue("Basic_Information.DOB")(state)
         var status = dataValue("Basic_Information.Child_Status")(state)
-        return(dob!==undefined || status=="Born" ? "Born" : "Unborn") //what about deceased?
+        return(dob!==undefined || status=="Born" || status=="Unborn" ? status : null) //what about deceased?
       }),
       field("Gender__c",dataValue("Basic_Information.Gender")),
       field("Birth_Certificate__c",dataValue("Basic_Information.birth_certificate")),
@@ -133,7 +134,7 @@ combine(function(state){
       field("HIV_Status__c",dataValue("Basic_Information.person_info.hiv_status")),
       field("Disability__c",(state)=>{
         var disability = dataValue("Basic_Information.person_info.disability")(state);
-        (disability.includes("none")) ? disability = undefined : disability;
+        (disability && disability.includes("none")) ? disability = undefined : disability;
         var toTitleCase = (disability!==undefined ? disability.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(';') : null);
         return toTitleCase;
       }),
@@ -150,6 +151,7 @@ combine(function(state){
         var facility= dataValue("HAWI.Preferred_Care_Facility")(state);
         return (facility!==undefined ? facility.toString().replace(/_/g," ") : null)
       }),
+      field("MCH_booklet__c", dataValue("TT5.Mother_Information.mch_booklet")),
       field("LMP__c",dataValue("TT5.Child_Information.ANCs.LMP")),
       field("ANC_1__c",dataValue("TT5.Child_Information.ANCs.ANC_1")),
       field("ANC_2__c",dataValue("TT5.Child_Information.ANCs.ANC_2")),

@@ -1,0 +1,173 @@
+{
+  "configuration": {
+    "loginUrl": "https://cs109.salesforce.com/",
+    "username": "anthony@lwalacommunityalliance.org.partial",
+    "password": "see LP - lwala sandbox",
+    "securityToken": "test-token"
+  },
+  "data": {
+    "__query_params": {
+      "app_id": "fc491785fa909e85fbdb63a9b346fa6c"
+    },
+    "app_id": "fc491785fa909e85fbdb63a9b346fa6c",
+    "archived": false,
+    "attachments": {
+      "form.xml": {
+        "content_type": "text/xml",
+        "length": 3965,
+        "url": "https://www.commcarehq.org/a/lwala-community-alliance/api/form/attachment/14160661-e1ce-43d3-999a-82429f6d48d9/form.xml"
+      }
+    },
+    "build_id": "ae0a7ece528546d694ede59ba4bfb3cc",
+    "domain": "lwala-community-alliance",
+    "edited_by_user_id": null,
+    "edited_on": null,
+    "form": {
+      "#type": "data",
+      "HAWI": {
+        "CCMM": {
+          "Fever_Referral_Status": "Open",
+          "Reason_for_Service": "Malaria Case",
+          "Referral_Status": "Open",
+          "fever": "No"
+        },
+        "Clinical_Service_Q": "No",
+        "Home_Based_Care": {
+          "Home_Based_Care_Provided": "Adherence_Counseling WASH_Counseling",
+          "Other": ""
+        },
+        "Preferred_Care_F": {
+          "Change_Preferred_Care_Facility": "",
+          "Preferred_Care_Facility": "Rongo",
+          "default": "No"
+        },
+        "Referral": {
+          "Clinician_Notes": "Please follow up on **Referral** to ensure that client visisted facility",
+          "Reason_for_Service": "Referral",
+          "Referral": "No"
+        },
+        "Support_Group": "No",
+        "Support_Group1": "No",
+        "Unique_Patient_Code": "190"
+      },
+      "case": {
+        "@case_id": "65947ba1-0114-4739-ba37-ad2fa0cacaf6",
+        "@date_modified": "2020-09-13T18:11:42.158000Z",
+        "@user_id": "f5a5a40787eb40a39c1238443dc0be92",
+        "@xmlns": "http://commcarehq.org/case/transaction/v2",
+        "update": {
+          "Active_in_HAWI": "Yes",
+          "Active_in_Support_Group": "No",
+          "Active_in_TT5": "No",
+          "Client_Program": "HAWI",
+          "Client_Status": "Active",
+          "Preferred_Care_Facility": "Rongo",
+          "Unique_Patient_Code": "190",
+          "case_name": "TEST JOHN",
+          "contact_phone_number": "25472587570",
+          "owner_id": "b14b605c36494132aa52345437c5c6c9",
+          "parent_id": "5b40271e-3b07-4ed2-a625-ec3819b73077"
+        }
+      },
+      "subcase_0": "",
+      "check_unborn_use": "",
+      "Follow-Up_By_Date": "",
+      "owner_id": "b14b605c36494132aa52345437c5c6c9",
+      "meta": {
+        "@xmlns": "http://openrosa.org/jr/xforms",
+        "appVersion": "CommCare Android, version \"2.48.7\"(461473). App v3310. CommCare Version 2.48. Build 461473, built on: 2020-05-20",
+        "app_build_version": 3310,
+        "commcare_version": "2.48.7",
+        "deviceID": "commcare_f5d4ac40-77bf-4f75-8148-ac4046ddea71",
+        "drift": "0",
+        "geo_point": null,
+        "instanceID": "14160661-e1ce-43d3-999a-82429f6d48d9",
+        "location": {
+          "#text": "-0.73222 34.57544333333333 1389.6 10.0",
+          "@xmlns": "http://commcarehq.org/xforms"
+        },
+        "timeEnd": "2020-09-13T18:11:42.158000Z",
+        "timeStart": "2020-09-13T18:11:17.554000Z",
+        "userID": "f5a5a40787eb40a39c1238443dc0be92",
+        "username": "test.name"
+      },
+      "parents": {
+        "parent": {
+          "case": {
+            "@case_id": "5b40271e-3b07-4ed2-a625-ec3819b73077",
+            "@date_modified": "2020-09-13T18:11:42.158000Z",
+            "@user_id": "f5a5a40787eb40a39c1238443dc0be92",
+            "@xmlns": "http://commcarehq.org/case/transaction/v2",
+            "update": {
+              "Check_Unborn_Child": "",
+              "Last_Visit": "2020-09-13"
+            }
+          }
+        }
+      },
+      "Case_Type": "Follow-Up",
+      "update": "Yes",
+      "@uiVersion": "1",
+      "Referral_Status": "Open",
+      "Date": "2020-09-13",
+      "HH_ID": "5b40271e-3b07-4ed2-a625-ec3819b73077",
+      "supervisor_visit": "none",
+      "Service_Name": "TEST 08262",
+      "Clinical_Facility": "",
+      "Follow-Up_Required": "",
+      "Person_Name": "TEST JOHN",
+      "final_name": "TEST JOHN",
+      "Clinical_Service": "Open",
+      "@xmlns": "http://openrosa.org/formdesigner/ecca8b571aa3cdb7ed2df493301d0e885211d09a",
+      "Referral": "No",
+      "Status": {
+        "Active": "Yes",
+        "Client_Status": "Active"
+      },
+      "CHW_ID_Final": "a031p00001BLu1PAAT",
+      "Error": "No",
+      "Malaria_Status": "",
+      "@version": "3233",
+      "Basic_Information": {
+        "Basic_Information": {
+          "Add_to_TT5": "No",
+          "Final_Program": "HAWI",
+          "HAWI_Status": "Yes",
+          "TT5_Status": "No",
+          "final_telephone": "25472587570"
+        }
+      },
+      "@name": "Update Person",
+      "Source": "1",
+      "parent_id": "5b40271e-3b07-4ed2-a625-ec3819b73077",
+      "RecordType": "Female_Adult",
+      "Clinical_Date": "",
+      "parent_name": "08262"
+    },
+    "id": "14160661-e1ce-43d3-999a-82429f6d48d9",
+    "indexed_on": "2020-09-13T18:15:30.235534",
+    "initial_processing_complete": true,
+    "is_phone_submission": true,
+    "metadata": {
+      "appVersion": "CommCare Android, version \"2.48.7\"(461473). App v3310. CommCare Version 2.48. Build 461473, built on: 2020-05-20",
+      "app_build_version": 3310,
+      "commcare_version": "2.48.7",
+      "deviceID": "commcare_f5d4ac40-77bf-4f75-8148-ac4046ddea71",
+      "drift": "0",
+      "geo_point": null,
+      "instanceID": "14160661-e1ce-43d3-999a-82429f6d48d9",
+      "location": "-0.73222 34.57544333333333 1389.6 10.0",
+      "timeEnd": "2020-09-13T18:11:42.158000Z",
+      "timeStart": "2020-09-13T18:11:17.554000Z",
+      "userID": "f5a5a40787eb40a39c1238443dc0be92",
+      "username": "test.name"
+    },
+    "problem": null,
+    "received_on": "2020-09-13T18:15:29.916043Z",
+    "resource_uri": "",
+    "server_modified_on": "2020-09-13T18:15:29.989942Z",
+    "type": "data",
+    "uiversion": "1",
+    "version": "3233"
+  }
+}

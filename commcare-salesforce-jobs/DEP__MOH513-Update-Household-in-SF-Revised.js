@@ -7,7 +7,16 @@ alterState((state) => {
     state.data.form.household_deaths.deaths = [deaths];
   }
 
-  return state;
+  const supervisorMap = {
+    community_health_nurse: "Community Health Nurse",
+    chw_supervisor: "CHW Supervisor",
+    chewschas: "CHEWs/CHAs",
+    other: "Other",
+    none: "None",
+    undefined: null,
+  };
+
+  return { ...state, supervisorMap };
 });
 upsert("Household__c","CommCare_Code__c",fields(
   field("CommCare_Code__c",dataValue("form.case.@case_id")),
@@ -42,7 +51,10 @@ upsert("Household__c","CommCare_Code__c",fields(
   field("Deaths_in_the_last_6_months__c", (state) => {
     var deaths = dataValue("form.household_deaths.deaths_in_past_6_months")(state);
     return (deaths > 0 ? "Yes" : "No");
-  })
+  }),
+  field("Total_household_people__c", dataValue("form.Total_Number_of_Members")),
+  field("Supervisor_Visit__c", state =>
+    state.supervisorMap[state.data.form.supervisor_visit])
 )),
 
 upsert("Visit__c","CommCare_Visit_ID__c", fields(
@@ -52,13 +64,8 @@ upsert("Visit__c","CommCare_Visit_ID__c", fields(
   //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
   field("Household_CHW__c",dataValue("form.chw")),
   field("Name", "CHW Visit"),
-  field("Supervisor_Visit__c",(state)=>{
-    var visit = dataValue("form.supervisor_visit")(state)
-    if(visit!==undefined){
-      visit = visit.toString().replace(/ /g,";");
-      return visit.toString().replace(/_/g," ");
-    }
-  })
+  field("Supervisor_Visit__c", state =>
+    state.supervisorMap[state.data.form.supervisor_visit])
 )),
 
 //New logic to insert child Person records if person is marked as deceased in HH form
@@ -119,11 +126,6 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
   field("Household_CHW__c",dataValue("form.chw")),
   field("Name", "CHW Visit"),
-  field("Supervisor_Visit__c",(state)=>{
-    var visit = dataValue("form.supervisor_visit")(state)
-    if(visit!==undefined){
-      visit = visit.toString().replace(/ /g,";");
-      return visit.toString().replace(/_/g," ");
-    }
-  })
+  field("Supervisor_Visit__c", state =>
+    state.supervisorMap[state.data.form.supervisor_visit])
 ));
