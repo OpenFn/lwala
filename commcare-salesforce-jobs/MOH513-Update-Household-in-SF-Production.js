@@ -44,7 +44,7 @@ upsert("Household__c", "CommCare_Code__c",fields(
   field("Uses_ITNs__c", dataValue("form.Household_Information.ITNs")),
   field("Total_household_people__c", dataValue("form.Total_Number_of_Members")),
   field("Supervisor_Visit__c", state =>
-    state.supervisorMap[state.data.form.supervisor_visit])
+    state.supervisorMap[state.data.form.supervisor_visit] || null)
 )),
 upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("CommCare_Visit_ID__c", dataValue("id")),
@@ -54,5 +54,5 @@ upsert("Visit__c", "CommCare_Visit_ID__c", fields(
   field("Household_CHW__c",dataValue("form.chw")),
   field("Name", "CHW Visit"),
   field("Supervisor_Visit__c", state =>
-    state.supervisorMap[state.data.form.supervisor_visit])
+    state.supervisorMap[state.data.form.supervisor_visit] || null)
 ));
