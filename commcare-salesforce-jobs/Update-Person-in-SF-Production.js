@@ -33,7 +33,7 @@ alterState((state) => {
 //Deliveries
 steps(
   combine(function (state) {
-    if (dataValue("$.form.Status.Client_Status")(state) == "Active") {
+    if (dataValue("$.form.Status.Client_Status")(state) == "Active" && state.data.form.TT5) {
       //Deliveries
       if (
         dataValue("$.form.TT5.Child_Information.Delivery_Information.Delivery")(
@@ -88,6 +88,10 @@ steps(
                 dataValue(
                   "$.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling"
                 )
+              ),
+              field(
+                "Telephone__c",
+                dataValue("form.case.update.contact_phone_number")
               ),
               field(
                 "Exclusive_Breastfeeding__c",
@@ -318,7 +322,8 @@ steps(
               return name2;
             }),
             field("Active_in_HAWI__c", "Yes"),
-            field("HAWI_Registrant", "Yes"),
+            field("HAWI_Registrant__c", "Yes"),
+            field("HAWI_Enrollment_Date__c", dataValue("metadata.timeEnd")),
             field("CommCare_ID__c", dataValue("$.form.case.@case_id")),
             field(
               "Active_in_Support_Group__c",
@@ -329,9 +334,9 @@ steps(
               dataValue("$.form.HAWI.Preferred_Care_F.Preferred_Care_Facility")
             ),
             field("Immediate_Breastfeeding__c", function (state) {
-              var var1 = dataValue(
+              var var1 = state.data.formTT5 ? dataValue(
                 "form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery"
-              )(state);
+              )(state) : null;
               if (var1 == "---") {
                 var1 = undefined;
               } else if (var1 == "yes") {
@@ -341,9 +346,9 @@ steps(
             }),
             field(
               "Exclusive_Breastfeeding__c",
-              dataValue(
+              state.data.form.TT5 ? dataValue(
                 "form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"
-              )
+              ) : null
             )
           )
         )(state);
@@ -378,9 +383,9 @@ steps(
                 )
               ),
               field("Immediate_Breastfeeding__c", function (state) {
-                var var1 = dataValue(
+                var var1 = state.data.form.TT5 ? dataValue(
                   "form.TT5.Child_Information.Delivery_Information.Breastfeeding_Delivery"
-                )(state);
+                )(state) : null;
                 if (var1 == "---") {
                   var1 = undefined;
                 } else if (var1 == "yes") {
@@ -390,9 +395,9 @@ steps(
               }),
               field(
                 "Exclusive_Breastfeeding__c",
-                dataValue(
+                state.data.form.TT5 ? dataValue(
                   "form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"
-                )
+                ) : null
               )
             )
           )(state);
@@ -403,7 +408,8 @@ steps(
   //** ANC Services ************************************************//
   //ANC1
   combine(function (state) {
-    const { ANCs } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
     if (ANCs && ANCs.ANC_1) {
       upsert(
         "Service__c",
@@ -445,7 +451,8 @@ steps(
   }),
   //ANC2
   combine(function (state) {
-    const { ANCs } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
     if (ANCs && ANCs.ANC_2) {
       upsert(
         "Service__c",
@@ -487,7 +494,8 @@ steps(
   }),
   //ANC3
   combine(function (state) {
-    const { ANCs } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
     if (ANCs && ANCs.ANC_3) {
       upsert(
         "Service__c",
@@ -529,9 +537,9 @@ steps(
   }),
   //ANC4
   combine(function (state) {
-    const { ANCs } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
     if (ANCs && ANCs.ANC_4) {
-      console.log("Inserting ANC4");
       upsert(
         "Service__c",
         "Service_UID__c",
@@ -572,7 +580,8 @@ steps(
   }),
   //ANC5
   combine(function (state) {
-    const { ANCs } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
     if (ANCs && ANCs.ANC_5) {
       upsert(
         "Service__c",
@@ -616,7 +625,8 @@ steps(
   //** Immunization Services ************************************************//
   //BCG REVIEWED
   combine(function (state) {
-    const { Immunizations } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
     if (Immunizations && Immunizations.BCG_h) {
       upsert(
         "Service__c",
@@ -634,7 +644,7 @@ steps(
           field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
           field(
             "Date__c",
-            dataValue("$.form.TT5.Child_Information.Immunizations.BCG")
+            dataValue("$.form.TT5.Child_Information.Immunizations.BCG_h")
           ),
           field("Type_of_Service__c", "CHW Mobile Survey"),
           field("RecordTypeID", "01224000000YAuK"),
@@ -658,7 +668,8 @@ steps(
   }),
   //OPV0 REVIEWED
   combine(function (state) {
-    const { Immunizations } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
     if (Immunizations && Immunizations.OPV0_h) {
       upsert(
         "Service__c",
@@ -700,7 +711,8 @@ steps(
   }),
   //OPV1 REVIEWED
   combine(function (state) {
-    const { Immunizations } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
     if (Immunizations && Immunizations.OPV1_h) {
       upsert(
         "Service__c",
@@ -744,7 +756,8 @@ steps(
   }),
   //OPV2
   combine(function (state) {
-    const { Immunizations } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
     if (Immunizations && Immunizations.OPV2_h) {
       upsert(
         "Service__c",
@@ -788,7 +801,8 @@ steps(
   }),
   //OPV3
   combine(function (state) {
-    const { Immunizations } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
     if (Immunizations && Immunizations.OPV3_h) {
       upsert(
         "Service__c",
@@ -806,9 +820,7 @@ steps(
           field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
           field(
             "Date__c",
-            dataValue(
-              "$.form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_3"
-            )
+            dataValue("$.form.TT5.Child_Information.Immunizations.OPV3_h")
           ),
           field("Type_of_Service__c", "CHW Mobile Survey"),
           field("RecordTypeID", "01224000000YAuK"),
@@ -832,7 +844,8 @@ steps(
   }),
   //Measles 6
   combine(function (state) {
-    const { Immunizations } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
     if (Immunizations && Immunizations.Measles6_h) {
       upsert(
         "Service__c",
@@ -874,7 +887,8 @@ steps(
   }),
   //Measles 9
   combine(function (state) {
-    const { Immunizations } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
     if (Immunizations && Immunizations.Measles9_h) {
       upsert(
         "Service__c",
@@ -917,7 +931,8 @@ steps(
 
   //Measles 18
   combine(function (state) {
-    const { Immunizations } = state.data.form.TT5.Child_Information;
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
     if (Immunizations && Immunizations.Measles18_h) {
       upsert(
         "Service__c",
@@ -1031,6 +1046,7 @@ steps(
       )(state);
     }
   }),
+
   //Malaria cases
   //Child
   combine(function (state) {
@@ -1038,128 +1054,102 @@ steps(
       dataValue("$.form.TT5.Child_Information.CCMM.Home_Test_Result")(state) ==
       "Positive"
     ) {
-      //REVIEWED
-      if (
-        dataValue("$.form.TT5.Child_Information.CCMM.Malaria_Referral")(
-          state
-        ) == "Yes"
-      ) {
-        //This block got moved to the referral section, malaria referral case
-      } else {
-        //Malaria home treatment case
-        upsert(
-          "Service__c",
-          "Service_UID__c",
-          fields(
-            field("Service_UID__c", (state) => {
-              const id = dataValue("$.form.case.@case_id")(state);
-              const date = dataValue("$.form.Date")(state);
-              return id + date + "Malaria-Home-Treatment";
-            }),
-            field("Source__c", 1),
-            field("Date__c", dataValue("$.form.Date")),
-            field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-            field("Type_of_Service__c", "CHW Mobile Survey"),
-            field("Reason_for_Service__c", "Malaria (Home Treatment)"),
-            field(
-              "Home_Treatment__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment")
-            ),
-            field("RecordTypeID", "01224000000kOto"),
-            field("Open_Case__c", 1),
-            field("Malaria_Status__c", "Positive"),
-            field(
-              "AL_Tablets__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.AL")
-            ),
-            field(
-              "Paracetamol_Tablets__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.Paracetamol")
-            ),
-            field(
-              "Follow_Up_By_Date__c",
-              dataValue("$.form.Follow-Up_By_Date")
-            ),
-            field(
-              "Home_Treatment_Date__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.test_date")
-            ),
-            field(
-              "Malaria_Home_Test_Date__c",
-              dataValue("$.form.TT5.Child_Information.CCMM.test_date")
-            ),
-            field(
-              "CommCare_Code__c",
-              dataValue("form.subcase_0.case.@case_id")
-            ),
-            relationship(
-              "Person__r",
-              "CommCare_ID__c",
-              dataValue("$.form.case.@case_id")
-            )
+      upsert(
+        "Service__c",
+        "Service_UID__c",
+        fields(
+          field("Service_UID__c", (state) => {
+            const id = dataValue("$.form.case.@case_id")(state);
+            const date = dataValue("$.form.Date")(state);
+            return id + date + "Malaria-Home-Treatment";
+          }),
+          field("Source__c", 1),
+          field("Date__c", dataValue("$.form.Date")),
+          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field("Type_of_Service__c", "CHW Mobile Survey"),
+          field("Reason_for_Service__c", "Malaria (Home Treatment)"),
+          field(
+            "Home_Treatment__c",
+            dataValue("$.form.TT5.Child_Information.CCMM.Home_Treatment")
+          ),
+          field("RecordTypeID", "01224000000kOto"),
+          field("Open_Case__c", 1),
+          field("Malaria_Status__c", "Positive"),
+          field(
+            "AL_Tablets__c",
+            dataValue("$.form.TT5.Child_Information.CCMM.AL")
+          ),
+          field(
+            "Paracetamol_Tablets__c",
+            dataValue("$.form.TT5.Child_Information.CCMM.Paracetamol")
+          ),
+          field("Follow_Up_By_Date__c", dataValue("$.form.Follow-Up_By_Date")),
+          field(
+            "Home_Treatment_Date__c",
+            dataValue("$.form.TT5.Child_Information.CCMM.test_date")
+          ),
+          field(
+            "Malaria_Home_Test_Date__c",
+            dataValue("$.form.TT5.Child_Information.CCMM.test_date")
+          ),
+          field("CommCare_Code__c", dataValue("form.subcase_0.case.@case_id")),
+          relationship(
+            "Person__r",
+            "CommCare_ID__c",
+            dataValue("$.form.case.@case_id")
           )
-        )(state);
-      }
+        )
+      )(state);
     }
   }),
   //Malaria cases
   //HAWI Client
   combine(function (state) {
     if (dataValue("$.form.HAWI.CCMM.Home_Test_Result")(state) == "Positive") {
-      //REVIEWED
-      if (dataValue("$.form.HAWI.CCMM.Malaria_Referral")(state) == "Yes") {
-      } else {
-        //Malaria home treatment case
-        upsert(
-          "Service__c",
-          "Service_UID__c",
-          fields(
-            field("Source__c", 1),
-            field("Service_UID__c", (state) => {
-              const id = dataValue("$.form.case.@case_id")(state);
-              const date = dataValue("$.form.Date")(state);
-              return id + date + "Malaria-Home-Treatment";
-            }),
-            field("Date__c", dataValue("$.form.Date")),
-            field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
-            field("Type_of_Service__c", "CHW Mobile Survey"),
-            field("Reason_for_Service__c", "Malaria (Home Treatment)"),
-            field(
-              "Home_Treatment__c",
-              dataValue("$.form.HAWI.CCMM.Home_Treatment")
-            ),
-            field("RecordTypeID", "01224000000kOto"),
-            field("Open_Case__c", 1),
-            field("Malaria_Status__c", "Positive"),
-            field("AL_Tablets__c", dataValue("$.form.HAWI.CCMM.AL")),
-            field(
-              "Paracetamol_Tablets__c",
-              dataValue("$.form.HAWI.CCMM.Paracetamol")
-            ),
-            field(
-              "Follow_Up_By_Date__c",
-              dataValue("$.form.Follow-Up_By_Date")
-            ),
-            field(
-              "Home_Treatment_Date__c",
-              dataValue("$.form.HAWI.CCMM.test_date")
-            ),
-            field(
-              "Malaria_Home_Test_Date__c",
-              dataValue("$.form.HAWI.CCMM.test_date")
-            ),
-            field(
-              "CommCare_Code__c",
-              dataValue("form.subcase_0.case.@case_id")
-            ),
-            relationship(
-              "Person__r",
-              "CommCare_ID__c",
-              dataValue("$.form.case.@case_id")
-            )
+      //Malaria home treatment case
+      upsert(
+        "Service__c",
+        "Service_UID__c",
+        fields(
+          field("Source__c", 1),
+          field("Service_UID__c", (state) => {
+            const id = dataValue("$.form.case.@case_id")(state);
+            const date = dataValue("$.form.Date")(state);
+            return id + date + "Malaria-Home-Treatment";
+          }),
+          field("Date__c", dataValue("$.form.Date")),
+          field("Household_CHW__c", dataValue("$.form.CHW_ID_Final")),
+          field("Type_of_Service__c", "CHW Mobile Survey"),
+          field("Reason_for_Service__c", "Malaria (Home Treatment)"),
+          field(
+            "Home_Treatment__c",
+            dataValue("$.form.HAWI.CCMM.Home_Treatment")
+          ),
+          field("RecordTypeID", "01224000000kOto"),
+          field("Open_Case__c", 1),
+          field("Malaria_Status__c", "Positive"),
+          field("AL_Tablets__c", dataValue("$.form.HAWI.CCMM.AL")),
+          field(
+            "Paracetamol_Tablets__c",
+            dataValue("$.form.HAWI.CCMM.Paracetamol")
+          ),
+          field("Follow_Up_By_Date__c", dataValue("$.form.Follow-Up_By_Date")),
+          field(
+            "Home_Treatment_Date__c",
+            dataValue("$.form.HAWI.CCMM.test_date")
+          ),
+          field(
+            "Malaria_Home_Test_Date__c",
+            dataValue("$.form.HAWI.CCMM.test_date")
+          ),
+          field("CommCare_Code__c", dataValue("form.subcase_0.case.@case_id")),
+          relationship(
+            "Person__r",
+            "CommCare_ID__c",
+            dataValue("$.form.case.@case_id")
           )
-        )(state);
-      }
+        )
+      )(state);
     }
   }),
 

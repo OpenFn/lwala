@@ -8,7 +8,7 @@ alterState((state) =>{
 });
 
 upsert("Household__c", "CommCare_Code__c", fields(
-  field("Name","New"),
+  field("Name","0000"),
   field("Catchment__c",function(state){
     if(dataValue("form.catchment")(state)=="East Kamagambo"){
       return("a002400000pAcQt");
