@@ -544,8 +544,10 @@ steps(
           field('Source__c', 1),
           field('Reason_for_Service__c', 'ANC 1'),
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-          field('Date__c', dataValue('form.TT5.Child_Information.ANCs.ANC_1')),
-          field('ANC_1__c', dataValue('form.TT5.Child_Information.ANCs.ANC_1')),
+          field('Date__c', (state)=>{
+            var date = dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state);
+            return date ? date : state.data.form.case.update.ANC_1; 
+          }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('Purpose_of_Referral__c', 'ANC 1'),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
@@ -587,7 +589,10 @@ steps(
           field('Source__c', 1),
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
           field('Reason_for_Service__c', 'ANC 2'),
-          field('Date__c', dataValue('form.TT5.Child_Information.ANCs.ANC_2')),
+          field('Date__c', (state)=>{
+            var date = dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state);
+            return date ? date : state.data.form.case.update.ANC_2; 
+          }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('ANC_2__c', dataValue('form.TT5.Child_Information.ANCs.ANC_2')),
           field('Purpose_of_Referral__c', 'ANC 2'),
@@ -630,7 +635,10 @@ steps(
           field('Source__c', true),
           field('Reason_for_Service__c', 'ANC 3'),
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-          field('Date__c', dataValue('form.TT5.Child_Information.ANCs.ANC_3')),
+          field('Date__c', (state)=>{
+            var date = dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state);
+            return date ? date : state.data.form.case.update.ANC_3; 
+          }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('ANC_3__c', dataValue('form.TT5.Child_Information.ANCs.ANC_3')),
           field('Purpose_of_Referral__c', 'ANC 3'),
@@ -673,7 +681,10 @@ steps(
           field('Source__c', 1),
           field('Reason_for_Service__c', 'ANC 4'),
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-          field('Date__c', dataValue('form.TT5.Child_Information.ANCs.ANC_4')),
+          field('Date__c', (state)=>{
+            var date = dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state);
+            return date ? date : state.data.form.case.update.ANC_4; 
+          }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('ANC_4__c', dataValue('form.TT5.Child_Information.ANCs.ANC_4')),
           field('Purpose_of_Referral__c', 'ANC 4'),
@@ -716,7 +727,10 @@ steps(
           field('Source__c', 1),
           field('Reason_for_Service__c', 'ANC 5'),
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-          field('Date__c', dataValue('form.TT5.Child_Information.ANCs.ANC_5')),
+          field('Date__c', (state)=>{
+            var date = dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state);
+            return date ? date : state.data.form.case.update.ANC_5; 
+          }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('ANC_5__c', dataValue('form.TT5.Child_Information.ANCs.ANC_5')),
           field('Purpose_of_Referral__c', 'ANC 5'),
