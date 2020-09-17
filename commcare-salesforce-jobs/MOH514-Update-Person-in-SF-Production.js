@@ -539,11 +539,11 @@ alterState(state => {
 
 //--- UPSERT SERVICE RECORDS ---/
 // ANC1
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { ANCs } = TT5 ? TT5.Child_Information : '';
   if ((ANCs && ANCs.ANC_1) || state.data.form.case.update.ANC_1) {
-    upsert(
+    return upsert(
       'Service__c',
       'Service_UID__c',
       fields(
@@ -582,14 +582,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No ANC1.');
+  return state;
 });
 
 //ANC2
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { ANCs } = TT5 ? TT5.Child_Information : '';
   if ((ANCs && ANCs.ANC_2) || state.data.form.case.update.ANC_2) {
-    upsert(
+    return upsert(
       'Service__c',
       'Service_UID__c',
       fields(
@@ -628,14 +631,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No ANC2.');
+  return state;
 });
 
 //ANC3
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { ANCs } = TT5 ? TT5.Child_Information : '';
   if ((ANCs && ANCs.ANC_3) || state.data.form.case.update.ANC_3) {
-    upsert(
+    return upsert(
       'Service__c',
       'Service_UID__c',
       fields(
@@ -674,14 +680,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No ANC3.');
+  return state;
 });
 
 //ANC4
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { ANCs } = TT5 ? TT5.Child_Information : '';
   if ((ANCs && ANCs.ANC_4) || state.data.form.case.update.ANC_4) {
-    upsert(
+    return upsert(
       'Service__c',
       'Service_UID__c',
       fields(
@@ -720,14 +729,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No ANC4.');
+  return state;
 });
 
 //ANC5
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { ANCs } = TT5 ? TT5.Child_Information : '';
   if ((ANCs && ANCs.ANC_5) || state.data.form.case.update.ANC_5) {
-    upsert(
+    return upsert(
       'Service__c',
       'Service_UID__c',
       fields(
@@ -766,17 +778,20 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No ANC5.');
+  return state;
 });
 
-//BCG REVIEWED
-combine(state => {
+// BCG REVIEWED
+alterState(state => {
   const { TT5 } = state.data.form;
   const { Immunizations } = TT5 ? TT5.Child_Information : '';
   if (
     (Immunizations && Immunizations.BCG_h) ||
     state.data.form.case.update.BCG
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'Service_UID__c',
       fields(
@@ -814,15 +829,18 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('Not BCG REVIEWED.');
+  return state;
 });
 
-//OPV0 REVIEWED
-combine(state => {
+// OPV0 REVIEWED
+alterState(state => {
   if (
     dataValue('form.TT5.Child_Information.Immunizations.OPV_0')(state) ==
     'click_to_enter_anc_3'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -865,14 +883,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('Not OPV0 reviewed.');
+  return state;
 });
 
-//OPV1 REVIEWED
-combine(state => {
+// OPV1 REVIEWED
+alterState(state => {
   const { TT5 } = state.data.form;
   const { Immunizations } = TT5 ? TT5.Child_Information : '';
   if (Immunizations && Immunizations.OPV1_h) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -915,14 +936,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('Not OPV1 reviewed.');
+  return state;
 });
 
-//OPV2
-combine(state => {
+// OPV2
+alterState(state => {
   const { TT5 } = state.data.form;
   const { Immunizations } = TT5 ? TT5.Child_Information : '';
   if (Immunizations && Immunizations.OPV2_h) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -965,14 +989,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('Not OPV2 reviewed.');
+  return state;
 });
 
 //OPV3
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { Immunizations } = TT5 ? TT5.Child_Information : '';
   if (Immunizations && Immunizations.OPV3_h) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1014,14 +1041,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('Not OPV3 reviewed.');
+  return state;
 });
 
 //Measles 6
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { Immunizations } = TT5 ? TT5.Child_Information : '';
   if (Immunizations && Immunizations.Measles6_h) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1063,14 +1093,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No measles 6.');
+  return state;
 });
 
 //Measles 9
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { Immunizations } = TT5 ? TT5.Child_Information : '';
   if (Immunizations && Immunizations.Measles9_h) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1112,14 +1145,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No measles 9.');
+  return state;
 });
 
 //Measles 18
-combine(state => {
+alterState(state => {
   const { TT5 } = state.data.form;
   const { Immunizations } = TT5 ? TT5.Child_Information : '';
   if (Immunizations && Immunizations.Measles18_h) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1161,12 +1197,15 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No measles 18.');
+  return state;
 });
 
 //Deworming
-combine(state => {
+alterState(state => {
   if (dataValue('form.TT5.Child_Information.Deworming')(state) == 'Yes') {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1190,17 +1229,20 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No deworming.');
+  return state;
 });
 
 //Home Based care for HAWI clients
-combine(state => {
+alterState(state => {
   if (
     dataValue('form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(state) !==
       undefined &&
     dataValue('form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(state) !==
       ''
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1233,13 +1275,16 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No HAWI HBC.');
+  return state;
 });
 
 //Malaria cases
 //Child
-combine(state => {
+alterState(state => {
   if (dataValue('form.treatment_and_tracking.malaria_test')(state) === 'yes') {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1281,16 +1326,19 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No malaria test.');
+  return state;
 });
 
 //Malnutrition case
-combine(state => {
+alterState(state => {
   if (
     dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
       state
     ) !== undefined
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1362,16 +1410,19 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No malnutrition.');
+  return state;
 });
 
 //Referrals ... check on Site__r mappings and PNC service
 //Other Referrals
-combine(state => {
+alterState(state => {
   if (
     dataValue('form.treatment_and_tracking.symptoms_other_referral')(state) ==
     'yes'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1410,16 +1461,19 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No other referral.');
+  return state;
 });
 
 //Skilled Delivery Referral
-combine(state => {
+alterState(state => {
   if (
     dataValue(
       'form.TT5.Child_Information.pregnancy_danger_signs.refer_skilled_delivery'
     )(state) == 'yes'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1449,16 +1503,19 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No skilled delivery.');
+  return state;
 });
 
 //Prenancy danger signs Referral
-combine(state => {
+alterState(state => {
   if (
     dataValue(
       'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral'
     )(state) == 'Yes'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1501,17 +1558,20 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No danger signs.');
+  return state;
 });
 
 //PNC Referral ---> TO UPDATE
-combine(state => {
+alterState(state => {
   if (
     dataValue(
       'form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc'
     )(state) == 'yes'
   ) {
     //Update when Julia updates group ???
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1541,14 +1601,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No PNC.');
+  return state;
 });
 
 //Malnutrition Referral
-combine(state => {
+alterState(state => {
   if (
     dataValue('form.TT5.Child_Information.Nutrition2.Referral')(state) == 'yes'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1594,16 +1657,19 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No malnutrition referral.');
+  return state;
 });
 
 //Child Danger Sign Referral
-combine(state => {
+alterState(state => {
   if (
     dataValue(
       'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Referral'
     )(state) == 'yes'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1641,12 +1707,15 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No danger sign referral.');
+  return state;
 });
 
 //TB Referral
-combine(state => {
+alterState(state => {
   if (dataValue('form.treatment_and_tracking.TB_referral')(state) == 'yes') {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1685,14 +1754,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No tb referral.');
+  return state;
 });
 
 //Diarrhea Referral
-combine(state => {
+alterState(state => {
   if (
     dataValue('form.treatment_and_tracking.diarrhea_referral')(state) == 'yes'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1731,14 +1803,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No diarrhea referral.');
+  return state;
 });
 
 //Malaria Referral
-combine(state => {
+alterState(state => {
   if (
     dataValue('form.treatment_and_tracking.malaria_referral')(state) == 'yes'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -1777,12 +1852,15 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No malaria referral.');
+  return state;
 });
 
 //HAWI other clinical services received
-combine(state => {
+alterState(state => {
   if (dataValue('form.HAWI.Clinical_Service_Q')(state) === 'yes') {
-    each(
+    return each(
       dataPath('form.HAWI.Clinical_Services_Rendered[*]'), //CHECK IF ARRAY
       upsert(
         'Service__c',
@@ -1829,14 +1907,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No other HAWI clinical services.');
+  return state;
 });
 
 //TT5 other clinical services received
-combine(state => {
+alterState(state => {
   if (
     dataValue('form.TT5.Child_Information.Clinical_Services_Q')(state) === 'Yes'
   ) {
-    each(
+    return each(
       dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
       upsert(
         'Service__c',
@@ -1881,12 +1962,15 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No other clinical services.');
+  return state;
 });
 
 //Upsert Visit records
-combine(state => {
+alterState(state => {
   if (dataValue('form.Source')(state) == 1) {
-    upsert(
+    return upsert(
       'Visit__c',
       'CommCare_Visit_ID__c',
       fields(
@@ -1920,14 +2004,17 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('form.Source is not 1, not upserting visit.');
+  return state;
 });
 
 //Map Zinc and ors
-combine(state => {
+alterState(state => {
   if (
     dataValue('form.TT5.Child_Information.Clinical_Services_Q')(state) === 'Yes'
   ) {
-    each(
+    return each(
       dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
       upsert(
         'Person__c',
@@ -1947,4 +2034,7 @@ combine(state => {
       )
     )(state);
   }
+
+  console.log('No zinc and ors.');
+  return state;
 });
