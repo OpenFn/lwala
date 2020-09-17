@@ -527,18 +527,20 @@ steps(
   //--- UPSERT SERVICE RECORDS ---/
   //ANC1
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.ANCs.copy-1-of-anc_1')(state) ==
-      'click_to_enter_anc_1'
-    ) {
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
+    const { Case } = state.data.form.case.update;
+    if (ANCs && ANCs.ANC_1 || Case.ANC_1) {
       upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
-          field('CommCare_Code__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + 'anc_1';
-            return serviceId;
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_1')(
+              state
+            );
+            return id + date + 'ANC1';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'ANC 1'),
@@ -569,18 +571,20 @@ steps(
   }),
   //ANC2
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.ANCs.copy-1-of-anc_2')(state) ==
-      'click_to_enter_anc_2'
-    ) {
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
+    const { Case } = state.data.form.case.update;
+    if (ANCs && ANCs.ANC_2 || Case.ANC_2) {
       upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
-          field('CommCare_Code__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + 'anc_2';
-            return serviceId;
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_2')(
+              state
+            );
+            return id + date + 'ANC2';
           }),
           field('Source__c', 1),
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
@@ -611,18 +615,20 @@ steps(
   }),
   //ANC3
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.ANCs.copy-1-of-anc_3')(state) ==
-      'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
+    const { Case } = state.data.form.case.update;
+    if (ANCs && ANCs.ANC_3 || Case.ANC_3) {
       upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
-          field('CommCare_Code__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + 'anc_3';
-            return serviceId;
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_3')(
+              state
+            );
+            return id + date + 'ANC3';
           }),
           field('Source__c', true),
           field('Reason_for_Service__c', 'ANC 3'),
@@ -653,18 +659,20 @@ steps(
   }),
   //ANC4
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.ANCs.copy-2-of-anc_3')(state) ==
-      'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
+    const { Case } = state.data.form.case.update;
+    if (ANCs && ANCs.ANC_4 || Case.ANC_4) {
       upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
-          field('CommCare_Code__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + 'anc_4';
-            return serviceId;
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_4')(
+              state
+            );
+            return id + date + 'ANC4';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'ANC 4'),
@@ -695,18 +703,20 @@ steps(
   }),
   //ANC5
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.ANCs.copy-3-of-anc_3')(state) ==
-      'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { ANCs } = TT5 ? TT5.Child_Information : '';
+    const { Case } = state.data.form.case.update;
+    if (ANCs && ANCs.ANC_5 || Case.ANC_5) {
       upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
-          field('CommCare_Code__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + 'anc_5';
-            return serviceId;
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_5')(
+              state
+            );
+            return id + date + 'ANC5';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'ANC 5'),
