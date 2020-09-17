@@ -871,7 +871,7 @@ steps(
           field(
             'Date__c',
             dataValue(
-              'form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_1'
+              'form.TT5.Child_Information.Immunizations.OPV1_h'
             )
           ),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
@@ -922,7 +922,7 @@ steps(
           field(
             'Date__c',
             dataValue(
-              'form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_2'
+              'form.TT5.Child_Information.Immunizations.OPV2_h'
             )
           ),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
@@ -973,10 +973,9 @@ steps(
           field(
             'Date__c',
             dataValue(
-              'form.TT5.Child_Information.Immunizations.OPV_PCV_Penta_3'
+              'form.TT5.Child_Information.Immunizations.OPV3_h'
             )
           ),
-          field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
           relationship(
@@ -1023,9 +1022,8 @@ steps(
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
           field(
             'Date__c',
-            dataValue('form.TT5.Child_Information.Immunizations.Measles_6')
+            dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')
           ),
-          field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
           relationship(
@@ -1072,9 +1070,8 @@ steps(
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
           field(
             'Date__c',
-            dataValue('form.TT5.Child_Information.Immunizations.Measles_9')
+            dataValue('$.form.TT5.Child_Information.Immunizations.Measles9_h')
           ),
-          field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
           relationship(
@@ -1121,9 +1118,8 @@ steps(
           field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
           field(
             'Date__c',
-            dataValue('form.TT5.Child_Information.Immunizations.Measles_18')
+            dataValue('$.form.TT5.Child_Information.Immunizations.Measles18_h')
           ),
-          field('Follow_Up_By_Date__c', dataValue('form.Date')),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
           relationship(
