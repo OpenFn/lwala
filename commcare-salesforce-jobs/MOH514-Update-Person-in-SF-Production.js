@@ -797,7 +797,7 @@ steps(
   //OPV0 REVIEWED
   combine(state => {
     if (
-      dataValue('form.TT5.Child_Information.Immunizations.anc_3')(state) ==
+      dataValue('form.TT5.Child_Information.Immunizations.OPV_0')(state) ==
       'click_to_enter_anc_3'
     ) {
       upsert(
@@ -808,6 +808,13 @@ steps(
             var id = dataValue('id')(state);
             var serviceId = id + 'opv0';
             return serviceId;
+          }),
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue(
+              '$.form.TT5.Child_Information.Immunizations.OPV0_h'
+            )(state);
+            return id + date + 'OPV0';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'OPV0'),
@@ -839,11 +846,9 @@ steps(
   }),
   //OPV1 REVIEWED
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.Immunizations.copy-1-of-anc_3')(
-        state
-      ) == 'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
+    if (Immunizations && Immunizations.OPV1_h) {
       upsert(
         'Service__c',
         'CommCare_Code__c',
@@ -852,6 +857,13 @@ steps(
             var id = dataValue('id')(state);
             var serviceId = id + 'opv1';
             return serviceId;
+          }),
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue(
+              '$.form.TT5.Child_Information.Immunizations.OPV1_h'
+            )(state);
+            return id + date + 'OPV1';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'OPV1'),
@@ -885,11 +897,9 @@ steps(
   }),
   //OPV2
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.Immunizations.copy-2-of-anc_3')(
-        state
-      ) == 'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
+    if (Immunizations && Immunizations.OPV2_h) {
       upsert(
         'Service__c',
         'CommCare_Code__c',
@@ -898,6 +908,13 @@ steps(
             var id = dataValue('id')(state);
             var serviceId = id + 'opv2';
             return serviceId;
+          }),
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue(
+              '$.form.TT5.Child_Information.Immunizations.OPV2_h'
+            )(state);
+            return id + date + 'OPV2';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'OPV2'),
@@ -931,11 +948,9 @@ steps(
   }),
   //OPV3
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.Immunizations.copy-4-of-anc_3')(
-        state
-      ) == 'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
+    if (Immunizations && Immunizations.OPV3_h) {
       upsert(
         'Service__c',
         'CommCare_Code__c',
@@ -944,6 +959,13 @@ steps(
             var id = dataValue('id')(state);
             var serviceId = id + 'opv3';
             return serviceId;
+          }),
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue(
+              '$.form.TT5.Child_Information.Immunizations.OPV3_h'
+            )(state);
+            return id + date + 'OPV3';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'OPV3'),
@@ -977,11 +999,9 @@ steps(
   }),
   //Measles 6
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.Immunizations.copy-5-of-anc_3')(
-        state
-      ) == 'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
+    if (Immunizations && Immunizations.Measles6_h) {
       upsert(
         'Service__c',
         'CommCare_Code__c',
@@ -990,6 +1010,13 @@ steps(
             var id = dataValue('id')(state);
             var serviceId = id + 'measles6';
             return serviceId;
+          }),
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue(
+              '$.form.TT5.Child_Information.Immunizations.Measles6_h'
+            )(state);
+            return id + date + 'Measles6';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'Measles 6'),
@@ -1021,11 +1048,9 @@ steps(
   }),
   //Measles 9
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.Immunizations.copy-6-of-anc_3')(
-        state
-      ) == 'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
+    if (Immunizations && Immunizations.Measles9_h) {
       upsert(
         'Service__c',
         'CommCare_Code__c',
@@ -1034,6 +1059,13 @@ steps(
             var id = dataValue('id')(state);
             var serviceId = id + 'measles9';
             return serviceId;
+          }),
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue(
+              '$.form.TT5.Child_Information.Immunizations.Measles9_h'
+            )(state);
+            return id + date + 'Measles9';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'Measles 9'),
@@ -1065,11 +1097,9 @@ steps(
   }),
   //Measles 18
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.Immunizations.copy-7-of-anc_3')(
-        state
-      ) == 'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
+    if (Immunizations && Immunizations.Measles18_h) {
       upsert(
         'Service__c',
         'CommCare_Code__c',
@@ -1078,6 +1108,13 @@ steps(
             var id = dataValue('id')(state);
             var serviceId = id + 'measles18';
             return serviceId;
+          }),
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue(
+              '$.form.TT5.Child_Information.Immunizations.Measles18_h'
+            )(state);
+            return id + date + 'Measles18';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'Measles 18'),
