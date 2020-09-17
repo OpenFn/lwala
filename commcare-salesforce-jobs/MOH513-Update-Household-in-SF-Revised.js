@@ -1,7 +1,7 @@
 // REVISED Form - To replace old Update HH
 alterState(state => {
-  const deaths = state.data.form.household_deaths.deaths;
-  if (!Array.isArray(deaths)) {
+  const deaths = state.data.form.household_deaths ? state.data.form.household_deaths.deaths : '';
+  if (deaths !== '' &&!Array.isArray(deaths)) {
     state.data.form.household_deaths.deaths = [deaths];
   }
 
@@ -124,7 +124,7 @@ upsert(
       )
     ),
     upsertIf(
-      state.data.form.household_deaths.deaths_in_past_6_months && state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
+      state.data.form.household_deaths && state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
       'Person__c',
       'CommCare_ID__c',
       fields(
