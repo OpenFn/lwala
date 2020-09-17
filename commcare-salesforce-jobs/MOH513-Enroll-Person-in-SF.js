@@ -1,12 +1,12 @@
-//** MOH513 Enroll Person form ** -> Upserting person record based on CommCare ID
-combine(state => {
+// ** MOH513 Enroll Person form ** -> Upserting person record based on CommCare ID
+alterState(state => {
   if (dataValue('form.Source')(state) == 1) {
-    upsert(
+    return upsert(
       'Person__c',
       'CommCare_ID__c',
       fields(
         field('CommCare_ID__c', dataValue('form.subcase_0.case.@case_id')),
-        //relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")), //remove as Apex trigger maps relationships
+        // relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")), //remove as Apex trigger maps relationships
         relationship('Catchment__r', 'Name', dataValue('form.catchment')),
         field('Name', state => {
           var status = dataValue('form.Person.Basic_Information.Child_Status')(
@@ -356,58 +356,64 @@ combine(state => {
       )
     )(state);
   }
-}),
-  //**Update HH Members Total_Number_of_Members
-  combine(state => {
-    if (
-      dataValue('form.Person.Updated_Total_Number_of_Members')(state) !==
-        null &&
-      dataValue('form.Person.Updated_Total_Household_Members')(state) !==
-        undefined
-    ) {
-      upsert(
-        'Household__c',
-        'CommCare_Code__c',
-        fields(
-          field('CommCare_Code__c', dataValue('form.case.@case_id')),
-          field(
-            'Total_household_people__c',
-            dataValue('Updated_Total_Number_of_Members')
-          )
+  console.log('form.Source does not equal 1, not upserting person record.');
+  return state;
+});
+
+// **Update HH Members Total_Number_of_Members
+alterState(state => {
+  if (
+    dataValue('form.Person.Updated_Total_Number_of_Members')(state) !== null &&
+    dataValue('form.Person.Updated_Total_Household_Members')(state) !==
+      undefined
+  ) {
+    return upsert(
+      'Household__c',
+      'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', dataValue('form.case.@case_id')),
+        field(
+          'Total_household_people__c',
+          dataValue('Updated_Total_Number_of_Members')
         )
-      );
-    }
-  }),
-  //**Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
-  upsert(
-    'Visit__c',
-    'CommCare_Visit_ID__c',
-    fields(
-      field('CommCare_Visit_ID__c', dataValue('id')),
-      relationship(
-        'Household__r',
-        'CommCare_Code__c',
-        dataValue('form.case.@case_id')
-      ),
-      field('Name', 'CHW Visit'),
-      field('Supervisor_Visit__c', state => {
-        var visit = dataValue('form.supervisor_visit')(state);
-        return visit !== undefined
-          ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
-          : null;
-      }),
-      field('Date__c', dataValue('form.Date')),
-      field('Household_CHW__c', dataValue('form.CHW_ID')),
-      //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-      field('Location__latitude__s', state => {
-        var lat = state.data.metadata.location;
-        return lat !== null ? lat.substring(0, lat.indexOf(' ')) : null;
-      }),
-      field('Location__longitude__s', state => {
-        var long = state.data.metadata.location;
-        return long !== null
-          ? long.substring(long.indexOf(' ') + 1, long.indexOf(' ') + 7)
-          : null;
-      })
-    )
-  );
+      )
+    )(state);
+  }
+
+  console.log('Members are null or undefined, not upserting household.');
+  return state;
+});
+
+// **Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
+upsert(
+  'Visit__c',
+  'CommCare_Visit_ID__c',
+  fields(
+    field('CommCare_Visit_ID__c', dataValue('id')),
+    relationship(
+      'Household__r',
+      'CommCare_Code__c',
+      dataValue('form.case.@case_id')
+    ),
+    field('Name', 'CHW Visit'),
+    field('Supervisor_Visit__c', state => {
+      var visit = dataValue('form.supervisor_visit')(state);
+      return visit !== undefined
+        ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
+        : null;
+    }),
+    field('Date__c', dataValue('form.Date')),
+    field('Household_CHW__c', dataValue('form.CHW_ID')),
+    //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+    field('Location__latitude__s', state => {
+      var lat = state.data.metadata.location;
+      return lat !== null ? lat.substring(0, lat.indexOf(' ')) : null;
+    }),
+    field('Location__longitude__s', state => {
+      var long = state.data.metadata.location;
+      return long !== null
+        ? long.substring(long.indexOf(' ') + 1, long.indexOf(' ') + 7)
+        : null;
+    })
+  )
+);

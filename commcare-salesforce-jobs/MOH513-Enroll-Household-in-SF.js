@@ -365,6 +365,7 @@ alterState(state => {
       )
     )(state);
   }
+
   console.log('No first person found, not upserting.');
   return state;
 });
