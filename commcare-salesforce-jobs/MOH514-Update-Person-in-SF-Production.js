@@ -594,7 +594,6 @@ steps(
             return date ? date : state.data.form.case.update.ANC_2; 
           }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
-          field('ANC_2__c', dataValue('form.TT5.Child_Information.ANCs.ANC_2')),
           field('Purpose_of_Referral__c', 'ANC 2'),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
@@ -640,7 +639,6 @@ steps(
             return date ? date : state.data.form.case.update.ANC_3; 
           }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
-          field('ANC_3__c', dataValue('form.TT5.Child_Information.ANCs.ANC_3')),
           field('Purpose_of_Referral__c', 'ANC 3'),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
@@ -686,7 +684,6 @@ steps(
             return date ? date : state.data.form.case.update.ANC_4; 
           }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
-          field('ANC_4__c', dataValue('form.TT5.Child_Information.ANCs.ANC_4')),
           field('Purpose_of_Referral__c', 'ANC 4'),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
@@ -732,7 +729,6 @@ steps(
             return date ? date : state.data.form.case.update.ANC_5; 
           }),
           field('Follow_Up_By_Date__c', dataValue('form.Date')),
-          field('ANC_5__c', dataValue('form.TT5.Child_Information.ANCs.ANC_5')),
           field('Purpose_of_Referral__c', 'ANC 5'),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
