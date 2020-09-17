@@ -79,7 +79,7 @@ upsert(
       var deaths = dataValue('form.household_deaths.deaths_in_past_6_months')(
         state
       );
-      return deaths > 0 ? 'Yes' : 'No';
+      return deaths && deaths > 0 ? 'Yes' : 'No';
     }),
     field(
       'Total_household_people__c',
@@ -124,7 +124,7 @@ upsert(
       )
     ),
     upsertIf(
-      state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
+      state.data.form.household_deaths.deaths_in_past_6_months && state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
       'Person__c',
       'CommCare_ID__c',
       fields(
