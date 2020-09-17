@@ -752,19 +752,19 @@ steps(
   }),
   //BCG REVIEWED
   combine(state => {
-    if (
-      dataValue('form.TT5.Child_Information.Immunizations.copy-3-of-anc_3')(
-        state
-      ) == 'click_to_enter_anc_3'
-    ) {
+    const { TT5 } = state.data.form;
+    const { Immunizations } = TT5 ? TT5.Child_Information : '';
+    if (Immunizations && Immunizations.BCG_h || state.data.form.case.update.BCG) {
       upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
-          field('CommCare_Code__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + 'bcg';
-            return serviceId;
+          field('Service_UID__c', state => {
+            const id = dataValue('$.form.case.@case_id')(state);
+            const date = dataValue(
+              '$.form.TT5.Child_Information.Immunizations.BCG'
+            )(state);
+            return id + date + 'BCG';
           }),
           field('Source__c', 1),
           field('Reason_for_Service__c', 'BCG'),
