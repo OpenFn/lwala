@@ -530,7 +530,7 @@ steps(
     const { TT5 } = state.data.form;
     const { ANCs } = TT5 ? TT5.Child_Information : '';
     const { Case } = state.data.form.case.update;
-    if (ANCs && ANCs.ANC_1 || Case.ANC_1) {
+    if (ANCs && ANCs.ANC_1 || Case && Case.ANC_1) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -574,7 +574,7 @@ steps(
     const { TT5 } = state.data.form;
     const { ANCs } = TT5 ? TT5.Child_Information : '';
     const { Case } = state.data.form.case.update;
-    if (ANCs && ANCs.ANC_2 || Case.ANC_2) {
+    if (ANCs && ANCs.ANC_2 || Case && Case.ANC_2) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -618,7 +618,7 @@ steps(
     const { TT5 } = state.data.form;
     const { ANCs } = TT5 ? TT5.Child_Information : '';
     const { Case } = state.data.form.case.update;
-    if (ANCs && ANCs.ANC_3 || Case.ANC_3) {
+    if (ANCs && ANCs.ANC_3 || Case && Case.ANC_3) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -662,7 +662,7 @@ steps(
     const { TT5 } = state.data.form;
     const { ANCs } = TT5 ? TT5.Child_Information : '';
     const { Case } = state.data.form.case.update;
-    if (ANCs && ANCs.ANC_4 || Case.ANC_4) {
+    if (ANCs && ANCs.ANC_4 || Case && Case.ANC_4) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -706,7 +706,7 @@ steps(
     const { TT5 } = state.data.form;
     const { ANCs } = TT5 ? TT5.Child_Information : '';
     const { Case } = state.data.form.case.update;
-    if (ANCs && ANCs.ANC_5 || Case.ANC_5) {
+    if (ANCs && ANCs.ANC_5 || Case && Case.ANC_5) {
       upsert(
         'Service__c',
         'Service_UID__c',
