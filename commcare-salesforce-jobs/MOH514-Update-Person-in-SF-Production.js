@@ -1619,6 +1619,11 @@ alterState(state => {
           var serviceId = id + 'malnutrition';
           return serviceId;
         }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malnutrition';
+          return serviceId;
+        }),
         field('Source__c', 1),
         field('Date__c', dataValue('form.case.update.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
@@ -1640,7 +1645,7 @@ alterState(state => {
           'MUAC__c',
           dataValue('form.TT5.Child_Information.Nutrition.MUAC')
         ),
-        field('Nutrition_referral_facility__c', state => {
+        field('Clinical_facility__c', state => {
           var facility = dataValue(
             'form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition'
           )(state);
