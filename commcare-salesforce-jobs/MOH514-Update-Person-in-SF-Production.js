@@ -1300,7 +1300,6 @@ alterState(state => {
           return date !== undefined || date !== '' ? date : null;
         }),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Referral_Date__c', dataValue('form.Date')),
         field('Referred__c', 1),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000kOto'),
