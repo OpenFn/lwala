@@ -34,7 +34,7 @@ upsert(
       return reason !== undefined ? reason : null;
     }),
     field('Source__c', 1),
-    field('Household_village__c', dataValue('form.village')), //add to all MOH forms?
+    field('Household_village__c', dataValue('form.village')), 
     field(
       'Access_to_safe_water__c',
       dataValue('form.Household_Information.Safe_Water')
