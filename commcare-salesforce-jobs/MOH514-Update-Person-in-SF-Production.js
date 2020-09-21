@@ -42,6 +42,7 @@ alterState(state => {
           'CommCare_Code__c',
           dataValue('form.HH_ID')
         ),
+        field('Telephone__c', dataValue('form.Status.updated_phone_number')),
         field('CommCare_HH_Code__c', dataValue('form.HH_ID')),
         field('Client_Status__c', dataValue('form.Status.Client_Status')),
         field('Name', state => {
