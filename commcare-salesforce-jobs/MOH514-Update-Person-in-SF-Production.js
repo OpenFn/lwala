@@ -836,10 +836,9 @@ alterState(state => {
 
 // OPV0 REVIEWED
 alterState(state => {
-  if (
-    dataValue('form.TT5.Child_Information.Immunizations.OPV_0')(state) ==
-    'click_to_enter_anc_3'
-  ) {
+  const { TT5 } = state.data.form;
+  const { Immunizations } = TT5 ? TT5.Child_Information : '';
+  if (Immunizations && Immunizations.OPV0_h) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
