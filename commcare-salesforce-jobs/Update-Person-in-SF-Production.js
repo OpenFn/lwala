@@ -419,9 +419,7 @@ steps(
   //** ANC Services ************************************************//
   //ANC1
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { ANCs } = TT5 ? TT5.Child_Information : '';
-    if (ANCs && ANCs.ANC_1) {
+    if (dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -462,9 +460,7 @@ steps(
   }),
   //ANC2
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { ANCs } = TT5 ? TT5.Child_Information : '';
-    if (ANCs && ANCs.ANC_2) {
+    if (dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -505,9 +501,7 @@ steps(
   }),
   //ANC3
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { ANCs } = TT5 ? TT5.Child_Information : '';
-    if (ANCs && ANCs.ANC_3) {
+    if (dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -548,9 +542,7 @@ steps(
   }),
   //ANC4
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { ANCs } = TT5 ? TT5.Child_Information : '';
-    if (ANCs && ANCs.ANC_4) {
+    if (dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -591,9 +583,7 @@ steps(
   }),
   //ANC5
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { ANCs } = TT5 ? TT5.Child_Information : '';
-    if (ANCs && ANCs.ANC_5) {
+    if (dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -636,9 +626,10 @@ steps(
   //** Immunization Services ************************************************//
   //BCG REVIEWED
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { Immunizations } = TT5 ? TT5.Child_Information : '';
-    if (Immunizations && Immunizations.BCG_h) {
+    // const { TT5 } = state.data.form;
+    // const { Immunizations } = TT5 ? TT5.Child_Information : '';
+    // if (Immunizations && Immunizations.BCG_h) {
+    if (dataValue('form.TT5.Immunizations.BCG_h')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -679,9 +670,7 @@ steps(
   }),
   //OPV0 REVIEWED
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { Immunizations } = TT5 ? TT5.Child_Information : '';
-    if (Immunizations && Immunizations.OPV0_h) {
+    if (dataValue('form.TT5.Immunizations.BCGOPV0_h')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -722,9 +711,7 @@ steps(
   }),
   //OPV1 REVIEWED
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { Immunizations } = TT5 ? TT5.Child_Information : '';
-    if (Immunizations && Immunizations.OPV1_h) {
+    if (dataValue('form.TT5.Immunizations.OPV1_h')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -741,9 +728,7 @@ steps(
           field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
             'Date__c',
-            dataValue(
-              '$.form.TT5.Child_Information.Immunizations.OPV1_h'
-            )
+            dataValue('$.form.TT5.Child_Information.Immunizations.OPV1_h')
           ),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
@@ -767,9 +752,7 @@ steps(
   }),
   //OPV2
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { Immunizations } = TT5 ? TT5.Child_Information : '';
-    if (Immunizations && Immunizations.OPV2_h) {
+    if (dataValue('form.TT5.Immunizations.OPV2_h')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -786,9 +769,7 @@ steps(
           field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
           field(
             'Date__c',
-            dataValue(
-              '$.form.TT5.Child_Information.Immunizations.OPV2_h'
-            )
+            dataValue('$.form.TT5.Child_Information.Immunizations.OPV2_h')
           ),
           field('Type_of_Service__c', 'CHW Mobile Survey'),
           field('RecordTypeID', '01224000000YAuK'),
@@ -812,9 +793,7 @@ steps(
   }),
   //OPV3
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { Immunizations } = TT5 ? TT5.Child_Information : '';
-    if (Immunizations && Immunizations.OPV3_h) {
+    if (dataValue('form.TT5.Immunizations.OPV3_h')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -855,9 +834,7 @@ steps(
   }),
   //Measles 6
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { Immunizations } = TT5 ? TT5.Child_Information : '';
-    if (Immunizations && Immunizations.Measles6_h) {
+    if (dataValue('form.TT5.Immunizations.Measles6_h')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -898,9 +875,7 @@ steps(
   }),
   //Measles 9
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { Immunizations } = TT5 ? TT5.Child_Information : '';
-    if (Immunizations && Immunizations.Measles9_h) {
+    if (dataValue('form.TT5.Immunizations.Measles9_h')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -942,9 +917,7 @@ steps(
 
   //Measles 18
   combine(state => {
-    const { TT5 } = state.data.form;
-    const { Immunizations } = TT5 ? TT5.Child_Information : '';
-    if (Immunizations && Immunizations.Measles18_h) {
+    if (dataValue('form.TT5.Immunizations.Measles18_h')(state)) {
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -1320,10 +1293,7 @@ steps(
   //TO-DO fix array problem
   //HAWI other clinical services received,
   combine(state => {
-    if (
-      dataValue('$.form.HAWI.Clinical_Services_Rendered[0]')(state) !==
-      undefined
-    ) {
+    if (dataValue('$.form.HAWI.Clinical_Services_Rendered[0]')(state)) {
       each(
         dataPath('$.form.HAWI.Clinical_Services_Rendered[*]'),
         upsert(
@@ -1374,10 +1344,7 @@ steps(
   //TO-DO: fix array problem
   // TT5 other clinical services received
   combine(state => {
-    if (
-      dataValue('$.form.TT5.Child_Information.Clinical_Services[0]')(state) !==
-      undefined
-    ) {
+    if (dataValue('$.form.TT5.Child_Information.Clinical_Services[0]')(state)) {
       each(
         dataPath('$.form.TT5.Child_Information.Clinical_Services[*]'),
         upsert(
