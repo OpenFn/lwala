@@ -541,7 +541,7 @@ alterState(state => {
 //--- UPSERT SERVICE RECORDS ---/
 // ANC1
 alterState(state => {
-  if (state.data.form.TT5.Child_Information.ANCs.ANC_1) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -588,7 +588,7 @@ alterState(state => {
 
 //ANC2
 alterState(state => {
-  if (state.data.form.TT5.Child_Information.ANCs.ANC_2) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -635,7 +635,7 @@ alterState(state => {
 
 //ANC3
 alterState(state => {
-  if (state.data.form.TT5.Child_Information.ANCs.ANC_3) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -682,7 +682,7 @@ alterState(state => {
 
 //ANC4
 alterState(state => {
-  if (state.data.form.TT5.Child_Information.ANCs.ANC_4) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -729,7 +729,7 @@ alterState(state => {
 
 //ANC5
 alterState(state => {
-  if (state.data.form.TT5.Child_Information.ANCs.ANC_5) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -776,12 +776,7 @@ alterState(state => {
 
 // BCG REVIEWED
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { Immunizations } = TT5 ? TT5.Child_Information : '';
-  if (
-    (Immunizations && Immunizations.BCG_h) ||
-    state.data.form.case.update.BCG
-  ) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.BCG')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -827,9 +822,7 @@ alterState(state => {
 
 // OPV0 REVIEWED
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { Immunizations } = TT5 ? TT5.Child_Information : '';
-  if (Immunizations && Immunizations.OPV0_h) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.OPV0_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -880,9 +873,7 @@ alterState(state => {
 
 // OPV1 REVIEWED
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { Immunizations } = TT5 ? TT5.Child_Information : '';
-  if (Immunizations && Immunizations.OPV1_h) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -933,9 +924,7 @@ alterState(state => {
 
 // OPV2
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { Immunizations } = TT5 ? TT5.Child_Information : '';
-  if (Immunizations && Immunizations.OPV2_h) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -986,9 +975,7 @@ alterState(state => {
 
 //OPV3
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { Immunizations } = TT5 ? TT5.Child_Information : '';
-  if (Immunizations && Immunizations.OPV3_h) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -1038,9 +1025,7 @@ alterState(state => {
 
 //Measles 6
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { Immunizations } = TT5 ? TT5.Child_Information : '';
-  if (Immunizations && Immunizations.Measles6_h) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -1090,9 +1075,7 @@ alterState(state => {
 
 //Measles 9
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { Immunizations } = TT5 ? TT5.Child_Information : '';
-  if (Immunizations && Immunizations.Measles9_h) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.Measles9_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -1142,9 +1125,7 @@ alterState(state => {
 
 //Measles 18
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { Immunizations } = TT5 ? TT5.Child_Information : '';
-  if (Immunizations && Immunizations.Measles18_h) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.Measles18_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
