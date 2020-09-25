@@ -781,7 +781,7 @@ alterState(state => {
 
 // BCG REVIEWED
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.Immunizations.BCG')(state)) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.BCG')(state) || dataValue('form.case.update.BCG')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -791,15 +791,16 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.BCG'
           )(state);
-          return id + date + 'BCG';
+          const date2 =  date ? date : dataValue('form.case.update.BCG')(state); 
+          return id + date2 + 'BCG';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'BCG'),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field(
-          'Date__c',
-          dataValue('form.TT5.Child_Information.Immunizations.BCG')
-        ),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.BCG')(state);
+          return date ? date : state.data.form.case.update.BCG;
+        }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
@@ -827,7 +828,7 @@ alterState(state => {
 
 // OPV0 REVIEWED
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.Immunizations.OPV0_h')(state)) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.OPV0_h')(state) || dataValue('form.case.update.OPV0_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -842,15 +843,16 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.OPV0_h'
           )(state);
-          return id + date + 'OPV0';
+          const date2 =  date ? date : dataValue('form.case.update.OPV0_h')(state); 
+          return id + date2 + 'OPV0';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'OPV0'),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field(
-          'Date__c',
-          dataValue('form.TT5.Child_Information.Immunizations.OPV_0')
-        ),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.OPV0_h')(state);
+          return date ? date : state.data.form.case.update.OPV0_h;
+        }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
@@ -878,7 +880,7 @@ alterState(state => {
 
 // OPV1 REVIEWED
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')(state)) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')(state) || dataValue('form.case.update.OPV1_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -893,15 +895,16 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.OPV1_h'
           )(state);
-          return id + date + 'OPV1';
+          const date2 =  date ? date : dataValue('form.case.update.OPV1_h')(state); 
+          return id + date2 + 'OPV1';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'OPV1'),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field(
-          'Date__c',
-          dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')
-        ),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')(state);
+          return date ? date : state.data.form.case.update.OPV1_h;
+        }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
@@ -929,7 +932,7 @@ alterState(state => {
 
 // OPV2
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')(state)) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')(state) || dataValue('form.case.update.OPV2_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -944,15 +947,16 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.OPV2_h'
           )(state);
-          return id + date + 'OPV2';
+          const date2 =  date ? date : dataValue('form.case.update.OPV2_h')(state); 
+          return id + date2 + 'OPV2';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'OPV2'),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field(
-          'Date__c',
-          dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')
-        ),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')(state);
+          return date ? date : state.data.form.case.update.OPV2_h;
+        }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
@@ -980,7 +984,7 @@ alterState(state => {
 
 //OPV3
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')(state)) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')(state) || dataValue('form.case.update.OPV3_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -995,15 +999,16 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.OPV3_h'
           )(state);
-          return id + date + 'OPV3';
+          const date2 =  date ? date : dataValue('form.case.update.OPV3_h')(state); 
+          return id + date2 + 'OPV3';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'OPV3'),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field(
-          'Date__c',
-          dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')
-        ),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')(state);
+          return date ? date : state.data.form.case.update.OPV3_h;
+        }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
         relationship(
@@ -1030,7 +1035,7 @@ alterState(state => {
 
 //Measles 6
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')(state)) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')(state) || dataValue('form.case.update.Measles6_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -1045,15 +1050,16 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.Measles6_h'
           )(state);
-          return id + date + 'Measles6';
+          const date2 =  date ? date : dataValue('form.case.update.Measles6_h')(state); 
+          return id + date2 + 'Measles6';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'Measles 6'),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field(
-          'Date__c',
-          dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')
-        ),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')(state);
+          return date ? date : state.data.form.case.update.Measles6_h;
+        }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
         relationship(
@@ -1080,7 +1086,7 @@ alterState(state => {
 
 //Measles 9
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.Immunizations.Measles9_h')(state)) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.Measles9_h')(state) || dataValue('form.case.update.Measles9_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -1095,15 +1101,16 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.Measles9_h'
           )(state);
-          return id + date + 'Measles9';
+          const date2 =  date ? date : dataValue('form.case.update.Measles9_h')(state); 
+          return id + date2 + 'Measles9';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'Measles 9'),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field(
-          'Date__c',
-          dataValue('$.form.TT5.Child_Information.Immunizations.Measles9_h')
-        ),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.Measles9_h')(state);
+          return date ? date : state.data.form.case.update.Measles9_h;
+        }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
         relationship(
@@ -1130,7 +1137,7 @@ alterState(state => {
 
 //Measles 18
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.Immunizations.Measles18_h')(state)) {
+  if (dataValue('form.TT5.Child_Information.Immunizations.Measles18_h')(state) || dataValue('form.case.update.Measles18_h')(state)) {
     return upsert(
       'Service__c',
       'CommCare_Code__c',
@@ -1145,15 +1152,16 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.Measles18_h'
           )(state);
-          return id + date + 'Measles18';
+          const date2 =  date ? date : dataValue('form.case.update.Measles18_h')(state); 
+          return id + date2 + 'Measles18';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'Measles 18'),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field(
-          'Date__c',
-          dataValue('$.form.TT5.Child_Information.Immunizations.Measles18_h')
-        ),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.Measles18_h')(state);
+          return date ? date : state.data.form.case.update.Measles18_h;
+        }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
         relationship(
