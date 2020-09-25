@@ -1621,7 +1621,8 @@ alterState(state => {
             'form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition'
           )(state);
           return facility !== undefined
-            ? facility.toString().replace(/_/g, ' ')
+            //? facility.toString().replace(/_/g, ' ')
+            ? facility.charAt(0).toUpperCase() + facility.substr(1).toLowerCase().replace(/_/g, ' ')
             : null;
         }),
         relationship(
