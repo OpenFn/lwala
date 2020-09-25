@@ -541,9 +541,7 @@ alterState(state => {
 //--- UPSERT SERVICE RECORDS ---/
 // ANC1
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { ANCs } = TT5 ? TT5.Child_Information : '';
-  if ((ANCs && ANCs.ANC_1) || state.data.form.case.update.ANC_1) {
+  if (state.data.form.TT5.Child_Information.ANCs.ANC_1) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -590,9 +588,7 @@ alterState(state => {
 
 //ANC2
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { ANCs } = TT5 ? TT5.Child_Information : '';
-  if ((ANCs && ANCs.ANC_2) || state.data.form.case.update.ANC_2) {
+  if (state.data.form.TT5.Child_Information.ANCs.ANC_2) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -639,9 +635,7 @@ alterState(state => {
 
 //ANC3
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { ANCs } = TT5 ? TT5.Child_Information : '';
-  if ((ANCs && ANCs.ANC_3) || state.data.form.case.update.ANC_3) {
+  if (state.data.form.TT5.Child_Information.ANCs.ANC_3) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -688,9 +682,7 @@ alterState(state => {
 
 //ANC4
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { ANCs } = TT5 ? TT5.Child_Information : '';
-  if ((ANCs && ANCs.ANC_4) || state.data.form.case.update.ANC_4) {
+  if (state.data.form.TT5.Child_Information.ANCs.ANC_4) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -737,9 +729,7 @@ alterState(state => {
 
 //ANC5
 alterState(state => {
-  const { TT5 } = state.data.form;
-  const { ANCs } = TT5 ? TT5.Child_Information : '';
-  if ((ANCs && ANCs.ANC_5) || state.data.form.case.update.ANC_5) {
+  if (state.data.form.TT5.Child_Information.ANCs.ANC_5) {
     return upsert(
       'Service__c',
       'Service_UID__c',
