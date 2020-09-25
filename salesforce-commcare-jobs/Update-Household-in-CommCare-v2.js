@@ -156,7 +156,7 @@ submit(
           'n0:Total_Household_Members': dataValue(
             'new[0].Total_Number_of_Members__c'
           )(state),
-          Total_Number_of_Members: dataValue('Total_household_people__c')(
+          Total_Number_of_Members: dataValue('new[0].Total_household_people__c')(
             state
           ), //NEW
           'n0:Household_Status': () => {
