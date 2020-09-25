@@ -541,7 +541,7 @@ alterState(state => {
 //--- UPSERT SERVICE RECORDS ---/
 // ANC1
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state)) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state) || dataValue('form.ANCs.ANC_1')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -551,7 +551,8 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_1')(
             state
           );
-          return id + date + 'ANC1';
+          const date2 =  date ? date : dataValue('form.ANCs.ANC_1')(state); 
+          return id + date2 + 'ANC1';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'ANC 1'),
@@ -588,7 +589,7 @@ alterState(state => {
 
 //ANC2
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state)) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state) || dataValue('form.ANCs.ANC_2')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -598,7 +599,8 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_2')(
             state
           );
-          return id + date + 'ANC2';
+          const date2 =  date ? date : dataValue('form.ANCs.ANC_2')(state); 
+          return id + date2 + 'ANC2';
         }),
         field('Source__c', 1),
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
@@ -635,7 +637,7 @@ alterState(state => {
 
 //ANC3
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state)) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state) || dataValue('form.ANCs.ANC_3')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -645,7 +647,8 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_3')(
             state
           );
-          return id + date + 'ANC3';
+          const date2 =  date ? date : dataValue('form.ANCs.ANC_3')(state); 
+          return id + date2 + 'ANC3';
         }),
         field('Source__c', true),
         field('Reason_for_Service__c', 'ANC 3'),
@@ -682,7 +685,7 @@ alterState(state => {
 
 //ANC4
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state)) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state) || dataValue('form.ANCs.ANC_4')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -692,7 +695,8 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_4')(
             state
           );
-          return id + date + 'ANC4';
+          const date2 =  date ? date : dataValue('form.ANCs.ANC_4')(state); 
+          return id + date2 + 'ANC4';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'ANC 4'),
@@ -729,7 +733,7 @@ alterState(state => {
 
 //ANC5
 alterState(state => {
-  if (dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state)) {
+  if (dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state) || dataValue('form.ANCs.ANC_5')(state)) {
     return upsert(
       'Service__c',
       'Service_UID__c',
@@ -739,7 +743,8 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_5')(
             state
           );
-          return id + date + 'ANC5';
+          const date2 =  date ? date : dataValue('form.ANCs.ANC_5')(state); 
+          return id + date2 + 'ANC5';
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'ANC 5'),
