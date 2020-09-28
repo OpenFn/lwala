@@ -423,6 +423,7 @@ alterState(state => {
         }),
         field('Verbal_autopsy__c', dataValue('form.Status.verbal_autopsy')),
         field('Client_Status__c', 'Deceased'),
+        field('Child_Status__c', 'Deceased'),
         field('Active_in_Thrive_Thru_5__c', 'No'),
         field('Active_in_HAWI__c', 'No'),
         field('Active_TT5_Mother__c', 'No'),
