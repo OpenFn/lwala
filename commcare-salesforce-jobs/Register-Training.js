@@ -20,20 +20,22 @@ create(
     field('Program__c', dataValue('form.program')),
     field('CommCare_ID__c', dataValue('metadata.instanceID'))
   )
-),
-  combine(state => {
-    var attendees = dataValue('form.attendees')(state).split(' ');
-    for (i = 0; i < attendees.length; i++) {
-      create(
-        'Household_Attendance__c',
-        fields(
-          field('Activity__c', lastReferenceValue('id')),
-          field('Date__c', dataValue('form.info.date')),
-          relationship('Household__r', 'CommCare_Code__c', attendees[i])
-        )
-      )(state);
-    }
-  });
+);
+
+alterState(state => {
+  var attendees = dataValue('form.attendees')(state).split(' ');
+  for (i = 0; i < attendees.length; i++) {
+    create(
+      'Household_Attendance__c',
+      fields(
+        field('Activity__c', lastReferenceValue('id')),
+        field('Date__c', dataValue('form.info.date')),
+        relationship('Household__r', 'CommCare_Code__c', attendees[i])
+      )
+    )(state);
+  }
+  return state;
+});
 /*create("Household_Attendance__c",fields(
     field("Activity__c",lastReferenceValue("id")),
     field("Date__c",dataValue("form.info.date")),

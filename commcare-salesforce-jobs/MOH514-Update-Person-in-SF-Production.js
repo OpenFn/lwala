@@ -298,7 +298,7 @@ alterState(state => {
   }
   // Transfer Outs
   else if (dataValue('form.Status.Client_Status')(state) == 'Transferred_Out') {
-    upsert(
+    return upsert(
       'Person__c',
       'CommCare_ID__c',
       fields(

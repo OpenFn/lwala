@@ -16,6 +16,7 @@ alterState(state => {
   };
   return state;
 });
+
 //Upserting Household, checks if Household exists via MOH Household Code
 upsert(
   'Household__c',
@@ -78,6 +79,7 @@ upsert(
     )
   )
 );
+
 //Upsert Person via CommCare case ID for each person enrolled
 alterState(state => {
   if (dataValue('form.Person[0].Source')(state) == 1) {

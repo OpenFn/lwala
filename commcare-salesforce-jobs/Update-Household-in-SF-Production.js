@@ -1,6 +1,6 @@
-combine(state => {
+alterState(state => {
   if (dataValue('form.Household_Status')(state) == 'No') {
-    upsert(
+    return upsert(
       'Household__c',
       'CommCare_Code__c',
       fields(
@@ -127,4 +127,5 @@ combine(state => {
         )
       )(state);
   }
+  return state;
 });
