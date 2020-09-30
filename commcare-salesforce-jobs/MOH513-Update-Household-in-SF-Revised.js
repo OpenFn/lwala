@@ -27,7 +27,12 @@ upsert(
     }),
     field('Active_Household__c', state => {
       var status = dataValue('form.Household_Status')(state);
-      return status == 'Yes' ? true : false;
+      if(status==='No'){
+        status = false;
+      } else if(status==='Yes'){
+        status = true;
+      }
+      return status; 
     }),
     field('Inactive_Reason__c', state => {
       var reason = dataValue('form.Reason_for_Inactive')(state);
