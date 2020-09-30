@@ -27,13 +27,18 @@ upsert(
     }),
     field('Active_Household__c', state => {
       var status = dataValue('form.Household_Status')(state);
-      if(status==='No'){
+      /*if(status==='No'){
         status = false;
       } else if(status==='Yes'){
         status = true;
       }
-      return status; 
+      return status; */
+      return status=='No'? false : true;
     }),
+    field('Reactivated__c', state => {
+      var status = dataValue('form.Household_Status')(state);
+      return status=='No'? false : true;
+      }),
     field('Inactive_Reason__c', state => {
       var reason = dataValue('form.Reason_for_Inactive')(state);
       return reason !== undefined ? reason : null;
