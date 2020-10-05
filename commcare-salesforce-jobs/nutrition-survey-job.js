@@ -154,46 +154,49 @@ upsert(
       dataValue('$.form.Child_Information.infant_diet.has_had_insects')
     )
   )
-),
-  combine(state => {
-    if (
-      dataValue('$.form.Child_Information.malnourished.Follow-Up_Required')(
-        state
-      ) === 'Yes'
-    ) {
-      upsert(
-        'Service__c',
-        'Service_UID__c',
-        fields(
-          field('Service_UID__c', state => {
-            const id = dataValue('form.subcase_0.case.@case_id')(state);
-            const date = dataValue('$.form.Date')(state);
-            return id + date + 'Nutrition-Referral';
-          }),
-          field('Source__c', 1),
-          field('Catchment__c', 'a002400000pAcOe'),
-          field('Date__c', dataValue('$.form.Date')),
-          field('Type_of_Service__c', 'CHW Mobile Survey'),
-          field('Household_CHW__c', dataValue('$.form.Household_CHW')),
-          field('RecordTypeID', '01224000000kOto'),
-          field('Referred__c', 1),
-          field(
-            'Follow_Up_By_Date__c',
-            dataValue('$.form.Child_Information.malnourished.Follow-Up_By_Date')
-          ),
-          field('Reason_for_Service__c', 'Referral'),
-          field('Open_Case__c', 1),
-          field('CommCare_Code__c', dataValue('form.subcase_0.case.@case_id')),
-          field(
-            'Purpose_of_Referral__c',
-            dataValue('form.Child_Information.malnourished.Purpose_of_Referral')
-          ),
-          relationship(
-            'Person__r',
-            'CommCare_ID__c',
-            dataValue('$.form.case.@case_id')
-          )
+);
+
+alterState(state => {
+  if (
+    dataValue('$.form.Child_Information.malnourished.Follow-Up_Required')(
+      state
+    ) === 'Yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('Service_UID__c', state => {
+          const id = dataValue('form.subcase_0.case.@case_id')(state);
+          const date = dataValue('$.form.Date')(state);
+          return id + date + 'Nutrition-Referral';
+        }),
+        field('Source__c', 1),
+        field('Catchment__c', 'a002400000pAcOe'),
+        field('Date__c', dataValue('$.form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', dataValue('$.form.Household_CHW')),
+        field('RecordTypeID', '01224000000kOto'),
+        field('Referred__c', 1),
+        field(
+          'Follow_Up_By_Date__c',
+          dataValue('$.form.Child_Information.malnourished.Follow-Up_By_Date')
+        ),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('CommCare_Code__c', dataValue('form.subcase_0.case.@case_id')),
+        field(
+          'Purpose_of_Referral__c',
+          dataValue('form.Child_Information.malnourished.Purpose_of_Referral')
+        ),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('$.form.case.@case_id')
         )
-      )(state);
-    }
-  });
+      )
+    )(state);
+  }
+
+  return state;
+});

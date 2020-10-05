@@ -1,7 +1,7 @@
-combine(state => {
+alterState(state => {
   if (dataValue('$.form.CHW.Follow-Up.Follow-Up')(state) == 'Yes') {
     if (dataValue('$.form.CHW.Follow-Up.Client_Improved')(state) == 'No') {
-      upsert(
+      return upsert(
         'Service__c',
         'CommCare_Code__c',
         fields(
@@ -17,7 +17,7 @@ combine(state => {
         )
       )(state);
     } else {
-      upsert(
+      return upsert(
         'Service__c',
         'CommCare_Code__c',
         fields(
@@ -34,7 +34,7 @@ combine(state => {
   } else if (
     dataValue('$.form.CHW.Facility_Services.Facility_Visit')(state) == 'Yes'
   ) {
-    upsert(
+    return upsert(
       'Service__c',
       'CommCare_Code__c',
       fields(
@@ -46,4 +46,6 @@ combine(state => {
       )
     )(state);
   }
+
+  return state;
 });
