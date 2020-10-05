@@ -1003,7 +1003,6 @@ alterState(state => {
     return upsert(
       'Service__c',
       'Service_UID__c',
-      fields(
         fields(
           field('Service_UID__c', state => {
             const id = dataValue('$.form.case.@case_id')(state);
@@ -1031,7 +1030,6 @@ alterState(state => {
             'CommCare_ID__c',
             dataValue('$.form.case.@case_id')
           )
-        )
       )
     )(state);
   }
@@ -1152,7 +1150,7 @@ alterState(state => {
   if (
     dataValue('$.form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
       state
-    ) !== undefined
+    )
   ) {
     return upsert(
       'Service__c',
@@ -1404,6 +1402,8 @@ alterState(state => {
   }
   return state;
 });
+
+console.log(state);
 
 upsert(
   'Visit__c',
