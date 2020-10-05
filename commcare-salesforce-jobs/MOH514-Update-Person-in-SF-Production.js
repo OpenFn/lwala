@@ -838,7 +838,7 @@ alterState(state => {
   if (dataValue('form.TT5.Child_Information.Immunizations.OPV0_h')(state) || dataValue('form.case.update.OPV0_h')(state)) {
     return upsert(
       'Service__c',
-      'Service_UID__c'.
+      'Service_UID__c',
       //'CommCare_Code__c',
       fields(
         field('CommCare_Code__c', state => {
@@ -891,7 +891,7 @@ alterState(state => {
   if (dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')(state) || dataValue('form.case.update.OPV1_h')(state)) {
     return upsert(
       'Service__c',
-      'Service_UID__c'.
+      'Service_UID__c',
       //'CommCare_Code__c',
       fields(
         field('CommCare_Code__c', state => {
@@ -944,7 +944,7 @@ alterState(state => {
   if (dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')(state) || dataValue('form.case.update.OPV2_h')(state)) {
     return upsert(
       'Service__c',
-      'Service_UID__c'.
+      'Service_UID__c',
       //'CommCare_Code__c',
       fields(
         field('CommCare_Code__c', state => {
@@ -997,7 +997,7 @@ alterState(state => {
   if (dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')(state) || dataValue('form.case.update.OPV3_h')(state)) {
     return upsert(
       'Service__c',
-      'Service_UID__c'.
+      'Service_UID__c',
       //'CommCare_Code__c',
       fields(
         field('CommCare_Code__c', state => {
@@ -1049,7 +1049,7 @@ alterState(state => {
   if (dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')(state) || dataValue('form.case.update.Measles6_h')(state)) {
     return upsert(
       'Service__c',
-      'Service_UID__c'.
+      'Service_UID__c',
       //'CommCare_Code__c',
       fields(
         field('CommCare_Code__c', state => {
@@ -1101,7 +1101,7 @@ alterState(state => {
   if (dataValue('form.TT5.Child_Information.Immunizations.Measles9_h')(state) || dataValue('form.case.update.Measles9_h')(state)) {
     return upsert(
       'Service__c',
-      'Service_UID__c'.
+      'Service_UID__c',
       //'CommCare_Code__c',
       fields(
         field('CommCare_Code__c', state => {
@@ -1153,7 +1153,7 @@ alterState(state => {
   if (dataValue('form.TT5.Child_Information.Immunizations.Measles18_h')(state) || dataValue('form.case.update.Measles18_h')(state)) {
     return upsert(
       'Service__c',
-      'Service_UID__c'.
+      'Service_UID__c',
       //'CommCare_Code__c',
       fields(
         field('CommCare_Code__c', state => {
