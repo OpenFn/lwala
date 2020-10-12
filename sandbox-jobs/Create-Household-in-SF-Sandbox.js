@@ -63,7 +63,7 @@ create(
 
 alterState(state => {
   if (dataValue('$.form.Person[0]') !== undefined) {
-    return each(
+    return beta.each(
       dataPath('$.form.Person[*]'),
       create(
         'Person__c',
