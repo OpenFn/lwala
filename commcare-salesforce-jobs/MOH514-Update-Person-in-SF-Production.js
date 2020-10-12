@@ -1863,7 +1863,7 @@ alterState(state => {
 //HAWI other clinical services received
 alterState(state => {
   if (dataValue('form.HAWI.Clinical_Service_Q')(state) === 'yes') {
-    return each(
+    return beta.each(
       dataPath('form.HAWI.Clinical_Services_Rendered[*]'), //CHECK IF ARRAY
       upsert(
         'Service__c',
@@ -1920,7 +1920,7 @@ alterState(state => {
   if (
     dataValue('form.TT5.Child_Information.Clinical_Services_Q')(state) === 'Yes'
   ) {
-    return each(
+    return beta.each(
       dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
       upsert(
         'Service__c',
@@ -2017,7 +2017,7 @@ alterState(state => {
   if (
     dataValue('form.TT5.Child_Information.Clinical_Services_Q')(state) === 'Yes'
   ) {
-    return each(
+    return beta.each(
       dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
       upsert(
         'Person__c',

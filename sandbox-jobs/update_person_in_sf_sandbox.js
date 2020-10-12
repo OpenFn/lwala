@@ -1010,7 +1010,7 @@ alterState(state => {
   if (
     dataValue('$.form.HAWI.Clinical_Services_Rendered[0]')(state) !== undefined
   ) {
-    return each(
+    return beta.each(
       dataPath('$.form.HAWI.Clinical_Services_Rendered[*]'),
       create(
         'Service__c',
@@ -1147,7 +1147,7 @@ alterState(state => {
     dataValue('$.form.TT5.Child_Information.Clinical_Services[0]')(state) !==
     undefined
   ) {
-    return each(
+    return beta.each(
       dataPath('$.form.TT5.Child_Information.Clinical_Services[*]'),
       create(
         'Service__c',

@@ -1003,33 +1003,33 @@ alterState(state => {
     return upsert(
       'Service__c',
       'Service_UID__c',
-        fields(
-          field('Service_UID__c', state => {
-            const id = dataValue('$.form.case.@case_id')(state);
-            const date = dataValue('$.form.Date')(state);
-            return id + date + 'Home-Based-Care';
-          }),
-          field('Source__c', 1),
-          field('Reason_for_Service__c', 'Home-Based Care'),
-          field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
-          field('Date__c', dataValue('$.form.Date')),
-          field('Type_of_Service__c', 'CHW Mobile Survey'),
-          field('RecordTypeID', '01224000000YAuK'),
-          field('Home_Based_Care_Rendered__c', state => {
-            var care = '';
-            var str = dataValue(
-              '$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided'
-            )(state);
-            care = str.replace(/ /g, ';');
-            care = care.replace(/_/g, ' ');
+      fields(
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue('$.form.Date')(state);
+          return id + date + 'Home-Based-Care';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'Home-Based Care'),
+        field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
+        field('Date__c', dataValue('$.form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Home_Based_Care_Rendered__c', state => {
+          var care = '';
+          var str = dataValue(
+            '$.form.HAWI.Home_Based_Care.Home_Based_Care_Provided'
+          )(state);
+          care = str.replace(/ /g, ';');
+          care = care.replace(/_/g, ' ');
 
-            return care;
-          }),
-          relationship(
-            'Person__r',
-            'CommCare_ID__c',
-            dataValue('$.form.case.@case_id')
-          )
+          return care;
+        }),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('$.form.case.@case_id')
+        )
       )
     )(state);
   }
@@ -1148,9 +1148,7 @@ alterState(state => {
 //Malnutrition case
 alterState(state => {
   if (
-    dataValue('$.form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
-      state
-    )
+    dataValue('$.form.TT5.Child_Information.Nutrition2.Nutrition_Status')(state)
   ) {
     return upsert(
       'Service__c',
@@ -1305,8 +1303,8 @@ alterState(state => {
 //HAWI other clinical services received,
 alterState(state => {
   if (dataValue('$.form.HAWI.Clinical_Services_Rendered[0]')(state)) {
-    each(
-      dataPath('$.form.HAWI.Clinical_Services_Rendered[*]'), state =>
+    return beta.each(
+      dataPath('$.form.HAWI.Clinical_Services_Rendered[*]'),
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -1348,8 +1346,8 @@ alterState(state => {
           }),
           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
         )
-      )(state)
-    );
+      )
+    )(state);
   }
   return state;
 });
@@ -1358,7 +1356,7 @@ alterState(state => {
 // TT5 other clinical services received
 alterState(state => {
   if (dataValue('$.form.TT5.Child_Information.Clinical_Services[0]')(state)) {
-    return each(
+    return beta.each(
       dataPath('$.form.TT5.Child_Information.Clinical_Services[*]'),
       upsert(
         'Service__c',
@@ -1414,7 +1412,8 @@ upsert(
     field('Name', 'CHW Visit'),
     field('CommCare_Visit_ID__c', dataValue('id')),
     field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
-    field('Supervisor_Visit__c',
+    field(
+      'Supervisor_Visit__c',
       state => state.supervisorMap[state.data.form.supervisor_visit]
     ),
     field('Date__c', dataValue('$.metadata.timeEnd'))

@@ -83,7 +83,7 @@ upsert(
 //Upsert Person via CommCare case ID for each person enrolled
 alterState(state => {
   if (dataValue('form.Person[0].Source')(state) == 1) {
-    return each(
+    return beta.each(
       dataPath('form.Person[*]'),
       upsert(
         'Person__c',
