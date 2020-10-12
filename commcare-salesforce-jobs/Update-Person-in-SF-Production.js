@@ -1310,7 +1310,7 @@ alterState(state => {
         'Service_UID__c',
         fields(
           field('Service_UID__c', state => {
-            const id = state.data.form.case.\@case_id;
+            const id = state.data.id;
             const date = state.data.form.Date;
             return id + date + 'HAWI-Other-Services';
           }),
@@ -1364,7 +1364,7 @@ alterState(state => {
         fields(
           field('Source__c', true),
           field('Service_UID__c', state => {
-            const id = state.data.form.case.\@case_id;
+            const id = state.data.id;
             const date = state.data.form.Date;
             return id + date + 'TT5-Other-Services';
           }),
