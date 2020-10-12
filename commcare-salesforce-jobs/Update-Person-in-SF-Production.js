@@ -1305,8 +1305,8 @@ alterState(state => {
 //HAWI other clinical services received,
 alterState(state => {
   if (dataValue('$.form.HAWI.Clinical_Services_Rendered[0]')(state)) {
-    return each(
-      dataPath('$.form.HAWI.Clinical_Services_Rendered[*]'),
+    each(
+      dataPath('$.form.HAWI.Clinical_Services_Rendered[*]'), state =>
       upsert(
         'Service__c',
         'Service_UID__c',
@@ -1348,8 +1348,8 @@ alterState(state => {
           }),
           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
         )
-      )
-    )(state);
+      )(state)
+    );
   }
   return state;
 });
