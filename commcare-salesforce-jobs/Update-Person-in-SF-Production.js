@@ -1416,7 +1416,7 @@ upsert(
     field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
     field(
       'Supervisor_Visit__c',
-      state => state.supervisorMap[state.data.form.supervisor_visit]
+      state => state.data.form.supervistor_visit? state.supervisorMap[state.data.form.supervisor_visit] : undefined; 
     ),
     field('Date__c', dataValue('$.metadata.timeEnd'))
   )
