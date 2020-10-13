@@ -1399,8 +1399,6 @@ alterState(state => {
   return state;
 });
 
-console.log(state);
-
 upsert(
   'Visit__c',
   'CommCare_Visit_ID__c',
