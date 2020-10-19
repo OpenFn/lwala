@@ -23,7 +23,8 @@ get(
     return each(
       dataPath('objects[*]'),
       post(
-        `/inbox/${openfnInboxUrl}`,
+        '/inbox/e77693cc-71d5-49a9-8192-5b15679450df',
+        //`/inbox/${openfnInboxUrl}`,
         { body: state => state.data },
         state => ({ ...state, data: {}, references: [] })
       )
