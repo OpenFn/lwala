@@ -1,5 +1,5 @@
 get(
-  '/a/lwala-community-alliance/api/v0.5/form/',
+  'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/form/',
   {
     query: {
       limit: 1000, //max limit
