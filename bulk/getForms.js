@@ -16,7 +16,7 @@ get(
   state => {
     const { meta, objects } = state.data;
     const { openfnInboxUrl } = state.configuration;
-    state.configuration = { baseUrl: 'http://localhost:4000' };
+    state.configuration = { baseUrl: 'https://www.openfn.org' };
     state.meta = meta;
     console.log('Metadata in CommCare response:');
     console.log(meta);
