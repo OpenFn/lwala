@@ -2,13 +2,15 @@ get(
   '/a/lwala-community-alliance/api/v0.5/form/',
   {
     query: {
-      limit: 5,
+      limit: 1000, //max limit
       offset:
         state.meta && state.meta.next
           ? state.meta.limit + state.meta.offset
           : 0,
-      // TODO :consider limiting by a list of form IDs here?
-      // xmlns: ''
+      // Filter by Update Person form
+      xmlns: 'http://openrosa.org/formdesigner/ecca8b571aa3cdb7ed2df493301d0e885211d09a',
+      received_on_start: '2019-01-01',
+      received_on_end: '2019-10-19'
     },
   },
   state => {
