@@ -1205,9 +1205,14 @@ alterState(state => {
   if (dataValue('form.TT5.Child_Information.Deworming')(state) == 'Yes') {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'deworming';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'deworming';
           return serviceId;
@@ -1242,9 +1247,14 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'homecare';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'homecare';
           return serviceId;
@@ -1284,9 +1294,14 @@ alterState(state => {
   if (dataValue('form.treatment_and_tracking.malaria_test')(state) === 'yes') {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malaria';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'malaria';
           return serviceId;
@@ -1337,9 +1352,14 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malnutrition';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'malnutrition';
           return serviceId;
@@ -1421,9 +1441,14 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'other';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'other';
           return serviceId;
@@ -1472,9 +1497,14 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'skilled_delivery';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'skilled_delivery';
           return serviceId;
@@ -1514,9 +1544,14 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'pregnancy_danger_signs';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'pregnancy_danger_signs';
           return serviceId;
@@ -1570,9 +1605,14 @@ alterState(state => {
     //Update when Julia updates group ???
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'pnc';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'pnc';
           return serviceId;
@@ -1610,7 +1650,7 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
           var id = dataValue('id')(state);
@@ -1674,9 +1714,14 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'child_danger_sign';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'child_danger_sign';
           return serviceId;
@@ -1720,9 +1765,14 @@ alterState(state => {
   if (dataValue('form.treatment_and_tracking.TB_referral')(state) == 'yes') {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'tb';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'tb';
           return serviceId;
@@ -1769,9 +1819,14 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'diarrhea';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'diarrhea';
           return serviceId;
@@ -1818,9 +1873,14 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
         field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malaria';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
           var id = dataValue('id')(state);
           var serviceId = id + 'malaria';
           return serviceId;
@@ -1867,9 +1927,14 @@ alterState(state => {
       dataPath('form.HAWI.Clinical_Services_Rendered[*]'), //CHECK IF ARRAY
       upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
           field('CommCare_Code__c', state => {
+            var id = state.data.id;
+            var serviceId = id + dataValue('Purpose')(state);
+            return serviceId;
+          })(state),
+          field('Service_UID__c', state => {
             var id = state.data.id;
             var serviceId = id + dataValue('Purpose')(state);
             return serviceId;
@@ -1924,9 +1989,14 @@ alterState(state => {
       dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
       upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
           field('CommCare_Code__c', state => {
+            var id = state.data.id;
+            var serviceId = id + dataValue('Purpose')(state);
+            return serviceId;
+          }),
+          field('Service_UID__c', state => {
             var id = state.data.id;
             var serviceId = id + dataValue('Purpose')(state);
             return serviceId;
