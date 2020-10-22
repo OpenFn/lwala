@@ -2048,6 +2048,11 @@ alterState(state => {
       'CommCare_Visit_ID__c',
       fields(
         field('CommCare_Visit_ID__c', dataValue('id')),
+        field('Visit_UID__c', state=>{
+          var hh = dataValue('form.HH_ID')(state); 
+          var date = dataValue('metadata.timeEnd')(state);
+          return hh+date; 
+        }),
         relationship(
           'Household__r',
           'CommCare_Code__c',

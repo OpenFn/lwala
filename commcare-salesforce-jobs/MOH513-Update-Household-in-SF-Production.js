@@ -94,6 +94,11 @@ upsert(
         'CommCare_Code__c',
         dataValue('form.case.@case_id')
       ),
+      field('Visit_UID__c', state=>{
+        var hh = dataValue('form.case.@case_id')(state); 
+        var date = dataValue('form.metadata.timeEnd')(state);
+        return hh+date; 
+      }),
       field('Date__c', dataValue('form.metadata.timeEnd')),
       //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
       field('Household_CHW__c', dataValue('form.chw')),
