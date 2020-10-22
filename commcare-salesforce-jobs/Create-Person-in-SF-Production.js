@@ -259,6 +259,11 @@ upsert(
         'CommCare_Code__c',
         dataValue('$.form.case.@case_id')
       ),
+      field('Visit_UID__c', state=>{
+        var hh = dataValue('form.case.@case_id')(state); 
+        var date = dataValue('form.metadata.timeEnd')(state);
+        return hh+date; 
+      }),
       field('Name', 'CHW Visit'),
       field('CommCare_Visit_ID__c', dataValue('id')),
       field('Household_CHW__c', dataValue('$.form.CHW_ID')),

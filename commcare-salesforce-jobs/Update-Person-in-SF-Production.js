@@ -1405,6 +1405,11 @@ upsert(
   fields(
     field('CommCare_Visit_ID__c', dataValue('id')),
     relationship('Household__r', 'CommCare_Code__c', dataValue('$.form.HH_ID')),
+    field('Visit_UID__c', state=>{
+      var hh = dataValue('form.HH_ID')(state); 
+      var date = dataValue('form.metadata.timeEnd')(state);
+      return hh+date; 
+    }),
     field('Name', 'CHW Visit'),
     field('CommCare_Visit_ID__c', dataValue('id')),
     field('Household_CHW__c', dataValue('$.form.CHW_ID_Final')),
