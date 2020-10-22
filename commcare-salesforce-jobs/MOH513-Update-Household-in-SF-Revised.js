@@ -112,7 +112,7 @@ upsert(
         'CommCare_Code__c',
         dataValue('form.case.@case_id')
       ),
-      field('Date__c', dataValue('form.metadata.timeEnd')),
+      field('Date__c', dataValue('form.Date')),
       //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
       field('Household_CHW__c', dataValue('form.chw')),
       field('Name', 'CHW Visit'),
