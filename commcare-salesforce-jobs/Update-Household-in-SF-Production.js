@@ -97,7 +97,7 @@ alterState(state => {
           ),
           field('Visit_UID__c', state=>{
             var hh = dataValue('form.case.@case_id')(state); 
-            var date = dataValue('form.metadata.timeEnd')(state);
+            var date = dataValue('metadata.timeEnd')(state);
             return hh+date; 
           }),
           field('Date__c', dataValue('$.metadata.timeEnd')),
