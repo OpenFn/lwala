@@ -1930,13 +1930,13 @@ alterState(state => {
         'Service_UID__c',
         fields(
           field('CommCare_Code__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + dataValue('Purpose')(state);
+            var id = dataValue('Case_ID')(state);
+            var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
             return serviceId;
           })(state),
           field('Service_UID__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + dataValue('Purpose')(state);
+            var id = dataValue('Case_ID')(state);
+            var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
             return serviceId;
           })(state),
           field('Source__c', 1),
@@ -1992,13 +1992,13 @@ alterState(state => {
         'Service_UID__c',
         fields(
           field('CommCare_Code__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + dataValue('Purpose')(state);
+            var id = dataValue('Case_ID')(state);
+            var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
             return serviceId;
           }),
           field('Service_UID__c', state => {
-            var id = dataValue('id')(state);
-            var serviceId = id + dataValue('Purpose')(state);
+            var id = dataValue('Case_ID')(state);
+            var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
             return serviceId;
           }),
           field('Source__c', true),
