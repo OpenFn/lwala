@@ -1932,12 +1932,12 @@ alterState(state => {
           field('CommCare_Code__c', state => {
             var id = dataValue('Case_ID')(state);
             var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
-            return serviceId;
+            return serviceId.replace(/\//g, '');
           })(state),
           field('Service_UID__c', state => {
             var id = dataValue('Case_ID')(state);
             var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
-            return serviceId;
+            return serviceId.replace(/\//g, '');
           })(state),
           field('Source__c', 1),
           field('Household_CHW__c', dataValue('chw')),
@@ -1994,12 +1994,12 @@ alterState(state => {
           field('CommCare_Code__c', state => {
             var id = dataValue('Case_ID')(state);
             var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
-            return serviceId;
+            return serviceId.replace(/\//g, '');
           }),
           field('Service_UID__c', state => {
             var id = dataValue('Case_ID')(state);
             var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
-            return serviceId;
+            return serviceId.replace(/\//g, '');
           }),
           field('Source__c', true),
           field('Household_CHW__c', dataValue('chw')),
