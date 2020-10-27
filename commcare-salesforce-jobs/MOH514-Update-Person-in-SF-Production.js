@@ -1992,12 +1992,12 @@ alterState(state => {
         'Service_UID__c',
         fields(
           field('CommCare_Code__c', state => {
-            var id = state.data.id;
+            var id = state.data.form.id;
             var serviceId = id + dataValue('Purpose')(state);
             return serviceId;
           }),
           field('Service_UID__c', state => {
-            var id = state.data.id;
+            var id = state.data.form.id;
             var serviceId = id + dataValue('Purpose')(state);
             return serviceId;
           }),
