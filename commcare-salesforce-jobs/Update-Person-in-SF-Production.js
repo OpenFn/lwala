@@ -1310,7 +1310,7 @@ alterState(state => {
         'Service_UID__c',
         fields(
           field('Service_UID__c', state => {
-            const id = state.data.id;
+            const id = dataValue('$.form.case.@case_id')(state);
             return id + 'HAWI-Other-Services';
           }),
           field('Source__c', 1),
@@ -1337,10 +1337,7 @@ alterState(state => {
             if (facility === '' || facility === undefined) {
               facility = 'unknown';
             } else if (facility == 'Other_Clinic') {
-              facility = 'Other';
-            } else if (facility == 'Rongo_Sub-District_Hospital') {
-              facility = 'Rongo_SubDistrict_Hospital';
-            }
+              facility = 'Other'; }
             return facility;
           }),
           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
