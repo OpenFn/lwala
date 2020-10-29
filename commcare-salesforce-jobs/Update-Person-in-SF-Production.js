@@ -1224,8 +1224,8 @@ alterState(state => {
       fields(
         field('Source__c', 1),
         field('Service_UID__c', state => {
-          const id = dataValue('$.form.case.@case_id')(state);
-          const date = dataValue('$.form.Date')(state);
+          var id = dataValue('$.form.case.@case_id')(state);state.data.id;
+          var date = dataValue('$.form.Date')(state);
           return id + date + 'Referral';
         }),
         field('Date__c', dataValue('$.form.Date')),
@@ -1310,8 +1310,9 @@ alterState(state => {
         'Service_UID__c',
         fields(
           field('Service_UID__c', state => {
-            const id = dataValue('$.form.case.@case_id')(state);
-            return id + 'HAWI-Other-Services';
+            var id = dataValue('$.form.case.@case_id')(state);
+            var date = dataValue('$.form.Date')(state);
+            return id + date + 'HAWI-Other-Services';
           }),
           field('Source__c', 1),
           field('Household_CHW__c', dataValue('chw')),
@@ -1360,8 +1361,9 @@ alterState(state => {
         fields(
           field('Source__c', true),
           field('Service_UID__c', state => {
-            const id = state.data.id;
-            return id + 'TT5-Other-Services';
+            var id = dataValue('$.form.case.@case_id')(state);
+            var date = dataValue('$.form.Date')(state);
+            return id + date + 'TT5-Other-Services';
           }),
           field('Household_CHW__c', dataValue('chw')),
           field('Reason_for_Service__c', state => {
