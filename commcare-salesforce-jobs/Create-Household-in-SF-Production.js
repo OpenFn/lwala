@@ -12,7 +12,7 @@ upsert(
   'CommCare_Code__c',
   fields(
     field('Name', state =>{
-      return dataValue('$.form.case.@case_id')(state).substring(0,9);
+      return dataValue('$.form.case.@case_id')(state).substring(0,5);
     }),
     field('Catchment__c', state => {
       if (dataValue('form.catchment')(state) == 'East Kamagambo') {
