@@ -11,7 +11,7 @@ upsert(
   'Household__c',
   'CommCare_Code__c',
   fields(
-    field('Name', '0000'),
+    field('Name', 'test1'),
     field('Catchment__c', state => {
       if (dataValue('form.catchment')(state) == 'East Kamagambo') {
         return 'a002400000pAcQt';
