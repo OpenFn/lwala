@@ -11,7 +11,9 @@ upsert(
   'Household__c',
   'CommCare_Code__c',
   fields(
-    field('Name', dataValue('$.form.case.@case_id')),
+    field('Name', state =>{
+      return dataValue('$.form.case.@case_id')(state).substring(0,9);
+    }),
     field('Catchment__c', state => {
       if (dataValue('form.catchment')(state) == 'East Kamagambo') {
         return 'a002400000pAcQt';
