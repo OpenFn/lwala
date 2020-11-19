@@ -11,9 +11,10 @@ upsert(
   'Household__c',
   'CommCare_Code__c',
   fields(
-    field('Name', state =>{
-      return dataValue('$.form.case.@case_id')(state).substring(0,5);
-    }),
+    field('Name', '0000'),
+    //state =>{
+    //  return dataValue('$.form.case.@case_id')(state).substring(0,5); //<- Will, this change we made was causing errors? what does the '0000' do?
+   //  }),
     field('Catchment__c', state => {
       if (dataValue('form.catchment')(state) == 'East Kamagambo') {
         return 'a002400000pAcQt';
