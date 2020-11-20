@@ -1269,10 +1269,15 @@ alterState(state => {
           'Malaria_Home_Test_Date__c',
           dataValue('$.form.TT5.Child_Information.CCMM.test_date')
         ),
-        field(
-          'CommCare_Code__c',
-          dataValue('$.form.subcase_0.case.@case_id')(state)
-        ),
+        field('CommCare_Code__c', state => {
+          var id = dataValue('$.form.case.@case_id')(state);state.data.id;
+          var date = dataValue('$.form.Date')(state);
+          return id + date + 'Referral';
+        }),
+        //field(
+        //  'CommCare_Code__c',
+        //  dataValue('$.form.subcase_0.case.@case_id')(state)
+        //),
         field('Purpose_of_Referral__c', state => {
           var purpose = '';
           var name = dataValue('$.form.Purpose_of_Referral')(state);
