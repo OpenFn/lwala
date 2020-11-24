@@ -1,5 +1,5 @@
 alterState(state => {
-  if (dataValue('form.Household_Status')(state) == 'No') {
+  if (state.data.form.Household_Status == 'No') {
     return upsert(
       'Household__c',
       'CommCare_Code__c',
@@ -11,79 +11,80 @@ alterState(state => {
       )
     )(state);
   } else {
-    create(
-      'Survey__c',
-      fields(
-        relationship(
-          'Household__r',
-          'CommCare_Code__c',
-          dataValue('$.form.case.@case_id')
-        ),
-        field('Catchment__c', 'a002400000pAcOe'),
-        field(
-          'Treats_Drinking_Water__c',
-          dataValue('$.form.Household_Information.Treats_Drinking_Water')
-        ),
-        field(
-          'WASH_Trained__c',
-          dataValue('$.form.Household_Information.WASH_Trained')
-        ),
-        field(
-          'Rubbish_Pit__c',
-          dataValue('$.form.Household_Information.Rubbish_Pit')
-        ),
-        field(
-          'Kitchen_Garden__c',
-          dataValue('$.form.Household_Information.Kitchen_Garden')
-        ),
-        field(
-          'Improved_Cooking_Method__c',
-          dataValue('$.form.Household_Information.Improved_Cooking_Method')
-        ),
-        field('Uses_ITNs__c', dataValue('$.form.Household_Information.ITNs')),
-        field(
-          'Pit_Latrine__c',
-          dataValue('$.form.Household_Information.Functional_Latrine')
-        ),
-        field(
-          'Clothesline__c',
-          dataValue('$.form.Household_Information.Clothesline')
-        ),
-        field(
-          'Drying_Rack__c',
-          dataValue('$.form.Household_Information.Drying_Rack')
-        ),
-        field(
-          'Tippy_Tap__c',
-          dataValue('$.form.Household_Information.Active_Handwashing_Station')
-        ),
-        field(
-          'Number_of_Over_5_Females__c',
-          dataValue('$.form.Household_Information.Number_of_over_5_Females')
-        ),
-        field(
-          'Number_of_Under_5_Males__c',
-          dataValue('$.form.Household_Information.Number_of_Under_5_Males')
-        ),
-        field(
-          'Number_of_Under_5_Females__c',
-          dataValue('$.form.Household_Information.Number_of_Under_5_Female')
-        ),
-        field(
-          'Number_of_Over_5_Males__c',
-          dataValue('$.form.Household_Information.Number_of_Over_5_Males')
-        ),
-        field(
-          'Family_Planning__c',
-          dataValue('$.form.Household_Information.family_planning')
-        ),
-        field(
-          'Family_Planning_Method__c',
-          dataValue('$.form.Household_Information.Family_planning_method')
-        ),
-        field('Source__c', 1)
-      )
-    )(state),
+    return combine(
+      create(
+        'Survey__c',
+        fields(
+          relationship(
+            'Household__r',
+            'CommCare_Code__c',
+            dataValue('$.form.case.@case_id')
+          ),
+          field('Catchment__c', 'a002400000pAcOe'),
+          field(
+            'Treats_Drinking_Water__c',
+            dataValue('$.form.Household_Information.Treats_Drinking_Water')
+          ),
+          field(
+            'WASH_Trained__c',
+            dataValue('$.form.Household_Information.WASH_Trained')
+          ),
+          field(
+            'Rubbish_Pit__c',
+            dataValue('$.form.Household_Information.Rubbish_Pit')
+          ),
+          field(
+            'Kitchen_Garden__c',
+            dataValue('$.form.Household_Information.Kitchen_Garden')
+          ),
+          field(
+            'Improved_Cooking_Method__c',
+            dataValue('$.form.Household_Information.Improved_Cooking_Method')
+          ),
+          field('Uses_ITNs__c', dataValue('$.form.Household_Information.ITNs')),
+          field(
+            'Pit_Latrine__c',
+            dataValue('$.form.Household_Information.Functional_Latrine')
+          ),
+          field(
+            'Clothesline__c',
+            dataValue('$.form.Household_Information.Clothesline')
+          ),
+          field(
+            'Drying_Rack__c',
+            dataValue('$.form.Household_Information.Drying_Rack')
+          ),
+          field(
+            'Tippy_Tap__c',
+            dataValue('$.form.Household_Information.Active_Handwashing_Station')
+          ),
+          field(
+            'Number_of_Over_5_Females__c',
+            dataValue('$.form.Household_Information.Number_of_over_5_Females')
+          ),
+          field(
+            'Number_of_Under_5_Males__c',
+            dataValue('$.form.Household_Information.Number_of_Under_5_Males')
+          ),
+          field(
+            'Number_of_Under_5_Females__c',
+            dataValue('$.form.Household_Information.Number_of_Under_5_Female')
+          ),
+          field(
+            'Number_of_Over_5_Males__c',
+            dataValue('$.form.Household_Information.Number_of_Over_5_Males')
+          ),
+          field(
+            'Family_Planning__c',
+            dataValue('$.form.Household_Information.family_planning')
+          ),
+          field(
+            'Family_Planning_Method__c',
+            dataValue('$.form.Household_Information.Family_planning_method')
+          ),
+          field('Source__c', 1)
+        )
+      ),
       upsert(
         'Visit__c',
         'CommCare_Visit_ID__c',
@@ -130,7 +131,7 @@ alterState(state => {
             dataValue('$.form.Household_Information.POP_count')
           )
         )
-      )(state);
+      )
+    )(state);
   }
-  return state;
 });
