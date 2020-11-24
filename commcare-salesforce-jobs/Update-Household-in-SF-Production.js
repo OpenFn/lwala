@@ -95,10 +95,10 @@ alterState(state => {
             'CommCare_Code__c',
             dataValue('$.form.case.@case_id')
           ),
-          field('Visit_UID__c', state=>{
-            var hh = dataValue('form.case.@case_id')(state); 
+          field('Visit_UID__c', state => {
+            var hh = dataValue('form.case.@case_id')(state);
             var date = dataValue('metadata.timeEnd')(state);
-            return hh+date; 
+            return hh + date;
           }),
           field('Date__c', dataValue('$.metadata.timeEnd')),
           field('CommCare_Visit_ID__c', dataValue('id')),
