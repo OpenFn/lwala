@@ -44,6 +44,11 @@ upsert(
       return reason !== undefined ? reason : null;
     }),
     field('Source__c', 1),
+    field('Completed_COVID_19_Phone_Screening__c', dataValue('form.did_you_complete_the_covid-19_phone_screening_for_this_household')),
+    field('Household_Visit_Type__c', state => {
+          var visit = dataValue('form.is_this_a_physical_home_visit_or_a_phone_call_visit')(state);
+          return visit ? visit.toString().replace(/_/g, ' ') : null;
+    }),
     field('Household_village__c', dataValue('form.village')), 
     field(
       'Access_to_safe_water__c',
