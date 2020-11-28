@@ -116,7 +116,7 @@ alterState(state => {
           relationship('Catchment__r', 'Name', dataValue('catchment')),
           field('Client_Status__c', 'Active'),
           //field("Area__c", state.data.form.area),// check
-          field('Household_village__c', state.data.form.village),
+          //field('Household_village__c', state.data.form.village),
           field('Relation_to_the_head_of_the_household__c', state => {
             var relation = dataValue('Basic_Information.relation_to_hh')(state);
             var toTitleCase =
