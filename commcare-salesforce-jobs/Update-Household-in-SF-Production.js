@@ -91,6 +91,18 @@ alterState(state => {
         )
       ),
       upsert(
+      'Household__c',
+      'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', dataValue('form.case.@case_id')),
+        field('Completed_COVID_19_Phone_Screening__c', dataValue('form.did_you_complete_the_covid-19_phone_screening_for_this_household')),
+          field('Household_Visit_Type__c', state => {
+            var visit = dataValue('form.is_this_a_physical_home_visit_or_a_phone_call_visit')(state);
+            return visit ? visit.toString().replace(/_/g, ' ') : null;
+          })
+        )
+      ),
+      upsert(
         'Visit__c',
         'CommCare_Visit_ID__c',
         fields(
