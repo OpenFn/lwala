@@ -12,6 +12,8 @@ get(
       //xmlns: 'http://openrosa.org/formdesigner/ecca8b571aa3cdb7ed2df493301d0e885211d09a',
       received_on_start: '2018-11-01',
       received_on_end: '2018-12-31'
+      /*received_on_start: '2018-11-01',
+      received_on_end: '2018-12-31'*/
     },
   },
   state => {
