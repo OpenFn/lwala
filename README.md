@@ -61,8 +61,9 @@ When these Salesforce outbound messages are received as new Messages in OpenFn, 
 ## Questions? Need help? 
 Contact support@openfn.org for troubleshooting guidance. 
 
-# Training Notes
-[See here](https://drive.google.com/drive/u/0/folders/1VGt8ARnowGzXvaN-CstolK94crnVRmlR) for prior training materials, and see this [Offline Testing Guide](https://docs.google.com/document/d/1nD4wwklkcmv0oxNk_diHyhxhVcq2jAlg2iGTFvxHeU4/edit?usp=sharing) for using `openfn-devtools` to test and edit jobs offline. 
+# Training Materials
+1. [See this folder](https://drive.google.com/drive/u/0/folders/15jGbYbmFRtZ4yLaWzq9NCRniZzqmgeVu) for 2020 materials, including *Change Management* training video & best practices. 
+2. [See here](https://drive.google.com/drive/u/0/folders/1VGt8ARnowGzXvaN-CstolK94crnVRmlR) for prior training materials, and see this [Offline Testing Guide](https://docs.google.com/document/d/1nD4wwklkcmv0oxNk_diHyhxhVcq2jAlg2iGTFvxHeU4/edit?usp=sharing) for using `openfn-devtools` to test and edit jobs offline. 
 
 ### Development process
 Propose a change by creating an issue, then feature branch named `###_issue` and
