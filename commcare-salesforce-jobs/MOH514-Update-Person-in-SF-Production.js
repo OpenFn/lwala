@@ -448,11 +448,11 @@ alterState(state => {
 // Person is added to TT5 ?
 alterState(state => {
   if (
-    dataValue('form.case.update.TT5_enrollment_status')(state) ==
+    (dataValue('form.case.update.TT5_enrollment_status')(state) ==
       'Enrolled in TT5' ||
     dataValue('form.age')(state) < 5 ||
     dataValue('form.case.update.Active_in_TT5')(state) == 'Yes' ||
-    dataValue('form.case.update.Pregnant') == 'Yes'
+    dataValue('form.case.update.Pregnant') == 'Yes') && dataValue('form.Status.Client_Status')(state) == 'Active'
   ) {
     return upsert(
       'Person__c',
@@ -481,8 +481,9 @@ alterState(state => {
 //Person over age 5 / NOT active in TT5
 alterState(state => {
   if (
-    dataValue('form.age')(state) > 5 ||
-    dataValue('form.case.update.Active_in_TT5')(state) == 'No'
+    (dataValue('form.age')(state) > 5 ||
+    dataValue('form.case.update.Active_in_TT5')(state) == 'No') &&
+    dataValue('form.Status.Client_Status')(state) == 'Active'
   ) {
     return upsert(
       'Person__c',
@@ -502,10 +503,11 @@ alterState(state => {
 //Person is added to HAWI ?
 alterState(state => {
   if (
-    dataValue('form.case.update.HAWI_enrollment_status')(state) ==
+    (dataValue('form.case.update.HAWI_enrollment_status')(state) ==
       'Enrolled in HAWI' ||
     dataValue('form.hiv_status')(state) == 'positive' ||
-    dataValue('form.case.update.Active_in_HAWI')(state) == 'Yes'
+    dataValue('form.case.update.Active_in_HAWI')(state) == 'Yes') &&
+    dataValue('form.Status.Client_Status')(state) == 'Active'
   ) {
     return upsert(
       'Person__c',
@@ -528,7 +530,8 @@ alterState(state => {
 alterState(state => {
   if (
     dataValue('form.case.update.HAWI_enrollment_status')(state) ==
-    'Not enrolled in HAWI'
+    'Not enrolled in HAWI' && 
+    dataValue('form.Status.Client_Status')(state) == 'Active'
   ) {
     return upsert(
       'Person__c',
