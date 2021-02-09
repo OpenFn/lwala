@@ -23,7 +23,7 @@ upsert(
     field('MOH_household_code__c', state => {
       var moh = dataValue('form.Household_Information.moh_code')(state);
       var mohLinked = dataValue('form.MOH_household_code_linked')(state);
-      return moh ? moh : mohLinked;
+      return moh ? moh : mohLinked ? mohLinked : null;
     }),
     field('Active_Household__c', state => {
       var status = dataValue('form.Household_Status')(state);
