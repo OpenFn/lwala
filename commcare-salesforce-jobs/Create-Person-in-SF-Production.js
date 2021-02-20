@@ -257,7 +257,7 @@ upsert(
       relationship(
         'Household__r',
         'CommCare_Code__c',
-        dataValue('$.form.subcase_0.case.@case_id')
+        dataValue('$.form.case.@case_id')
       ),
       field('Visit_UID__c', state=>{
         var hh = dataValue('form.case.@case_id')(state); 
