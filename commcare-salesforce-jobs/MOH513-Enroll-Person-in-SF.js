@@ -19,10 +19,10 @@ alterState(state => {
             name1 === undefined
               ? 'No Name'
               : name1.replace(/\w\S*/g, function (txt) {
-                  return (
-                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                  );
-                });
+                return (
+                  txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                );
+              });
           return status !== 'Unborn' ? name2 : 'Unborn Child';
         }),
         relationship('RecordType', 'Name', state => {
@@ -134,10 +134,10 @@ alterState(state => {
           var toTitleCase =
             disability !== undefined
               ? disability
-                  .toLowerCase()
-                  .split(' ')
-                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(';')
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(';')
               : null;
           return toTitleCase;
         }),
@@ -148,10 +148,10 @@ alterState(state => {
           var toTitleCase =
             disability !== undefined
               ? disability
-                  .toLowerCase()
-                  .split(' ')
-                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(';')
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(';')
               : null;
           return toTitleCase;
         }),
@@ -352,7 +352,21 @@ alterState(state => {
             return facility == 'Skilled' ? 'Facility' : 'Home';
           }
           return facility;
-        })
+        }),
+        field('Cough_14_days_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_for_cough')),
+        field('Cough_14_days_referral_date__c', dataValue('form.Person.Basic_Information.person_info.date_refer_to_clinc')),
+        field('Know_HIV_status__c', dataValue('form.Person.Basic_Information.person_info.known_hiv_status')),
+        field('HIV_counselling_and_testing_referral__c', dataValue('form.Person.Basic_Information.person_info.hiv_counselling_testing')),
+        field('HIV_counseling_and_testing_referral_date__c	', dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')),
+        field('Chronic_illness_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_chronic_illness')),
+        field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
+        field('Chronic_illness__c', dataValue('form.Person.Basic_Information.person_info.chronic_illness')),
+        field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
+        field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
+        field('Received_pregnancy_test__c', dataValue('form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test')),
+        field('Pregnancy_test_result__c', dataValue('form.TT5.Mother_Information.pregnancy_test_result')),
+        field('Pregnancy_referral__c', dataValue('form.TT5.Mother_Information.refer_preg')),
+        field('Pregnancy_referral_date__c', dataValue('form.TT5.Mother_Information.referal_pregnancy')),
       )
     )(state);
   }
@@ -365,7 +379,7 @@ alterState(state => {
   if (
     dataValue('form.Person.Updated_Total_Number_of_Members')(state) !== null &&
     dataValue('form.Person.Updated_Total_Household_Members')(state) !==
-      undefined
+    undefined
   ) {
     return upsert(
       'Household__c',
@@ -395,10 +409,10 @@ upsert(
       'CommCare_Code__c',
       dataValue('form.case.@case_id')
     ),
-    field('Visit_UID__c', state=>{
-      var hh = dataValue('form.case.@case_id')(state); 
+    field('Visit_UID__c', state => {
+      var hh = dataValue('form.case.@case_id')(state);
       var date = dataValue('form.Date')(state);
-      return hh+date; 
+      return hh + date;
     }),
     field('Name', 'CHW Visit'),
     field('Supervisor_Visit__c', state => {
