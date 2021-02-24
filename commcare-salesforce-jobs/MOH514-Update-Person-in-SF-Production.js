@@ -334,7 +334,7 @@ alterState(state => {
         field('Cough_14_days_referral_date__c', dataValue('form.treatment_and_tracking.refer_14days')),
         field('Know_HIV_status__c', dataValue('form.known_hiv_status')),
         field('HIV_counselling_and_testing_referral__c', dataValue('form.did_you_refer_for_hiv_counselling_and_testing_htc')),
-        field('HIV_counseling_and_testing_referral_date__c	', dataValue('form.refer_hiv'))
+        field('HIV_counseling_and_testing_referral_date__c', dataValue('form.refer_hiv'))
       )
     )(state);
   }
