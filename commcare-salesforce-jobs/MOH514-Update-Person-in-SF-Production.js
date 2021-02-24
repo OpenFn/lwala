@@ -357,10 +357,10 @@ alterState(state => {
         field('Child_missed_immunization_type__c', dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),
         field('TB_treatment_referral_date__c', dataValue('form.treatment_and_tracking.refer_clientTB')),
         field('TB_referral__c', dataValue('form.treatment_and_tracking.tb_treatment')),
-        field('Default_on_TB_treatment__c', state => {
+        /*field('Default_on_TB_treatment__c', state => {
           var choice = dataValue('form.treatment_and_tracking.default_tb_treatment')(state);
           return state.cleanChoice(state, choice);
-        }),
+        }),*/
       )
     )(state);
   }
