@@ -359,6 +359,10 @@ alterState(state => {
           var choice = dataValue('form.treatment_and_tracking.default_tb_treatment')(state);
           return state.cleanChoice(state, choice);
         }),*/
+        field('Received_pregnancy_test__c', dataValue('form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test')),
+        field('Pregnancy_test_result__c', dataValue('form.TT5.Mother_Information.pregnancy_test_result')),
+        field('Pregnancy_referral__c', dataValue('form.TT5.Mother_Information.refer_preg')),
+        field('Pregnancy_referral_date__c', dataValue('form.TT5.Mother_Information.referal_pregnancy')),
       )
     )(state);
   }
