@@ -334,7 +334,33 @@ alterState(state => {
         field('Cough_14_days_referral_date__c', dataValue('form.treatment_and_tracking.refer_14days')),
         field('Know_HIV_status__c', dataValue('form.known_hiv_status')),
         field('HIV_counselling_and_testing_referral__c', dataValue('form.did_you_refer_for_hiv_counselling_and_testing_htc')),
-        field('HIV_counseling_and_testing_referral_date__c', dataValue('form.refer_hiv'))
+        field('HIV_counseling_and_testing_referral_date__c', dataValue('form.refer_hiv')),
+        field('Default_on_TB_treatment__c', dataValue('form.treatment_and_tracking.default_tb_treatment')),
+        field('Treatment_Distribution__c', dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
+        field('Nutrition_referral_date__c', dataValue('form.TT5.Child_Information.Nutrition2.date_malnutrition')),
+        field('Nutrition_referral__c', dataValue('form.TT5.Child_Information.Nutrition2.Referral')),
+        field('Purpose_of_referral__c', state => {
+          var choice = dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state);
+          return state.cleanChoice(state, choice);
+        }),
+        field('Current_Height__c', dataValue('form.TT5.Child_Information.Nutrition.current_height')),
+        field('Cause_of_Death__c', state => {
+          var choice = dataValue('form.Status.Cause_of_Death')(state);
+          return state.cleanChoice(state, choice);
+        }),
+        field('ART_treatment_referral_date__c', dataValue('form.HAWI.when_ART_refer')),
+        field('ART_treatment_referral__c', dataValue('form.HAWI.did_you_refer')),
+        field('ART_treatment_referral_date__c', dataValue('form.HAWI.when_ART_refer')),
+        field('ART_treatment_referral__c', dataValue('form.HAWI.default')),
+        field('Immunizations_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.referral_for_immunization')),
+        field('Immunizations_referral__c', dataValue('form.TT5.Child_Information.Immunizations.refer_immunization_type')),
+        field('Child_missed_immunization_type__c', dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),
+        field('TB_treatment_referral_date__c', dataValue('form.treatment_and_tracking.refer_clientTB')),
+        field('TB_referral__c', dataValue('form.treatment_and_tracking.tb_treatment')),
+        field('Default_on_TB_treatment__c', dataValue('form.treatment_and_tracking.default_tb_treatment')),
+
+
+
       )
     )(state);
   }
