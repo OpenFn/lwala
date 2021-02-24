@@ -17,6 +17,15 @@ alterState(state => {
     }
   }
 
+  state.cleanChoice = function (state, choice) {
+    if (choice) {
+      return choice.charAt(0).toUpperCase() +
+        choice.slice(1).replace('_', ' ');
+    } else {
+      return '';
+    }
+  };
+
   return state;
 });
 
@@ -58,10 +67,10 @@ alterState(state => {
             name1 === undefined || name1 === ''
               ? unborn
               : name1.replace(/\w\S*/g, function (txt) {
-                  return (
-                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                  );
-                });
+                return (
+                  txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                );
+              });
           return name1 !== null ? name2 : 'Unborn Child';
         }),
         field(
@@ -292,7 +301,40 @@ alterState(state => {
         field('Pregnant__c', state => {
           var preg = dataValue('form.TT5.Mother_Information.Pregnant')(state);
           return preg == 'Yes' ? true : false;
-        })
+        }),
+        field('Counselled_on_FP_Methods__c', dataValue('form.TT5.Mother_Information.CounselledFP_methods')),
+        field('Client_counselled_on__c', state => {
+          var choice = dataValue('form.treatment_and_tracking.counseling.counsel_topic')(state);
+          return state.cleanChoice(state, choice);
+        }),
+        field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
+        field('Newborn_visited_48_hours_of_delivery__c', dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
+        field('Newborn_visit_counselling__c', state => {
+          var choice = dataValue('form.TT5.Child_Information.did_you_consel_the_mother_on1')(state);
+          return state.cleanChoice(state, choice);
+        }),
+        field('mother_visited_48_hours_of_the_delivery__c', dataValue('form.TT5.Child_Information.visit_mother_48')),
+        field('Mother_visit_counselling__c', state => {
+          var choice = dataValue('form.TT5.Child_Information.did_you_consel_the_mother_on2')(state);
+          return state.cleanChoice(state, choice);
+        }),
+        field('Mother_ANC_Referral__c', dataValue('form.ANCs.refer_for_anc')),
+        field('ANC_referral_date__c', dataValue('form.ANCs.refer_anc')),
+        field('Mother_Skilled_Delivery_Referral__c', dataValue('form.ANCs.pregnancy_danger_signs.refer_skilled_delivery')),
+        field('Mother_skilled_Ref_date__c', dataValue('form.ANCs.pregnancy_danger_signs.refer_skilled_delivery1')),
+        field('Woman_referred_for_FP_services__c', dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')),
+        field('Family_planning_services_referral_date__c', dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')),
+        field('Mother_PNC_referral__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc')),
+        field('Mother_PNC_referral_date__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_the_mother_for_pnc')),
+        field('Immunizations_referral__c', dataValue('form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization')),
+        field('Immunizations_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.refer_immunization')),
+        field('Vitamin_A_supplement_referral__c', dataValue('form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements')),
+        field('Vitamin_A_supplement_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.refer_vitamin_a_supplements')),
+        field('Cough_14_days_referral__c', dataValue('form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days')),
+        field('Cough_14_days_referral_date__c', dataValue('form.treatment_and_tracking.refer_14days')),
+        field('Know_HIV_status__c', dataValue('form.known_hiv_status')),
+        field('HIV_counselling_and_testing_referral__c', dataValue('form.did_you_refer_for_hiv_counselling_and_testing_htc')),
+        field('HIV_counseling_and_testing_referral_date__c	', dataValue('form.refer_hiv'))
       )
     )(state);
   }
@@ -450,9 +492,9 @@ alterState(state => {
   if (
     (dataValue('form.case.update.TT5_enrollment_status')(state) ==
       'Enrolled in TT5' ||
-    dataValue('form.age')(state) < 5 ||
-    dataValue('form.case.update.Active_in_TT5')(state) == 'Yes' ||
-    dataValue('form.case.update.Pregnant') == 'Yes') && dataValue('form.Status.Client_Status')(state) == 'Active'
+      dataValue('form.age')(state) < 5 ||
+      dataValue('form.case.update.Active_in_TT5')(state) == 'Yes' ||
+      dataValue('form.case.update.Pregnant') == 'Yes') && dataValue('form.Status.Client_Status')(state) == 'Active'
   ) {
     return upsert(
       'Person__c',
@@ -482,7 +524,7 @@ alterState(state => {
 alterState(state => {
   if (
     (dataValue('form.age')(state) > 5 ||
-    dataValue('form.case.update.Active_in_TT5')(state) == 'No') &&
+      dataValue('form.case.update.Active_in_TT5')(state) == 'No') &&
     dataValue('form.Status.Client_Status')(state) == 'Active'
   ) {
     return upsert(
@@ -505,8 +547,8 @@ alterState(state => {
   if (
     (dataValue('form.case.update.HAWI_enrollment_status')(state) ==
       'Enrolled in HAWI' ||
-    dataValue('form.hiv_status')(state) == 'positive' ||
-    dataValue('form.case.update.Active_in_HAWI')(state) == 'Yes') &&
+      dataValue('form.hiv_status')(state) == 'positive' ||
+      dataValue('form.case.update.Active_in_HAWI')(state) == 'Yes') &&
     dataValue('form.Status.Client_Status')(state) == 'Active'
   ) {
     return upsert(
@@ -530,7 +572,7 @@ alterState(state => {
 alterState(state => {
   if (
     dataValue('form.case.update.HAWI_enrollment_status')(state) ==
-    'Not enrolled in HAWI' && 
+    'Not enrolled in HAWI' &&
     dataValue('form.Status.Client_Status')(state) == 'Active'
   ) {
     return upsert(
@@ -561,7 +603,7 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_1')(
             state
           );
-          const date2 =  date ? date : dataValue('form.ANCs.ANC_1')(state); 
+          const date2 = date ? date : dataValue('form.ANCs.ANC_1')(state);
           return id + date2 + 'ANC1';
         }),
         field('Source__c', 1),
@@ -609,7 +651,7 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_2')(
             state
           );
-          const date2 =  date ? date : dataValue('form.ANCs.ANC_2')(state); 
+          const date2 = date ? date : dataValue('form.ANCs.ANC_2')(state);
           return id + date2 + 'ANC2';
         }),
         field('Source__c', 1),
@@ -657,7 +699,7 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_3')(
             state
           );
-          const date2 =  date ? date : dataValue('form.ANCs.ANC_3')(state); 
+          const date2 = date ? date : dataValue('form.ANCs.ANC_3')(state);
           return id + date2 + 'ANC3';
         }),
         field('Source__c', true),
@@ -705,7 +747,7 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_4')(
             state
           );
-          const date2 =  date ? date : dataValue('form.ANCs.ANC_4')(state); 
+          const date2 = date ? date : dataValue('form.ANCs.ANC_4')(state);
           return id + date2 + 'ANC4';
         }),
         field('Source__c', 1),
@@ -753,7 +795,7 @@ alterState(state => {
           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_5')(
             state
           );
-          const date2 =  date ? date : dataValue('form.ANCs.ANC_5')(state); 
+          const date2 = date ? date : dataValue('form.ANCs.ANC_5')(state);
           return id + date2 + 'ANC5';
         }),
         field('Source__c', 1),
@@ -801,7 +843,7 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.BCG'
           )(state);
-          const date2 =  date ? date : dataValue('form.case.update.BCG')(state); 
+          const date2 = date ? date : dataValue('form.case.update.BCG')(state);
           return id + date2 + 'BCG';
         }),
         field('Source__c', 1),
@@ -854,7 +896,7 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.OPV0_h'
           )(state);
-          const date2 =  date ? date : dataValue('form.case.update.OPV0_h')(state); 
+          const date2 = date ? date : dataValue('form.case.update.OPV0_h')(state);
           return id + date2 + 'OPV0';
         }),
         field('Source__c', 1),
@@ -907,7 +949,7 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.OPV1_h'
           )(state);
-          const date2 =  date ? date : dataValue('form.case.update.OPV1_h')(state); 
+          const date2 = date ? date : dataValue('form.case.update.OPV1_h')(state);
           return id + date2 + 'OPV1';
         }),
         field('Source__c', 1),
@@ -960,7 +1002,7 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.OPV2_h'
           )(state);
-          const date2 =  date ? date : dataValue('form.case.update.OPV2_h')(state); 
+          const date2 = date ? date : dataValue('form.case.update.OPV2_h')(state);
           return id + date2 + 'OPV2';
         }),
         field('Source__c', 1),
@@ -1013,7 +1055,7 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.OPV3_h'
           )(state);
-          const date2 =  date ? date : dataValue('form.case.update.OPV3_h')(state); 
+          const date2 = date ? date : dataValue('form.case.update.OPV3_h')(state);
           return id + date2 + 'OPV3';
         }),
         field('Source__c', 1),
@@ -1065,7 +1107,7 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.Measles6_h'
           )(state);
-          const date2 =  date ? date : dataValue('form.case.update.Measles6_h')(state); 
+          const date2 = date ? date : dataValue('form.case.update.Measles6_h')(state);
           return id + date2 + 'Measles6';
         }),
         field('Source__c', 1),
@@ -1117,7 +1159,7 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.Measles9_h'
           )(state);
-          const date2 =  date ? date : dataValue('form.case.update.Measles9_h')(state); 
+          const date2 = date ? date : dataValue('form.case.update.Measles9_h')(state);
           return id + date2 + 'Measles9';
         }),
         field('Source__c', 1),
@@ -1169,7 +1211,7 @@ alterState(state => {
           const date = dataValue(
             '$.form.TT5.Child_Information.Immunizations.Measles18_h'
           )(state);
-          const date2 =  date ? date : dataValue('form.case.update.Measles18_h')(state); 
+          const date2 = date ? date : dataValue('form.case.update.Measles18_h')(state);
           return id + date2 + 'Measles18';
         }),
         field('Source__c', 1),
@@ -1244,9 +1286,9 @@ alterState(state => {
 alterState(state => {
   if (
     dataValue('form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(state) !==
-      undefined &&
+    undefined &&
     dataValue('form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(state) !==
-      ''
+    ''
   ) {
     return upsert(
       'Service__c',
@@ -1934,12 +1976,12 @@ alterState(state => {
         fields(
           field('CommCare_Code__c', state => {
             var id = dataValue('Case_ID')(state);
-            var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
+            var serviceId = id + dataValue('Purpose')(state) + dataValue('Clinical_Date')(state);
             return serviceId.replace(/\//g, '');
           })(state),
           field('Service_UID__c', state => {
             var id = dataValue('Case_ID')(state);
-            var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
+            var serviceId = id + dataValue('Purpose')(state) + dataValue('Clinical_Date')(state);
             return serviceId.replace(/\//g, '');
           })(state),
           field('Source__c', 1),
@@ -1996,12 +2038,12 @@ alterState(state => {
         fields(
           field('CommCare_Code__c', state => {
             var id = dataValue('Case_ID')(state);
-            var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
+            var serviceId = id + dataValue('Purpose')(state) + dataValue('Clinical_Date')(state);
             return serviceId.replace(/\//g, '');
           }),
           field('Service_UID__c', state => {
             var id = dataValue('Case_ID')(state);
-            var serviceId = id + dataValue('Purpose')(state)+ dataValue('Clinical_Date')(state);
+            var serviceId = id + dataValue('Purpose')(state) + dataValue('Clinical_Date')(state);
             return serviceId.replace(/\//g, '');
           }),
           field('Source__c', true),
@@ -2051,10 +2093,10 @@ alterState(state => {
       'CommCare_Visit_ID__c',
       fields(
         field('CommCare_Visit_ID__c', dataValue('id')),
-        field('Visit_UID__c', state=>{
-          var hh = dataValue('form.HH_ID')(state); 
+        field('Visit_UID__c', state => {
+          var hh = dataValue('form.HH_ID')(state);
           var date = dataValue('metadata.timeEnd')(state);
-          return hh+date; 
+          return hh + date;
         }),
         relationship(
           'Household__r',
