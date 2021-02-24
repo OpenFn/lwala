@@ -106,10 +106,10 @@ alterState(state => {
               name1 === undefined || name1 === ''
                 ? 'Unborn Child'
                 : name1.replace(/\w\S*/g, function (txt) {
-                    return (
-                      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                    );
-                  });
+                  return (
+                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                  );
+                });
             return status !== 'Unborn' ? name2 : 'Unborn Child';
           }),
           field('Source__c', true),
@@ -220,10 +220,10 @@ alterState(state => {
             var illness =
               value !== undefined
                 ? value
-                    .toLowerCase()
-                    .split(' ')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(';')
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
                 : null;
             return illness !== null
               ? illness.toString().replace(/_/g, ' ')
@@ -244,10 +244,10 @@ alterState(state => {
             var toTitleCase =
               disability !== undefined
                 ? disability
-                    .toLowerCase()
-                    .split(' ')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(';')
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
                 : null;
             return toTitleCase;
           }),
@@ -258,10 +258,10 @@ alterState(state => {
             var toTitleCase =
               disability !== undefined
                 ? disability
-                    .toLowerCase()
-                    .split(' ')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(';')
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
                 : null;
             return toTitleCase;
           }),
@@ -366,7 +366,12 @@ alterState(state => {
           field(
             'Parity__c',
             dataValue('TT5.Mother_Information.Pregnancy_Information.Parity')
-          )
+          ),
+          field('Nutrition_referral__c', dataValue('TT5.Child_Information.nutrition.Referral')),
+          field('Nutrition_referral_date__c', dataValue('TT5.Child_Information.nutrition.date_malnutrition')),
+          field('Health_insurance_active_status__c', dataValue('healthinsurance_active')),
+          field('Health_insurance_type__c', dataValue('health_insurance')),
+          field('Health_insurance__c', dataValue('health_insurace_cover')),
         )
       )
     )(state);
