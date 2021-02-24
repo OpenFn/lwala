@@ -229,10 +229,6 @@ alterState(state => {
           dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')
         ),
         field(
-          'Default_on_TB_treatment__c',
-          dataValue('form.treatment_and_tracking.patient_default_tb')
-        ),
-        field(
           'TB_patients_therapy_observed__c',
           dataValue('form.treatment_and_tracking.observed_tb_therapy')
         ),
@@ -335,7 +331,10 @@ alterState(state => {
         field('Know_HIV_status__c', dataValue('form.known_hiv_status')),
         field('HIV_counselling_and_testing_referral__c', dataValue('form.did_you_refer_for_hiv_counselling_and_testing_htc')),
         field('HIV_counseling_and_testing_referral_date__c', dataValue('form.refer_hiv')),
-        field('Treatment_Distribution__c', dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
+        field('Treatment_Distribution__c', state => {
+          var choice = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
+          return state.cleanChoice(state, choice);
+        }),
         field('Nutrition_referral_date__c', dataValue('form.TT5.Child_Information.Nutrition2.date_malnutrition')),
         field('Nutrition_referral__c', dataValue('form.TT5.Child_Information.Nutrition2.Referral')),
         field('Purpose_of_referral__c', state => {
