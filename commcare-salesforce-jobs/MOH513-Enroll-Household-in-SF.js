@@ -368,13 +368,9 @@ alterState(state => {
             dataValue('TT5.Mother_Information.Pregnancy_Information.Parity')
           ),
           field('Nutrition_referral__c', dataValue('TT5.Child_Information.nutrition.Referral')),
-          field('Nutrition_referral_date__c', dataValue('TT5.Child_Information.nutrition.date_malnutrition')),
-          field('Health_insurance_active_status__c', dataValue('healthinsurance_active')),
-          field('Health_insurance_type__c', dataValue('health_insurance')),
-          field('Health_insurance__c', dataValue('health_insurace_cover')),
+          field('Nutrition_referral_date__c', dataValue('TT5.Child_Information.nutrition.date_malnutrition'))
         )
-      )
-    )(state);
+      ))(state);
   }
 
   console.log('No first person found, not upserting.');
