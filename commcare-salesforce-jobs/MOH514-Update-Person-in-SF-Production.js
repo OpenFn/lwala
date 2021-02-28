@@ -26,6 +26,18 @@ alterState(state => {
     }
   };
 
+  state.handleMultiSelect = function (state, multiField) {
+    return multiField ? multiField.replace(/ /gi, ';')
+      .toLowerCase()
+      .split(';')
+      .map(value => {
+        return value.charAt(0).toUpperCase() +
+          value.slice(1).replace('_', ' ');
+        //return value;
+      })
+      .join(';') : '';
+  }
+
   return state;
 });
 
@@ -301,7 +313,10 @@ alterState(state => {
         field('Counselled_on_FP_Methods__c', dataValue('form.TT5.Mother_Information.CounselledFP_methods')),
         field('Client_counselled_on__c', state => {
           var choice = dataValue('form.treatment_and_tracking.counseling.counsel_topic')(state);
-          return state.cleanChoice(state, choice);
+          var choice2 = state.handleMultiSelect(state, choice);
+          return choice2.replace(/_/g, ' ');
+
+          //return state.handleMultiSelect(state, choice);
         }),
         field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
         field('Newborn_visited_48_hours_of_delivery__c', dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
