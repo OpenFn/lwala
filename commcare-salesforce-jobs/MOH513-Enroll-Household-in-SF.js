@@ -380,6 +380,10 @@ alterState((state) => {
           field(
             "Nutrition_referral_date__c",
             dataValue("TT5.Child_Information.nutrition.date_malnutrition")
+          ),
+          field(
+            "HIV_counseling_and_testing_referral_date__c",
+            dataValue("Basic_Information.person_info.when_hiv")
           )
         )
       )
