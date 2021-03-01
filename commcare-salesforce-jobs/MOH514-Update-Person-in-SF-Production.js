@@ -369,14 +369,21 @@ alterState(state => {
         field('Child_missed_immunization_type__c', dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),
         field('TB_treatment_referral_date__c', dataValue('form.treatment_and_tracking.refer_clientTB')),
         field('TB_referral__c', dataValue('form.treatment_and_tracking.tb_treatment')),
-        /*field('Default_on_TB_treatment__c', state => {
+        field('Default_on_TB_treatment__c', state => {
           var choice = dataValue('form.treatment_and_tracking.default_tb_treatment')(state);
           return state.cleanChoice(state, choice);
-        }),*/
+        }),
         field('Received_pregnancy_test__c', dataValue('form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test')),
         field('Pregnancy_test_result__c', dataValue('form.TT5.Mother_Information.pregnancy_test_result')),
         field('Pregnancy_referral__c', dataValue('form.TT5.Mother_Information.refer_preg')),
         field('Pregnancy_referral_date__c', dataValue('form.TT5.Mother_Information.referal_pregnancy')),
+        field('Chronic_illness__c', state => {
+          var choice = dataValue('form.please_specify_which_chronic_illness_the_person_has')(state);
+          var choice2 = state.handleMultiSelect(state, choice);
+          return choice2 ? choice2.replace(/_/g, ' ') : '';
+        }),
+        field('Chronic_illness_referral__c', dataValue('form.did_you_refer_the_client_for_any_chronic_illness')),
+        field('Chronic_illness_referral_date__c', dataValue('form.date_chronic_illness')),
       )
     )(state);
   }
