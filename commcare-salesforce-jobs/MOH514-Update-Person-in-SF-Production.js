@@ -332,7 +332,10 @@ alterState(state => {
         field('Mother_Skilled_Delivery_Referral__c', dataValue('form.ANCs.pregnancy_danger_signs.refer_skilled_delivery')),
         field('Mother_skilled_Ref_date__c', dataValue('form.ANCs.pregnancy_danger_signs.refer_skilled_delivery1')),
         field('Woman_referred_for_FP_services__c', dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')),
-        field('Family_planning_services_referral_date__c', dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')),
+        field('Family_planning_services_referral_date__c', state => {
+          var referred = dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')(state);
+          return referred=='yes'? dataValue('form.TT5.Mother_Information.date_today')(state) : '';
+        }), 
         field('Mother_PNC_referral__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc')),
         field('Mother_PNC_referral_date__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_the_mother_for_pnc')),
         field('Immunizations_referral__c', dataValue('form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization')),
