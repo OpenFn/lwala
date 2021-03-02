@@ -334,7 +334,7 @@ alterState(state => {
         field('Woman_referred_for_FP_services__c', dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')),
         field('Family_planning_services_referral_date__c', state => {
           var referred = dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')(state);
-          return referred=='yes'? dataValue('form.TT5.Mother_Information.date_today')(state) : '';
+          return referred=='yes'? dataValue('form.TT5.Mother_Information.date_today')(state) : null;
         }), 
         field('Mother_PNC_referral__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc')),
         field('Mother_PNC_referral_date__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_the_mother_for_pnc')),
