@@ -339,10 +339,10 @@ alterState(state => {
         field('Client_counselled_on__c', state => {
           var choices = dataValue('form.treatment_and_tracking.counseling.counsel_topic')(state);
           var choiceGroups =  choices ? choices.split(' ') : null;
-          choiceGroups.map(cg => {
+          var choicesMulti = choiceGroups.map(cg => {
             return state.counselMap[cg];
           })
-          return choiceGroups.join(';'); 
+          return choicesMulti.join(';'); 
         }),
         field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
         field('Newborn_visited_48_hours_of_delivery__c', dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
