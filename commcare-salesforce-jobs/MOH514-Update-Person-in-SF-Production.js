@@ -123,8 +123,9 @@ alterState(state => {
             : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
         }),
         field('Reason_for_a_refferal__c', state => {
-          var referral = dataValue('form.Purpose_of_Referral')(state);
-          // var referral = dataValue("form.treatment_and_tracking.Referral.Purpose_of_Referral")(state);
+          var purpose = dataValue('form.Purpose_of_Referral')(state);
+          var service = dataValue('form.Reason_for_Service')(state);
+          var referral = purpose==null && service=='Malaria Case'? 'Malaria': purpose; 
           var reason =
             referral === 'HIV_Testing_and_Counseling'
               ? 'HIV counselling or Testing'
