@@ -37,8 +37,33 @@ alterState(state => {
       })
       .join(';') : '';
   }
-
-  return state;
+  
+  const counselMap = {
+    anc_visits: 'ANC Visits',
+    early_initiation_of_anc_less_than_3_months: 'Early initiation of ANC (less than 3 months)',
+    completing_recomended_anc_visits: 'Completing recomended ANC visits',
+    danger_signs: 'Danger signs',
+    skilled_birth: 'Skilled birth',
+    immunization: 'Immunization',
+    individual_birth_plan: 'Individual Birth Plan',
+    emergency_preparedness: 'Emergency preparedness',
+    childcare_and_affection: 'Childcare and affection',
+    nutrition_counseling: 'Nutrition counseling',
+    growth_monitoring: 'Growth monitoring',
+    exclusive_breastfeeding: 'Exclusive breastfeeding',
+    complementary_feeding: 'Sleeping under LLITN',
+    sleeping_under_llitn: 'Knowing HIV status',
+    knowing_hiv_status: 'Indoor pollution',
+    indoor_pollution: 'Personal Hygiene',
+    personal_hygiene: 'Safe drinking water',
+    safe_drinking_water: 'Safe disposal of human waste',
+    safe_disposal_of_human_waste: 'Complementary feeding',
+  };
+  
+  return {
+    ...state,
+    counselMap
+  };
 });
 
 // Evaluates client status and how to upsert Person records
@@ -313,8 +338,7 @@ alterState(state => {
         field('Counselled_on_FP_Methods__c', dataValue('form.TT5.Mother_Information.CounselledFP_methods')),
         field('Client_counselled_on__c', state => {
           var choice = dataValue('form.treatment_and_tracking.counseling.counsel_topic')(state);
-          var choice2 = state.handleMultiSelect(state, choice);
-          return choice2 ? choice2.replace(/_/g, ' ') : '';
+          return state.counselMap(choice); 
         }),
         field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
         field('Newborn_visited_48_hours_of_delivery__c', dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
