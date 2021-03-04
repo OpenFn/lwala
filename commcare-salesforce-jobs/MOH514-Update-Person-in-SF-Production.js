@@ -554,9 +554,9 @@ alterState(state => {
         field('TT5_Mother_Registrant__c', 'No'),
         field('Date_of_Death__c', dataValue('form.Status.Date_of_Death')),
         field('Cause_of_Death__c', state => {
-          return dataValue('form.Status.Cause_of_Death')(state)
-            .toString()
-            .replace(/_/g, ' ');
+          var death = dataValue('form.Status.Cause_of_Death')(state); 
+          return death ? death.toString().replace(/_/g, ' ')
+            : death;
         }),
         field('Inactive_Date__c', dataValue('form.Date'))
       )
