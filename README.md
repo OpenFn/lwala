@@ -41,11 +41,14 @@ _Deprecated Forms & Archived Jobs_
 4. Schedule Appointment
 
 ### (2) Salesforce --> CommCare
-There are multiple Apex Triggers in Salesforce on the `Household` and `Patient` objects that send outbound messages to Lwala's OpenFn inbox when specific updates are made in the Salesforce system. These include: 
-1. Households: [trigger name...] (runs after Households created/updated)
-2. Patients: [trigger name...]  (runs after Patients created/updated)
+There are multiple Apex Triggers in Salesforce on the `Household` and `Patient` objects that send outbound messages to Lwala's OpenFn inbox when specific updates are made in the Salesforce system. This enables OpenFn to sync Salesforce info back to CommCare. This SF automation includes: 
+1. Households: Once HHs are creaed in Salesforce (via OpenFn/CommCare), a HH Code is assigned to `Household__c.Name` via the Salesforce Apex trigger `HouseholdCodeTrigger1`. Then another trigger `HouseholdupdateWebhookTrigger` sends this HH code (e.g., `42920`) and other HH information back to CommCare (via OpenFn) to sync back this reference id back to CommCare. 
+These trigger run on Household insert/update and were developed by Lwala's Admin Will Edman in 2017. 
 
-When these Salesforce outbound messages are received as new Messages in OpenFn, the following jobs are triggered to update data in CommCare. 
+2. Patients: Salesforce Apex trigger `PersonTrigger` runs on Patient create/update to re-assign Persons to HHs and send notifications to OpenFn/CommCare when important information is changed or a case is de/activated, to sync back to the corresponding CommCare case. 
+This trigger was originally developed by Vera Solutions, and then extended by Lwala's Admin in 2017 to include the webhook notifications to OpenFn.  
+
+When these trigger-created Salesforce outbound notifications are received as new Messages in OpenFn, the following jobs are triggered to update data in CommCare. 
 1. Send CHW Stats to CommCare (see [`CHW-Stats.js`](https://github.com/OpenFn/lwala/blob/master/salesforce-commcare-jobs/CHW-Stats.js))
 2. Close cases in CommCare (see [`Close-Household-Case.js`](https://github.com/OpenFn/lwala/blob/master/salesforce-commcare-jobs/Close-Household-Case.js) and [`Close-Person-Case.js`](https://github.com/OpenFn/lwala/blob/master/salesforce-commcare-jobs/Close-Person-Case.js))
 3. Create cases in CommCare when new SF records created ([see `Create` jobs here](https://github.com/OpenFn/lwala/tree/master/salesforce-commcare-jobs))
