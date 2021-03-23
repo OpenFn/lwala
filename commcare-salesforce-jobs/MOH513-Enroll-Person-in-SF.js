@@ -366,6 +366,25 @@ alterState(state => {
         field('Pregnancy_test_result__c', dataValue('form.TT5.Mother_Information.pregnancy_test_result')),
         field('Pregnancy_referral__c', dataValue('form.TT5.Mother_Information.refer_preg')),
         field('Pregnancy_referral_date__c', dataValue('form.TT5.Mother_Information.referal_pregnancy')),
+        field(
+          "Family_Planning__c", (state) => {
+            var plan = dataValue("Basic_Information.family_planning.Currently_on_family_planning")(state);
+            return plan ? 'Yes' : plan;
+          }),
+        field(
+          "Family_Planning_Method__c", (state) => {
+            var method = dataValue("Basic_Information.family_planning.Currently_on_family_planning")(state);
+            return method
+              ? method.toString().replace(/_/g, " ")
+              : method;
+          }),
+        field(
+          "Reasons_for_not_taking_FP_method__c", (state) => {
+            var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
+            return reason
+              ? reason.toString().replace(/_/g, " ")
+              : reason;
+          }),
       )
     )(state);
   }

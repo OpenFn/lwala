@@ -206,17 +206,24 @@ alterState((state) => {
             dataValue("Basic_Information.Contact_Info.contact_phone_number")
           ),
           field(
-            "Family_Planning__c",
-            dataValue(
-              "Basic_Information.family_planning.Currently_on_family_planning"
-            )
-          ), //transform to Yes/No?
+            "Family_Planning__c", (state) => {
+              var plan = dataValue("Basic_Information.family_planning.Currently_on_family_planning")(state);
+              return plan ? 'Yes' : plan;
+            }),
           field(
-            "Family_Planning_Method__c",
-            dataValue(
-              "Basic_Information.family_planning.Family_Planning_Method"
-            )
-          ),
+            "Family_Planning_Method__c", (state) => {
+              var method = dataValue("Basic_Information.family_planning.Family_Planning_Method")(state);
+              return method
+                ? method.toString().replace(/_/g, " ")
+                : method;
+            }),
+          field(
+            "Reasons_for_not_taking_FP_method__c", (state) => {
+              var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
+              return reason
+                ? reason.toString().replace(/_/g, " ")
+                : reason;
+            }),
           field(
             "Use_mosquito_net__c",
             dataValue("Basic_Information.person_info.sleep_under_net")

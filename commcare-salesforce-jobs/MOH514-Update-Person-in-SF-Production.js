@@ -37,7 +37,7 @@ alterState(state => {
       })
       .join(';') : '';
   }
-  
+
   const counselMap = {
     anc_visits: 'ANC Visits',
     early_initiation_of_anc_less_than_3_months: 'Early initiation of ANC (less than 3 months)',
@@ -59,7 +59,7 @@ alterState(state => {
     safe_drinking_water: 'Safe disposal of human waste',
     safe_disposal_of_human_waste: 'Complementary feeding',
   };
-  
+
   return {
     ...state,
     counselMap
@@ -125,7 +125,7 @@ alterState(state => {
         field('Reason_for_a_refferal__c', state => {
           var purpose = dataValue('form.Purpose_of_Referral')(state);
           var service = dataValue('form.Reason_for_Service')(state);
-          var referral = purpose==null && service=='Malaria Case'? 'Malaria': purpose; 
+          var referral = purpose == null && service == 'Malaria Case' ? 'Malaria' : purpose;
           var reason =
             referral === 'HIV_Testing_and_Counseling'
               ? 'HIV counselling or Testing'
@@ -321,7 +321,7 @@ alterState(state => {
           var method2 = dataValue(
             'form.TT5.Mother_Information.family_planning'
           )(state);
-          return method2 !== undefined ? method2 : method1;
+          return method2 ? 'Yes' : method1;
         }),
         field('Family_Planning_Method__c', state => {
           var method1 = dataValue(
@@ -330,8 +330,15 @@ alterState(state => {
           var method2 = dataValue(
             'form.TT5.Mother_Information.family_planning_method'
           )(state);
-          return method2 !== undefined ? method2 : method1;
+          return method2 ? method2.toString().replace(/_/g, " ") : method1 ? method1.toString().replace(/_/g, " ") : method1;
         }),
+        field(
+          "Reasons_for_not_taking_FP_method__c", (state) => {
+            var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
+            return reason
+              ? reason.toString().replace(/_/g, " ")
+              : reason;
+          }),
         field('Pregnant__c', state => {
           var preg = dataValue('form.TT5.Mother_Information.Pregnant')(state);
           return preg == 'Yes' ? true : false;
@@ -339,11 +346,11 @@ alterState(state => {
         field('Counselled_on_FP_Methods__c', dataValue('form.TT5.Mother_Information.CounselledFP_methods')),
         field('Client_counselled_on__c', state => {
           var choices = dataValue('form.treatment_and_tracking.counseling.counsel_topic')(state);
-          var choiceGroups =  choices ? choices.split(' ') : null;
+          var choiceGroups = choices ? choices.split(' ') : null;
           var choicesMulti = choiceGroups ? choiceGroups.map(cg => {
             return state.counselMap[cg];
-          }).join(';') : choiceGroups; 
-          return choicesMulti; 
+          }).join(';') : choiceGroups;
+          return choicesMulti;
         }),
         field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
         field('Newborn_visited_48_hours_of_delivery__c', dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
@@ -363,8 +370,8 @@ alterState(state => {
         field('Woman_referred_for_FP_services__c', dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')),
         field('Family_planning_services_referral_date__c', state => {
           var referred = dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')(state);
-          return referred=='yes'? dataValue('form.TT5.Mother_Information.date_today')(state) : null;
-        }), 
+          return referred == 'yes' ? dataValue('form.TT5.Mother_Information.date_today')(state) : null;
+        }),
         field('Mother_PNC_referral__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc')),
         field('Mother_PNC_referral_date__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_the_mother_for_pnc')),
         field('Immunizations_referral__c', dataValue('form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization')),
@@ -555,7 +562,7 @@ alterState(state => {
         field('TT5_Mother_Registrant__c', 'No'),
         field('Date_of_Death__c', dataValue('form.Status.Date_of_Death')),
         field('Cause_of_Death__c', state => {
-          var death = dataValue('form.Status.Cause_of_Death')(state); 
+          var death = dataValue('form.Status.Cause_of_Death')(state);
           return death ? death.toString().replace(/_/g, ' ')
             : death;
         }),
