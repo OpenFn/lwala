@@ -353,235 +353,241 @@ alterState(state => {
           }).join(';') : choiceGroups;
           return choicesMulti;
         }),
-        field('Client_provided_with_FP__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
-        //field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
-        field('Newborn_visited_48_hours_of_delivery__c', dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
-        field('Newborn_visit_counselling__c', state => {
-          var choice = dataValue('form.TT5.Child_Information.did_you_consel_the_mother_on1')(state);
-          return state.cleanChoice(state, choice);
-        }),
-        field('mother_visited_48_hours_of_the_delivery__c', dataValue('form.TT5.Child_Information.visit_mother_48')),
-        field('Mother_visit_counselling__c', state => {
-          var choice = dataValue('form.TT5.Child_Information.did_you_consel_the_mother_on2')(state);
-          return state.cleanChoice(state, choice);
-        }),
-        field('Mother_ANC_Referral__c', dataValue('form.ANCs.refer_for_anc')),
-        field('ANC_referral_date__c', dataValue('form.ANCs.refer_anc')),
-        field('Mother_Skilled_Delivery_Referral__c', dataValue('form.ANCs.pregnancy_danger_signs.refer_skilled_delivery')),
-        field('Mother_skilled_Ref_date__c', dataValue('form.ANCs.pregnancy_danger_signs.refer_skilled_delivery1')),
-        field('Woman_referred_for_FP_services__c', dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')),
-        field('Family_planning_services_referral_date__c', state => {
-          var referred = dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')(state);
-          return referred == 'yes' ? dataValue('form.TT5.Mother_Information.date_today')(state) : null;
-        }),
-        field('Mother_PNC_referral__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc')),
-        field('Mother_PNC_referral_date__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_the_mother_for_pnc')),
-        field('Immunizations_referral__c', dataValue('form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization')),
-        field('Immunizations_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.refer_immunization')),
-        field('Vitamin_A_supplement_referral__c', dataValue('form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements')),
-        field('Vitamin_A_supplement_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.refer_vitamin_a_supplements')),
-        field('Cough_14_days_referral__c', dataValue('form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days')),
-        field('Cough_14_days_referral_date__c', dataValue('form.treatment_and_tracking.refer_14days')),
-        field('Know_HIV_status__c', dataValue('form.known_hiv_status')),
-        field('HIV_counselling_and_testing_referral__c', dataValue('form.did_you_refer_for_hiv_counselling_and_testing_htc')),
-        field('HIV_counseling_and_testing_referral_date__c', dataValue('form.refer_hiv')),
-        field('Treatment_Distribution__c', state => {
-          var choice = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
-          return state.cleanChoice(state, choice);
-        }),
-        field('Nutrition_referral_date__c', dataValue('form.TT5.Child_Information.Nutrition2.date_malnutrition')),
-        field('Nutrition_referral__c', dataValue('form.TT5.Child_Information.Nutrition2.Referral')),
-        field('Purpose_of_referral__c', state => {
-          var choice = dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state);
-          var choice2 = state.cleanChoice(state, choice);
-          return choice2 ? choice2.replace(/_/g, ' ') : '';
-        }),
-        field('Current_Height__c', dataValue('form.TT5.Child_Information.Nutrition.current_height')),
-        field('Cause_of_Death__c', state => {
-          var choice = dataValue('form.Status.Cause_of_Death')(state);
-          return state.cleanChoice(state, choice);
-        }),
-        field('ART_treatment_referral_date__c', dataValue('form.HAWI.when_ART_refer')),
-        field('ART_treatment_referral__c', dataValue('form.HAWI.did_you_refer')),
-        field('ART_treatment_referral_date__c', dataValue('form.HAWI.when_ART_refer')),
-        field('ART_treatment_referral__c', dataValue('form.HAWI.default')),
-        field('Immunizations_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.referral_for_immunization')),
-        field('Immunizations_referral__c', dataValue('form.TT5.Child_Information.Immunizations.refer_immunization_type')),
-        field('Child_missed_immunization_type__c', dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),
-        field('TB_treatment_referral_date__c', dataValue('form.treatment_and_tracking.refer_clientTB')),
-        field('TB_referral__c', dataValue('form.treatment_and_tracking.tb_treatment')),
-        field('Default_on_TB_treatment__c', state => {
-          var choice = dataValue('form.treatment_and_tracking.default_tb_treatment')(state);
-          return state.cleanChoice(state, choice);
-        }),
-        field('Received_pregnancy_test__c', dataValue('form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test')),
-        field('Pregnancy_test_result__c', dataValue('form.TT5.Mother_Information.pregnancy_test_result')),
-        field('Pregnancy_referral__c', dataValue('form.TT5.Mother_Information.refer_preg')),
-        field('Pregnancy_referral_date__c', dataValue('form.TT5.Mother_Information.referal_pregnancy')),
-        field('Chronic_illness__c', state => {
-          var choice = dataValue('form.please_specify_which_chronic_illness_the_person_has')(state);
-          var choice2 = state.handleMultiSelect(state, choice);
-          return choice2 ? choice2.replace(/_/g, ' ') : '';
-        }),
-        field('Chronic_illness_referral__c', dataValue('form.did_you_refer_the_client_for_any_chronic_illness')),
-        field('Chronic_illness_referral_date__c', dataValue('form.date_chronic_illness')),
-        field('Birth_Certificate__c', dataValeu('form.Status.birth_certificate')),
-        field("No_Preg_Test", (state) => {
-          var reason = dataValue("form.TT5.Mother_Information.No_Preg_Test")(state);
-          return reason
-            ? reason.toString().replace(/_/g, " ")
-            : reason;
-        })
-      )
+        field('FP_Method_Distributed__c', (state) => {
+          var method = dataValue("form.TT5.Mother_Information.FP_commodity")(state);
+          return method
+            ? method.toString().replace(/_/g, " ")
+            : method;
+        })),
+      field('Client_provided_with_FP__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
+      //field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
+      field('Newborn_visited_48_hours_of_delivery__c', dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
+      field('Newborn_visit_counselling__c', state => {
+        var choice = dataValue('form.TT5.Child_Information.did_you_consel_the_mother_on1')(state);
+        return state.cleanChoice(state, choice);
+      }),
+      field('mother_visited_48_hours_of_the_delivery__c', dataValue('form.TT5.Child_Information.visit_mother_48')),
+      field('Mother_visit_counselling__c', state => {
+        var choice = dataValue('form.TT5.Child_Information.did_you_consel_the_mother_on2')(state);
+        return state.cleanChoice(state, choice);
+      }),
+      field('Mother_ANC_Referral__c', dataValue('form.ANCs.refer_for_anc')),
+      field('ANC_referral_date__c', dataValue('form.ANCs.refer_anc')),
+      field('Mother_Skilled_Delivery_Referral__c', dataValue('form.ANCs.pregnancy_danger_signs.refer_skilled_delivery')),
+      field('Mother_skilled_Ref_date__c', dataValue('form.ANCs.pregnancy_danger_signs.refer_skilled_delivery1')),
+      field('Woman_referred_for_FP_services__c', dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')),
+      field('Family_planning_services_referral_date__c', state => {
+        var referred = dataValue('form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services')(state);
+        return referred == 'yes' ? dataValue('form.TT5.Mother_Information.date_today')(state) : null;
+      }),
+      field('Mother_PNC_referral__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc')),
+      field('Mother_PNC_referral_date__c', dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_the_mother_for_pnc')),
+      field('Immunizations_referral__c', dataValue('form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization')),
+      field('Immunizations_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.refer_immunization')),
+      field('Vitamin_A_supplement_referral__c', dataValue('form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements')),
+      field('Vitamin_A_supplement_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.refer_vitamin_a_supplements')),
+      field('Cough_14_days_referral__c', dataValue('form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days')),
+      field('Cough_14_days_referral_date__c', dataValue('form.treatment_and_tracking.refer_14days')),
+      field('Know_HIV_status__c', dataValue('form.known_hiv_status')),
+      field('HIV_counselling_and_testing_referral__c', dataValue('form.did_you_refer_for_hiv_counselling_and_testing_htc')),
+      field('HIV_counseling_and_testing_referral_date__c', dataValue('form.refer_hiv')),
+      field('Treatment_Distribution__c', state => {
+        var choice = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
+        return state.cleanChoice(state, choice);
+      }),
+      field('Nutrition_referral_date__c', dataValue('form.TT5.Child_Information.Nutrition2.date_malnutrition')),
+      field('Nutrition_referral__c', dataValue('form.TT5.Child_Information.Nutrition2.Referral')),
+      field('Purpose_of_referral__c', state => {
+        var choice = dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state);
+        var choice2 = state.cleanChoice(state, choice);
+        return choice2 ? choice2.replace(/_/g, ' ') : '';
+      }),
+      field('Current_Height__c', dataValue('form.TT5.Child_Information.Nutrition.current_height')),
+      field('Cause_of_Death__c', state => {
+        var choice = dataValue('form.Status.Cause_of_Death')(state);
+        return state.cleanChoice(state, choice);
+      }),
+      field('ART_treatment_referral_date__c', dataValue('form.HAWI.when_ART_refer')),
+      field('ART_treatment_referral__c', dataValue('form.HAWI.did_you_refer')),
+      field('ART_treatment_referral_date__c', dataValue('form.HAWI.when_ART_refer')),
+      field('ART_treatment_referral__c', dataValue('form.HAWI.default')),
+      field('Immunizations_referral_date__c', dataValue('form.TT5.Child_Information.Immunizations.referral_for_immunization')),
+      field('Immunizations_referral__c', dataValue('form.TT5.Child_Information.Immunizations.refer_immunization_type')),
+      field('Child_missed_immunization_type__c', dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),
+      field('TB_treatment_referral_date__c', dataValue('form.treatment_and_tracking.refer_clientTB')),
+      field('TB_referral__c', dataValue('form.treatment_and_tracking.tb_treatment')),
+      field('Default_on_TB_treatment__c', state => {
+        var choice = dataValue('form.treatment_and_tracking.default_tb_treatment')(state);
+        return state.cleanChoice(state, choice);
+      }),
+      field('Received_pregnancy_test__c', dataValue('form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test')),
+      field('Pregnancy_test_result__c', dataValue('form.TT5.Mother_Information.pregnancy_test_result')),
+      field('Pregnancy_referral__c', dataValue('form.TT5.Mother_Information.refer_preg')),
+      field('Pregnancy_referral_date__c', dataValue('form.TT5.Mother_Information.referal_pregnancy')),
+      field('Chronic_illness__c', state => {
+        var choice = dataValue('form.please_specify_which_chronic_illness_the_person_has')(state);
+        var choice2 = state.handleMultiSelect(state, choice);
+        return choice2 ? choice2.replace(/_/g, ' ') : '';
+      }),
+      field('Chronic_illness_referral__c', dataValue('form.did_you_refer_the_client_for_any_chronic_illness')),
+      field('Chronic_illness_referral_date__c', dataValue('form.date_chronic_illness')),
+      field('Birth_Certificate__c', dataValeu('form.Status.birth_certificate')),
+      field("No_Preg_Test", (state) => {
+        var reason = dataValue("form.TT5.Mother_Information.No_Preg_Test")(state);
+        return reason
+          ? reason.toString().replace(/_/g, " ")
+          : reason;
+      })
+    )
     )(state);
   }
   // Transfer Outs
   else if (dataValue('form.Status.Client_Status')(state) == 'Transferred_Out') {
-    return upsert(
-      'Person__c',
-      'CommCare_ID__c',
-      fields(
-        field('CommCare_ID__c', dataValue('form.case.@case_id')),
-        field('Source__c', 1),
-        field('Name', state => {
-          var name1 = dataValue('form.Person_Name')(state);
-          var name2 = name1.replace(/\w\S*/g, function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-          });
-          return name2;
-        }),
-        field('Client_Status__c', 'Transferred Out'),
-        field('TT5_Mother_Registrant__c', 'No'),
-        field('Active_TT5_Mother__c', 'No'),
-        field('Active_in_Thrive_Thru_5__c', 'No'),
-        field('Thrive_Thru_5_Registrant__c', 'No'),
-        field('Inactive_Date__c', dataValue('form.Date')),
-        field('Active_in_HAWI__c', 'No'),
-        field('Active_TT5_Mother__c', 'No'),
-        field(
-          'Date_of_Transfer_Out__c',
-          dataValue('form.Status.Date_of_Transfer_Out')
-        )
+  return upsert(
+    'Person__c',
+    'CommCare_ID__c',
+    fields(
+      field('CommCare_ID__c', dataValue('form.case.@case_id')),
+      field('Source__c', 1),
+      field('Name', state => {
+        var name1 = dataValue('form.Person_Name')(state);
+        var name2 = name1.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        return name2;
+      }),
+      field('Client_Status__c', 'Transferred Out'),
+      field('TT5_Mother_Registrant__c', 'No'),
+      field('Active_TT5_Mother__c', 'No'),
+      field('Active_in_Thrive_Thru_5__c', 'No'),
+      field('Thrive_Thru_5_Registrant__c', 'No'),
+      field('Inactive_Date__c', dataValue('form.Date')),
+      field('Active_in_HAWI__c', 'No'),
+      field('Active_TT5_Mother__c', 'No'),
+      field(
+        'Date_of_Transfer_Out__c',
+        dataValue('form.Status.Date_of_Transfer_Out')
       )
-    )(state);
-  }
-  // Lost to Follow Up
-  else if (
-    dataValue('form.Status.Client_Status')(state) == 'Lost_to_Follow_Up'
-  ) {
-    return upsert(
-      'Person__c',
-      'CommCare_ID__c',
-      fields(
-        field('Source__c', 1),
-        field('CommCare_ID__c', dataValue('form.case.@case_id')),
-        field('Name', state => {
-          var name1 = dataValue('form.Person_Name')(state);
-          var name2 = name1.replace(/\w\S*/g, function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-          });
-          return name2;
-        }),
-        field('Client_Status__c', 'Lost to Follow-Up'),
-        field('Active_in_Thrive_Thru_5__c', 'No'),
-        field('Active_TT5_Mother__c', 'No'),
-        field('TT5_Mother_Registrant__c', 'No'),
-        field('Active_in_HAWI__c', 'No'),
-        field('Date_Last_Seen__c', dataValue('form.Status.Date_Last_Seen')),
-        field('Inactive_Date__c', dataValue('form.Date'))
-      )
-    )(state);
-  }
-  // Graduated from Thrive Thru 5
-  else if (
-    dataValue('form.Status.Client_Status')(state) == 'Graduated_From_TT5'
-  ) {
-    return upsert(
-      'Person__c',
-      'CommCare_ID__c',
-      fields(
-        field('Source__c', 1),
-        field('CommCare_ID__c', dataValue('form.case.@case_id')),
-        field('Name', state => {
-          var name1 = dataValue('form.Person_Name')(state);
-          var name2 = name1.replace(/\w\S*/g, function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-          });
-          return name2;
-        }),
-        field('Client_Status__c', 'Graduated From TT5'),
-        field('Active_in_Thrive_Thru_5__c', 'No'),
-        field('Active_TT5_Mother__c', 'No'),
-        field('TT5_Mother_Registrant__c', 'No'),
-        field('Active_in_HAWI__c', 'No'),
-        field('Active_TT5_Mother__c', 'No'),
-        field('Date_Last_Seen__c', dataValue('form.Status.Date_Last_Seen')),
-        field('Inactive_Date__c', dataValue('form.Date'))
-      )
-    )(state);
-  }
-  // Data entry error
-  else if (
-    dataValue('form.Status.Client_Status')(state) == 'Data_Entry_Error'
-  ) {
-    return upsert(
-      'Person__c',
-      'CommCare_ID__c',
-      fields(
-        field('Source__c', 1),
-        field('CommCare_ID__c', dataValue('form.case.@case_id')),
-        field('Name', state => {
-          var name1 = dataValue('form.Person_Name')(state);
-          var name2 = name1.replace(/\w\S*/g, function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-          });
-          return name2;
-        }),
-        field('Client_Status__c', 'Data Entry Error'),
-        field('Active_in_Thrive_Thru_5__c', 'No'),
-        field('Active_TT5_Mother__c', 'No'),
-        field('TT5_Mother_Registrant__c', 'No'),
-        field('Active_in_HAWI__c', 'No'),
-        field('Inactive_Date__c', dataValue('form.Date'))
-      )
-    )(state);
-  }
-  // Deceased
-  else if (dataValue('form.Status.Client_Status')(state) == 'Deceased') {
-    return upsert(
-      'Person__c',
-      'CommCare_ID__c',
-      fields(
-        field('Source__c', 1),
-        field('CommCare_ID__c', dataValue('form.case.@case_id')),
-        field('Name', state => {
-          var name1 = dataValue('form.Person_Name')(state);
-          var name2 = name1.replace(/\w\S*/g, function (txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-          });
-          return name2 + 'deceased';
-        }),
-        field('Verbal_autopsy__c', dataValue('form.Status.verbal_autopsy')),
-        field('Client_Status__c', 'Deceased'),
-        field('Child_Status__c', 'Deceased'),
-        field('Active_in_Thrive_Thru_5__c', 'No'),
-        field('Thrive_Thru_5_Registrant__c', 'No'),
-        field('Active_in_HAWI__c', 'No'),
-        field('Active_TT5_Mother__c', 'No'),
-        field('TT5_Mother_Registrant__c', 'No'),
-        field('Date_of_Death__c', dataValue('form.Status.Date_of_Death')),
-        field('Cause_of_Death__c', state => {
-          var death = dataValue('form.Status.Cause_of_Death')(state);
-          return death ? death.toString().replace(/_/g, ' ')
-            : death;
-        }),
-        field('Inactive_Date__c', dataValue('form.Date'))
-      )
-    )(state);
-  }
+    )
+  )(state);
+}
+// Lost to Follow Up
+else if (
+  dataValue('form.Status.Client_Status')(state) == 'Lost_to_Follow_Up'
+) {
+  return upsert(
+    'Person__c',
+    'CommCare_ID__c',
+    fields(
+      field('Source__c', 1),
+      field('CommCare_ID__c', dataValue('form.case.@case_id')),
+      field('Name', state => {
+        var name1 = dataValue('form.Person_Name')(state);
+        var name2 = name1.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        return name2;
+      }),
+      field('Client_Status__c', 'Lost to Follow-Up'),
+      field('Active_in_Thrive_Thru_5__c', 'No'),
+      field('Active_TT5_Mother__c', 'No'),
+      field('TT5_Mother_Registrant__c', 'No'),
+      field('Active_in_HAWI__c', 'No'),
+      field('Date_Last_Seen__c', dataValue('form.Status.Date_Last_Seen')),
+      field('Inactive_Date__c', dataValue('form.Date'))
+    )
+  )(state);
+}
+// Graduated from Thrive Thru 5
+else if (
+  dataValue('form.Status.Client_Status')(state) == 'Graduated_From_TT5'
+) {
+  return upsert(
+    'Person__c',
+    'CommCare_ID__c',
+    fields(
+      field('Source__c', 1),
+      field('CommCare_ID__c', dataValue('form.case.@case_id')),
+      field('Name', state => {
+        var name1 = dataValue('form.Person_Name')(state);
+        var name2 = name1.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        return name2;
+      }),
+      field('Client_Status__c', 'Graduated From TT5'),
+      field('Active_in_Thrive_Thru_5__c', 'No'),
+      field('Active_TT5_Mother__c', 'No'),
+      field('TT5_Mother_Registrant__c', 'No'),
+      field('Active_in_HAWI__c', 'No'),
+      field('Active_TT5_Mother__c', 'No'),
+      field('Date_Last_Seen__c', dataValue('form.Status.Date_Last_Seen')),
+      field('Inactive_Date__c', dataValue('form.Date'))
+    )
+  )(state);
+}
+// Data entry error
+else if (
+  dataValue('form.Status.Client_Status')(state) == 'Data_Entry_Error'
+) {
+  return upsert(
+    'Person__c',
+    'CommCare_ID__c',
+    fields(
+      field('Source__c', 1),
+      field('CommCare_ID__c', dataValue('form.case.@case_id')),
+      field('Name', state => {
+        var name1 = dataValue('form.Person_Name')(state);
+        var name2 = name1.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        return name2;
+      }),
+      field('Client_Status__c', 'Data Entry Error'),
+      field('Active_in_Thrive_Thru_5__c', 'No'),
+      field('Active_TT5_Mother__c', 'No'),
+      field('TT5_Mother_Registrant__c', 'No'),
+      field('Active_in_HAWI__c', 'No'),
+      field('Inactive_Date__c', dataValue('form.Date'))
+    )
+  )(state);
+}
+// Deceased
+else if (dataValue('form.Status.Client_Status')(state) == 'Deceased') {
+  return upsert(
+    'Person__c',
+    'CommCare_ID__c',
+    fields(
+      field('Source__c', 1),
+      field('CommCare_ID__c', dataValue('form.case.@case_id')),
+      field('Name', state => {
+        var name1 = dataValue('form.Person_Name')(state);
+        var name2 = name1.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        return name2 + 'deceased';
+      }),
+      field('Verbal_autopsy__c', dataValue('form.Status.verbal_autopsy')),
+      field('Client_Status__c', 'Deceased'),
+      field('Child_Status__c', 'Deceased'),
+      field('Active_in_Thrive_Thru_5__c', 'No'),
+      field('Thrive_Thru_5_Registrant__c', 'No'),
+      field('Active_in_HAWI__c', 'No'),
+      field('Active_TT5_Mother__c', 'No'),
+      field('TT5_Mother_Registrant__c', 'No'),
+      field('Date_of_Death__c', dataValue('form.Status.Date_of_Death')),
+      field('Cause_of_Death__c', state => {
+        var death = dataValue('form.Status.Cause_of_Death')(state);
+        return death ? death.toString().replace(/_/g, ' ')
+          : death;
+      }),
+      field('Inactive_Date__c', dataValue('form.Date'))
+    )
+  )(state);
+}
 
-  console.log('None of the ifs matched, skipping upsert and returning state.');
-  return state;
+console.log('None of the ifs matched, skipping upsert and returning state.');
+return state;
 });
 
 // Person is added to TT5 ?
