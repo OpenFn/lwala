@@ -424,7 +424,13 @@ alterState(state => {
         }),
         field('Chronic_illness_referral__c', dataValue('form.did_you_refer_the_client_for_any_chronic_illness')),
         field('Chronic_illness_referral_date__c', dataValue('form.date_chronic_illness')),
-        field('Birth_Certificate__c', dataValeu('form.Status.birth_certificate'))
+        field('Birth_Certificate__c', dataValeu('form.Status.birth_certificate')),
+        field("No_Preg_Test", (state) => {
+          var reason = dataValue("form.TT5.Mother_Information.No_Preg_Test")(state);
+          return reason
+            ? reason.toString().replace(/_/g, " ")
+            : reason;
+        })
       )
     )(state);
   }

@@ -386,6 +386,12 @@ alterState(state => {
               ? reason.toString().replace(/_/g, " ")
               : reason;
           }),
+        field("No_Preg_Test", (state) => {
+          var reason = dataValue("Basic_Information.family_planning.No_Preg_Test")(state);
+          return reason
+            ? reason.toString().replace(/_/g, " ")
+            : reason;
+        })
       )
     )(state);
   }
