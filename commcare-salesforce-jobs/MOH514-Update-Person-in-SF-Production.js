@@ -438,156 +438,155 @@ alterState(state => {
           ? reason.toString().replace(/_/g, " ")
           : reason;
       })
-    )
     )(state);
   }
   // Transfer Outs
   else if (dataValue('form.Status.Client_Status')(state) == 'Transferred_Out') {
-  return upsert(
-    'Person__c',
-    'CommCare_ID__c',
-    fields(
-      field('CommCare_ID__c', dataValue('form.case.@case_id')),
-      field('Source__c', 1),
-      field('Name', state => {
-        var name1 = dataValue('form.Person_Name')(state);
-        var name2 = name1.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-        return name2;
-      }),
-      field('Client_Status__c', 'Transferred Out'),
-      field('TT5_Mother_Registrant__c', 'No'),
-      field('Active_TT5_Mother__c', 'No'),
-      field('Active_in_Thrive_Thru_5__c', 'No'),
-      field('Thrive_Thru_5_Registrant__c', 'No'),
-      field('Inactive_Date__c', dataValue('form.Date')),
-      field('Active_in_HAWI__c', 'No'),
-      field('Active_TT5_Mother__c', 'No'),
-      field(
-        'Date_of_Transfer_Out__c',
-        dataValue('form.Status.Date_of_Transfer_Out')
+    return upsert(
+      'Person__c',
+      'CommCare_ID__c',
+      fields(
+        field('CommCare_ID__c', dataValue('form.case.@case_id')),
+        field('Source__c', 1),
+        field('Name', state => {
+          var name1 = dataValue('form.Person_Name')(state);
+          var name2 = name1.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          });
+          return name2;
+        }),
+        field('Client_Status__c', 'Transferred Out'),
+        field('TT5_Mother_Registrant__c', 'No'),
+        field('Active_TT5_Mother__c', 'No'),
+        field('Active_in_Thrive_Thru_5__c', 'No'),
+        field('Thrive_Thru_5_Registrant__c', 'No'),
+        field('Inactive_Date__c', dataValue('form.Date')),
+        field('Active_in_HAWI__c', 'No'),
+        field('Active_TT5_Mother__c', 'No'),
+        field(
+          'Date_of_Transfer_Out__c',
+          dataValue('form.Status.Date_of_Transfer_Out')
+        )
       )
-    )
-  )(state);
-}
-// Lost to Follow Up
-else if (
-  dataValue('form.Status.Client_Status')(state) == 'Lost_to_Follow_Up'
-) {
-  return upsert(
-    'Person__c',
-    'CommCare_ID__c',
-    fields(
-      field('Source__c', 1),
-      field('CommCare_ID__c', dataValue('form.case.@case_id')),
-      field('Name', state => {
-        var name1 = dataValue('form.Person_Name')(state);
-        var name2 = name1.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-        return name2;
-      }),
-      field('Client_Status__c', 'Lost to Follow-Up'),
-      field('Active_in_Thrive_Thru_5__c', 'No'),
-      field('Active_TT5_Mother__c', 'No'),
-      field('TT5_Mother_Registrant__c', 'No'),
-      field('Active_in_HAWI__c', 'No'),
-      field('Date_Last_Seen__c', dataValue('form.Status.Date_Last_Seen')),
-      field('Inactive_Date__c', dataValue('form.Date'))
-    )
-  )(state);
-}
-// Graduated from Thrive Thru 5
-else if (
-  dataValue('form.Status.Client_Status')(state) == 'Graduated_From_TT5'
-) {
-  return upsert(
-    'Person__c',
-    'CommCare_ID__c',
-    fields(
-      field('Source__c', 1),
-      field('CommCare_ID__c', dataValue('form.case.@case_id')),
-      field('Name', state => {
-        var name1 = dataValue('form.Person_Name')(state);
-        var name2 = name1.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-        return name2;
-      }),
-      field('Client_Status__c', 'Graduated From TT5'),
-      field('Active_in_Thrive_Thru_5__c', 'No'),
-      field('Active_TT5_Mother__c', 'No'),
-      field('TT5_Mother_Registrant__c', 'No'),
-      field('Active_in_HAWI__c', 'No'),
-      field('Active_TT5_Mother__c', 'No'),
-      field('Date_Last_Seen__c', dataValue('form.Status.Date_Last_Seen')),
-      field('Inactive_Date__c', dataValue('form.Date'))
-    )
-  )(state);
-}
-// Data entry error
-else if (
-  dataValue('form.Status.Client_Status')(state) == 'Data_Entry_Error'
-) {
-  return upsert(
-    'Person__c',
-    'CommCare_ID__c',
-    fields(
-      field('Source__c', 1),
-      field('CommCare_ID__c', dataValue('form.case.@case_id')),
-      field('Name', state => {
-        var name1 = dataValue('form.Person_Name')(state);
-        var name2 = name1.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-        return name2;
-      }),
-      field('Client_Status__c', 'Data Entry Error'),
-      field('Active_in_Thrive_Thru_5__c', 'No'),
-      field('Active_TT5_Mother__c', 'No'),
-      field('TT5_Mother_Registrant__c', 'No'),
-      field('Active_in_HAWI__c', 'No'),
-      field('Inactive_Date__c', dataValue('form.Date'))
-    )
-  )(state);
-}
-// Deceased
-else if (dataValue('form.Status.Client_Status')(state) == 'Deceased') {
-  return upsert(
-    'Person__c',
-    'CommCare_ID__c',
-    fields(
-      field('Source__c', 1),
-      field('CommCare_ID__c', dataValue('form.case.@case_id')),
-      field('Name', state => {
-        var name1 = dataValue('form.Person_Name')(state);
-        var name2 = name1.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-        return name2 + 'deceased';
-      }),
-      field('Verbal_autopsy__c', dataValue('form.Status.verbal_autopsy')),
-      field('Client_Status__c', 'Deceased'),
-      field('Child_Status__c', 'Deceased'),
-      field('Active_in_Thrive_Thru_5__c', 'No'),
-      field('Thrive_Thru_5_Registrant__c', 'No'),
-      field('Active_in_HAWI__c', 'No'),
-      field('Active_TT5_Mother__c', 'No'),
-      field('TT5_Mother_Registrant__c', 'No'),
-      field('Date_of_Death__c', dataValue('form.Status.Date_of_Death')),
-      field('Cause_of_Death__c', state => {
-        var death = dataValue('form.Status.Cause_of_Death')(state);
-        return death ? death.toString().replace(/_/g, ' ')
-          : death;
-      }),
-      field('Inactive_Date__c', dataValue('form.Date'))
-    )
-  )(state);
-}
+    )(state);
+  }
+  // Lost to Follow Up
+  else if (
+    dataValue('form.Status.Client_Status')(state) == 'Lost_to_Follow_Up'
+  ) {
+    return upsert(
+      'Person__c',
+      'CommCare_ID__c',
+      fields(
+        field('Source__c', 1),
+        field('CommCare_ID__c', dataValue('form.case.@case_id')),
+        field('Name', state => {
+          var name1 = dataValue('form.Person_Name')(state);
+          var name2 = name1.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          });
+          return name2;
+        }),
+        field('Client_Status__c', 'Lost to Follow-Up'),
+        field('Active_in_Thrive_Thru_5__c', 'No'),
+        field('Active_TT5_Mother__c', 'No'),
+        field('TT5_Mother_Registrant__c', 'No'),
+        field('Active_in_HAWI__c', 'No'),
+        field('Date_Last_Seen__c', dataValue('form.Status.Date_Last_Seen')),
+        field('Inactive_Date__c', dataValue('form.Date'))
+      )
+    )(state);
+  }
+  // Graduated from Thrive Thru 5
+  else if (
+    dataValue('form.Status.Client_Status')(state) == 'Graduated_From_TT5'
+  ) {
+    return upsert(
+      'Person__c',
+      'CommCare_ID__c',
+      fields(
+        field('Source__c', 1),
+        field('CommCare_ID__c', dataValue('form.case.@case_id')),
+        field('Name', state => {
+          var name1 = dataValue('form.Person_Name')(state);
+          var name2 = name1.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          });
+          return name2;
+        }),
+        field('Client_Status__c', 'Graduated From TT5'),
+        field('Active_in_Thrive_Thru_5__c', 'No'),
+        field('Active_TT5_Mother__c', 'No'),
+        field('TT5_Mother_Registrant__c', 'No'),
+        field('Active_in_HAWI__c', 'No'),
+        field('Active_TT5_Mother__c', 'No'),
+        field('Date_Last_Seen__c', dataValue('form.Status.Date_Last_Seen')),
+        field('Inactive_Date__c', dataValue('form.Date'))
+      )
+    )(state);
+  }
+  // Data entry error
+  else if (
+    dataValue('form.Status.Client_Status')(state) == 'Data_Entry_Error'
+  ) {
+    return upsert(
+      'Person__c',
+      'CommCare_ID__c',
+      fields(
+        field('Source__c', 1),
+        field('CommCare_ID__c', dataValue('form.case.@case_id')),
+        field('Name', state => {
+          var name1 = dataValue('form.Person_Name')(state);
+          var name2 = name1.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          });
+          return name2;
+        }),
+        field('Client_Status__c', 'Data Entry Error'),
+        field('Active_in_Thrive_Thru_5__c', 'No'),
+        field('Active_TT5_Mother__c', 'No'),
+        field('TT5_Mother_Registrant__c', 'No'),
+        field('Active_in_HAWI__c', 'No'),
+        field('Inactive_Date__c', dataValue('form.Date'))
+      )
+    )(state);
+  }
+  // Deceased
+  else if (dataValue('form.Status.Client_Status')(state) == 'Deceased') {
+    return upsert(
+      'Person__c',
+      'CommCare_ID__c',
+      fields(
+        field('Source__c', 1),
+        field('CommCare_ID__c', dataValue('form.case.@case_id')),
+        field('Name', state => {
+          var name1 = dataValue('form.Person_Name')(state);
+          var name2 = name1.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          });
+          return name2 + 'deceased';
+        }),
+        field('Verbal_autopsy__c', dataValue('form.Status.verbal_autopsy')),
+        field('Client_Status__c', 'Deceased'),
+        field('Child_Status__c', 'Deceased'),
+        field('Active_in_Thrive_Thru_5__c', 'No'),
+        field('Thrive_Thru_5_Registrant__c', 'No'),
+        field('Active_in_HAWI__c', 'No'),
+        field('Active_TT5_Mother__c', 'No'),
+        field('TT5_Mother_Registrant__c', 'No'),
+        field('Date_of_Death__c', dataValue('form.Status.Date_of_Death')),
+        field('Cause_of_Death__c', state => {
+          var death = dataValue('form.Status.Cause_of_Death')(state);
+          return death ? death.toString().replace(/_/g, ' ')
+            : death;
+        }),
+        field('Inactive_Date__c', dataValue('form.Date'))
+      )
+    )(state);
+  }
 
-console.log('None of the ifs matched, skipping upsert and returning state.');
-return state;
+  console.log('None of the ifs matched, skipping upsert and returning state.');
+  return state;
 });
 
 // Person is added to TT5 ?
