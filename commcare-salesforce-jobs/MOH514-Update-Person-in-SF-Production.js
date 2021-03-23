@@ -72,7 +72,8 @@ alterState(state => {
     dataValue('form.Status.Client_Status')(state) == 'Active' &&
     dataValue('form.Source')(state) == 1
   ) {
-    // Deliveries
+
+    console.log('inserting active Person');
     return upsert(
       'Person__c',
       'CommCare_ID__c',
