@@ -2060,6 +2060,24 @@ alterState(state => {
 
 //HAWI other clinical services received
 alterState(state => {
+  const serviceMap = {
+    Scheduled_PSC_Apt: 'Scheduled PSC Apt',
+    Adverse_Drug_Reaction_Side_Effect: 'Adverse Drug Reaction/Side Effect',
+    Malnutrition: 'Malnutrition',
+    Malaria: 'Malaria',
+    TB: 'TB',
+    Treatment_for_Other_OIs: 'Treatment for other Ols',
+    ARI: 'ARI',
+    Anemia: 'Anemia',
+    Diarrhea: 'Diarrhea',
+    Pregnancy_Care: 'Pregnancy Care (ANC)',
+    Family_Planning: 'Family Planning (FP)',
+    Preconception_Counseling: 'Preconception Counseling',
+    Injury: 'Injury',
+    Other: 'Other'
+
+  }
+
   if (dataValue('form.HAWI.Clinical_Service_Q')(state) === 'yes') {
     return beta.each(
       dataPath('form.HAWI.Clinical_Services_Rendered[*]'), //CHECK IF ARRAY
@@ -2080,18 +2098,8 @@ alterState(state => {
           field('Source__c', 1),
           field('Household_CHW__c', dataValue('chw')),
           field('Reason_for_Service__c', state => {
-            var reason = '';
             var name = dataValue('Clinical_Service')(state);
-            if (name == 'Adverse_Drug_Reaction_Side_Effect') {
-              reason = 'Adverse Drug Reaction/Side Effect';
-            } else if (name == 'Pregnancy_Care') {
-              reason = 'Pregnancy Care (ANC)';
-            } else if (name == 'Family_Planning') {
-              reason = 'Family Planning (FP)';
-            } else {
-              reason = name.replace(/_/g, ' ');
-            }
-            return reason;
+            return name ? state.serviceMap[name] : name;
           }),
           field('Purpose_of_Referral__c', dataValue('Purpose')),
           field('Date__c', dataValue('Date_of_Clinical_Service')),
