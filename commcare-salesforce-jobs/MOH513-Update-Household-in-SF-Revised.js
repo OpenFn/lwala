@@ -94,7 +94,19 @@ upsert(
       state.data.form.supervisor_visit
         ? state.supervisorMap[state.data.form.supervisor_visit]
         : null
-    )
+    ),
+    field("Health_insurance__c",
+      dataValue("form.health_insurace_cover")),
+    field(
+      "Health_insurance_active_status__c",
+      dataValue("form.healthinsurance_active")
+    ),
+    field("Health_insurance_type__c", (state) => {
+      var status = dataValue("form.health_insurance")(state);
+      return status && status === 'other_please_specify_if_active' ? 'Other' :
+        status === 'nhif' ? 'NHIF' : status === 'Linda_mama' || 'linda_mama' ? 'Linda mama' : status;
+    }),
+    field("Health_insurance_other__c", dataValue("form.if_other_please_specify"))
   )
 ),
   upsert(
