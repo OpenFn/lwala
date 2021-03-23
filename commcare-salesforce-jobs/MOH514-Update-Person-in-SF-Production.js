@@ -145,7 +145,7 @@ alterState(state => {
             'form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs'
           )(state);
           var newSign = '';
-          if (signs !== undefined) {
+          if (signs && signs !== undefined) {
             signs = signs
               .toLowerCase()
               .split(' ')
@@ -162,7 +162,7 @@ alterState(state => {
             'form.TT5malariald_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral'
           )(state);
           var newSign = '';
-          if (signs !== undefined) {
+          if (igns && signs !== undefined) {
             signs = signs
               .toLowerCase()
               .split(' ')
@@ -298,7 +298,7 @@ alterState(state => {
           var facility = dataValue(
             'form.TT5.Child_Information.Delivery_Facility'
           )(state);
-          return facility !== undefined
+          return (facility && facility !== undefined)
             ? facility.toString().replace(/_/g, ' ')
             : null;
         }),
@@ -1834,8 +1834,7 @@ alterState(state => {
           var facility = dataValue(
             'form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition'
           )(state);
-          return facility !== undefined
-            //? facility.toString().replace(/_/g, ' ')
+          return (facility && facility !== undefined)
             ? facility.charAt(0).toUpperCase() + facility.substr(1).toLowerCase().replace(/_/g, ' ')
             : null;
         }),
@@ -2209,7 +2208,7 @@ alterState(state => {
         field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
         field('Supervisor_Visit__c', state => {
           var visit = dataValue('form.supervisor_visit')(state);
-          if (visit !== undefined) {
+          if (visit && visit !== undefined) {
             visit = visit.toString().replace(/ /g, ';');
             return visit.toString().replace(/_/g, ' ');
           }
