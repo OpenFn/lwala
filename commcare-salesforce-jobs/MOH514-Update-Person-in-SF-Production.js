@@ -353,7 +353,8 @@ alterState(state => {
           }).join(';') : choiceGroups;
           return choicesMulti;
         }),
-        field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
+        field('Client_provided_with_FP__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
+        //field('woman_15_49yrs__c', dataValue('form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
         field('Newborn_visited_48_hours_of_delivery__c', dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
         field('Newborn_visit_counselling__c', state => {
           var choice = dataValue('form.TT5.Child_Information.did_you_consel_the_mother_on1')(state);
