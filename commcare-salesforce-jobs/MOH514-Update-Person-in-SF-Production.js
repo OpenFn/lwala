@@ -120,7 +120,7 @@ alterState(state => {
           var rt = dataValue('form.RecordType')(state);
           return rt === 'Unborn' || rt === ''
             ? 'Child'
-            : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
+            : rt ? rt.toString().replace(/_/g, ' ') : rt; //convert Unborn children to Child RT
         }),
         field('Reason_for_a_refferal__c', state => {
           var purpose = dataValue('form.Purpose_of_Referral')(state);
@@ -130,7 +130,7 @@ alterState(state => {
             referral === 'HIV_Testing_and_Counseling'
               ? 'HIV counselling or Testing'
               : referral;
-          return reason !== undefined
+          return (reason && reason !== undefined)
             ? reason.toString().replace(/_/g, ' ')
             : null;
         }),
