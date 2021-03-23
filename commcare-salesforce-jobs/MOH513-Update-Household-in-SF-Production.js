@@ -81,7 +81,19 @@ upsert(
     field(
       'Supervisor_Visit__c',
       state => state.supervisorMap[state.data.form.supervisor_visit]
-    )
+    ),
+    field("Health_insurance__c",
+      dataValue("form.health_insurace_cover")),
+    field(
+      "Health_insurance_active_status__c",
+      dataValue("form.healthinsurance_active")
+    ),
+    field("Health_insurance_type__c", (state) => {
+      var status = dataValue("form.health_insurance")(state);
+      return status && status === 'other_please_specify_if_active' ? 'Other' :
+        status === 'nhif' ? 'NHIF' : status === 'Linda_mama' || 'linda_mama' ? 'Linda mama' : status;
+    }),
+    field("Health_insurance_other__c", dataValue("form.if_other_please_specify"))
   )
 ),
   upsert(
@@ -94,10 +106,10 @@ upsert(
         'CommCare_Code__c',
         dataValue('form.case.@case_id')
       ),
-      field('Visit_UID__c', state=>{
-        var hh = dataValue('form.case.@case_id')(state); 
+      field('Visit_UID__c', state => {
+        var hh = dataValue('form.case.@case_id')(state);
         var date = dataValue('form.Date')(state);
-        return hh+date; 
+        return hh + date;
       }),
       field('Date__c', dataValue('form.Date')),
       //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
