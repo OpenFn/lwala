@@ -1620,7 +1620,7 @@ alterState(state => {
             .split(' ')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(';');
-          return purpose.toString().replace(/_/g, ' ');
+          return purpose ? purpose.toString().replace(/_/g, ' ') : purpose;
         }),
         relationship(
           'Person__r',
