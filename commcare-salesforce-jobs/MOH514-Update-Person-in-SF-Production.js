@@ -162,7 +162,7 @@ alterState(state => {
             'form.TT5malariald_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral'
           )(state);
           var newSign = '';
-          if (igns && signs !== undefined) {
+          if (signs && signs !== undefined) {
             signs = signs
               .toLowerCase()
               .split(' ')
