@@ -142,7 +142,6 @@ upsert(
       fields(
         field('caseId', dataValue('form.case.@case_id')),
         field('catchment', dataValue('form.catchment')),
-        field('Date', dataValue('form.Date'))
       )
     ),
     upsertIf(
