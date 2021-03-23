@@ -60,9 +60,28 @@ alterState(state => {
     safe_disposal_of_human_waste: 'Complementary feeding',
   };
 
+  const serviceMap = {
+    Scheduled_PSC_Apt: 'Scheduled PSC Apt',
+    Adverse_Drug_Reaction_Side_Effect: 'Adverse Drug Reaction/Side Effect',
+    Malnutrition: 'Malnutrition',
+    Malaria: 'Malaria',
+    TB: 'TB',
+    Treatment_for_Other_OIs: 'Treatment for other Ols',
+    ARI: 'ARI',
+    Anemia: 'Anemia',
+    Diarrhea: 'Diarrhea',
+    Pregnancy_Care: 'Pregnancy Care (ANC)',
+    Family_Planning: 'Family Planning (FP)',
+    Preconception_Counseling: 'Preconception Counseling',
+    Injury: 'Injury',
+    Other: 'Other'
+
+  }
+
   return {
     ...state,
-    counselMap
+    counselMap,
+    serviceMap
   };
 });
 
@@ -395,8 +414,7 @@ alterState(state => {
         field('Nutrition_referral__c', dataValue('form.TT5.Child_Information.Nutrition2.Referral')),
         field('Purpose_of_referral__c', state => {
           var choice = dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state);
-          var choice2 = state.cleanChoice(state, choice);
-          return choice2 ? choice2.replace(/_/g, ' ') : '';
+          return choice ? state.serviceMap[choice] : choice;
         }),
         field('Current_Height__c', dataValue('form.TT5.Child_Information.Nutrition.current_height')),
         field('Cause_of_Death__c', state => {
