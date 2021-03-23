@@ -344,6 +344,7 @@ alterState(state => {
             ? facility.toString().replace(/_/g, ' ')
             : null;
         }),
+        field('Delivery_Facility_Other__c', dataValue('form.Person.TT5.Child_Information.Delivery_Information.Other')),
         field('Place_of_Delivery__c', state => {
           var facility = dataValue(
             'form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled'

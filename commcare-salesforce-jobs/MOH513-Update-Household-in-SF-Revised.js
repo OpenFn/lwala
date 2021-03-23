@@ -1,7 +1,7 @@
 // REVISED Form - To replace old Update HH
 alterState(state => {
   const deaths = state.data.form.household_deaths ? state.data.form.household_deaths.deaths : '';
-  if (deaths !== '' &&!Array.isArray(deaths)) {
+  if (deaths !== '' && !Array.isArray(deaths)) {
     state.data.form.household_deaths.deaths = [deaths];
   }
 
@@ -27,29 +27,19 @@ upsert(
     }),
     field('Active_Household__c', state => {
       var status = dataValue('form.Household_Status')(state);
-      if(status==='No'){
-        status = false;
-      } else if(status==='Yes'){
-        status = true;
-      }
-      return status;
-      //return status=='No'? false : true;
+      return status && status === 'No' ? false : status === 'Yes' ? true : status;
     }),
-    /*field('Reactivated__c', state => {
-      var status = dataValue('form.Household_Status')(state);
-      return status=='No'? false : true;
-      }),*/
     field('Inactive_Reason__c', state => {
       var reason = dataValue('form.Reason_for_Inactive')(state);
-      return reason !== undefined ? reason : null;
+      return reason ? reason.toString().replace(/_/g, ' ') : null;
     }),
     field('Source__c', 1),
     field('Completed_COVID_19_Phone_Screening__c', dataValue('form.did_you_complete_the_covid-19_phone_screening_for_this_household')),
     field('Household_Visit_Type__c', state => {
-          var visit = dataValue('form.is_this_a_physical_home_visit_or_a_phone_call_visit')(state);
-          return visit ? visit.toString().replace(/_/g, ' ') : null;
+      var visit = dataValue('form.is_this_a_physical_home_visit_or_a_phone_call_visit')(state);
+      return visit ? visit.toString().replace(/_/g, ' ') : null;
     }),
-    field('Household_village__c', dataValue('form.village')), 
+    field('Household_village__c', dataValue('form.village')),
     field(
       'Access_to_safe_water__c',
       dataValue('form.Household_Information.Safe_Water')
@@ -117,10 +107,10 @@ upsert(
         'CommCare_Code__c',
         dataValue('form.case.@case_id')
       ),
-      field('Visit_UID__c', state=>{
-        var hh = dataValue('form.case.@case_id')(state); 
+      field('Visit_UID__c', state => {
+        var hh = dataValue('form.case.@case_id')(state);
         var date = dataValue('form.Date')(state);
-        return hh+date; 
+        return hh + date;
       }),
       field('Date__c', dataValue('form.Date')),
       //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing

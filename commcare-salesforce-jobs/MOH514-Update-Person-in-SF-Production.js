@@ -302,6 +302,7 @@ alterState(state => {
             ? facility.toString().replace(/_/g, ' ')
             : null;
         }),
+        field('Delivery_Facility_Other__c', dataValue('form.TT5.Child_Information.Delivery_Facility_Other')),
         field(
           'Exclusive_Breastfeeding__c',
           dataValue(
@@ -423,6 +424,7 @@ alterState(state => {
         }),
         field('Chronic_illness_referral__c', dataValue('form.did_you_refer_the_client_for_any_chronic_illness')),
         field('Chronic_illness_referral_date__c', dataValue('form.date_chronic_illness')),
+        field('Birth_Certificate__c', dataValeu('form.Status.birth_certificate'))
       )
     )(state);
   }
