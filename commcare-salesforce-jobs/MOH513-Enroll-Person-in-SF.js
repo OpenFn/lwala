@@ -10,7 +10,7 @@ alterState(state => {
         relationship('Catchment__r', 'Name', dataValue('form.catchment')),
         field("Area__c", dataValue('form.area')),
         field('Household_Village__c', dataValue('form.village')),
-        field('Household_CHW__c', dataValue('form.CHW_ID')),
+        //field('Household_CHW__c', dataValue('form.CHW_ID')),
         field('Name', state => {
           var status = dataValue('form.Person.Basic_Information.Child_Status')(
             state
