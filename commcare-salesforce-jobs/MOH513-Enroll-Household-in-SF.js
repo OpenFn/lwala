@@ -127,8 +127,8 @@ alterState((state) => {
           field("Source__c", true),
           relationship("Catchment__r", "Name", dataValue("catchment")),
           field("Client_Status__c", "Active"),
-          //field("Area__c", state.data.form.area),// check
-          //field('Household_village__c', state.data.form.village),
+          field("Area__c", state.data.form.area),
+          field('Household_Village__c', state.data.form.village),
           field("Relation_to_the_head_of_the_household__c", (state) => {
             var relation = dataValue("Basic_Information.relation_to_hh")(state);
             var toTitleCase =
@@ -398,7 +398,36 @@ alterState((state) => {
           field(
             "HIV_counseling_and_testing_referral_date__c",
             dataValue("Basic_Information.person_info.when_hiv")
-          )
+          ),
+          field('Received_pregnancy_test__c', dataValue('Basic_Information.family_planning.did_you_adminsiter_a_pregnancy_test')),
+          field('Pregnancy_test_result__c', dataValue('Basic_Information.family_planning.pregnancy_test_result')),
+          field('Pregnancy_referral__c', dataValue('Basic_Information.family_planning.refer_preg')),
+          field('Pregnancy_referral_date__c', dataValue('Basic_Information.family_planning.referal_pregnancy')),
+          field(
+            "Family_Planning__c", (state) => {
+              var plan = dataValue("Basic_Information.family_planning.Currently_on_family_planning")(state);
+              return plan ? 'Yes' : plan;
+            }),
+          field(
+            "Family_Planning_Method__c", (state) => {
+              var method = dataValue("Basic_Information.family_planning.Family_Planning_Method")(state);
+              return method
+                ? method.toString().replace(/_/g, " ")
+                : method;
+            }),
+          field(
+            "Reasons_for_not_taking_FP_method__c", (state) => {
+              var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
+              return reason
+                ? reason.toString().replace(/_/g, " ")
+                : reason;
+            }),
+          field("No_Preg_Test", (state) => {
+            var reason = dataValue("Basic_Information.family_planning.No_Preg_Test")(state);
+            return reason
+              ? reason.toString().replace(/_/g, " ")
+              : reason;
+          }),
         )
       )
     )(state);
@@ -407,3 +436,60 @@ alterState((state) => {
   console.log("No first person found, not upserting.");
   return state;
 });
+
+each(
+  merge(
+    dataPath('$.form.household_deaths.deaths[*]'),
+    fields(
+      field('caseId', dataValue('form.case.@case_id')),
+      field('catchment', dataValue('form.catchment')),
+      field('Date', dataValue('form.Date'))
+    )
+  ),
+  upsertIf(
+    state.data.form.household_deaths && state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
+    'Person__c',
+    'CommCare_ID__c',
+    fields(
+      field('CommCare_ID__c', state => {
+        var age = dataValue('age_dead')(state);
+        return `${state.data.caseId}${age}`;
+      }),
+      field('CommCare_HH_Code__c', dataValue('caseId')),
+      relationship('RecordType', 'Name', state => {
+        var age = dataValue('age_dead')(state);
+        var gender = dataValue('gender_dead')(state);
+        var rt = '';
+        if (age < 5) {
+          rt = 'Child';
+        } else if (age < 18) {
+          rt = 'Youth';
+        } else if (gender === 'female') {
+          rt = 'Female Adult';
+        } else {
+          rt = 'Male Adult';
+        }
+        return rt;
+      }),
+      field('Name', 'Deceased Person'),
+      field('Source__c', true),
+      relationship('Catchment__r', 'Name', dataValue('catchment')),
+      field('Client_Status__c', 'Deceased'),
+      field('Dead_age__c', dataValue('age_dead')),
+      field('Cause_of_Death__c', state => {
+        var cause = dataValue('cause_of_death_dead')(state);
+        return cause !== undefined
+          ? cause.toString().replace(/_/g, ' ')
+          : null;
+      }),
+      field('Verbal_autopsy__c', dataValue('verbal_autopsy')),
+      field('Client_Status__c', 'Deceased'),
+      field('Active_in_Thrive_Thru_5__c', 'No'),
+      field('Active_in_HAWI__c', 'No'),
+      field('Active_TT5_Mother__c', 'No'),
+      field('TT5_Mother_Registrant__c', 'No'),
+      field('Date_of_Death__c', dataValue('Date')),
+      field('Inactive_Date__c', dataValue('Date'))
+    )
+  )
+);

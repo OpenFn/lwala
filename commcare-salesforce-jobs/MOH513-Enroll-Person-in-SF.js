@@ -8,6 +8,9 @@ alterState(state => {
         field('CommCare_ID__c', dataValue('form.subcase_0.case.@case_id')),
         // relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")), //remove as Apex trigger maps relationships
         relationship('Catchment__r', 'Name', dataValue('form.catchment')),
+        field("Area__c", dataValue('form.area')),
+        field('Household_Village__c', dataValue('form.village')),
+        field('Household_CHW__c', dataValue('form.CHW_ID')),
         field('Name', state => {
           var status = dataValue('form.Person.Basic_Information.Child_Status')(
             state
@@ -344,7 +347,7 @@ alterState(state => {
             ? facility.toString().replace(/_/g, ' ')
             : null;
         }),
-        field('Delivery_Facility_Other__c', dataValue('form.Person.TT5.Child_Information.Delivery_Information.Other')),
+        field('Delivery_Facility_Other__c', dataValue('form.Person.TT5.Child_Information.Delivery_Information.Delivery_Facility_Other')),
         field('Place_of_Delivery__c', state => {
           var facility = dataValue(
             'form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled'
@@ -363,35 +366,40 @@ alterState(state => {
         field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
         field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
         field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
-        field('Received_pregnancy_test__c', dataValue('form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test')),
-        field('Pregnancy_test_result__c', dataValue('form.TT5.Mother_Information.pregnancy_test_result')),
-        field('Pregnancy_referral__c', dataValue('form.TT5.Mother_Information.refer_preg')),
-        field('Pregnancy_referral_date__c', dataValue('form.TT5.Mother_Information.referal_pregnancy')),
+        field('Received_pregnancy_test__c', dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')),
+        field('Pregnancy_test_result__c', dataValue('form.Person.Basic_Information.family_planning.pregnancy_test_result')),
+        field('Pregnancy_referral__c', dataValue('form.Person.Basic_Information.family_planning.refer_preg')),
+        field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
         field(
           "Family_Planning__c", (state) => {
-            var plan = dataValue("Basic_Information.family_planning.Currently_on_family_planning")(state);
+            var plan = dataValue("'form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state);
             return plan ? 'Yes' : plan;
           }),
         field(
           "Family_Planning_Method__c", (state) => {
-            var method = dataValue("Basic_Information.family_planning.Currently_on_family_planning")(state);
+            var method = dataValue("form.Person.Basic_Information.family_planning.Family_Planning_Method")(state);
             return method
               ? method.toString().replace(/_/g, " ")
               : method;
           }),
         field(
           "Reasons_for_not_taking_FP_method__c", (state) => {
-            var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
+            var reason = dataValue("form.Person.Basic_Information.family_planning.No_FPmethod_reason")(state);
             return reason
               ? reason.toString().replace(/_/g, " ")
               : reason;
           }),
         field("No_Preg_Test", (state) => {
-          var reason = dataValue("Basic_Information.family_planning.No_Preg_Test")(state);
+          var reason = dataValue("form.Person.asic_Information.family_planning.No_Preg_Test")(state);
           return reason
             ? reason.toString().replace(/_/g, " ")
             : reason;
-        })
+        }),
+        field('Cause_of_Death__c', state => {
+          var death = dataValue('form.Person.Basic_Information.cause_of_death_dead')(state);
+          return death ? death.toString().replace(/_/g, ' ')
+            : death;
+        }),
       )
     )(state);
   }

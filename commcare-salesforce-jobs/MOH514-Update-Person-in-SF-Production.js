@@ -445,7 +445,7 @@ alterState(state => {
         }),
         field('Chronic_illness_referral__c', dataValue('form.did_you_refer_the_client_for_any_chronic_illness')),
         field('Chronic_illness_referral_date__c', dataValue('form.date_chronic_illness')),
-        field('Birth_Certificate__c', dataValue('form.Status.birth_certificate')), 
+        field('Birth_Certificate__c', dataValue('form.Status.birth_certificate')),
         field('Child_zinc__c', dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),
         field('Child_ORS__c', dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),
       )
