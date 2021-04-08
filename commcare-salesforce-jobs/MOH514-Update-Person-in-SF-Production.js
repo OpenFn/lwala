@@ -176,9 +176,9 @@ alterState(state => {
           }
           return newSign;
         }),
-        field('Child_danger_signs__c', state => {
+        field('Child_Danger_Signs__c', state => {
           var signs = dataValue(
-            'form.TT5malariald_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral'
+            'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs'
           )(state);
           var newSign = '';
           if (signs !== undefined) {
@@ -189,9 +189,8 @@ alterState(state => {
               .join(';');
             return (newSign = signs.toString().replace(/_/g, ' '));
           } else {
-            return (newSign = null);
+            return (signs);
           }
-          return newSign;
         }),
         field('Child_Status__c', state => {
           var status = dataValue('form.case.update.child_status')(state);
@@ -448,7 +447,15 @@ alterState(state => {
         field('Birth_Certificate__c', dataValue('form.Status.birth_certificate')),
         field('Child_zinc__c', dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),
         field('Child_ORS__c', dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),
-      )
+        field('Childs_breath_per_minute__c', dataValue('form.breaths_per_minuite')),
+        field('Child_fast_breathing_referral_date__c', dataValue('form.Fast_breathing_followup_date__c')),
+        field('Fast_breathing_followup_date__c', dataValue('form.when_did_you_follow_up_for_fast_breathing')),
+        field('Child_chest_in_drawing__c', dataValue('form.Child_chest_in_drawing_c')),
+        field('Child_chest_in_drawing_referral_date__c', dataValue('form.Child_chest_in_drawing_referral_date_c')),
+        field('Childs_chest_indrawing_followup__c', state => {
+          var choice = dataValue('form.Childs_chest_indrawing_followup_c')(state);
+          return state.cleanChoice(state, choice);
+        })),
     )(state);
   }
   // Transfer Outs
