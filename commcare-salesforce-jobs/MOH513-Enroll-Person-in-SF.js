@@ -35,7 +35,7 @@ alterState(state => {
           var status = dataValue('form.Person.Basic_Information.Child_Status')(
             state
           );
-          return status == 'Unborn'
+          return status && status === 'Unborn'
             ? 'Child'
             : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
         }),
