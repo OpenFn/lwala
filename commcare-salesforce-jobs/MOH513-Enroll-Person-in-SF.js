@@ -385,9 +385,17 @@ alterState(state => {
         field(
           "Reasons_for_not_taking_FP_method__c", (state) => {
             var reason = dataValue("form.Person.Basic_Information.family_planning.No_FPmethod_reason")(state);
-            return reason
-              ? reason.toString().replace(/_/g, " ")
-              : reason;
+            var reasonsMap = {
+              lack_of_access_to_fp_information: 'Lack of acceess to FP information',
+              lack_of_hospitals_or_places_where_fp_services_can_be_accessed: 'Lack of hospitals or places where FP services can be accessed',
+              myths_and_misconceptions: 'Myths and misconceptions',
+              barriers_at_service_delivery_points: 'Barriers at service delivery points',
+              pregnant: 'The client is pregnant',
+              intentions_of_getting_pregnant: 'Intentions of getting pregnant',
+              not_sexually_active: 'The client is not sexualy active',
+              other_barriers_culture_male_partners_parents_etc: 'Other barriers (culture, male partners, parents, etc)'
+            };
+            return reason ? reasonsMap[reason] : reason;
           }),
         field("No_Preg_Test", (state) => {
           var reason = dataValue("form.Person.asic_Information.family_planning.No_Preg_Test")(state);
