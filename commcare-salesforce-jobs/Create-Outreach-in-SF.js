@@ -28,7 +28,7 @@ upsert(
               word =>
                 `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
             )
-            .join(' ') + ' Area'
+            .join(' ') //+ ' Area'
         : catchment
             .split(/_/g)
             .map(
