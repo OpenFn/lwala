@@ -153,12 +153,31 @@ alterState(state => {
             ? reason.toString().replace(/_/g, ' ')
             : null;
         }),
+        field('Purpose_of_referral__c', state => {
+          var purpose = dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state);
+          var reason = purpose &&
+            purpose === 'HIV_Testing_and_Counseling'
+            ? 'HIV counselling or Testing'
+            : purpose;
+          return reason !== undefined
+            ? reason.toString().replace(/_/g, ' ')
+            : null;
+        }),
         field(
-          'Individual_birth_plan_counseling__c',
-          dataValue(
-            'form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan'
-          )
+          'Individual_birth_plan_counseling__c', state => {
+            var plan1 = dataValue(
+              'form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan'
+            )(state);
+            var plan2 = dataValue('form.ANCs.pregnancy_danger_signs.individual_birth_plan')(state);
+            return plan2 ? plan2 : plan1;
+          }
         ),
+        field('Reason_for_not_taking_a_pregnancy_test__c', state => {
+          var reason = dataValue('form.TT5.Mother_Information.No_Preg_Test')(state);
+          return reason !== undefined
+            ? reason.toString().replace(/_/g, ' ')
+            : null;
+        }),
         field('Pregnancy_danger_signs__c', state => {
           var signs = dataValue(
             'form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs'
