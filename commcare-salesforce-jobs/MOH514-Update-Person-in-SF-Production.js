@@ -164,7 +164,7 @@ alterState(state => {
             : null;
         }),
         field(
-          'Individual_birth_plan_counseling__c', state => {
+          'Individual_birth_plan_counselling__c', state => {
             var plan1 = dataValue(
               'form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan'
             )(state);
