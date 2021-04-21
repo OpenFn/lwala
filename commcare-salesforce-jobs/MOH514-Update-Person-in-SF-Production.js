@@ -466,14 +466,15 @@ alterState(state => {
         field('Birth_Certificate__c', dataValue('form.Status.birth_certificate')),
         field('Child_zinc__c', dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),
         field('Child_ORS__c', dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),
-        field('Childs_breath_per_minute__c', dataValue('form.breaths_per_minuite')),
-        field('Child_fast_breathing_referral_date__c', dataValue('form.Fast_breathing_followup_date__c')),
-        field('Fast_breathing_followup_date__c', dataValue('form.when_did_you_follow_up_for_fast_breathing')),
-        field('Child_chest_in_drawing__c', dataValue('form.Child_chest_in_drawing_c')),
-        field('Child_chest_in_drawing_referral_date__c', dataValue('form.Child_chest_in_drawing_referral_date_c')),
+        field('Childs_breath_per_minute__c', dataValue('form.pbsi.breaths_per_minuite')),
+        field('Child_fast_breathing_referral_date__c', dataValue('form.pbsi.Fast_breathing_followup_date__c')),
+        field('Fast_breathing_followup_date__c', dataValue('form.pbsi.when_did_you_follow_up_for_fast_breathing')),
+        field('Child_chest_in_drawing__c', dataValue('form.pbsi.Child_chest_in_drawing_c')),
+        field('Child_chest_in_drawing_referral_date__c', dataValue('form.pbsi.Child_chest_in_drawing_referral_date_c')),
         field('Childs_chest_indrawing_followup__c', state => {
-          var choice = dataValue('form.Childs_chest_indrawing_followup_c')(state);
-          return state.cleanChoice(state, choice);
+          var choice = dataValue('form.pbsi.Childs_chest_indrawing_followup_c')(state);
+          var choice2 = choice ? choice.split(' ').join(';') : choice;
+          return choice2 ? state.cleanChoice(state, choice2) : choice2;
         })),
     )(state);
   }
