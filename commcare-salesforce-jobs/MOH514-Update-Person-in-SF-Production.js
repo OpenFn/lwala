@@ -473,8 +473,8 @@ alterState(state => {
         field('Child_chest_in_drawing_referral_date__c', dataValue('form.psbi.Child_chest_in_drawing_referral_date_c')),
         field('Childs_chest_indrawing_followup__c', state => {
           var choice = dataValue('form.psbi.Childs_chest_indrawing_followup_c')(state);
-          var choice2 = choice ? choice.split(' ').join(';') : choice;
-          return choice2 ? state.cleanChoice(state, choice2) : choice2;
+          var choice2 = choice ? state.cleanChoice(state, choice) : choice;
+          return choice2 ? choice2.split(' ').join(';') : choice2;
         })),
     )(state);
   }
