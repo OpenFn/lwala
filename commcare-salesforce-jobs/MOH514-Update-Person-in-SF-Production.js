@@ -154,7 +154,14 @@ alterState(state => {
             : null;
         }),
         field('Purpose_of_referral__c', state => {
-          var purpose = dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state);
+          var purpose = dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state) ||
+            dataValue('form.ANCs.pregnancy_danger_signs.danger_sign_referral.Purpose_of_Referral')(state) ||
+            dataValue('form.TT5.Child_Information.Nutrition2.Purpose_of_Referral')(state) ||
+            dataValue('form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral')(state) ||
+            dataValue('form.treatment_and_tracking.CCMM.Fever_Purpose_of_Referral')(state) ||
+            dataValue('form.treatment_and_tracking.CCMM.Purpose_of_Referral')(state) ||
+            dataValue('form.Purpose_of_Referral')(state);
+
           var reason = purpose &&
             purpose === 'HIV_Testing_and_Counseling'
             ? 'HIV counselling or Testing'
