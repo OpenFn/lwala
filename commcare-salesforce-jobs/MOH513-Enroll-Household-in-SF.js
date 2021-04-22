@@ -89,8 +89,6 @@ upsert(
         status === 'nhif' ? 'NHIF' : status === 'Linda_mama' || 'linda_mama' ? 'Linda mama' : status;
     }),
     field("Other_Health_Insurance__c", dataValue("form.if_other_please_specify")),
-    field('Work_with_TBA__c', dataValue('tba')),
-    field('TBA_name__c', dataValue('which_tba')),
   )
 );
 
@@ -430,6 +428,8 @@ alterState((state) => {
               ? reason.toString().replace(/_/g, " ")
               : reason;
           }),
+          field('Work_with_TBA__c', dataValue('tba')),
+          field('TBA_name__c', dataValue('which_tba')),
         )
       )
     )(state);
