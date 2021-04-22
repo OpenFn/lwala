@@ -437,10 +437,6 @@ alterState(state => {
         }),
         field('Nutrition_referral_date__c', dataValue('form.TT5.Child_Information.Nutrition2.date_malnutrition')),
         field('Nutrition_referral__c', dataValue('form.TT5.Child_Information.Nutrition2.Referral')),
-        field('Purpose_of_referral__c', state => {
-          var choice = dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state);
-          return choice ? state.serviceMap[choice] : choice;
-        }),
         field('Current_Height__c', dataValue('form.TT5.Child_Information.Nutrition.current_height')),
         field('Cause_of_Death__c', state => {
           var choice = dataValue('form.Status.Cause_of_Death')(state);
