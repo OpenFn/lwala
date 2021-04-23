@@ -366,7 +366,10 @@ alterState(state => {
         field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
         field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
         field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
-        field('Received_pregnancy_test__c', dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')),
+        field('Received_pregnancy_test__c', sate => { 
+          var preg = dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')(state); 
+          return preg && preg==='OK' ? 'Yes' : preg;
+        }),
         field('Pregnancy_test_result__c', dataValue('form.Person.Basic_Information.family_planning.pregnancy_test_result')),
         field('Pregnancy_referral__c', dataValue('form.Person.Basic_Information.family_planning.refer_preg')),
         field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
