@@ -424,7 +424,7 @@ alterState((state) => {
                 ? reason.toString().replace(/_/g, " ")
                 : reason;
             }),
-          field("No_Pregnancy_Test__c", (state) => {
+          field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
             var reason = dataValue("Basic_Information.family_planning.No_Preg_Test")(state);
             return reason
               ? reason.toString().replace(/_/g, " ")
