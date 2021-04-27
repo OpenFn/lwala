@@ -163,7 +163,7 @@ alterState(state => {
 
           var reason = purpose &&
             purpose === 'HIV_Testing_and_Counseling'
-            ? 'HIV counselling or Testing'
+            ? 'HIV Testing and Counseling'
             : purpose;
           return reason !== undefined
             ? reason.toString().replace(/_/g, ' ')
