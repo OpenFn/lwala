@@ -18,6 +18,7 @@ alterState(state => {
           var name1 = dataValue('form.Person.Basic_Information.Person_Name')(
             state
           );
+
           var name2 =
             name1 === undefined
               ? 'No Name'
@@ -366,7 +367,7 @@ alterState(state => {
         field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
         field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
         field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
-        field('Received_pregnancy_test__c', sate => { 
+        field('Received_pregnancy_test__c', state => { 
           var preg = dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')(state); 
           return preg && preg==='OK' ? 'Yes' : preg;
         }),
