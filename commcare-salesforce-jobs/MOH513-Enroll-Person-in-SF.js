@@ -362,11 +362,11 @@ alterState(state => {
         field('Cough_14_days_referral_date__c', dataValue('form.Person.Basic_Information.person_info.date_refer_to_clinc')),
         field('Know_HIV_status__c', dataValue('form.Person.Basic_Information.person_info.known_hiv_status')),
         field('HIV_counselling_and_testing_referral__c', dataValue('form.Person.Basic_Information.person_info.hiv_counselling_testing')),
-        field('HIV_counseling_and_testing_referral_date__c', dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')),
+        //field('HIV_counseling_and_testing_referral_date__c', dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')),
         field('Chronic_illness_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_chronic_illness')),
-        field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
+        //field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
         field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
-        field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
+        //field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
         field('Received_pregnancy_test__c', state => { 
           var preg = dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')(state); 
           return preg && preg==='OK' ? 'Yes' : preg;
