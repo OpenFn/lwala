@@ -373,7 +373,7 @@ alterState(state => {
         }),
         field('Pregnancy_test_result__c', dataValue('form.Person.Basic_Information.family_planning.pregnancy_test_result')),
         field('Pregnancy_referral__c', dataValue('form.Person.Basic_Information.family_planning.refer_preg')),
-        field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
+        //field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
         field(
           "Family_Planning__c", (state) => {
             var plan = dataValue("'form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state);
