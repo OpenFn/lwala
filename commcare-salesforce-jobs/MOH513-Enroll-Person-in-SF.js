@@ -324,10 +324,10 @@ alterState(state => {
           'Food_groups_3_times_a_day__c',
           dataValue('form.Person.TT5.Child_Information.nutrition.food_groups')
         ),
-        field(
-          'Initial_MUAC__c',
-          dataValue('form.Person.TT5.Child_Information.nutrition.MUAC')
-        ),
+        // field(
+        //   'Initial_MUAC__c',
+        //   dataValue('form.Person.TT5.Child_Information.nutrition.MUAC')
+        // ),
         field(
           'MCH_booklet__c',
           dataValue('form.Person.TT5.Mother_Information.mch_booklet')
