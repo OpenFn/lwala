@@ -362,7 +362,7 @@ alterState(state => {
         field('Cough_14_days_referral_date__c', dataValue('form.Person.Basic_Information.person_info.date_refer_to_clinc')),
         field('Know_HIV_status__c', dataValue('form.Person.Basic_Information.person_info.known_hiv_status')),
         field('HIV_counselling_and_testing_referral__c', dataValue('form.Person.Basic_Information.person_info.hiv_counselling_testing')),
-        field('HIV_counseling_and_testing_referral_date__c', dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')),
+        //field('HIV_counseling_and_testing_referral_date__c', dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')),
         field('Chronic_illness_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_chronic_illness')),
         field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
         field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
@@ -373,7 +373,7 @@ alterState(state => {
         }),
         field('Pregnancy_test_result__c', dataValue('form.Person.Basic_Information.family_planning.pregnancy_test_result')),
         field('Pregnancy_referral__c', dataValue('form.Person.Basic_Information.family_planning.refer_preg')),
-        field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
+        //field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
         field(
           "Family_Planning__c", (state) => {
             var plan = dataValue("'form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state);
