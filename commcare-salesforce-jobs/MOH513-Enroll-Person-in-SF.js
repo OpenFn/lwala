@@ -58,10 +58,10 @@ alterState(state => {
           );
           return dob !== undefined || status == 'Born' ? 'Born' : 'Unborn'; //what about deceased?
         }),
-        // field(
-        //   'Date_of_Birth__c',
-        //   dataValue('form.Person.Basic_Information.DOB')
-        // ),
+        field(
+          'Date_of_Birth__c',
+          dataValue('form.Person.Basic_Information.DOB')
+        ),
         field('Gender__c', dataValue('form.Person.Basic_Information.Gender')),
         field(
           'Birth_Certificate__c',
@@ -184,21 +184,21 @@ alterState(state => {
           )(state);
           return status == 'positive' ? 'Yes' : 'No';
         }),
-        field('Enrollment_Date__c', state => {
-          var age = dataValue('form.Person.Basic_Information.age')(state);
-          var date = dataValue('metadata.timeEnd')(state);
-          var preg = dataValue('form.Person.TT5.Mother_Information.Pregnant')(
-            state
-          );
-          return age < 5 || preg == 'Yes' ? date : null;
-        }),
-        field('HAWI_Enrollment_Date__c', state => {
-          var date = dataValue('metadata.timeEnd')(state);
-          var status = dataValue(
-            'form.Person.Basic_Information.person_info.hiv_status'
-          )(state);
-          return status == 'positive' ? date : null;
-        }),
+        // field('Enrollment_Date__c', state => {
+        //   var age = dataValue('form.Person.Basic_Information.age')(state);
+        //   var date = dataValue('metadata.timeEnd')(state);
+        //   var preg = dataValue('form.Person.TT5.Mother_Information.Pregnant')(
+        //     state
+        //   );
+        //   return age < 5 || preg == 'Yes' ? date : null;
+        // }),
+        // field('HAWI_Enrollment_Date__c', state => {
+        //   var date = dataValue('metadata.timeEnd')(state);
+        //   var status = dataValue(
+        //     'form.Person.Basic_Information.person_info.hiv_status'
+        //   )(state);
+        //   return status == 'positive' ? date : null;
+        // }),
         field('Thrive_Thru_5_Registrant__c', state => {
           var age = dataValue('form.Person.Basic_Information.age')(state);
           var preg = dataValue('form.Person.TT5.Mother_Information.Pregnant')(
