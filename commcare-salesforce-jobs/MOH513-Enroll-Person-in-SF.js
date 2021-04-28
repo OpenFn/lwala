@@ -184,21 +184,21 @@ alterState(state => {
           )(state);
           return status == 'positive' ? 'Yes' : 'No';
         }),
-        // field('Enrollment_Date__c', state => {
-        //   var age = dataValue('form.Person.Basic_Information.age')(state);
-        //   var date = dataValue('metadata.timeEnd')(state);
-        //   var preg = dataValue('form.Person.TT5.Mother_Information.Pregnant')(
-        //     state
-        //   );
-        //   return age < 5 || preg == 'Yes' ? date : null;
-        // }),
-        // field('HAWI_Enrollment_Date__c', state => {
-        //   var date = dataValue('metadata.timeEnd')(state);
-        //   var status = dataValue(
-        //     'form.Person.Basic_Information.person_info.hiv_status'
-        //   )(state);
-        //   return status == 'positive' ? date : null;
-        // }),
+        field('Enrollment_Date__c', state => {
+          var age = dataValue('form.Person.Basic_Information.age')(state);
+          var date = dataValue('metadata.timeEnd')(state);
+          var preg = dataValue('form.Person.TT5.Mother_Information.Pregnant')(
+            state
+          );
+          return age < 5 || preg == 'Yes' ? date : null;
+        }),
+        field('HAWI_Enrollment_Date__c', state => {
+          var date = dataValue('metadata.timeEnd')(state);
+          var status = dataValue(
+            'form.Person.Basic_Information.person_info.hiv_status'
+          )(state);
+          return status == 'positive' ? date : null;
+        }),
         field('Thrive_Thru_5_Registrant__c', state => {
           var age = dataValue('form.Person.Basic_Information.age')(state);
           var preg = dataValue('form.Person.TT5.Mother_Information.Pregnant')(
@@ -217,10 +217,10 @@ alterState(state => {
           dataValue('form.Person.TT5.Child_Information.ANCs.LMP')
         ),
         field('Source__c', 1),
-        // field(
-        //   'ANC_1__c',
-        //   dataValue('form.Person.TT5.Child_Information.ANCs.ANC_1')
-        // ),
+        field(
+          'ANC_1__c',
+          dataValue('form.Person.TT5.Child_Information.ANCs.ANC_1')
+        ),
         field(
           'ANC_2__c',
           dataValue('form.Person.TT5.Child_Information.ANCs.ANC_2')
@@ -324,7 +324,7 @@ alterState(state => {
           'Food_groups_3_times_a_day__c',
           dataValue('form.Person.TT5.Child_Information.nutrition.food_groups')
         ),
-        // field(
+        // field( //TODO: Throws error if '' value is returned
         //   'Initial_MUAC__c',
         //   dataValue('form.Person.TT5.Child_Information.nutrition.MUAC')
         // ),
@@ -359,21 +359,21 @@ alterState(state => {
           return facility;
         }),
         field('Cough_14_days_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_for_cough')),
-        //field('Cough_14_days_referral_date__c', dataValue('form.Person.Basic_Information.person_info.date_refer_to_clinc')),
+        field('Cough_14_days_referral_date__c', dataValue('form.Person.Basic_Information.person_info.date_refer_to_clinc')),
         field('Know_HIV_status__c', dataValue('form.Person.Basic_Information.person_info.known_hiv_status')),
         field('HIV_counselling_and_testing_referral__c', dataValue('form.Person.Basic_Information.person_info.hiv_counselling_testing')),
-        //field('HIV_counseling_and_testing_referral_date__c', dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')),
+        field('HIV_counseling_and_testing_referral_date__c', dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')),
         field('Chronic_illness_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_chronic_illness')),
-        //field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
+        field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
         field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
-        //field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
+        field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
         field('Received_pregnancy_test__c', state => { 
           var preg = dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')(state); 
           return preg && preg==='OK' ? 'Yes' : preg;
         }),
         field('Pregnancy_test_result__c', dataValue('form.Person.Basic_Information.family_planning.pregnancy_test_result')),
         field('Pregnancy_referral__c', dataValue('form.Person.Basic_Information.family_planning.refer_preg')),
-        //field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
+        field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
         field(
           "Family_Planning__c", (state) => {
             var plan = dataValue("'form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state);
