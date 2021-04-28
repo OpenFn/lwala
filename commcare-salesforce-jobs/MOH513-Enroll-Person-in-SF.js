@@ -217,10 +217,10 @@ alterState(state => {
           dataValue('form.Person.TT5.Child_Information.ANCs.LMP')
         ),
         field('Source__c', 1),
-        field(
-          'ANC_1__c',
-          dataValue('form.Person.TT5.Child_Information.ANCs.ANC_1')
-        ),
+        // field(
+        //   'ANC_1__c',
+        //   dataValue('form.Person.TT5.Child_Information.ANCs.ANC_1')
+        // ),
         field(
           'ANC_2__c',
           dataValue('form.Person.TT5.Child_Information.ANCs.ANC_2')
