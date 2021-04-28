@@ -237,10 +237,10 @@ alterState(state => {
           'ANC_5__c',
           dataValue('form.Person.TT5.Child_Information.ANCs.ANC_5')
         ),
-        field(
-          'BCG__c',
-          dataValue('form.Person.TT5.Child_Information.Immunizations.BCG')
-        ),
+        // field(
+        //   'BCG__c',
+        //   dataValue('form.Person.TT5.Child_Information.Immunizations.BCG')
+        // ),
         field(
           'OPV_0__c',
           dataValue('form.Person.TT5.Child_Information.Immunizations.OPV_0')
