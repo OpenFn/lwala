@@ -58,10 +58,10 @@ alterState(state => {
           );
           return dob !== undefined || status == 'Born' ? 'Born' : 'Unborn'; //what about deceased?
         }),
-        field(
-          'Date_of_Birth__c',
-          dataValue('form.Person.Basic_Information.DOB')
-        ),
+        // field(
+        //   'Date_of_Birth__c',
+        //   dataValue('form.Person.Basic_Information.DOB')
+        // ),
         field('Gender__c', dataValue('form.Person.Basic_Information.Gender')),
         field(
           'Birth_Certificate__c',
