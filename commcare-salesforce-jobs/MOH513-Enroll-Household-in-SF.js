@@ -222,7 +222,8 @@ alterState((state) => {
           field(
             "Reasons_for_not_taking_FP_method__c", (state) => {
               var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
-              var reason2 = reason ? reason.toString().split(' ').join(';').replace(/_/g, " ").replace(/pregnant/g, 'The client is pregnant')
+              var reason2 = reason ? reason.toString().split(' ').join(';').replace(/_/g, " ")
+              .replace(/pregnant/g, 'The client is pregnant').replace(/not sexually active/g, 'The client is not sexually active')
                 : reason; 
               return reason2;
             }),
