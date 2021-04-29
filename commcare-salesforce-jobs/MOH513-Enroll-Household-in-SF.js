@@ -14,9 +14,6 @@ alterState((state) => {
     }
     return splitStr.join(" ");
   };
-  
-  state.
-  
   return state;
 });
 
