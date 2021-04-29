@@ -1,4 +1,11 @@
 // ** MOH513 Enroll Person form ** -> Upserting person record based on CommCare ID
+
+// Provide a function which checks if dates are empty strings
+alterState(state => {
+  const truthyValue = (value) => value || null;
+  return { ...state, truthyValue }
+})
+
 alterState(state => {
   if (dataValue('form.Source')(state) == 1) {
     return upsert(
@@ -60,7 +67,7 @@ alterState(state => {
         }),
         field(
           'Date_of_Birth__c',
-          dataValue('form.Person.Basic_Information.DOB')
+          state => state.truthyValue(dataValue('form.Person.Basic_Information.DOB')(state))
         ),
         field('Gender__c', dataValue('form.Person.Basic_Information.Gender')),
         field(
@@ -219,27 +226,27 @@ alterState(state => {
         field('Source__c', 1),
         field(
           'ANC_1__c',
-          dataValue('form.Person.TT5.Child_Information.ANCs.ANC_1')
+          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_1')(state))
         ),
         field(
           'ANC_2__c',
-          dataValue('form.Person.TT5.Child_Information.ANCs.ANC_2')
+          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_2')(state))
         ),
         field(
           'ANC_3__c',
-          dataValue('form.Person.TT5.Child_Information.ANCs.ANC_3')
+          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_3')(state))
         ),
         field(
           'ANC_4__c',
-          dataValue('form.Person.TT5.Child_Information.ANCs.ANC_4')
+          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_4')(state))
         ),
         field(
           'ANC_5__c',
-          dataValue('form.Person.TT5.Child_Information.ANCs.ANC_5')
+          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_5')(state))
         ),
         field(
           'BCG__c',
-          dataValue('form.Person.TT5.Child_Information.Immunizations.BCG')
+          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.Immunizations.BCG')(state))
         ),
         field(
           'OPV_0__c',
@@ -359,21 +366,21 @@ alterState(state => {
           return facility;
         }),
         field('Cough_14_days_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_for_cough')),
-        field('Cough_14_days_referral_date__c', dataValue('form.Person.Basic_Information.person_info.date_refer_to_clinc')),
+        field('Cough_14_days_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.person_info.date_refer_to_clinc')(state))),
         field('Know_HIV_status__c', dataValue('form.Person.Basic_Information.person_info.known_hiv_status')),
         field('HIV_counselling_and_testing_referral__c', dataValue('form.Person.Basic_Information.person_info.hiv_counselling_testing')),
-        field('HIV_counseling_and_testing_referral_date__c', dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')),
+        field('HIV_counseling_and_testing_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')(state))),
         field('Chronic_illness_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_chronic_illness')),
-        field('Chronic_illness_referral_date__c', dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')),
+        field('Chronic_illness_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')(state))),
         field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
-        field('Nutrition_referral_date__c', dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')),
+        field('Nutrition_referral_date__c', state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')(state))),
         field('Received_pregnancy_test__c', state => { 
           var preg = dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')(state); 
           return preg && preg==='OK' ? 'Yes' : preg;
         }),
         field('Pregnancy_test_result__c', dataValue('form.Person.Basic_Information.family_planning.pregnancy_test_result')),
         field('Pregnancy_referral__c', dataValue('form.Person.Basic_Information.family_planning.refer_preg')),
-        field('Pregnancy_referral_date__c', dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')),
+        field('Pregnancy_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')(state))),
         field(
           "Family_Planning__c", (state) => {
             var plan = dataValue("'form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state);
@@ -466,7 +473,7 @@ upsert(
         ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
         : null;
     }),
-    field('Date__c', dataValue('form.Date')),
+    field('Date__c', state => state.truthyValue(dataValue('form.Date')(state))),
     field('Household_CHW__c', dataValue('form.CHW_ID')),
     //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     field('Location__latitude__s', state => {
