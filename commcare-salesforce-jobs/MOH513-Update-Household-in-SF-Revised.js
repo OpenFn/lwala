@@ -106,7 +106,7 @@ upsert(
       return status && status === 'other_please_specify_if_active' ? 'Other' :
         status === 'nhif' ? 'NHIF' : status === 'Linda_mama' || 'linda_mama' ? 'Linda mama' : status;
     }),
-    field("Health_insurance_other__c", dataValue("form.if_other_please_specify"))
+    field("Other_Health_Insurance__c", dataValue("form.if_other_please_specify"))
   )
 ),
   upsert(
