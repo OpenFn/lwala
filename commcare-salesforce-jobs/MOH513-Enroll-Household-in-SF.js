@@ -14,6 +14,9 @@ alterState((state) => {
     }
     return splitStr.join(" ");
   };
+  
+  state.
+  
   return state;
 });
 
@@ -222,11 +225,9 @@ alterState((state) => {
           field(
             "Reasons_for_not_taking_FP_method__c", (state) => {
               var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
-              return reason && reason!=='pregnant'
-                ? reason.toString().split(' ').join(';').replace(/_/g, " ")
-                : reason==='pregnant'
-                ? 'The client is pregnant'
-                : reason;
+              var reason2 = reason ? reason.toString().split(' ').join(';').replace(/_/g, " ").replace(/pregnant/g, 'The client is pregnant')
+                : reason; 
+              return reason2;
             }),
           field(
             "Use_mosquito_net__c",
