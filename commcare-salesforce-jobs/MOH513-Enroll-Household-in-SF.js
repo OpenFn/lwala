@@ -417,13 +417,13 @@ alterState((state) => {
                 ? method.toString().replace(/_/g, " ")
                 : method;
             }),
-          field(
-            "Reasons_for_not_taking_FP_method__c", (state) => {
-              var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
-              return reason
-                ? reason.toString().replace(/_/g, " ")
-                : reason;
-            }),
+          // field(
+          //   "Reasons_for_not_taking_FP_method__c", (state) => {
+          //     var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
+          //     return reason
+          //       ? reason.toString().replace(/_/g, " ")
+          //       : reason;
+          //   }),
           field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
             var reason = dataValue("Basic_Information.family_planning.No_Preg_Test")(state);
             return reason
