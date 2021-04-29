@@ -223,7 +223,7 @@ alterState((state) => {
             "Reasons_for_not_taking_FP_method__c", (state) => {
               var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
               return reason
-                ? reason.toString().replace(/_/g, " ")
+                ? reason.toString().split(' ').join(';').replace(/_/g, " ")
                 : reason;
             }),
           field(
