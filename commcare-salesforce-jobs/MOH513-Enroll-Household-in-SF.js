@@ -226,6 +226,7 @@ alterState((state) => {
                 .replace(/pregnant/g, 'The client is pregnant').replace(/not sexually active/g, 'The client is not sexually active')
                 .replace(/other barriers culture male partners parents etc/g, 'Other barriers (culture, male partners, parents, etc)')
                 .replace(/no access to fp services hospitals/g, 'Lack of hospitals or places where FP services can be accessed')
+                .replace(/not willing to use fp due to negative effects myths and misconceptions/g, 'Myths and misconceptions')
                 : reason;
               return reason2;
             }),
