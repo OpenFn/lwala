@@ -379,9 +379,11 @@ alterState(state => {
         field(
           "Reasons_for_not_taking_FP_method__c", (state) => {
             var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
-            return reason
-              ? reason.toString().replace(/_/g, " ")
+            var reason2 = reason ? reason.toString().split(' ').join(';').replace(/_/g, " ")
+              .replace(/pregnant/g, 'The client is pregnant').replace(/not sexually active/g, 'The client is not sexually active')
+              .replace(/other barriers culture male partners parents etc/g, 'Other barriers (culture, male partners, parents, etc)')
               : reason;
+            return reason2;
           }),
         field('Pregnant__c', state => {
           var preg = dataValue('form.TT5.Mother_Information.Pregnant')(state);
