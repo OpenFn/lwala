@@ -94,7 +94,12 @@ submit(
           'xmlns:n0': 'http://commcarehq.org/case/transaction/v2',
         },
         'n0:update': {
-          'n0:case_name': dataValue('new[0].Name')(state),
+          'n0:case_name': () => {
+            var name = dataValue('new[0].Name')(state); 
+            var code = dataValue('new[0].Household_Code_Autonumber__c')(state);
+            return name.length > 6 ? code : name; 
+            //return hh autonumber if name = sf id
+            },
           'n0:owner_id': () => {
             var id = '';
             if (dataValue('new[0].chw_owner_id__c')(state) === undefined) {
