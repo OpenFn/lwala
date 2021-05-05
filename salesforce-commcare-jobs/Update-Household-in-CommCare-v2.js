@@ -133,7 +133,7 @@ submit(
           'n0:seed_input_support': dataValue('new[0].Seed_Input_Support__c')(
             state
           ),
-          'n0:name_concat': dataValue('new[0].Name_Concatenation__c')(state),
+          'n0:name_concat': dataValue('new[0].Household_Code_Autonumber__c')(state),
           'n0:CHW_ID': dataValue('new[0].Household_CHW__c')(state),
           'n0:Improved_Cooking_Method': dataValue('new[0].Cookstove__c')(state),
           'n0:Kitchen_Garden': dataValue('new[0].Kitchen_Garden__c')(state),
