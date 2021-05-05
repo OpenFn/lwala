@@ -24,7 +24,12 @@ submit(
       return str;
     }),
     field('Run_Code', 'Household_Lwala'),
-    field('name', dataValue('new[0].Name')),
+    field('name', state => {
+      var name = dataValue('new[0].Name')(state); 
+      var code = dataValue('new[0].Household_Code_Autonumber__c')(state);
+      return name.length > 6 ? code : name; 
+      //return hh autonumber if name = sf id
+    }),
     field('area', dataValue('new[0].Area__c')),
 
     field('Household_Information', state => {
