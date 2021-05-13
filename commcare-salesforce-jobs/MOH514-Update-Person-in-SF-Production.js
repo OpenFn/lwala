@@ -120,7 +120,7 @@ alterState(state => {
             'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name'
           )(state);
           var name2 =
-            name1 === undefined || name1 === ''
+            name1 === undefined || name1 === '' || name1===null
               ? unborn
               : name1.replace(/\w\S*/g, function (txt) {
                 return (
