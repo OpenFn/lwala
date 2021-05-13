@@ -155,7 +155,7 @@ alterState(state => {
         }),
         field('Purpose_of_referral__c', state => {
           var purpose = 
-            dataValue('form.TT5.Child_Information.Clinical_Services.Purpose_of_Referral')(state) ||
+            dataValue('form.TT5.Child_Information.Clinical_Services.Purpose')(state) ||
             dataValue('form.TT5.Child_Information.Nutrition2.Purpose_of_Referral')(state) ||
             dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state) ||
             dataValue('form.Purpose_of_Referral')(state) || 
