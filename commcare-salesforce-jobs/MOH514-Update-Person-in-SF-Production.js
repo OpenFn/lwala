@@ -161,7 +161,8 @@ alterState(state => {
             dataValue('form.Purpose_of_Referral')(state) || 
             dataValue('form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral')(state) ||
             dataValue('form.treatment_and_tracking.CCMM.Purpose_of_Referral')(state) ||
-            dataValue('form.ANCs.pregnancy_danger_signs.danger_sign_referral.Purpose_of_Referral')(state);
+            dataValue('form.ANCs.pregnancy_danger_signs.danger_sign_referral.Purpose_of_Referral')(state) || 
+            dataValue('form.TT5.Child_Information.Clinical_Services.Purpose')(state);
 
           var reason = purpose &&
             purpose === 'HIV_Testing_and_Counseling'
