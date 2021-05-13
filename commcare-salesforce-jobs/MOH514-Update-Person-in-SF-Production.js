@@ -197,7 +197,7 @@ alterState(state => {
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';');
-            return (newSign = signs.toString().replace(/_/g, ' '));
+            return (newSign = signs ? signs.toString().replace(/_/g, ' '): signs);
           } else {
             return (newSign = null);
           }
