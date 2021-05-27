@@ -148,6 +148,8 @@ alterState(state => {
           var reason =
             referral === 'HIV_Testing_and_Counseling'
               ? 'HIV counselling or Testing'
+              : referal === 'Pregnancy Care'
+              ? 'Pregnancy Care (ANC)'
               : referral;
           return reason !== undefined
             ? reason.toString().replace(/_/g, ' ')
@@ -167,6 +169,8 @@ alterState(state => {
           var reason = purpose &&
             purpose === 'HIV_Testing_and_Counseling'
             ? 'HIV Testing and Counseling'
+            : purpose === 'Pregnancy Care'
+            ? 'Pregnancy Care (ANC)'
             : purpose;
           return reason !== undefined
             ? reason.toString().replace(/_/g, ' ')
