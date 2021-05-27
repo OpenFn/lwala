@@ -169,7 +169,7 @@ alterState(state => {
           var reason = purpose &&
             purpose === 'HIV_Testing_and_Counseling'
             ? 'HIV Testing and Counseling'
-            : purpose === 'Pregnancy Care'
+            : purpose === 'Pregnancy_Care'
             ? 'Pregnancy Care (ANC)'
             : purpose;
           return reason !== undefined
