@@ -148,7 +148,7 @@ alterState(state => {
           var reason =
             referral === 'HIV_Testing_and_Counseling'
               ? 'HIV counselling or Testing'
-              : referal === 'Pregnancy Care'
+              : referral === 'Pregnancy Care'
               ? 'Pregnancy Care (ANC)'
               : referral;
           return reason !== undefined
