@@ -1008,7 +1008,7 @@ alterState(state => {
         }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         field('RecordTypeID', '01224000000YAuK'),
         relationship(
           'Person__r',
@@ -1063,7 +1063,7 @@ alterState(state => {
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1117,7 +1117,7 @@ alterState(state => {
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1171,7 +1171,7 @@ alterState(state => {
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1224,7 +1224,7 @@ alterState(state => {
         }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1277,7 +1277,7 @@ alterState(state => {
         }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1330,7 +1330,7 @@ alterState(state => {
         }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1383,7 +1383,7 @@ alterState(state => {
         }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1430,7 +1430,7 @@ alterState(state => {
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1482,7 +1482,7 @@ alterState(state => {
           care = care.replace(/_/g, ' ');
           return care;
         }),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1538,7 +1538,7 @@ alterState(state => {
           'Malaria_Home_Test_Date__c',
           dataValue('form.treatment_and_tracking.malaria_test_date')
         ),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1584,7 +1584,7 @@ alterState(state => {
           'Clinical_Visit_Date__c',
           dataValue('form.TT5.Child_Information.Nutrition2.Clinical_Date')
         ),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1685,7 +1685,7 @@ alterState(state => {
             .join(';');
           return purpose.toString().replace(/_/g, ' ');
         }),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1733,7 +1733,7 @@ alterState(state => {
         field('Reason_for_Service__c', 'Referral'),
         field('Open_Case__c', 1),
         field('Purpose_of_Referral__c', 'Skilled Delivery'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1794,7 +1794,7 @@ alterState(state => {
         field('Reason_for_Service__c', 'Referral'),
         field('Open_Case__c', 1),
         field('Purpose_of_Referral__c', 'Pregnancy Danger Signs'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1843,7 +1843,7 @@ alterState(state => {
         field('Reason_for_Service__c', 'Referral'),
         field('Open_Case__c', 1),
         field('Purpose_of_Referral__c', 'PNC'),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1906,7 +1906,7 @@ alterState(state => {
             ? facility.charAt(0).toUpperCase() + facility.substr(1).toLowerCase().replace(/_/g, ' ')
             : null;
         }),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1962,7 +1962,7 @@ alterState(state => {
             'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Clinician_Notes'
           )
         ),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -2015,7 +2015,7 @@ alterState(state => {
           }
           return facility;
         }),
-        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -2070,6 +2070,7 @@ alterState(state => {
           }
           return facility;
         }),
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -2124,6 +2125,7 @@ alterState(state => {
           }
           return facility;
         }),
+        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -2195,6 +2197,7 @@ alterState(state => {
             }
             return facility;
           }),
+          field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
         )
       )
@@ -2255,6 +2258,7 @@ alterState(state => {
             }
             return facility;
           }),
+          field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
         )
       )
