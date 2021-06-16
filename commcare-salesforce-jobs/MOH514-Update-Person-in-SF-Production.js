@@ -1008,7 +1008,7 @@ alterState(state => {
         }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field(Age_at_Time_of_Service_Days__c,dataValue('form.age')),//Added by MOTG
+        field('Age_at_Time_of_Service_Days__c',dataValue('form.age')),//Added by MOTG
         field('RecordTypeID', '01224000000YAuK'),
         relationship(
           'Person__r',
