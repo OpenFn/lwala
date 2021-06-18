@@ -17,6 +17,7 @@ There are some reference data tables that need to be consistent across the CommC
 ### (1) CommCare --> Salesforce
 CHWs register households, patients, and visits, and use CommCare as a tool for ongoing data collection and case management. As soon as the following CommCare forms are submitted, these [`CommCare-Salesforce-Jobs`](https://github.com/OpenFn/lwala/tree/master/commcare-salesforce-jobs) execute to forward data to Salesforce. 
 
+#### Legacy Forms (still active until mid-2021)
 _Lwala Application Forms_ (These are the original CommCare forms still live in some areas, but to be eventually replaced by the MOH forms.)
 1. Enroll a Person ([`Create-Person-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Create-Person-in-SF-Production.js))
 2. Enroll New Household ([`Create-Household-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Create-Household-in-SF-Production.js))
@@ -26,15 +27,16 @@ _Lwala Application Forms_ (These are the original CommCare forms still live in s
 6. Enroll Household in Nutrition Program ([`Enroll-in-Nutrition-Group-in-SF.jss`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Enroll-in-Nutrition-Group-in-SF.js))
 7. Nutrition Survey ([`nutrition-survey-job.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/nutrition-survey-job.js))
 
-_MOH Data Collection Forms_ (These forms were introduced to support MOH partnership requirements, but are only live in some areas.)
+#### New MOH Data Collection Forms
+_These forms were introduced to support MOH partnership requirements, but are only live in some areas... to be rolled out widely in July 2021_
 1. Enroll Person ([`MOH513-Enroll-Person-in-SF.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Enroll-Person-in-SF.js))
 2. Enroll Household ([`MOH513-Enroll-Household-in-SF.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Enroll-Household-in-SF.js))
 3. Update Person ([`MOH514-Update-Person-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH514-Update-Person-in-SF-Production.js))
-4. Update Houshold ([`MOH513-Update-Household-in-SF-Production.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Update-Household-in-SF-Production.js))
+4. Update Houshold ([`MOH513-Update-Household-in-SF-Revised.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Update-Household-in-SF-Revised.js))
 5. Outreach Registration ([`nutrition-survey-job.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/nutrition-survey-job.js))
 6. Distribution and Referrals ([`nutrition-survey-job.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/nutrition-survey-job.js))
 
-_Deprecated Forms & Archived Jobs_
+### Deprecated Forms & Archived Jobs
 1. Input Seed Support and Kitchen Garden Adoption
 2. OSG Mentoring Attendance
 3. Register Training
