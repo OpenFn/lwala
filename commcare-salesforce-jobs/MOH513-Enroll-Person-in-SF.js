@@ -13,7 +13,10 @@ alterState(state => {
       'CommCare_ID__c',
       fields(
         field('CommCare_ID__c', dataValue('form.subcase_0.case.@case_id')),
-        // relationship("Household__r","CommCare_Code__c",dataValue("form.case.@case_id")), //remove as Apex trigger maps relationships
+        relationship(
+          'Household__r',
+          'CommCare_Code__c',
+          dataValue('form.case.@case_id')),
         relationship('Catchment__r', 'Name', dataValue('form.catchment')),
         field("Area__c", dataValue('form.area')),
         field('Household_Village__c', dataValue('form.village')),
