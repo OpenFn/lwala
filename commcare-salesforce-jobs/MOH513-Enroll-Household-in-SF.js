@@ -14,7 +14,21 @@ alterState((state) => {
     }
     return splitStr.join(" ");
   };
-  return state;
+
+  const reasonMapping = {
+    pregnant: "The client is pregnant",
+    intentions_of_getting_pregnant: "Intentions of getting pregnant",
+    lack_of_access_to_fp_information: "Lack of access to FP information",
+    not_sexually_active: "The client is not sexually active",
+    other_barriers_culture_male_partners_parents_etc:
+      "Other barriers (culture, male partners, parents, etc)",
+    no_access_to_fp_services_hospitals:
+      "Lack of hospitals or places where FP services can be accessed",
+    not_willing_to_use_fp_due_to_negative_effects_myths_and_misconceptions:
+      "Myths and misconceptions",
+  };
+
+  return { ...state, reasonMapping };
 });
 
 //Upserting Household, checks if Household exists via MOH Household Code
@@ -77,20 +91,27 @@ upsert(
       "Total_household_people__c",
       dataValue("form.Total_Number_of_Members")
     ),
-    field("Health_insurance__c",
-      dataValue("form.health_insurace_cover")),
+    field("Health_insurance__c", dataValue("form.health_insurace_cover")),
     field(
       "Health_insurance_active_status__c",
       dataValue("form.healthinsurance_active")
     ),
     field("Health_insurance_type__c", (state) => {
       var status = dataValue("form.health_insurance")(state);
-      return status && status === 'other_please_specify_if_active' ? 'Other' :
-        status === 'nhif' ? 'NHIF' : status === 'Linda_mama' || 'linda_mama' ? 'Linda mama' : status;
+      return status && status === "other_please_specify_if_active"
+        ? "Other"
+        : status === "nhif"
+        ? "NHIF"
+        : status === "Linda_mama" || "linda_mama"
+        ? "Linda mama"
+        : status;
     }),
-    field("Other_Health_Insurance__c", dataValue("form.if_other_please_specify")),
-    field('Work_with_TBA__c', dataValue('form.tba')),
-    field('TBA_name__c', dataValue('form.which_tba')),
+    field(
+      "Other_Health_Insurance__c",
+      dataValue("form.if_other_please_specify")
+    ),
+    field("Work_with_TBA__c", dataValue("form.tba")),
+    field("TBA_name__c", dataValue("form.which_tba"))
   )
 );
 
@@ -120,17 +141,17 @@ alterState((state) => {
               name1 === undefined || name1 === ""
                 ? "Unborn Child"
                 : name1.replace(/\w\S*/g, function (txt) {
-                  return (
-                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                  );
-                });
+                    return (
+                      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                    );
+                  });
             return status !== "Unborn" ? name2 : "Unborn Child";
           }),
           field("Source__c", true),
           relationship("Catchment__r", "Name", dataValue("catchment")),
           field("Client_Status__c", "Active"),
           field("Area__c", state.data.form.area),
-          field('Household_Village__c', state.data.form.village),
+          field("Household_Village__c", state.data.form.village),
           field("Relation_to_the_head_of_the_household__c", (state) => {
             var relation = dataValue("Basic_Information.relation_to_hh")(state);
             var toTitleCase =
@@ -207,29 +228,24 @@ alterState((state) => {
             "Telephone__c",
             dataValue("Basic_Information.Contact_Info.contact_phone_number")
           ),
-          field(
-            "Family_Planning__c", (state) => {
-              var plan = dataValue("Basic_Information.family_planning.Currently_on_family_planning")(state);
-              return plan ? 'Yes' : plan;
-            }),
-          field(
-            "Family_Planning_Method__c", (state) => {
-              var method = dataValue("Basic_Information.family_planning.Family_Planning_Method")(state);
-              return method
-                ? method.toString().replace(/_/g, " ")
-                : method;
-            }),
-          field(
-            "Reasons_for_not_taking_FP_method__c", (state) => {
-              var reason = dataValue("Basic_Information.family_planning.No_FPmethod_reason")(state);
-              var reason2 = reason ? reason.toString().split(' ').join(';').replace(/_/g, " ")
-                .replace(/pregnant/g, 'The client is pregnant').replace(/not sexually active/g, 'The client is not sexually active')
-                .replace(/other barriers culture male partners parents etc/g, 'Other barriers (culture, male partners, parents, etc)')
-                .replace(/no access to fp services hospitals/g, 'Lack of hospitals or places where FP services can be accessed')
-                .replace(/not willing to use fp due to negative effects myths and misconceptions/g, 'Myths and misconceptions')
-                : reason;
-              return reason2;
-            }),
+          field("Family_Planning__c", (state) => {
+            var plan = dataValue(
+              "Basic_Information.family_planning.Currently_on_family_planning"
+            )(state);
+            return plan ? "Yes" : plan;
+          }),
+          field("Family_Planning_Method__c", (state) => {
+            var method = dataValue(
+              "Basic_Information.family_planning.Family_Planning_Method"
+            )(state);
+            return method ? method.toString().replace(/_/g, " ") : method;
+          }),
+          field("Reasons_for_not_taking_FP_method__c", (state) => {
+            var reason = dataValue(
+              "Basic_Information.family_planning.No_FPmethod_reason"
+            )(state);
+            return reason ? state.reasonMapping[reason] : "";
+          }),
           field(
             "Use_mosquito_net__c",
             dataValue("Basic_Information.person_info.sleep_under_net")
@@ -245,10 +261,10 @@ alterState((state) => {
             var illness =
               value !== undefined
                 ? value
-                  .toLowerCase()
-                  .split(" ")
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(";")
+                    .toLowerCase()
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(";")
                 : null;
             return illness !== null
               ? illness.toString().replace(/_/g, " ")
@@ -269,10 +285,10 @@ alterState((state) => {
             var toTitleCase =
               disability !== undefined
                 ? disability
-                  .toLowerCase()
-                  .split(" ")
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(";")
+                    .toLowerCase()
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(";")
                 : null;
             return toTitleCase;
           }),
@@ -283,10 +299,10 @@ alterState((state) => {
             var toTitleCase =
               disability !== undefined
                 ? disability
-                  .toLowerCase()
-                  .split(" ")
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(";")
+                    .toLowerCase()
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(";")
                 : null;
             return toTitleCase;
           }),
@@ -324,7 +340,10 @@ alterState((state) => {
               ? facility.toString().replace(/_/g, " ")
               : null;
           }),
-          field('Delivery_Facility_Other__c', dataValue('TT5.Child_Information.Delivery_Information.Other')),
+          field(
+            "Delivery_Facility_Other__c",
+            dataValue("TT5.Child_Information.Delivery_Information.Other")
+          ),
           field("Place_of_Delivery__c", (state) => {
             var facility = dataValue(
               "TT5.Child_Information.Delivery_Information.Skilled_Unskilled"
@@ -405,28 +424,42 @@ alterState((state) => {
             "HIV_counseling_and_testing_referral_date__c",
             dataValue("Basic_Information.person_info.when_hiv")
           ),
-          field('Received_pregnancy_test__c', dataValue('Basic_Information.family_planning.did_you_adminsiter_a_pregnancy_test')),
-          field('Pregnancy_test_result__c', dataValue('Basic_Information.family_planning.pregnancy_test_result')),
-          field('Pregnancy_referral__c', dataValue('Basic_Information.family_planning.refer_preg')),
-          field('Pregnancy_referral_date__c', dataValue('Basic_Information.family_planning.referal_pregnancy')),
           field(
-            "Family_Planning__c", (state) => {
-              var plan = dataValue("Basic_Information.family_planning.Currently_on_family_planning")(state);
-              return plan ? 'Yes' : plan;
-            }),
+            "Received_pregnancy_test__c",
+            dataValue(
+              "Basic_Information.family_planning.did_you_adminsiter_a_pregnancy_test"
+            )
+          ),
           field(
-            "Family_Planning_Method__c", (state) => {
-              var method = dataValue("Basic_Information.family_planning.Family_Planning_Method")(state);
-              return method
-                ? method.toString().replace(/_/g, " ")
-                : method;
-            }),
-          field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
-            var reason = dataValue("Basic_Information.family_planning.No_Preg_Test")(state);
-            return reason
-              ? reason.toString().replace(/_/g, " ")
-              : reason;
+            "Pregnancy_test_result__c",
+            dataValue("Basic_Information.family_planning.pregnancy_test_result")
+          ),
+          field(
+            "Pregnancy_referral__c",
+            dataValue("Basic_Information.family_planning.refer_preg")
+          ),
+          field(
+            "Pregnancy_referral_date__c",
+            dataValue("Basic_Information.family_planning.referal_pregnancy")
+          ),
+          field("Family_Planning__c", (state) => {
+            var plan = dataValue(
+              "Basic_Information.family_planning.Currently_on_family_planning"
+            )(state);
+            return plan ? "Yes" : plan;
           }),
+          field("Family_Planning_Method__c", (state) => {
+            var method = dataValue(
+              "Basic_Information.family_planning.Family_Planning_Method"
+            )(state);
+            return method ? method.toString().replace(/_/g, " ") : method;
+          }),
+          field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
+            var reason = dataValue(
+              "Basic_Information.family_planning.No_Preg_Test"
+            )(state);
+            return reason ? reason.toString().replace(/_/g, " ") : reason;
+          })
         )
       )
     )(state);
@@ -438,57 +471,56 @@ alterState((state) => {
 
 each(
   merge(
-    dataPath('$.form.household_deaths.deaths[*]'),
+    dataPath("$.form.household_deaths.deaths[*]"),
     fields(
-      field('caseId', dataValue('form.case.@case_id')),
-      field('catchment', dataValue('form.catchment')),
-      field('Date', dataValue('form.Date'))
+      field("caseId", dataValue("form.case.@case_id")),
+      field("catchment", dataValue("form.catchment")),
+      field("Date", dataValue("form.Date"))
     )
   ),
   upsertIf(
-    state.data.form.household_deaths && state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
-    'Person__c',
-    'CommCare_ID__c',
+    state.data.form.household_deaths &&
+      state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
+    "Person__c",
+    "CommCare_ID__c",
     fields(
-      field('CommCare_ID__c', state => {
-        var age = dataValue('age_dead')(state);
+      field("CommCare_ID__c", (state) => {
+        var age = dataValue("age_dead")(state);
         return `${state.data.caseId}${age}`;
       }),
-      field('CommCare_HH_Code__c', dataValue('caseId')),
-      relationship('RecordType', 'Name', state => {
-        var age = dataValue('age_dead')(state);
-        var gender = dataValue('gender_dead')(state);
-        var rt = '';
+      field("CommCare_HH_Code__c", dataValue("caseId")),
+      relationship("RecordType", "Name", (state) => {
+        var age = dataValue("age_dead")(state);
+        var gender = dataValue("gender_dead")(state);
+        var rt = "";
         if (age < 5) {
-          rt = 'Child';
+          rt = "Child";
         } else if (age < 18) {
-          rt = 'Youth';
-        } else if (gender === 'female') {
-          rt = 'Female Adult';
+          rt = "Youth";
+        } else if (gender === "female") {
+          rt = "Female Adult";
         } else {
-          rt = 'Male Adult';
+          rt = "Male Adult";
         }
         return rt;
       }),
-      field('Name', 'Deceased Person'),
-      field('Source__c', true),
-      relationship('Catchment__r', 'Name', dataValue('catchment')),
-      field('Client_Status__c', 'Deceased'),
-      field('Dead_age__c', dataValue('age_dead')),
-      field('Cause_of_Death__c', state => {
-        var cause = dataValue('cause_of_death_dead')(state);
-        return cause !== undefined
-          ? cause.toString().replace(/_/g, ' ')
-          : null;
+      field("Name", "Deceased Person"),
+      field("Source__c", true),
+      relationship("Catchment__r", "Name", dataValue("catchment")),
+      field("Client_Status__c", "Deceased"),
+      field("Dead_age__c", dataValue("age_dead")),
+      field("Cause_of_Death__c", (state) => {
+        var cause = dataValue("cause_of_death_dead")(state);
+        return cause !== undefined ? cause.toString().replace(/_/g, " ") : null;
       }),
-      field('Verbal_autopsy__c', dataValue('verbal_autopsy')),
-      field('Client_Status__c', 'Deceased'),
-      field('Active_in_Thrive_Thru_5__c', 'No'),
-      field('Active_in_HAWI__c', 'No'),
-      field('Active_TT5_Mother__c', 'No'),
-      field('TT5_Mother_Registrant__c', 'No'),
-      field('Date_of_Death__c', dataValue('Date')),
-      field('Inactive_Date__c', dataValue('Date'))
+      field("Verbal_autopsy__c", dataValue("verbal_autopsy")),
+      field("Client_Status__c", "Deceased"),
+      field("Active_in_Thrive_Thru_5__c", "No"),
+      field("Active_in_HAWI__c", "No"),
+      field("Active_TT5_Mother__c", "No"),
+      field("TT5_Mother_Registrant__c", "No"),
+      field("Date_of_Death__c", dataValue("Date")),
+      field("Inactive_Date__c", dataValue("Date"))
     )
   )
 );
