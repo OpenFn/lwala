@@ -26,6 +26,7 @@ alterState((state) => {
       "Lack of hospitals or places where FP services can be accessed",
     not_willing_to_use_fp_due_to_negative_effects_myths_and_misconceptions:
       "Myths and misconceptions",
+    barriers_at_service_delivery_points: "Barriers at service delivery points",
   };
 
   return { ...state, reasonMapping };
