@@ -184,7 +184,7 @@ alterState(state => {
           ),
           field(
             'Telephone__c',
-            dataValue('Basic_Information.Contact_Info.contact_phone_number')
+            dataValue('Basic_Information.Contact_Info.contact_phone_number_short')
           ),
           field(
             'Next_of_Kin__c',
