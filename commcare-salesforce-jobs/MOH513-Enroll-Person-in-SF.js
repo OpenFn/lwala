@@ -92,7 +92,7 @@ alterState(state => {
         field(
           'Telephone__c',
           dataValue(
-            'form.Person.Basic_Information.Contact_Info.contact_phone_number'
+            'form.Person.Basic_Information.Contact_Info.contact_phone_number_short'
           )
         ),
         field(
