@@ -227,7 +227,7 @@ alterState((state) => {
           ),
           field(
             "Telephone__c",
-            dataValue("Basic_Information.Contact_Info.contact_phone_number")
+            dataValue("Basic_Information.Contact_Info.contact_phone_number_short")
           ),
           field("Family_Planning__c", (state) => {
             var plan = dataValue(
