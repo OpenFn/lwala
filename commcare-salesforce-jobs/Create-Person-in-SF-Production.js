@@ -92,7 +92,7 @@ upsert(
     ),
     field(
       'Telephone__c',
-      dataValue('$.form.Basic_Information.Contact_Info.contact_phone_number')
+      dataValue('$.form.Basic_Information.Contact_Info.contact_phone_number_short')
     ),
     field(
       'Next_of_Kin__c',
