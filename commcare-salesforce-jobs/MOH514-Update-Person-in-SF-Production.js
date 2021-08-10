@@ -120,7 +120,7 @@ alterState(state => {
             'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name'
           )(state);
           var name2 =
-            name1 === undefined || name1 === '' || name1===null
+            name1 === undefined || name1 === '' || name1 === null
               ? unborn
               : name1.replace(/\w\S*/g, function (txt) {
                 return (
@@ -149,19 +149,19 @@ alterState(state => {
             referral === 'HIV_Testing_and_Counseling'
               ? 'HIV counselling or Testing'
               : referral === 'Pregnancy Care'
-              ? 'Pregnancy Care (ANC)'
-              : referral;
+                ? 'Pregnancy Care (ANC)'
+                : referral;
           return reason !== undefined
             ? reason.toString().replace(/_/g, ' ')
             : null;
         }),
         field('Purpose_of_referral__c', state => {
-          var purpose = 
+          var purpose =
             dataValue('form.TT5.Child_Information.Clinical_Services.Purpose')(state) ||
             dataValue('form.TT5.Child_Information.Nutrition2.Purpose_of_Referral')(state) ||
             dataValue('form.treatment_and_tracking.Referral.Purpose_of_Referral')(state) ||
             //dataValue('form.Purpose_of_Referral')(state) || 
-           // dataValue('form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral')(state) ||
+            // dataValue('form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral')(state) ||
             dataValue('form.treatment_and_tracking.CCMM.Purpose_of_Referral')(state) ||
             //dataValue('form.ANCs.pregnancy_danger_signs.danger_sign_referral.Purpose_of_Referral')(state) || 
             dataValue('form.TT5.Child_Information.Clinical_Services.Purpose')(state);
@@ -170,8 +170,8 @@ alterState(state => {
             purpose === 'HIV_Testing_and_Counseling'
             ? 'HIV Testing and Counseling'
             : purpose === 'Pregnancy_Care'
-            ? 'Pregnancy Care (ANC)'
-            : purpose;
+              ? 'Pregnancy Care (ANC)'
+              : purpose;
           return reason !== undefined
             ? reason.toString().replace(/_/g, ' ')
             : null;
@@ -202,7 +202,7 @@ alterState(state => {
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';');
-            return (newSign = signs ? signs.toString().replace(/_/g, ' '): signs);
+            return (newSign = signs ? signs.toString().replace(/_/g, ' ') : signs);
           } else {
             return (newSign = null);
           }
@@ -761,7 +761,10 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'ANC 1'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }),
         field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state);
           return date ? date : state.data.form.case.update.ANC_1;
@@ -808,8 +811,10 @@ alterState(state => {
           return id + date2 + 'ANC2';
         }),
         field('Source__c', 1),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Reason_for_Service__c', 'ANC 2'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Reason_for_Service__c', 'ANC 2'),
         field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state);
           return date ? date : state.data.form.case.update.ANC_2;
@@ -857,8 +862,10 @@ alterState(state => {
         }),
         field('Source__c', true),
         field('Reason_for_Service__c', 'ANC 3'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state);
           return date ? date : state.data.form.case.update.ANC_3;
         }),
@@ -905,8 +912,10 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'ANC 4'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state);
           return date ? date : state.data.form.case.update.ANC_4;
         }),
@@ -953,8 +962,10 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'ANC 5'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state);
           return date ? date : state.data.form.case.update.ANC_5;
         }),
@@ -1001,14 +1012,16 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'BCG'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.Immunizations.BCG')(state);
           return date ? date : state.data.form.case.update.BCG;
         }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         field('RecordTypeID', '01224000000YAuK'),
         relationship(
           'Person__r',
@@ -1055,15 +1068,17 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'OPV0'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.Immunizations.OPV0_h')(state);
           return date ? date : state.data.form.case.update.OPV0_h;
         }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1109,15 +1124,17 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'OPV1'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')(state);
           return date ? date : state.data.form.case.update.OPV1_h;
         }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1163,15 +1180,17 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'OPV2'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')(state);
           return date ? date : state.data.form.case.update.OPV2_h;
         }),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1217,14 +1236,16 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'OPV3'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')(state);
           return date ? date : state.data.form.case.update.OPV3_h;
         }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1270,14 +1291,16 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'Measles 6'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')(state);
           return date ? date : state.data.form.case.update.Measles6_h;
         }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1323,14 +1346,16 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'Measles 9'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.Immunizations.Measles9_h')(state);
           return date ? date : state.data.form.case.update.Measles9_h;
         }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1376,14 +1401,16 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'Measles 18'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Date__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Date__c', state => {
           var date = dataValue('form.TT5.Child_Information.Immunizations.Measles18_h')(state);
           return date ? date : state.data.form.case.update.Measles18_h;
         }),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1425,12 +1452,15 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'Deworming'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }),
         field('Date__c', dataValue('form.Date')),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000YAuK'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1468,7 +1498,10 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'Home-Based Care'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }),
         field('Date__c', dataValue('form.Date')),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
@@ -1482,7 +1515,7 @@ alterState(state => {
           care = care.replace(/_/g, ' ');
           return care;
         }),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1520,7 +1553,10 @@ alterState(state => {
           var date = dataValue('form.Follow-Up_By_Date')(state);
           return date !== undefined || date !== '' ? date : null;
         }),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }),
         field('Referred__c', 1),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field('RecordTypeID', '01224000000kOto'),
@@ -1538,7 +1574,7 @@ alterState(state => {
           'Malaria_Home_Test_Date__c',
           dataValue('form.treatment_and_tracking.malaria_test_date')
         ),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1577,14 +1613,17 @@ alterState(state => {
         field('Date__c', dataValue('form.Date')),
         field('Follow_Up_By_Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }),
         field('RecordTypeID', '01224000000YAuK'),
         field('Reason_for_Service__c', 'Nutrition Screening'),
         field(
           'Clinical_Visit_Date__c',
           dataValue('form.TT5.Child_Information.Nutrition2.Clinical_Date')
         ),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1666,7 +1705,10 @@ alterState(state => {
         field('Source__c', 1),
         field('Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }),
         field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field('Follow_Up_By_Date__c', state => {
@@ -1685,7 +1727,7 @@ alterState(state => {
             .join(';');
           return purpose.toString().replace(/_/g, ' ');
         }),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1723,8 +1765,10 @@ alterState(state => {
         field('Source__c', 1),
         field('Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('RecordTypeID', '01224000000kOto'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field('Follow_Up_By_Date__c', state => {
           var date = dataValue('form.Follow-Up_By_Date')(state);
@@ -1733,7 +1777,7 @@ alterState(state => {
         field('Reason_for_Service__c', 'Referral'),
         field('Open_Case__c', 1),
         field('Purpose_of_Referral__c', 'Skilled Delivery'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1776,8 +1820,10 @@ alterState(state => {
           )
         ),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('RecordTypeID', '01224000000kOto'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field(
           'Follow_Up_By_Date__c',
@@ -1794,7 +1840,7 @@ alterState(state => {
         field('Reason_for_Service__c', 'Referral'),
         field('Open_Case__c', 1),
         field('Purpose_of_Referral__c', 'Pregnancy Danger Signs'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1833,8 +1879,10 @@ alterState(state => {
         field('Source__c', 1),
         field('Date__c', dataValue('form.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('RecordTypeID', '01224000000kOto'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field('Follow_Up_By_Date__c', state => {
           var date = dataValue('form.Follow-Up_By_Date')(state);
@@ -1843,7 +1891,7 @@ alterState(state => {
         field('Reason_for_Service__c', 'Referral'),
         field('Open_Case__c', 1),
         field('Purpose_of_Referral__c', 'PNC'),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1879,8 +1927,10 @@ alterState(state => {
         field('Source__c', 1),
         field('Date__c', dataValue('form.case.update.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('RecordTypeID', '01224000000kOto'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field('Follow_Up_By_Date__c', state => {
           var date = dataValue('form.Follow-Up_By_Date')(state);
@@ -1906,7 +1956,7 @@ alterState(state => {
             ? facility.charAt(0).toUpperCase() + facility.substr(1).toLowerCase().replace(/_/g, ' ')
             : null;
         }),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1944,8 +1994,10 @@ alterState(state => {
         field('Source__c', 1),
         field('Date__c', dataValue('form.case.update.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('RecordTypeID', '01224000000kOto'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field(
           'Follow_Up_By_Date__c',
@@ -1962,7 +2014,7 @@ alterState(state => {
             'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Clinician_Notes'
           )
         ),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -1996,8 +2048,10 @@ alterState(state => {
         field('Source__c', 1),
         field('Date__c', dataValue('form.case.update.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('RecordTypeID', '01224000000kOto'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field('Follow_Up_By_Date__c', state => {
           var date = dataValue('form.Follow-Up_By_Date')(state);
@@ -2015,7 +2069,7 @@ alterState(state => {
           }
           return facility;
         }),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -2051,8 +2105,10 @@ alterState(state => {
         field('Source__c', 1),
         field('Date__c', dataValue('form.case.update.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('RecordTypeID', '01224000000kOto'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field('Follow_Up_By_Date__c', state => {
           var date = dataValue('form.Follow-Up_By_Date')(state);
@@ -2070,7 +2126,7 @@ alterState(state => {
           }
           return facility;
         }),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -2106,8 +2162,10 @@ alterState(state => {
         field('Source__c', 1),
         field('Date__c', dataValue('form.case.update.Date')),
         field('Type_of_Service__c', 'CHW Mobile Survey'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('RecordTypeID', '01224000000kOto'),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
         field('Follow_Up_By_Date__c', state => {
           var date = dataValue('form.Follow-Up_By_Date')(state);
@@ -2125,7 +2183,7 @@ alterState(state => {
           }
           return facility;
         }),
-        field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+        field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
         relationship(
           'Person__r',
           'CommCare_ID__c',
@@ -2197,7 +2255,7 @@ alterState(state => {
             }
             return facility;
           }),
-          field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+          field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
         )
       )
@@ -2258,7 +2316,7 @@ alterState(state => {
             }
             return facility;
           }),
-          field('Age_Time_of_Service__c',dataValue('form.age')),//Added by MOTG
+          field('Age_Time_of_Service__c', dataValue('form.age')),//Added by MOTG
           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
         )
       )
@@ -2288,8 +2346,10 @@ alterState(state => {
           dataValue('form.HH_ID')
         ),
         field('Name', 'CHW Visit'),
-        field('Household_CHW__c', dataValue('form.CHW_ID_Final')),
-        field('Supervisor_Visit__c', state => {
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }), field('Supervisor_Visit__c', state => {
           var visit = dataValue('form.supervisor_visit')(state);
           if (visit !== undefined) {
             visit = visit.toString().replace(/ /g, ';');
