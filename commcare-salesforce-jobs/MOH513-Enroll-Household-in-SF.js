@@ -158,9 +158,15 @@ alterState((state) => {
             return status !== "Unborn" ? name2 : "Unborn Child";
           }),
           field("Source__c", true),
-          relationship("Catchment__r", "Name", dataValue("catchment")),
           field("Client_Status__c", "Active"),
-          field("Area__c", state.data.form.area),
+          relationship("Catchment__r", "Name", state => {
+            var catchment = dataValue("catchment")(state);
+            return catchment === '' || catchment === undefined ? 'Unknown Location' : catchment;
+          }), // check
+          field("Area__c", state => {
+            var area = state.data.form.area;
+            return area === '' || area === undefined ? 'a002400000k6IKi' : area;
+          }),
           field("Household_Village__c", state.data.form.village),
           field("Relation_to_the_head_of_the_household__c", (state) => {
             var relation = dataValue("Basic_Information.relation_to_hh")(state);
