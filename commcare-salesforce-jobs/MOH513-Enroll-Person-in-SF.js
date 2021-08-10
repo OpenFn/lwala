@@ -477,7 +477,10 @@ upsert(
         : null;
     }),
     field('Date__c', state => state.truthyValue(dataValue('form.Date')(state))),
-    field('Household_CHW__c', dataValue('form.CHW_ID')),
+    field("Household_CHW__c", state => {
+      var chw = dataValue("form.CHW_ID")(state); 
+      return chw==='a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+    }), 
     //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     field('Location__latitude__s', state => {
       var lat = state.data.metadata.location;
