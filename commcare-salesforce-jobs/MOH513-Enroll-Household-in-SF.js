@@ -40,7 +40,10 @@ upsert(
     field("MOH_household_code__c", dataValue("form.moh_code")),
     field("CommCare_Code__c", dataValue("form.case.@case_id")),
     field("Source__c", true),
-    field("Household_CHW__c", dataValue("form.CHW_ID")), //CONFIRM IDs MATCH PRODUCTION
+    field("Household_CHW__c", state => {
+      var chw = dataValue("form.CHW_ID")(state); 
+      return chw==='a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+    }), 
     //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     relationship("Catchment__r", "Name", dataValue("form.catchment")), // check
     field("Area__c", dataValue("form.area")),
