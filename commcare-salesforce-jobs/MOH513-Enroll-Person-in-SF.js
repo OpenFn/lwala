@@ -7,7 +7,8 @@ alterState(state => {
 })
 
 alterState(state => {
-  if (dataValue('form.Source')(state) == 1) {
+  if (dataValue('form.Source')(state) == 1 &&
+    dataValue('metadata.username')(state) !== 'test.2021') {
     return upsert(
       'Person__c',
       'CommCare_ID__c',
@@ -460,43 +461,49 @@ alterState(state => {
 });
 
 // **Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
-upsert(
-  'Visit__c',
-  'CommCare_Visit_ID__c',
-  fields(
-    field('CommCare_Visit_ID__c', dataValue('id')),
-    relationship(
-      'Household__r',
-      'CommCare_Code__c',
-      dataValue('form.case.@case_id')
-    ),
-    field('Visit_UID__c', state => {
-      var hh = dataValue('form.case.@case_id')(state);
-      var date = dataValue('form.Date')(state);
-      return hh + date;
-    }),
-    field('Name', 'CHW Visit'),
-    field('Supervisor_Visit__c', state => {
-      var visit = dataValue('form.supervisor_visit')(state);
-      return visit !== undefined
-        ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
-        : null;
-    }),
-    field('Date__c', state => state.truthyValue(dataValue('form.Date')(state))),
-    field("Household_CHW__c", state => {
-      var chw = dataValue("form.CHW_ID")(state);
-      return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
-    }),
-    //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-    field('Location__latitude__s', state => {
-      var lat = state.data.metadata.location;
-      return lat !== null ? lat.substring(0, lat.indexOf(' ')) : null;
-    }),
-    field('Location__longitude__s', state => {
-      var long = state.data.metadata.location;
-      return long !== null
-        ? long.substring(long.indexOf(' ') + 1, long.indexOf(' ') + 7)
-        : null;
-    })
-  )
-);
+
+alterState(state => {
+  if (dataValue('form.Source')(state) == 1 &&
+    dataValue('metadata.username')(state) !== 'test.2021') {
+    return upsert(
+      'Visit__c',
+      'CommCare_Visit_ID__c',
+      fields(
+        field('CommCare_Visit_ID__c', dataValue('id')),
+        relationship(
+          'Household__r',
+          'CommCare_Code__c',
+          dataValue('form.case.@case_id')
+        ),
+        field('Visit_UID__c', state => {
+          var hh = dataValue('form.case.@case_id')(state);
+          var date = dataValue('form.Date')(state);
+          return hh + date;
+        }),
+        field('Name', 'CHW Visit'),
+        field('Supervisor_Visit__c', state => {
+          var visit = dataValue('form.supervisor_visit')(state);
+          return visit !== undefined
+            ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
+            : null;
+        }),
+        field('Date__c', state => state.truthyValue(dataValue('form.Date')(state))),
+        field("Household_CHW__c", state => {
+          var chw = dataValue("form.CHW_ID")(state);
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+        }),
+        //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+        field('Location__latitude__s', state => {
+          var lat = state.data.metadata.location;
+          return lat !== null ? lat.substring(0, lat.indexOf(' ')) : null;
+        }),
+        field('Location__longitude__s', state => {
+          var long = state.data.metadata.location;
+          return long !== null
+            ? long.substring(long.indexOf(' ') + 1, long.indexOf(' ') + 7)
+            : null;
+        })
+      )
+    )(state)
+  }
+});
