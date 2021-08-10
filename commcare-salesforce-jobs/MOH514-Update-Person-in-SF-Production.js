@@ -2348,7 +2348,7 @@ alterState(state => {
         field('Name', 'CHW Visit'),
         field("Household_CHW__c", state => {
           var chw = dataValue("form.CHW_ID_Final")(state);
-          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : 'a0308000021zm8Z';
         }), field('Supervisor_Visit__c', state => {
           var visit = dataValue('form.supervisor_visit')(state);
           if (visit !== undefined) {
