@@ -413,7 +413,7 @@ alterState(state => {
               barriers_at_service_delivery_points: 'Barriers at service delivery points',
               pregnant: 'The client is pregnant',
               intentions_of_getting_pregnant: 'Intentions of getting pregnant',
-              not_sexually_active: 'The client is not sexualy active',
+              not_sexually_active: 'The client is not sexually active',
               other_barriers_culture_male_partners_parents_etc: 'Other barriers (culture, male partners, parents, etc)'
             };
             return reason ? reasonsMap[reason] : reason;
