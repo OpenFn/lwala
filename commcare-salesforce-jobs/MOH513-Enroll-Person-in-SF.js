@@ -506,4 +506,6 @@ alterState(state => {
       )
     )(state)
   }
+  console.log('Data is from test user, not inserting visit');
+  return state;
 });
