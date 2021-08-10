@@ -41,12 +41,18 @@ upsert(
     field("CommCare_Code__c", dataValue("form.case.@case_id")),
     field("Source__c", true),
     field("Household_CHW__c", state => {
-      var chw = dataValue("form.CHW_ID")(state); 
-      return chw==='a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
-    }), 
+      var chw = dataValue("form.CHW_ID")(state);
+      return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+    }),
     //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-    relationship("Catchment__r", "Name", dataValue("form.catchment")), // check
-    field("Area__c", dataValue("form.area")),
+    relationship("Catchment__r", "Name", state => {
+      var catchment = dataValue("form.catchment")(state);
+      return catchment === '' || catchment === undefined ? 'Unknown Location' : catchment;
+    }), // check
+    field("Area__c", state => {
+      var area = dataValue("form.area")(state);
+      return area === '' || area === undefined ? 'a002400000k6IKi' : area;
+    }),
     field("Household_village__c", dataValue("form.village")),
     field("Deaths_in_the_last_6_months__c", (state) => {
       var death = dataValue(
@@ -105,10 +111,10 @@ upsert(
       return status && status === "other_please_specify_if_active"
         ? "Other"
         : status === "nhif"
-        ? "NHIF"
-        : status === "Linda_mama" || "linda_mama"
-        ? "Linda mama"
-        : status;
+          ? "NHIF"
+          : status === "Linda_mama" || "linda_mama"
+            ? "Linda mama"
+            : status;
     }),
     field(
       "Other_Health_Insurance__c",
@@ -145,10 +151,10 @@ alterState((state) => {
               name1 === undefined || name1 === ""
                 ? "Unborn Child"
                 : name1.replace(/\w\S*/g, function (txt) {
-                    return (
-                      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                    );
-                  });
+                  return (
+                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                  );
+                });
             return status !== "Unborn" ? name2 : "Unborn Child";
           }),
           field("Source__c", true),
@@ -265,10 +271,10 @@ alterState((state) => {
             var illness =
               value !== undefined
                 ? value
-                    .toLowerCase()
-                    .split(" ")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(";")
+                  .toLowerCase()
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(";")
                 : null;
             return illness !== null
               ? illness.toString().replace(/_/g, " ")
@@ -289,10 +295,10 @@ alterState((state) => {
             var toTitleCase =
               disability !== undefined
                 ? disability
-                    .toLowerCase()
-                    .split(" ")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(";")
+                  .toLowerCase()
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(";")
                 : null;
             return toTitleCase;
           }),
@@ -303,10 +309,10 @@ alterState((state) => {
             var toTitleCase =
               disability !== undefined
                 ? disability
-                    .toLowerCase()
-                    .split(" ")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(";")
+                  .toLowerCase()
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(";")
                 : null;
             return toTitleCase;
           }),
@@ -484,7 +490,7 @@ each(
   ),
   upsertIf(
     state.data.form.household_deaths &&
-      state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
+    state.data.form.household_deaths.deaths_in_past_6_months > 0, //only insert deceased Person if deaths
     "Person__c",
     "CommCare_ID__c",
     fields(

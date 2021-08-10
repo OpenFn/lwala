@@ -17,8 +17,14 @@ alterState(state => {
           'Household__r',
           'CommCare_Code__c',
           dataValue('form.case.@case_id')),
-        relationship('Catchment__r', 'Name', dataValue('form.catchment')),
-        field("Area__c", dataValue('form.area')),
+        relationship("Catchment__r", "Name", state => {
+          var catchment = dataValue("form.catchment")(state);
+          return catchment === '' || catchment === undefined ? 'Unknown Location' : catchment;
+        }), // check
+        field("Area__c", state => {
+          var area = dataValue("form.area")(state);
+          return area === '' || area === undefined ? 'a002400000k6IKi' : area;
+        }),
         field('Household_Village__c', dataValue('form.village')),
         //field('Household_CHW__c', dataValue('form.CHW_ID')),
         field('Name', state => {
@@ -334,7 +340,7 @@ alterState(state => {
           'Food_groups_3_times_a_day__c',
           dataValue('form.Person.TT5.Child_Information.nutrition.food_groups')
         ),
-        field( 
+        field(
           'Initial_MUAC__c',
           dataValue('form.Person.TT5.Child_Information.nutrition.MUAC')
         ),
@@ -377,9 +383,9 @@ alterState(state => {
         field('Chronic_illness_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')(state))),
         field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
         field('Nutrition_referral_date__c', state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')(state))),
-        field('Received_pregnancy_test__c', state => { 
-          var preg = dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')(state); 
-          return preg && preg==='OK' ? 'Yes' : preg;
+        field('Received_pregnancy_test__c', state => {
+          var preg = dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')(state);
+          return preg && preg === 'OK' ? 'Yes' : preg;
         }),
         field('Pregnancy_test_result__c', dataValue('form.Person.Basic_Information.family_planning.pregnancy_test_result')),
         field('Pregnancy_referral__c', dataValue('form.Person.Basic_Information.family_planning.refer_preg')),
@@ -478,9 +484,9 @@ upsert(
     }),
     field('Date__c', state => state.truthyValue(dataValue('form.Date')(state))),
     field("Household_CHW__c", state => {
-      var chw = dataValue("form.CHW_ID")(state); 
-      return chw==='a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
-    }), 
+      var chw = dataValue("form.CHW_ID")(state);
+      return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+    }),
     //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     field('Location__latitude__s', state => {
       var lat = state.data.metadata.location;
