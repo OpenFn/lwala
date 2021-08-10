@@ -1707,7 +1707,7 @@ alterState(state => {
         field('Type_of_Service__c', 'CHW Mobile Survey'),
         field("Household_CHW__c", state => {
           var chw = dataValue("form.CHW_ID_Final")(state);
-          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : 'a0308000021zm8Z';
         }),
         field('RecordTypeID', '01224000000kOto'),
         field('Referred__c', 1),
