@@ -29,6 +29,10 @@ alterState((state) => {
     barriers_at_service_delivery_points: "Barriers at service delivery points",
   };
 
+  state.area = state.data.form.area;
+  state.catchment = state.data.form.catchment;
+
+
   return { ...state, reasonMapping };
 });
 
@@ -160,11 +164,11 @@ alterState((state) => {
           field("Source__c", true),
           field("Client_Status__c", "Active"),
           relationship("Catchment__r", "Name", state => {
-            var catchment = dataValue("catchment")(state);
+            var catchment = state.catchment;
             return catchment === '' || catchment === undefined ? 'Unknown Location' : catchment;
           }), // check
           field("Area__c", state => {
-            var area = state.data.form.area;
+            var area = state.area;
             return area === '' || area === undefined ? 'a002400000k6IKi' : area;
           }),
           field("Household_Village__c", state.data.form.village),
