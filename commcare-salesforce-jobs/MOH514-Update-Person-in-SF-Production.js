@@ -89,7 +89,8 @@ alterState(state => {
 alterState(state => {
   if (
     dataValue('form.Status.Client_Status')(state) == 'Active' &&
-    dataValue('form.Source')(state) == 1
+    dataValue('form.Source')(state) == 1 &&
+    dataValue('metadata.username')(state) !== 'test.2021'
   ) {
     // Deliveries
     return upsert(
@@ -2329,7 +2330,7 @@ alterState(state => {
 
 //Upsert Visit records
 alterState(state => {
-  if (dataValue('form.Source')(state) == 1) {
+  if (dataValue('form.Source')(state) == 1 && dataValue('metadata.username')(state) !== 'test.2021') {
     return upsert(
       'Visit__c',
       'CommCare_Visit_ID__c',
