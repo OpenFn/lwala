@@ -41,6 +41,7 @@ upsert(
   "Household__c",
   "CommCare_Code__c",
   fields(
+    field("CommCare_Username__c", dataValue("metadata.username")), 
     field("MOH_household_code__c", dataValue("form.moh_code")),
     field("CommCare_Code__c", dataValue("form.case.@case_id")),
     field("Source__c", true),
