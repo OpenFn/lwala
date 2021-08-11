@@ -13,6 +13,7 @@ alterState(state => {
       'Person__c',
       'CommCare_ID__c',
       fields(
+        field('CommCare_Username__c', dataValue('metadata.username')), 
         field('CommCare_ID__c', dataValue('form.subcase_0.case.@case_id')),
         relationship(
           'Household__r',
