@@ -12,7 +12,7 @@ upsert(
           word => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`
         )
         .join(' ');
-      return newArea;
+      return `${newArea} Area`;
     }),
     relationship('Outreach_Area__r', 'Name', state => {
       var catchment = dataValue('form.where_was_the_outreach_conducted')(state);
