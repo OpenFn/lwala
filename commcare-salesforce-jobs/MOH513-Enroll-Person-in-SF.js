@@ -492,7 +492,7 @@ alterState(state => {
         field("Household_CHW__c", state => {
           var chw = dataValue("form.CHW_ID")(state);
           return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : 
-          chw === 'a031x000004oJe2' ? 'a0308000021zm8Z' : 
+          chw === 'a031x000004oJe2' || chw === 'a031x000004oJe2AAE' ? 'a0308000021zm8Z' : 
           chw ? chw : 'a0308000021zm8Z';
           //otherwise return "Unknown CHW"
         }),
