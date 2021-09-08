@@ -126,7 +126,14 @@ upsert(
       }),
       field('Date__c', dataValue('form.Date')),
       //field("Household_CHW__c", "a031x000002S9lm"), //Hardcoded for sandbox testing
-      field('Household_CHW__c', dataValue('form.chw')),
+      field('Household_CHW__c', state => {
+      var chw = dataValue('form.chw'); 
+        return chw === "a030800001zQrk" 
+            ? "a030800001zQrk5"
+            : chw === "a031x000004oJe2"
+            ? "a0308000021zm8Z"
+            : chw;
+      }),
       field('Name', 'CHW Visit'),
       field('Supervisor_Visit__c', state =>
         state.data.form.supervisor_visit
