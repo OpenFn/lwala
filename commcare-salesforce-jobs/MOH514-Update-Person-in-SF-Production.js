@@ -2789,14 +2789,12 @@ alterState((state) => {
         field("Date__c", dataValue("metadata.timeEnd")),
         field("Location__latitude__s", (state) => {
           const location = state.data.metadata.location;
-          const locationArr =
-            location !== null ? location["#text"].split(" ") : [];
+          const locationArr = location !== null ? location.split(" ") : [];
           return locationArr[0];
         }),
         field("Location__longitude__s", (state) => {
           const location = state.data.metadata.location;
-          const locationArr =
-            location !== null ? location["#text"].split(" ") : [];
+          const locationArr = location !== null ? location.split(" ") : [];
           return locationArr[1];
         })
       )
