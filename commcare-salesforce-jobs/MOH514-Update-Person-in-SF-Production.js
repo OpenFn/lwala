@@ -2772,7 +2772,7 @@ alterState((state) => {
           var chw = dataValue("form.CHW_ID_Final")(state);
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
-            : "a031x000004oJe2" 
+            : "a031x000004oJe2"
             ? "a0308000021zm8Z"
             : chw
             ? chw
@@ -2788,14 +2788,16 @@ alterState((state) => {
         }),
         field("Date__c", dataValue("metadata.timeEnd")),
         field("Location__latitude__s", (state) => {
-          var lat = state.data.metadata.location;
-          return lat !== null ? lat.substring(0, lat.indexOf(" ")) : null;
+          const location = state.data.metadata.location;
+          const locationArr =
+            location !== null ? location["#text"].split(" ") : [];
+          return locationArr[0];
         }),
         field("Location__longitude__s", (state) => {
-          var long = state.data.metadata.location;
-          return long !== null
-            ? long.substring(long.indexOf(" ") + 1, long.indexOf(" ") + 7)
-            : null;
+          const location = state.data.metadata.location;
+          const locationArr =
+            location !== null ? location["#text"].split(" ") : [];
+          return locationArr[1];
         })
       )
     )(state);
