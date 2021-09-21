@@ -162,12 +162,12 @@ alterState(state => {
           }),
           field('Enrollment_Date__c', state => {
             if (dataValue('Basic_Information.TT5_Status')(state) == 'Yes') {
-             return dataValue('date_modified')(state);
+             return dataValue('date_modified')(state) || '';
             }
           }),
           field('HAWI_Enrollment_Date__c', state => {
             if (dataValue('Basic_Information.HAWI_Status')(state) == 'Yes') {
-              return dataValue('date_modified')(state);
+              return dataValue('date_modified')(state) || '';
             }
           }),
           field('LMP__c', dataValue('TT5.Child_Information.ANCs.LMP')),
