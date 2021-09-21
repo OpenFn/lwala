@@ -115,14 +115,10 @@ alterState(state => {
             }
           }),
           field('HAWI_Registrant__c', state => {
-            if (dataValue('Basic_Information.HAWI_Status')(state) == 'Yes') {
-              return 'Yes';
-            }
+            return dataValue('Basic_Information.HAWI_Status')(state) == 'Yes' ? 'Yes' : 'No'; 
           }),
           field('Active_in_HAWI__c', state => {
-            if (dataValue('Basic_Information.HAWI_Status')(state) == 'Yes') {
-              return 'Yes';
-            }
+            return dataValue('Basic_Information.HAWI_Status')(state) == 'Yes' ? 'Yes' : 'No'; 
           }),
           field('Active_in_Thrive_Thru_5__c', state => {
             if (
