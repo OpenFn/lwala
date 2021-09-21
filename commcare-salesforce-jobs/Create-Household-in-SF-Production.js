@@ -84,7 +84,13 @@ upsert(
 alterState(state => {
   if (dataValue('$.form.Person[0].Source')(state) == 1) {
     return beta.each(
-      dataPath('$.form.Person[*]'),
+      //dataPath('$.form.Person[*]'),
+      merge(
+        dataPath('$.form.Person[*]'),
+        fields(
+          field('date_modified', dataValue('form.case.@date_modified')),
+        )
+      ),
       upsert(
         'Person__c',
         'CommCare_ID__c',
@@ -160,12 +166,12 @@ alterState(state => {
           }),
           field('Enrollment_Date__c', state => {
             if (dataValue('Basic_Information.TT5_Status')(state) == 'Yes') {
-             return state.data.form.case['@date_modified'];
+             return dataValue('date_modified')(state);
             }
           }),
           field('HAWI_Enrollment_Date__c', state => {
             if (dataValue('Basic_Information.HAWI_Status')(state) == 'Yes') {
-              return state.data.form.case['@date_modified'];
+              return dataValue('date_modified')(state);
             }
           }),
           field('LMP__c', dataValue('TT5.Child_Information.ANCs.LMP')),
