@@ -167,7 +167,7 @@ alterState(state => {
           }),
           field('HAWI_Enrollment_Date__c', state => {
             return dataValue('Basic_Information.HAWI_Status')(state) == 'Yes' ? 
-            dataValue('date_modified')(state) : undefined; 
+            dataValue('date_modified')(state) : 'No'; 
           }),
           field('LMP__c', dataValue('TT5.Child_Information.ANCs.LMP')),
           field('Source__c', true),
