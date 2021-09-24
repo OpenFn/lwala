@@ -88,7 +88,7 @@ alterState(state => {
       merge(
         dataPath('$.form.Person[*]'),
         fields(
-          field('date_modified', dataValue('form.case.@date_modified')),
+          field('date_modified', dataValue('form.case@date_modified')),
         )
       ),
       upsert(
@@ -108,7 +108,7 @@ alterState(state => {
               .replace(/_/g, ' ');
           }),
           field('Catchment__c', state => {
-            if (dataValue('catchment')(state) == 'East Kamagambo') {
+            if (dataValue('form.catchment')(state) == 'East Kamagambo') {
               return 'a002400000pAcQt';
             } else {
               return 'a002400000pAcOe';
@@ -170,7 +170,7 @@ alterState(state => {
           }),
           field('LMP__c', dataValue('TT5.Child_Information.ANCs.LMP')),
           field('Source__c', true),
-          field('CommCare_ID__c', dataValue('case.@case_id')),
+          field('CommCare_ID__c', dataValue('form.case.@case_id')),
           field('Date_of_Birth__c', dataValue('Basic_Information.DOB')),
           field(
             'Exclusive_Breastfeeding__c',
