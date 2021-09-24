@@ -88,7 +88,7 @@ alterState(state => {
       merge(
         dataPath('$.form.Person[*]'),
         fields(
-          field('date_modified', dataValue('form.case@date_modified')),
+          field('date_modified', dataValue('form.case.@date_modified')),
         )
       ),
       upsert(
@@ -96,6 +96,8 @@ alterState(state => {
         'CommCare_ID__c',
         fields(
           field('Name', state => {
+            console.log('case id ', dataValue('form.case.@case_id')(state));
+            console.log('date modified id ', dataValue('date_modified')(state));
             var name1 = dataValue('Basic_Information.Person_Name')(state);
             var name2 = name1.replace(/\w\S*/g, function (txt) {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
