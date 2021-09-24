@@ -89,6 +89,7 @@ alterState(state => {
         dataPath('$.form.Person[*]'),
         fields(
           field('date_modified', dataValue('form.case.@date_modified')),
+          field('case_id', dataValue('form.case.@case_id')),
         )
       ),
       upsert(
@@ -96,8 +97,6 @@ alterState(state => {
         'CommCare_ID__c',
         fields(
           field('Name', state => {
-            console.log('case id ', dataValue('form.case.@case_id')(state));
-            console.log('date modified id ', dataValue('date_modified')(state));
             var name1 = dataValue('Basic_Information.Person_Name')(state);
             var name2 = name1.replace(/\w\S*/g, function (txt) {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -172,7 +171,7 @@ alterState(state => {
           }),
           field('LMP__c', dataValue('TT5.Child_Information.ANCs.LMP')),
           field('Source__c', true),
-          field('CommCare_ID__c', dataValue('form.case.@case_id')),
+          field('CommCare_ID__c', dataValue('case_id')),
           field('Date_of_Birth__c', dataValue('Basic_Information.DOB')),
           field(
             'Exclusive_Breastfeeding__c',
