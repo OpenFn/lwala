@@ -178,12 +178,12 @@ alterState((state) => {
           }),
           field("Enrollment_Date__c", (state) => {
             return dataValue("Basic_Information.TT5_Status")(state) == "Yes"
-              ? state.formatDate(dataValue("date_modified")(state))
+              ? dataValue("date_modified")(state).split("T")[0]
               : undefined;
           }),
           field("HAWI_Enrollment_Date__c", (state) => {
             return dataValue("Basic_Information.HAWI_Status")(state) == "Yes"
-              ? state.formatDate(dataValue("date_modified")(state))
+              ? dataValue("date_modified")(state).split("T")[0]
               : "";
           }),
           field("LMP__c", dataValue("TT5.Child_Information.ANCs.LMP")),
