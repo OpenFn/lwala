@@ -1,332 +1,351 @@
 //Alters CommCare arrays so that they are formatted as arrays instead of just single values.
-alterState(state => {
+alterState((state) => {
   const person = state.data.form.Person;
   if (!Array.isArray(person)) {
     state.data.form.Person = [person];
   }
-  return state;
+
+  const formatDate = (date) => {
+    if (!date) return null;
+    date = date.split(" ")[0];
+    const parts = date.match(/(\d+)/g);
+    if (!parts) return null;
+    const year = String(parts[2]).length > 2 ? parts[2] : `20${parts[2]}`;
+    const month = String(parts[1]).length === 2 ? parts[1] : `0${parts[1]}`;
+    const day = String(parts[0]).length === 2 ? parts[0] : `0${parts[0]}`;
+    return parts ? `${year}-${month}-${day}` : null;
+  };
+  return { ...state, formatDate };
 });
 
 upsert(
-  'Household__c',
-  'CommCare_Code__c',
+  "Household__c",
+  "CommCare_Code__c",
   fields(
     //field('Name', '00000'),
     //state =>{
     //  return dataValue('$.form.case.@case_id')(state).substring(0,5); //<- Will, this change we made was causing errors? what does the '0000' do?
-   //  }),
-    field('Catchment__c', state => {
-      if (dataValue('form.catchment')(state) == 'East Kamagambo') {
-        return 'a002400000pAcQt';
+    //  }),
+    field("Catchment__c", (state) => {
+      if (dataValue("form.catchment")(state) == "East Kamagambo") {
+        return "a002400000pAcQt";
       } else {
-        return 'a002400000pAcOe';
+        return "a002400000pAcOe";
       }
     }),
-    field('CommCare_Code__c', dataValue('$.form.case.@case_id')),
-    field('Household_CHW__c', 'a0308000021zm8Z'),
+    field("CommCare_Code__c", dataValue("$.form.case.@case_id")),
+    field("Household_CHW__c", "a0308000021zm8Z"),
     //field('Household_CHW__c', dataValue('$.form.CHW_ID')),
-    field('Area__c', dataValue('$.form.area')),
-    field('Household_Head_No_Program__c', dataValue('form.No_Program_Head')),
+    field("Area__c", dataValue("$.form.area")),
+    field("Household_Head_No_Program__c", dataValue("form.No_Program_Head")),
     field(
-      'Treats_Drinking_Water__c',
-      dataValue('$.form.Household_Information.Treats_Drinking_Water')
+      "Treats_Drinking_Water__c",
+      dataValue("$.form.Household_Information.Treats_Drinking_Water")
     ),
     field(
-      'WASH_Trained__c',
-      dataValue('$.form.Household_Information.WASH_Trained')
+      "WASH_Trained__c",
+      dataValue("$.form.Household_Information.WASH_Trained")
     ),
     field(
-      'Rubbish_Pit__c',
-      dataValue('$.form.Household_Information.Rubbish_Pit')
+      "Rubbish_Pit__c",
+      dataValue("$.form.Household_Information.Rubbish_Pit")
     ),
     field(
-      'Kitchen_Garden__c',
-      dataValue('$.form.Household_Information.Kitchen_Garden')
+      "Kitchen_Garden__c",
+      dataValue("$.form.Household_Information.Kitchen_Garden")
     ),
     field(
-      'Cookstove__c',
-      dataValue('$.form.Household_Information.Improved_Cooking_Method')
+      "Cookstove__c",
+      dataValue("$.form.Household_Information.Improved_Cooking_Method")
     ),
-    field('Uses_ITNs__c', dataValue('$.form.Household_Information.ITNs')),
+    field("Uses_ITNs__c", dataValue("$.form.Household_Information.ITNs")),
     field(
-      'Pit_Latrine__c',
-      dataValue('$.form.Household_Information.Functional_Latrine')
+      "Pit_Latrine__c",
+      dataValue("$.form.Household_Information.Functional_Latrine")
     ),
-    field('Clothe__c', dataValue('$.form.Household_Information.Clothesline')),
+    field("Clothe__c", dataValue("$.form.Household_Information.Clothesline")),
     field(
-      'Drying_Rack__c',
-      dataValue('$.form.Household_Information.Drying_Rack')
-    ),
-    field(
-      'Tippy_Tap__c',
-      dataValue('$.form.Household_Information.Active_Handwashing_Station')
+      "Drying_Rack__c",
+      dataValue("$.form.Household_Information.Drying_Rack")
     ),
     field(
-      'Number_of_Over_5_Females__c',
-      dataValue('$.form.Household_Information.Number_of_over_5_Females')
+      "Tippy_Tap__c",
+      dataValue("$.form.Household_Information.Active_Handwashing_Station")
     ),
     field(
-      'Number_of_Under_5_Males__c',
-      dataValue('$.form.Household_Information.Number_of_Under_5_Males')
+      "Number_of_Over_5_Females__c",
+      dataValue("$.form.Household_Information.Number_of_over_5_Females")
     ),
     field(
-      'Number_of_Under_5_Females__c',
-      dataValue('$.form.Household_Information.Number_of_Under_5_Females')
+      "Number_of_Under_5_Males__c",
+      dataValue("$.form.Household_Information.Number_of_Under_5_Males")
     ),
     field(
-      'Number_of_Over_5_Males__c',
-      dataValue('$.form.Household_Information.Number_of_Over_5_Males')
+      "Number_of_Under_5_Females__c",
+      dataValue("$.form.Household_Information.Number_of_Under_5_Females")
     ),
-    field('Source__c', true)
+    field(
+      "Number_of_Over_5_Males__c",
+      dataValue("$.form.Household_Information.Number_of_Over_5_Males")
+    ),
+    field("Source__c", true)
   )
 );
 
-alterState(state => {
-  if (dataValue('$.form.Person[0].Source')(state) == 1) {
+alterState((state) => {
+  if (dataValue("$.form.Person[0].Source")(state) == 1) {
     return beta.each(
       //dataPath('$.form.Person[*]'),
       merge(
-        dataPath('$.form.Person[*]'),
+        dataPath("$.form.Person[*]"),
         fields(
-          field('date_modified', dataValue('form.case.@date_modified')),
-          field('case_id', dataValue('form.case.@case_id')),
+          field("date_modified", dataValue("form.case.@date_modified")),
+          field("case_id", dataValue("form.case.@case_id"))
         )
       ),
       upsert(
-        'Person__c',
-        'CommCare_ID__c',
+        "Person__c",
+        "CommCare_ID__c",
         fields(
-          field('Name', state => {
-            var name1 = dataValue('Basic_Information.Person_Name')(state);
+          field("Name", (state) => {
+            var name1 = dataValue("Basic_Information.Person_Name")(state);
             var name2 = name1.replace(/\w\S*/g, function (txt) {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
             return name2;
           }),
-          relationship('RecordType', 'Name', state => {
-            return dataValue('Basic_Information.Record_Type')(state)
+          relationship("RecordType", "Name", (state) => {
+            return dataValue("Basic_Information.Record_Type")(state)
               .toString()
-              .replace(/_/g, ' ');
+              .replace(/_/g, " ");
           }),
-          field('Catchment__c', state => {
-            if (dataValue('form.catchment')(state) == 'East Kamagambo') {
-              return 'a002400000pAcQt';
+          field("Catchment__c", (state) => {
+            if (dataValue("form.catchment")(state) == "East Kamagambo") {
+              return "a002400000pAcQt";
             } else {
-              return 'a002400000pAcOe';
+              return "a002400000pAcOe";
             }
           }),
-          field('HAWI_Registrant__c', state => {
-            return dataValue('Basic_Information.HAWI_Status')(state) == 'Yes' ? 'Yes' : 'No'; 
+          field("HAWI_Registrant__c", (state) => {
+            return dataValue("Basic_Information.HAWI_Status")(state) == "Yes"
+              ? "Yes"
+              : "No";
           }),
-          field('Active_in_HAWI__c', state => {
-            return dataValue('Basic_Information.HAWI_Status')(state) == 'Yes' ? 'Yes' : 'No'; 
+          field("Active_in_HAWI__c", (state) => {
+            return dataValue("Basic_Information.HAWI_Status")(state) == "Yes"
+              ? "Yes"
+              : "No";
           }),
-          field('Active_in_Thrive_Thru_5__c', state => {
+          field("Active_in_Thrive_Thru_5__c", (state) => {
             if (
-              dataValue('Basic_Information.Record_Type')(state)
+              dataValue("Basic_Information.Record_Type")(state)
                 .toString()
-                .replace(/_/g, ' ') == 'Child' &&
-              dataValue('Basic_Information.TT5_Status')(state) == 'Yes'
+                .replace(/_/g, " ") == "Child" &&
+              dataValue("Basic_Information.TT5_Status")(state) == "Yes"
             ) {
-              return 'Yes';
+              return "Yes";
             }
           }),
-          field('Thrive_Thru_5_Registrant__c', state => {
+          field("Thrive_Thru_5_Registrant__c", (state) => {
             if (
-              dataValue('Basic_Information.Record_Type')(state)
+              dataValue("Basic_Information.Record_Type")(state)
                 .toString()
-                .replace(/_/g, ' ') == 'Child' &&
-              dataValue('Basic_Information.TT5_Status')(state) == 'Yes'
+                .replace(/_/g, " ") == "Child" &&
+              dataValue("Basic_Information.TT5_Status")(state) == "Yes"
             ) {
-              return 'Yes';
+              return "Yes";
             }
           }),
-          field('Active_TT5_Mother__c', state => {
+          field("Active_TT5_Mother__c", (state) => {
             if (
-              dataValue('Basic_Information.Record_Type')(state)
+              dataValue("Basic_Information.Record_Type")(state)
                 .toString()
-                .replace(/_/g, ' ') == 'Female Adult' &&
-              dataValue('Basic_Information.TT5_Status')(state) == 'Yes'
+                .replace(/_/g, " ") == "Female Adult" &&
+              dataValue("Basic_Information.TT5_Status")(state) == "Yes"
             ) {
-              return 'Yes';
+              return "Yes";
             }
           }),
-          field('TT5_Mother_Registrant__c', state => {
+          field("TT5_Mother_Registrant__c", (state) => {
             if (
-              dataValue('Basic_Information.Record_Type')(state)
+              dataValue("Basic_Information.Record_Type")(state)
                 .toString()
-                .replace(/_/g, ' ') == 'Female Adult' &&
-              dataValue('Basic_Information.TT5_Status')(state) == 'Yes'
+                .replace(/_/g, " ") == "Female Adult" &&
+              dataValue("Basic_Information.TT5_Status")(state) == "Yes"
             ) {
-              return 'Yes';
+              return "Yes";
             }
           }),
-          field('Enrollment_Date__c', state => {
-            return dataValue('Basic_Information.TT5_Status')(state) == 'Yes' ? 
-            dataValue('date_modified')(state) : undefined; 
+          field("Enrollment_Date__c", (state) => {
+            return dataValue("Basic_Information.TT5_Status")(state) == "Yes"
+              ? state.formatDate(dataValue("date_modified")(state))
+              : undefined;
           }),
-          field('HAWI_Enrollment_Date__c', state => {
-            return dataValue('Basic_Information.HAWI_Status')(state) == 'Yes' ? 
-            dataValue('date_modified')(state) : ''; 
+          field("HAWI_Enrollment_Date__c", (state) => {
+            return dataValue("Basic_Information.HAWI_Status")(state) == "Yes"
+              ? state.formatDate(dataValue("date_modified")(state))
+              : "";
           }),
-          field('LMP__c', dataValue('TT5.Child_Information.ANCs.LMP')),
-          field('Source__c', true),
-          field('CommCare_ID__c', dataValue('case_id')),
-          field('Date_of_Birth__c', dataValue('Basic_Information.DOB')),
+          field("LMP__c", dataValue("TT5.Child_Information.ANCs.LMP")),
+          field("Source__c", true),
+          field("CommCare_ID__c", dataValue("case_id")),
+          field("Date_of_Birth__c", dataValue("Basic_Information.DOB")),
           field(
-            'Exclusive_Breastfeeding__c',
+            "Exclusive_Breastfeeding__c",
             dataValue(
-              'TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding'
+              "TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding"
             )
           ),
-          field('Gender__c', dataValue('Basic_Information.Final_Gender')),
+          field("Gender__c", dataValue("Basic_Information.Final_Gender")),
           field(
-            'Marital_Status__c',
-            dataValue('Basic_Information.Marital_Status')
+            "Marital_Status__c",
+            dataValue("Basic_Information.Marital_Status")
           ),
           field(
-            'Telephone__c',
-            dataValue('Basic_Information.Contact_Info.contact_phone_number_short')
+            "Telephone__c",
+            dataValue(
+              "Basic_Information.Contact_Info.contact_phone_number_short"
+            )
           ),
           field(
-            'Next_of_Kin__c',
-            dataValue('Basic_Information.Contact_Info.Next_of_Kin')
+            "Next_of_Kin__c",
+            dataValue("Basic_Information.Contact_Info.Next_of_Kin")
           ),
           field(
-            'Next_of_Kin_Phone__c',
-            dataValue('Basic_Information.Contact_Info.next_of_kin_phone')
+            "Next_of_Kin_Phone__c",
+            dataValue("Basic_Information.Contact_Info.next_of_kin_phone")
           ),
-          field('Client_Status__c', 'Active'),
+          field("Client_Status__c", "Active"),
           field(
-            'Ever_on_Family_Planning__c',
-            dataValue('Basic_Information.Ever_on_Family_Planning')
-          ),
-          field(
-            'Family_Planning__c',
-            dataValue('Basic_Information.Currently_on_family_planning')
+            "Ever_on_Family_Planning__c",
+            dataValue("Basic_Information.Ever_on_Family_Planning")
           ),
           field(
-            'Family_Planning_Method__c',
-            dataValue('Basic_Information.Family_Planning_Method')
-          ),
-          field('ANC_1__c', dataValue('TT5.Child_Information.ANCs.ANC_1')),
-          field('ANC_2__c', dataValue('TT5.Child_Information.ANCs.ANC_2')),
-          field('ANC_3__c', dataValue('TT5.Child_Information.ANCs.ANC_3')),
-          field('ANC_4__c', dataValue('TT5.Child_Information.ANCs.ANC_4')),
-          field('ANC_5__c', dataValue('TT5.Child_Information.ANCs.ANC_5')),
-          field('BCG__c', dataValue('TT5.Child_Information.Immunizations.BCG')),
-          field(
-            'OPV_0__c',
-            dataValue('TT5.Child_Information.Immunizations.OPV_0')
+            "Family_Planning__c",
+            dataValue("Basic_Information.Currently_on_family_planning")
           ),
           field(
-            'OPV_1__c',
-            dataValue('TT5.Child_Information.Immunizations.OPV_PCV_Penta_1')
+            "Family_Planning_Method__c",
+            dataValue("Basic_Information.Family_Planning_Method")
+          ),
+          field("ANC_1__c", dataValue("TT5.Child_Information.ANCs.ANC_1")),
+          field("ANC_2__c", dataValue("TT5.Child_Information.ANCs.ANC_2")),
+          field("ANC_3__c", dataValue("TT5.Child_Information.ANCs.ANC_3")),
+          field("ANC_4__c", dataValue("TT5.Child_Information.ANCs.ANC_4")),
+          field("ANC_5__c", dataValue("TT5.Child_Information.ANCs.ANC_5")),
+          field("BCG__c", dataValue("TT5.Child_Information.Immunizations.BCG")),
+          field(
+            "OPV_0__c",
+            dataValue("TT5.Child_Information.Immunizations.OPV_0")
           ),
           field(
-            'OPV_2__c',
-            dataValue('TT5.Child_Information.Immunizations.OPV_PCV_Penta_2')
+            "OPV_1__c",
+            dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_1")
           ),
           field(
-            'OPV_3__c',
-            dataValue('TT5.Child_Information.Immunizations.OPV_PCV_Penta_3')
+            "OPV_2__c",
+            dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_2")
           ),
           field(
-            'Measles_6__c',
-            dataValue('TT5.Child_Information.Immunizations.Measles_6')
+            "OPV_3__c",
+            dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_3")
           ),
           field(
-            'Measles_9__c',
-            dataValue('TT5.Child_Information.Immunizations.Measles_9')
+            "Measles_6__c",
+            dataValue("TT5.Child_Information.Immunizations.Measles_6")
           ),
           field(
-            'Measles_18__c',
-            dataValue('TT5.Child_Information.Immunizations.Measles_18')
+            "Measles_9__c",
+            dataValue("TT5.Child_Information.Immunizations.Measles_9")
           ),
-          field('Pregnant__c', state => {
-            if (dataValue('TT5.Mother_Information.Pregnant')(state) == 'Yes')
+          field(
+            "Measles_18__c",
+            dataValue("TT5.Child_Information.Immunizations.Measles_18")
+          ),
+          field("Pregnant__c", (state) => {
+            if (dataValue("TT5.Mother_Information.Pregnant")(state) == "Yes")
               return 1;
           }),
-          field('Education_Level__c', state => {
+          field("Education_Level__c", (state) => {
             if (
-              dataValue('Basic_Information.Record_Type')(state) !== 'Child' &&
-              dataValue('Basic_Information.Record_Type')(state) !== 'Youth'
+              dataValue("Basic_Information.Record_Type")(state) !== "Child" &&
+              dataValue("Basic_Information.Record_Type")(state) !== "Youth"
             ) {
-              return dataValue('Basic_Information.Education_Level')(state)
+              return dataValue("Basic_Information.Education_Level")(state)
                 .toString()
-                .replace(/_/g, ' ');
+                .replace(/_/g, " ");
             }
           }),
           field(
-            'Gravida__c',
-            dataValue('TT5.Mother_Information.Pregnancy_Information.Gravida')
+            "Gravida__c",
+            dataValue("TT5.Mother_Information.Pregnancy_Information.Gravida")
           ),
           field(
-            'Parity__c',
-            dataValue('TT5.Mother_Information.Pregnancy_Information.Parity')
+            "Parity__c",
+            dataValue("TT5.Mother_Information.Pregnancy_Information.Parity")
           ),
           field(
-            'Unique_Patient_Code__c',
-            dataValue('HAWI.Unique_Patient_Code')
+            "Unique_Patient_Code__c",
+            dataValue("HAWI.Unique_Patient_Code")
           ),
           field(
-            'Active_in_Support_Group__c',
-            dataValue('HAWI.Active_in_Support_Group')
+            "Active_in_Support_Group__c",
+            dataValue("HAWI.Active_in_Support_Group")
           ),
 
-          field('Currently_on_ART_s__c', dataValue('HAWI.ART')),
-          field('ART_Regimen__c', state => {
-            var art = '';
-            var str = dataValue('HAWI.ARVs')(state);
+          field("Currently_on_ART_s__c", dataValue("HAWI.ART")),
+          field("ART_Regimen__c", (state) => {
+            var art = "";
+            var str = dataValue("HAWI.ARVs")(state);
             if (str !== undefined) {
-              art = str.replace(/ /g, '; ');
+              art = str.replace(/ /g, "; ");
             }
             return art;
           }),
-          field('Preferred_Care_Facility__c', state => {
-            var val = '';
+          field("Preferred_Care_Facility__c", (state) => {
+            var val = "";
             if (
-              dataValue('HAWI.Preferred_Care_Facility')(state) !== undefined
+              dataValue("HAWI.Preferred_Care_Facility")(state) !== undefined
             ) {
-              val = dataValue('HAWI.Preferred_Care_Facility')(state)
+              val = dataValue("HAWI.Preferred_Care_Facility")(state)
                 .toString()
-                .replace(/_/g, ' ');
+                .replace(/_/g, " ");
             }
             return val;
           }),
-          field('CommCare_HH_Code__c', dataValue('case.index.parent.#text')),
-          field('Child_Status__c', dataValue('Basic_Information.Child_Status')),
-          field('Place_of_Delivery__c', state => {
-            var val = '';
-            var placeholder = '';
+          field("CommCare_HH_Code__c", dataValue("case.index.parent.#text")),
+          field("Child_Status__c", dataValue("Basic_Information.Child_Status")),
+          field("Place_of_Delivery__c", (state) => {
+            var val = "";
+            var placeholder = "";
             if (
               dataValue(
-                'TT5.Child_Information.Delivery_Information.Skilled_Unskilled'
+                "TT5.Child_Information.Delivery_Information.Skilled_Unskilled"
               )(state) !== undefined
             ) {
               placeholder = dataValue(
-                'TT5.Child_Information.Delivery_Information.Skilled_Unskilled'
+                "TT5.Child_Information.Delivery_Information.Skilled_Unskilled"
               )(state);
-              if (placeholder == 'Skilled') {
-                val = 'Facility';
-              } else if (placeholder == 'Unskilled') {
-                val = 'Home';
+              if (placeholder == "Skilled") {
+                val = "Facility";
+              } else if (placeholder == "Unskilled") {
+                val = "Home";
               }
             }
             return val;
           }),
-          field('Delivery_Facility__c', state => {
-            var val = '';
-            var placeholder = '';
+          field("Delivery_Facility__c", (state) => {
+            var val = "";
+            var placeholder = "";
             if (
               dataValue(
-                'TT5.Child_Information.Delivery_Information.Birth_Facility'
+                "TT5.Child_Information.Delivery_Information.Birth_Facility"
               )(state) !== undefined
             ) {
               placeholder = dataValue(
-                'TT5.Child_Information.Delivery_Information.Birth_Facility'
+                "TT5.Child_Information.Delivery_Information.Birth_Facility"
               )(state);
-              val = placeholder.toString().replace(/_/g, ' ');
+              val = placeholder.toString().replace(/_/g, " ");
             }
             return val;
           })
