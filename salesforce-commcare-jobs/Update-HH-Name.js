@@ -1,7 +1,10 @@
 //Update CommCare case
 submitXls(
    [
-     {case_id: 'xxxx', name: '000000'},
+     {
+       case_id: dataValue('Envelope.Body.notifications.Notification.sObject.Commcare_Code__c'), 
+       name: dataValue('Envelope.Body.notifications.Notification.sObject.Household_Code_Autonumber__c')
+     },
    ],
    {
      case_type: 'household',
