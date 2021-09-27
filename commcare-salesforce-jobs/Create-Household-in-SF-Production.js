@@ -107,6 +107,7 @@ alterState((state) => {
         "Person__c",
         "CommCare_ID__c",
         fields(
+          field("CommCare_ID__c", dataValue('case.@case_id')),
           field("Name", (state) => {
             var name1 = dataValue("Basic_Information.Person_Name")(state);
             var name2 = name1.replace(/\w\S*/g, function (txt) {
