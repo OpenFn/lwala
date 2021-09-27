@@ -7,8 +7,8 @@ alterState(state => {
 submitXls(
   [
     {
-      case_id: dataValue('Envelope.Body.notifications.Notification.sObject.Commcare_Code__c'), 
-      name: dataValue('Envelope.Body.notifications.Notification.sObject.Household_Code_Autonumber__c')
+      case_id: dataValue('Envelope.Body.notifications.Notification.sObject.Commcare_Code__c')(state), 
+      name: dataValue('Envelope.Body.notifications.Notification.sObject.Household_Code_Autonumber__c')(state)
     },
   ],
   {
