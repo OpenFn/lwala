@@ -12,9 +12,10 @@ submitXls(
     },
   ],
   {
-    case_type: 'household',
+    case_type: 'Household',
     search_field: 'case_id',
     search_column: 'case_id',
+    name_column: 'name',
     create_new_cases: 'off',
   }
 )
