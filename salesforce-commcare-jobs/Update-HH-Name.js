@@ -16,7 +16,10 @@ each("$.notifications[*]", state => {
   return state
 })
 
-fn(state => console.log(state))
+fn(state => {
+  console.log(state)
+  return state
+})
 
 submitXls(state => state.values, {
   case_type: 'Household',
