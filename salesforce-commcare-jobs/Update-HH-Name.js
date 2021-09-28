@@ -5,7 +5,7 @@ alterState(state => {
     dataValue('Envelope.Body.notifications.Notification.sObject.Household_Code_Autonumber__c')(state)
   );
   
-  const notifications = state.data.Envelope.Body.notifications
+  let notifications = state.data.Envelope.Body.notifications
   notifications = Array.isArray(notifications) ? notifications : [notifications]
   return { ...state, notifications, values: []}; 
 }); 
