@@ -16,6 +16,7 @@ each("$.notifications[*]", state => {
   return state
 })
 
+fn(state => console.log(state))
 
 submitXls(state => state.values, {
   case_type: 'Household',
