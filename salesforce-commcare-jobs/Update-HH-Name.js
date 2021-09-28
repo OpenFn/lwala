@@ -1,29 +1,27 @@
 //Update CommCare case
-alterState(state => {
+fn(state => {
   console.log(
     `Mapping HH code to CommCare: `,
-    dataValue('Envelope.Body.notifications.Notification.sObject.Household_Code_Autonumber__c')(state)
+    dataValue(
+      'Envelope.Body.notifications.Notification.sObject.Household_Code_Autonumber__c'
+    )(state)
   );
-  
-  let notifications = state.data.Envelope.Body.notifications
-  notifications = Array.isArray(notifications) ? notifications : [notifications]
-  return { ...state, notifications, values: []}; 
-}); 
 
-each("$.notifications[*]", state => {
-  console.log(state.data)
+  let notifications = state.data.Envelope.Body.notifications;
+  notifications = Array.isArray(notifications)
+    ? notifications
+    : [notifications];
+  return { ...state, notifications, values: [] };
+});
+
+each('$.notifications[*]', state => {
   const value = {
-    case_id: dataValue('Notification.sObject.Commcare_Code__c')(state), 
-    name: dataValue('Notification.sObject.Household_Code_Autonumber__c')(state)
-  }
-  state.values.push(value)
-  return state
-})
-
-alterState(state => {
-  console.log(state.values)
-  return state
-})
+    case_id: dataValue('Notification.sObject.Commcare_Code__c')(state),
+    name: dataValue('Notification.sObject.Household_Code_Autonumber__c')(state),
+  };
+  state.values.push(value);
+  return state;
+});
 
 submitXls(state => state.values, {
   case_type: 'Household',
@@ -31,4 +29,4 @@ submitXls(state => state.values, {
   search_column: 'case_id',
   name_column: 'name',
   create_new_cases: 'off',
-})
+});
