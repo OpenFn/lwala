@@ -8,8 +8,8 @@ alterState(state => {
 each("$.notifications[*]", state => {
   console.log(state.data)
   const value = {
-    case_id: dataValue('data.Notification.sObject.Commcare_Code__c')(state), 
-    name: dataValue('data.Notification.sObject.Household_Code_Autonumber__c')(state)
+    case_id: dataValue('Envelope.Body.notifications.Notification.sObject.Commcare_Code__c')(state), 
+    name: dataValue('Envelope.Body.notifications.Notification.sObject.Household_Code_Autonumber__c')(state)
   }
   state.values.push(value)
   return state
