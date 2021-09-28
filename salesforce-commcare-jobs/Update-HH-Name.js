@@ -6,7 +6,7 @@ alterState(state => {
 }); 
 
 each("$.notifications[*]", state => {
-  console.log(state)
+  console.log(state.data)
   const value = {
     case_id: dataValue('data.Notification.sObject.Commcare_Code__c')(state), 
     name: dataValue('data.Notification.sObject.Household_Code_Autonumber__c')(state)
@@ -16,6 +16,7 @@ each("$.notifications[*]", state => {
 })
 
 alterState(state => {
+  console.log(state.values)
   return state
 })
 
