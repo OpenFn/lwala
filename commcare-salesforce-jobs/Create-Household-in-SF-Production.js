@@ -7,13 +7,7 @@ alterState((state) => {
 
   const formatDate = (date) => {
     if (!date) return null;
-    date = date.split(" ")[0];
-    const parts = date.match(/(\d+)/g);
-    if (!parts) return null;
-    const year = String(parts[2]).length > 2 ? parts[2] : `20${parts[2]}`;
-    const month = String(parts[1]).length === 2 ? parts[1] : `0${parts[1]}`;
-    const day = String(parts[0]).length === 2 ? parts[0] : `0${parts[0]}`;
-    return parts ? `${year}-${month}-${day}` : null;
+    return date.split("T")[0];
   };
   return { ...state, formatDate };
 });
@@ -107,7 +101,7 @@ alterState((state) => {
         "Person__c",
         "CommCare_ID__c",
         fields(
-          field("CommCare_ID__c", dataValue('case.@case_id')),
+          field("CommCare_ID__c", dataValue("case.@case_id")),
           field("Name", (state) => {
             var name1 = dataValue("Basic_Information.Person_Name")(state);
             var name2 = name1.replace(/\w\S*/g, function (txt) {
@@ -179,18 +173,22 @@ alterState((state) => {
           }),
           field("Enrollment_Date__c", (state) => {
             return dataValue("Basic_Information.TT5_Status")(state) == "Yes"
-              ? dataValue("date_modified")(state).split("T")[0]
+              ? state.formatDate(dataValue("date_modified")(state))
               : undefined;
           }),
           field("HAWI_Enrollment_Date__c", (state) => {
             return dataValue("Basic_Information.HAWI_Status")(state) == "Yes"
-              ? dataValue("date_modified")(state).split("T")[0]
+              ? state.formatDate(dataValue("date_modified")(state))
               : undefined;
           }),
-          field("LMP__c", dataValue("TT5.Child_Information.ANCs.LMP")),
+          field("LMP__c", (state) =>
+            state.formatDate(dataValue("TT5.Child_Information.ANCs.LMP")(state))
+          ),
           field("Source__c", true),
           field("CommCare_ID__c", dataValue("case_id")),
-          field("Date_of_Birth__c", dataValue("Basic_Information.DOB")),
+          field("Date_of_Birth__c", (state) =>
+            state.formatDate(dataValue("Basic_Information.DOB")(state))
+          ),
           field(
             "Exclusive_Breastfeeding__c",
             dataValue(
@@ -229,39 +227,76 @@ alterState((state) => {
             "Family_Planning_Method__c",
             dataValue("Basic_Information.Family_Planning_Method")
           ),
-          field("ANC_1__c", dataValue("TT5.Child_Information.ANCs.ANC_1")),
-          field("ANC_2__c", dataValue("TT5.Child_Information.ANCs.ANC_2")),
-          field("ANC_3__c", dataValue("TT5.Child_Information.ANCs.ANC_3")),
-          field("ANC_4__c", dataValue("TT5.Child_Information.ANCs.ANC_4")),
-          field("ANC_5__c", dataValue("TT5.Child_Information.ANCs.ANC_5")),
-          field("BCG__c", dataValue("TT5.Child_Information.Immunizations.BCG")),
-          field(
-            "OPV_0__c",
-            dataValue("TT5.Child_Information.Immunizations.OPV_0")
+          field("ANC_1__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.ANCs.ANC_1")(state)
+            )
           ),
-          field(
-            "OPV_1__c",
-            dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_1")
+          field("ANC_2__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.ANCs.ANC_2")(state)
+            )
           ),
-          field(
-            "OPV_2__c",
-            dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_2")
+          field("ANC_3__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.ANCs.ANC_3")(state)
+            )
           ),
-          field(
-            "OPV_3__c",
-            dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_3")
+          field("ANC_4__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.ANCs.ANC_4")(state)
+            )
           ),
-          field(
-            "Measles_6__c",
-            dataValue("TT5.Child_Information.Immunizations.Measles_6")
+          field("ANC_5__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.ANCs.ANC_5")(state)
+            )
           ),
-          field(
-            "Measles_9__c",
-            dataValue("TT5.Child_Information.Immunizations.Measles_9")
+          field("BCG__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.Immunizations.BCG")(state)
+            )
           ),
-          field(
-            "Measles_18__c",
-            dataValue("TT5.Child_Information.Immunizations.Measles_18")
+          field("OPV_0__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.Immunizations.OPV_0")(state)
+            )
+          ),
+          field("OPV_1__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_1")(
+                state
+              )
+            )
+          ),
+          field("OPV_2__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_2")(
+                state
+              )
+            )
+          ),
+          field("OPV_3__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.Immunizations.OPV_PCV_Penta_3")(
+                state
+              )
+            )
+          ),
+          field("Measles_6__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.Immunizations.Measles_6")(state)
+            )
+          ),
+          field("Measles_9__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.Immunizations.Measles_9")(state)
+            )
+          ),
+          field("Measles_18__c", (state) =>
+            state.formatDate(
+              dataValue("TT5.Child_Information.Immunizations.Measles_18")(state)
+            )
           ),
           field("Pregnant__c", (state) => {
             if (dataValue("TT5.Mother_Information.Pregnant")(state) == "Yes")
