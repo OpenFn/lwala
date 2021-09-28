@@ -9,8 +9,8 @@ alterState(state => {
 
 each("$.notifications[*]", state => {
   const value = {
-    case_id: dataValue('Notification.sObject.Commcare_Code__c')(state), 
-    name: dataValue('Notification.sObject.Household_Code_Autonumber__c')(state)
+    case_id: dataValue('.sObject.Commcare_Code__c')(state), 
+    name: dataValue('.sObject.Household_Code_Autonumber__c')(state)
   }
   state.values.push(value)
   return state
