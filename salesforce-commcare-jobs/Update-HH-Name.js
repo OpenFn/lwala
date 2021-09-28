@@ -17,7 +17,7 @@ each("$.notifications[*]", state => {
 })
 
 alterState(state => {
-  console.log(state)
+  console.log(state.values)
   return state
 })
 
