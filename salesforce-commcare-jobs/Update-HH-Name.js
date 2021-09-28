@@ -16,7 +16,7 @@ each("$.notifications[*]", state => {
   return state
 })
 
-fn(state => {
+alterState(state => {
   console.log(state)
   return state
 })
