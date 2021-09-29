@@ -408,7 +408,7 @@ alterState(state => {
           "Reasons_for_not_taking_FP_method__c", (state) => {
             var reason = dataValue("form.Person.Basic_Information.family_planning.No_FPmethod_reason")(state);
             var reasonsMap = {
-              lack_of_access_to_fp_information: 'Lack of acceess to FP information',
+              lack_of_access_to_fp_information: 'Lack of access to FP information',
               lack_of_hospitals_or_places_where_fp_services_can_be_accessed: 'Lack of hospitals or places where FP services can be accessed',
               myths_and_misconceptions: 'Myths and misconceptions',
               barriers_at_service_delivery_points: 'Barriers at service delivery points',
