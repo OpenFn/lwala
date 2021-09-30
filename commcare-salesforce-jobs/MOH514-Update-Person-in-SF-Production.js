@@ -1918,7 +1918,7 @@ alterState((state) => {
         }),
         field("Referred__c", 1),
         field("Type_of_Service__c", "CHW Mobile Survey"),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Open_Case__c", 1),
         field("Purpose_of_Referral__c", "Malaria"),
         field(
@@ -2076,7 +2076,7 @@ alterState((state) => {
             ? chw
             : "a0308000021zm8Z";
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field("Follow_Up_By_Date__c", (state) => {
           var date = dataValue("form.Follow-Up_By_Date")(state);
@@ -2140,7 +2140,7 @@ alterState((state) => {
             ? chw
             : undefined;
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field("Follow_Up_By_Date__c", (state) => {
           var date = dataValue("form.Follow-Up_By_Date")(state);
@@ -2200,7 +2200,7 @@ alterState((state) => {
             ? chw
             : undefined;
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field(
           "Follow_Up_By_Date__c",
@@ -2264,7 +2264,7 @@ alterState((state) => {
             ? chw
             : undefined;
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field("Follow_Up_By_Date__c", (state) => {
           var date = dataValue("form.Follow-Up_By_Date")(state);
@@ -2317,7 +2317,7 @@ alterState((state) => {
             ? chw
             : undefined;
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field("Follow_Up_By_Date__c", (state) => {
           var date = dataValue("form.Follow-Up_By_Date")(state);
@@ -2390,7 +2390,7 @@ alterState((state) => {
             ? chw
             : undefined;
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field(
           "Follow_Up_By_Date__c",
@@ -2449,7 +2449,7 @@ alterState((state) => {
             ? chw
             : undefined;
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field("Follow_Up_By_Date__c", (state) => {
           var date = dataValue("form.Follow-Up_By_Date")(state);
@@ -2511,7 +2511,7 @@ alterState((state) => {
             ? chw
             : undefined;
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field("Follow_Up_By_Date__c", (state) => {
           var date = dataValue("form.Follow-Up_By_Date")(state);
@@ -2573,7 +2573,7 @@ alterState((state) => {
             ? chw
             : undefined;
         }),
-        field("RecordTypeID", "01224000000kOto"),
+        field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
         field("Follow_Up_By_Date__c", (state) => {
           var date = dataValue("form.Follow-Up_By_Date")(state);
