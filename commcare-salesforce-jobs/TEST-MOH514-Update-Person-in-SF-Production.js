@@ -992,7 +992,7 @@ alterState((state) => {
         }),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
         field("Purpose_of_Referral__c", "ANC 1"),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Ante-Natal Care"),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -1050,7 +1050,7 @@ alterState((state) => {
         }),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
         field("Purpose_of_Referral__c", "ANC 2"),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Ante-Natal Care"),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -1166,7 +1166,7 @@ alterState((state) => {
         }),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
         field("Purpose_of_Referral__c", "ANC 4"),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Ante-Natal Care"),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -1224,7 +1224,7 @@ alterState((state) => {
         }),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
         field("Purpose_of_Referral__c", "ANC 5"),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Ante-Natal Care"),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -1283,7 +1283,7 @@ alterState((state) => {
           return date ? date : state.data.form.case.update.BCG;
         }),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
@@ -1351,7 +1351,7 @@ alterState((state) => {
           return date ? date : state.data.form.case.update.OPV0_h;
         }),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         relationship(
@@ -1419,7 +1419,7 @@ alterState((state) => {
           return date ? date : state.data.form.case.update.OPV1_h;
         }),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         relationship(
@@ -1487,7 +1487,7 @@ alterState((state) => {
           return date ? date : state.data.form.case.update.OPV2_h;
         }),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         relationship(
@@ -1554,7 +1554,7 @@ alterState((state) => {
           )(state);
           return date ? date : state.data.form.case.update.OPV3_h;
         }),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         relationship(
@@ -1621,7 +1621,7 @@ alterState((state) => {
           )(state);
           return date ? date : state.data.form.case.update.Measles6_h;
         }),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         relationship(
@@ -1688,7 +1688,7 @@ alterState((state) => {
           )(state);
           return date ? date : state.data.form.case.update.Measles9_h;
         }),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         relationship(
@@ -1755,7 +1755,7 @@ alterState((state) => {
           )(state);
           return date ? date : state.data.form.case.update.Measles18_h;
         }),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         relationship(
@@ -1809,7 +1809,7 @@ alterState((state) => {
         }),
         field("Date__c", dataValue("form.Date")),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Immunization"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
         relationship(
@@ -1859,7 +1859,7 @@ alterState((state) => {
         }),
         field("Date__c", dataValue("form.Date")),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "HIV"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Home_Based_Care_Rendered__c", (state) => {
           var care = "";
@@ -1917,7 +1917,7 @@ alterState((state) => {
             : undefined;
         }),
         field("Referred__c", 1),
-        field("Type_of_Service__c", "CHW Mobile Survey"),
+        field("Type_of_Service__c", "Illness"),
         field("RecordTypeID", "01224000000YAuK"),
         field("Open_Case__c", 1),
         field("Purpose_of_Referral__c", "Malaria"),
