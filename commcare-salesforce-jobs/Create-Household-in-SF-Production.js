@@ -110,7 +110,7 @@ alterState((state) => {
             return name2;
           }),
           relationship("RecordType", "Name", (state) => {
-            return dataValue("Basic_Information.Record_Type")(state)
+            return dataValue("form.Person.Basic_Information.Record_Type")(state)
               .toString()
               .replace(/_/g, " ");
           }),
