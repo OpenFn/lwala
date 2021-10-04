@@ -3,9 +3,9 @@ alterState(state => {
     if (dataValue('$.form.CHW.Follow-Up.Client_Improved')(state) == 'No') {
       return upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
-          field('CommCare_Code__c', dataValue('$.form.case.@case_id')),
+          field('Service_UID__c', dataValue('$.form.case.@case_id')),
           field(
             'Follow_Up_Date__c',
             dataValue('$.form.CHW.Follow-Up.Follow-Up_Date')
@@ -19,9 +19,9 @@ alterState(state => {
     } else {
       return upsert(
         'Service__c',
-        'CommCare_Code__c',
+        'Service_UID__c',
         fields(
-          field('CommCare_Code__c', dataValue('$.form.case.@case_id')),
+          field('Service_UID__c', dataValue('$.form.case.@case_id')),
           field(
             'Follow_Up_Date__c',
             dataValue('$.form.CHW.Follow-Up.Follow-Up_Date')
@@ -36,9 +36,9 @@ alterState(state => {
   ) {
     return upsert(
       'Service__c',
-      'CommCare_Code__c',
+      'Service_UID__c',
       fields(
-        field('CommCare_Code__c', dataValue('$.form.case.@case_id')),
+        field('Service_UID__c', dataValue('$.form.case.@case_id')),
         field(
           'Clinical_Visit_Date__c',
           dataValue('$.form.CHW.Facility_Services.Facility_Date')
