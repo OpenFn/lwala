@@ -2834,3 +2834,17 @@ alterState((state) => {
   console.log("No zinc and ors.");
   return state;
 });
+//MOTG
+//Immunization - Defaulter
+//Immunization
+//Immunization - Vitamin A 
+//Pregnancy
+//Family Planning
+//Chronic Illness
+//HIV - HTC
+//HIV - Clinical
+//Chest Indrawing
+//Fast Breathing
+//Fever
+//Cough
+//TB
