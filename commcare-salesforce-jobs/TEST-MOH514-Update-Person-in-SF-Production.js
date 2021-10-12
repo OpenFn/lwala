@@ -2840,7 +2840,7 @@ alterState((state) => {
   if (
     dataValue("form.TT5/Child_Information/Immunizations/refer_immunization_type")(state) == "yes"
   ) {
-    return upsert(
+      return upsert(
       "Service__c",
       "Service_UID__c",
       fields(
@@ -2852,7 +2852,7 @@ alterState((state) => {
         field("Service_UID__c", (state) => {
           var id = dataValue("id")(state);
           var serviceId = id + "immunization";
-          return serviceId;"
+          return serviceId;
         }),
   field("Type_of_Service__c", "Immunization"),
   field("Reason_for_Service__c", "Missed immunization type"),
