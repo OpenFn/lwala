@@ -2866,7 +2866,7 @@ alterState((state) => {
           ),
   )
       )
-    )(state);
+    )
   }
 
           
