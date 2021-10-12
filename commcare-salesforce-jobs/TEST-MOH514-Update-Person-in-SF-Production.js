@@ -2836,9 +2836,108 @@ alterState((state) => {
 });
 //MOTG
 //Immunization - Defaulter
+if (
+    dataValue("form.TT5/Child_Information/Immunizations/refer_immunization_type")(state) == ""yes""
+  ) {
+    return upsert(
+      ""Service__c"",
+      ""Service_UID__c"",
+      fields(
+        field(""CommCare_Code__c"", (state) => {
+          var id = dataValue(""id"")(state);
+          var serviceId = id + ""immunization"";
+          return serviceId;
+        }),
+        field(""Service_UID__c"", (state) => {
+          var id = dataValue(""id"")(state);
+          var serviceId = id + ""immunization"";
+          return serviceId;"
+  field("Type_of_Service__c", "Immunization"),
+  field("Reason_for_Service__c", "Missed immunization type"),
+  field('Date__c',dataValue('form.case.update.Date'),
+  field(""Household_CHW__c"", (state) => {
+          var chw = dataValue(""form.CHW_ID_Final"")(state);
+          return chw === ""a030800001zQrk""
+            ? ""a030800001zQrk5""
+            : chw
+            ? chw
+            : undefined;"
+  field("RecordTypeID", "01224000000YAuK"),
+  relationship(
+          "Person__r",
+          "CommCare_ID__c",
+          dataValue("form.case.@case_id")
+        ),
+        
+  
 //Immunization
 //Immunization - Vitamin A 
+if (
+    dataValue("form.TT5/Child_Information/Immunizations/did_you_refer_the_child_6-59_months_for_vitamin_a_supplements")(state) == ""yes""
+  ) {
+    return upsert(
+      ""Service__c"",
+      ""Service_UID__c"",
+      fields(
+        field(""CommCare_Code__c"", (state) => {
+          var id = dataValue(""id"")(state);
+          var serviceId = id + ""immunization"";
+          return serviceId;
+        }),
+        field(""Service_UID__c"", (state) => {
+          var id = dataValue(""id"")(state);
+          var serviceId = id + ""immunization"";
+          return serviceId;"
+  field("Type_of_Service__c", "Immunization"),
+  field("Reason_for_Service__c", "Vitamin A supplement"),
+  field('Date__c',dataValue('form.case.update.Date'),
+  field(""Household_CHW__c"", (state) => {
+          var chw = dataValue(""form.CHW_ID_Final"")(state);
+          return chw === ""a030800001zQrk""
+            ? ""a030800001zQrk5""
+            : chw
+            ? chw
+            : undefined;"
+  field("RecordTypeID", "01224000000YAuK"),
+  relationship(
+          "Person__r",
+          "CommCare_ID__c",
+          dataValue("form.case.@case_id")
+        ),
+
 //Pregnancy
+if (
+    dataValue("form.Person/Basic_Information/family_planning/refer_preg")(state) == ""yes""
+  ) {
+    return upsert(
+      "Service__c",
+      "Service_UID__c",
+      fields(
+        field("CommCare_Code__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "ANC";
+          return serviceId;
+        }),
+        field("Service_UID__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "ANC";
+          return serviceId;"
+  field("Type_of_Service__c", "Ante-Natal Care"),
+  field("Reason_for_Service__c", "Pregnancy Care (ANC)"),
+  field('Date__c',dataValue('form.case.update.Date'),
+  field("Household_CHW__c", (state) => {
+          var chw = dataValue(""form.CHW_ID_Final"")(state);
+          return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+            ? chw
+            : undefined;"
+  field("RecordTypeID", "01224000000YAuK"),
+  relationship(
+          "Person__r",
+          "CommCare_ID__c",
+          dataValue("form.case.@case_id")
+        ),
 //Family Planning
 //Chronic Illness
 //HIV - HTC
