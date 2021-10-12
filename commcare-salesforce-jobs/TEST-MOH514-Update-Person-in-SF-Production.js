@@ -2865,7 +2865,6 @@ alterState((state) => {
           dataValue("form.case.@case_id")
           )
       )
-  }
   
 //Immunization
 //Family Planning
