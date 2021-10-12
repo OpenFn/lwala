@@ -2863,10 +2863,10 @@ alterState((state) => {
           "Person__r",
           "CommCare_ID__c",
           dataValue("form.case.@case_id")
-        ),
           )
+      )
     )(state);
-  } 
+  }
   
 //Immunization
 //Family Planning
