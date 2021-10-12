@@ -2866,13 +2866,3 @@ alterState((state) => {
           )
       )
   
-//Immunization
-//Family Planning
-//Chronic Illness
-//HIV - HTC
-//HIV - Clinical
-//Chest Indrawing
-//Fast Breathing
-//Fever
-//Cough
-//TB
