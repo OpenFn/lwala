@@ -2852,6 +2852,7 @@ if (
           var id = dataValue("id")(state);
           var serviceId = id + "immunization";
           return serviceId;"
+        }),
   field("Type_of_Service__c", "Immunization"),
   field("Reason_for_Service__c", "Missed immunization type"),
   field("Date__c",dataValue('form.case.update.Date'),
@@ -2862,13 +2863,16 @@ if (
             : chw
             ? chw
             : undefined;"
+        }),
   field("RecordTypeID", "01224000000YAuK"),
   relationship(
           "Person__r",
           "CommCare_ID__c",
           dataValue("form.case.@case_id")
         ),
-        
+          )
+    )(state);
+  } 
   
 //Immunization
 //Family Planning
