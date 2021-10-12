@@ -2854,16 +2854,7 @@ alterState((state) => {
           var serviceId = id + "immunization";
           return serviceId;
         }),
- field("Household_CHW__c", (state) => {
-  var chw = dataValue("form.CHW_ID_Final")(state);
-  if (chw === "a030800001zQrk") {
-    return "a030800001zQrk5";
-  } else if (chw !== undefined) {
-    return chw;
-  } else {
-    return undefined;
-  }
-});
+ field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
   field("Type_of_Service__c", "Immunization"),
   field("Reason_for_Service__c", "Missed immunization type"),
   field("Date__c",dataValue('form.case.update.Date'),
