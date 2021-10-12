@@ -2837,7 +2837,7 @@ alterState((state) => {
 //MOTG
 //Immunization - Defaulter
 if (
-    dataValue("form.TT5/Child_Information/Immunizations/refer_immunization_type")(state) == ""yes""
+    dataValue("form.TT5/Child_Information/Immunizations/refer_immunization_type")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
