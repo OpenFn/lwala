@@ -2854,10 +2854,10 @@ alterState((state) => {
           var serviceId = id + "immunization";
           return serviceId;
         }),
- field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+  field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
   field("Type_of_Service__c", "Immunization"),
   field("Reason_for_Service__c", "Missed immunization type"),
-  field("Date__c",dataValue('form.case.update.Date'),
+  field("Date__c",dataValue("form.case.update.Date"),
   field("RecordTypeID", "01224000000YAuK"),
   relationship(
           "Person__r",
