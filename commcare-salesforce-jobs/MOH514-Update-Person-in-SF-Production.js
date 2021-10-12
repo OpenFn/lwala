@@ -312,7 +312,7 @@ alterState((state) => {
         ),
        field(
           "Newborn_visited_by_a_CHW_within_6_days__c",
-        datavalue(
+        dataValue(
           "form.TT5.Child_Information.visit_6_days_from_delivery")
         ),//MOTG
         
