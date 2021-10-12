@@ -2864,8 +2864,7 @@ alterState((state) => {
           "CommCare_ID__c",
           dataValue("form.case.@case_id")
           )
-      )
-          );
+      );
   }
   
 //Immunization
