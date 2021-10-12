@@ -2840,22 +2840,22 @@ if (
     dataValue("form.TT5/Child_Information/Immunizations/refer_immunization_type")(state) == ""yes""
   ) {
     return upsert(
-      ""Service__c"",
-      ""Service_UID__c"",
+      "Service__c",
+      "Service_UID__c",
       fields(
-        field(""CommCare_Code__c"", (state) => {
-          var id = dataValue(""id"")(state);
-          var serviceId = id + ""immunization"";
+        field("CommCare_Code__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "immunization";
           return serviceId;
         }),
-        field(""Service_UID__c"", (state) => {
-          var id = dataValue(""id"")(state);
-          var serviceId = id + ""immunization"";
+        field("Service_UID__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "immunization";
           return serviceId;"
   field("Type_of_Service__c", "Immunization"),
   field("Reason_for_Service__c", "Missed immunization type"),
-  field('Date__c',dataValue('form.case.update.Date'),
-  field(""Household_CHW__c"", (state) => {
+  field("Date__c",dataValue('form.case.update.Date'),
+  field("Household_CHW__c", (state) => {
           var chw = dataValue(""form.CHW_ID_Final"")(state);
           return chw === ""a030800001zQrk""
             ? ""a030800001zQrk5""
