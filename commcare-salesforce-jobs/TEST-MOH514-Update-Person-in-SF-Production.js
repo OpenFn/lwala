@@ -2866,4 +2866,9 @@ alterState((state) => {
             ),
           )
         )
-      )
+      ))(state);
+    }
+    console.log("No immunization referral.");
+    return state;  
+});
+
