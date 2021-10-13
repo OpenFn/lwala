@@ -2840,3 +2840,41 @@ alterState((state) => {
   console.log("No zinc and ors.");
   return state;
 });
+//MOTG
+//Immunization - Defaulter
+alterState((state) => {
+  if (
+    dataValue("form.TT5/Child_Information/Immunizations/refer_immunization_type")(state) == "yes"
+  ) {
+    return upsert(
+      "Service__c",
+      "Service_UID__c",
+      fields(
+        field("CommCare_Code__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "immunization";
+          return serviceId;
+        }),
+        field("Service_UID__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "immunization";
+          return serviceId;
+        }),
+        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+          field("Type_of_Service__c", "Immunization"),
+          field("Reason_for_Service__c", "Missed immunization type"),
+          field("Date__c", dataValue("form.case.update.Date"),
+            field("RecordTypeID", "01224000000YAuK"),
+            relationship(
+              "Person__r",
+              "CommCare_ID__c",
+              dataValue("form.case.@case_id")
+            ),
+          )
+        )
+      ))(state);
+    }
+    console.log("No immunization referral.");
+    return state;  
+});
+
