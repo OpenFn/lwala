@@ -2949,7 +2949,7 @@ alterState((state) => {
     console.log("No fast breathing referral.");
     return state;  
 });
-//Fast Breathing
+//Fever
 alterState((state) => {
   if (
     dataValue('form.CCMM/Fever_Referral_Status /data/treatment_and_tracking/CCMM/Fever_Referral_Status')(state) == "yes"
