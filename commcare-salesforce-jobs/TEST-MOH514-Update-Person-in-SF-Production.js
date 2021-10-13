@@ -2982,7 +2982,7 @@ alterState((state) => {
 //Cough
 alterState((state) => {
   if (
-    dataValue('form.treatment_and_tracking/did_you_refer_the_client_for_cough_14_days)(state) == "yes"
+    dataValue('form.treatment_and_tracking/did_you_refer_the_client_for_cough_14_days')(state) == "yes"
   ) {
     return upsert(
       "Service__c",
