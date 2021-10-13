@@ -3087,6 +3087,7 @@ alterState((state) => {
     }
     console.log("No Pregnancy referral.");
     return state;  
+});
 //Family Plannning
 alterState((state) => {
   if (
@@ -3122,5 +3123,4 @@ alterState((state) => {
     }
     console.log("No Family Planning referral.");
     return state;  
-});
 });
