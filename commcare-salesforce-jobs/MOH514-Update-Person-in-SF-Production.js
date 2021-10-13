@@ -2949,3 +2949,39 @@ alterState((state) => {
     console.log("No fast breathing referral.");
     return state;  
 });
+//Fast Breathing
+alterState((state) => {
+  if (
+    dataValue('form.CCMM/Fever_Referral_Status /data/treatment_and_tracking/CCMM/Fever_Referral_Status')(state) == "yes"
+  ) {
+    return upsert(
+      "Service__c",
+      "Service_UID__c",
+      fields(
+        field("CommCare_Code__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "illness";
+          return serviceId;
+        }),
+        field("Service_UID__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "illness";
+          return serviceId;
+        }),
+        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+          field("Type_of_Service__c", "Illness"),
+          field("Reason_for_Service__c", "Fever"),
+          field("Date__c", dataValue("form.case.update.Date"),
+            field("RecordTypeID", "01224000000YAuK"),
+            relationship(
+              "Person__r",
+              "CommCare_ID__c",
+              dataValue("form.case.@case_id")
+            ),
+          )
+        )
+      ))(state);
+    }
+    console.log("No fever referral.");
+    return state;  
+});
