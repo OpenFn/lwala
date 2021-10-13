@@ -3165,6 +3165,41 @@ alterState((state) => {
     console.log("No chronic illness referral.");
     return state;  
 });
-
+//HIV - HTC
+alterState((state) => {
+  if (
+    dataValue("form.Person/Basic_Information/person_info/hiv_counselling_and_testing")(state) == "yes"
+  ) {
+    return upsert(
+      "Service__c",
+      "Service_UID__c",
+      fields(
+        field("CommCare_Code__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "HIV_HTC";
+          return serviceId;
+        }),
+        field("Service_UID__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "HIV_HTC";
+          return serviceId;
+        }),
+        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+          field("Type_of_Service__c", "HIV"),
+          field("Reason_for_Service__c", "HIV counseling and testing"),
+          field("Date__c", dataValue("form.case.update.Date"),
+            field("RecordTypeID", "01224000000YAuK"),
+            relationship(
+              "Person__r",
+              "CommCare_ID__c",
+              dataValue("form.case.@case_id")
+            ),
+          )
+        )
+      ))(state);
+    }
+    console.log("No HIV HTC referral.");
+    return state;  
+});
 
 
