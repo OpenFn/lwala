@@ -3063,12 +3063,12 @@ alterState((state) => {
       fields(
         field("CommCare_Code__c", (state) => {
           var id = dataValue("id")(state);
-          var serviceId = id + "pregancy";
+          var serviceId = id + "pregnancy";
           return serviceId;
         }),
         field("Service_UID__c", (state) => {
           var id = dataValue("id")(state);
-          var serviceId = id + "pregancy";
+          var serviceId = id + "pregnancy";
           return serviceId;
         }),
         field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
