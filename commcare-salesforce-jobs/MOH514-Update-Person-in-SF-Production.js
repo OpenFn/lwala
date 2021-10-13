@@ -2985,3 +2985,40 @@ alterState((state) => {
     console.log("No fever referral.");
     return state;  
 });
+//Cough
+alterState((state) => {
+  if (
+    dataValue('form.treatment_and_tracking/did_you_refer_the_client_for_cough_14_days')(state) == "yes"
+  ) {
+    return upsert(
+      "Service__c",
+      "Service_UID__c",
+      fields(
+        field("CommCare_Code__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "illness";
+          return serviceId;
+        }),
+        field("Service_UID__c", (state) => {
+          var id = dataValue("id")(state);
+          var serviceId = id + "illness";
+          return serviceId;
+        }),
+        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+          field("Type_of_Service__c", "Illness"),
+          field("Reason_for_Service__c", "Cough 14+ days"),
+          field("Date__c", dataValue("form.case.update.Date"),
+            field("RecordTypeID", "01224000000YAuK"),
+            relationship(
+              "Person__r",
+              "CommCare_ID__c",
+              dataValue("form.case.@case_id")
+            ),
+          )
+        )
+      ))(state);
+    }
+    console.log("No cough referral.");
+    return state;  
+});
+
