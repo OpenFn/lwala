@@ -2844,7 +2844,7 @@ alterState((state) => {
 //Immunization - Defaulter
 alterState((state) => {
   if (
-    dataValue("form.TT5/Child_Information/Immunizations/refer_immunization_type")(state) == "yes"
+    dataValue("form.TT5.Child_Information.Immunizations.refer_immunization_type")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2880,7 +2880,7 @@ alterState((state) => {
 //Immunization 
 alterState((state) => {
   if (
-    dataValue("form.TT5/Child_Information/Immunizations/did_you_refer_the_child_0-11_months_for_immunization")(state) == "yes"
+    dataValue("form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2916,7 +2916,7 @@ alterState((state) => {
 //Immunization - Vitamin A 
 alterState((state) => {
   if (
-    dataValue("form.TT5/Child_Information/Immunizations/did_you_refer_the_child_6-59_months_for_vitamin_a_supplements")(state) == "yes"
+    dataValue("form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3024,7 +3024,7 @@ alterState((state) => {
 //Fever
 alterState((state) => {
   if (
-    dataValue('form.CCMM/Fever_Referral_Status /data/treatment_and_tracking/CCMM/Fever_Referral_Status')(state) == "yes"
+    dataValue('form.CCMM.Fever_Referral_Status.data.treatment_and_tracking.CCMM.Fever_Referral_Status')(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3060,7 +3060,7 @@ alterState((state) => {
 //Cough
 alterState((state) => {
   if (
-    dataValue('form.treatment_and_tracking/did_you_refer_the_client_for_cough_14_days')(state) == "yes"
+    dataValue('form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days')(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3096,7 +3096,7 @@ alterState((state) => {
 //Pregnancy
 alterState((state) => {
   if (
-    dataValue("form.Person/Basic_Information/family_planning/refer_preg")(state) == "yes"
+    dataValue("form.Person.Basic_Information.family_planning.refer_preg")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3132,7 +3132,7 @@ alterState((state) => {
 //Family Plannning
 alterState((state) => {
   if (
-    dataValue("form.TT5/Mother_Information/referred_for_family_planning_services")(state) == "yes"
+    dataValue("form.TT5.Mother_Information.referred_for_family_planning_services")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3168,7 +3168,7 @@ alterState((state) => {
 //Chronic Illness
 alterState((state) => {
   if (
-    dataValue("form.Person/Basic_Information/person_info/refer_chronic_illness")(state) == "yes"
+    dataValue("form.Person.Basic_Information.person_info.refer_chronic_illness")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3204,7 +3204,7 @@ alterState((state) => {
 //HIV - HTC
 alterState((state) => {
   if (
-    dataValue("form.Person/Basic_Information/person_info/hiv_counselling_and_testing")(state) == "yes"
+    dataValue("form.Person.Basic_Information.person_info.hiv_counselling_and_testing")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3240,7 +3240,7 @@ alterState((state) => {
 //HIV - Clinical
 alterState((state) => {
   if (
-    dataValue("form.Person/HAWI/did_you_refer")(state) == "yes"
+    dataValue("form.Person.HAWI.did_you_refer")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3276,7 +3276,7 @@ alterState((state) => {
 //TB
 alterState((state) => {
   if (
-    dataValue("form.treatment_and_tracking/tb_treatment")(state) == "yes"
+    dataValue("form.treatment_and_tracking.tb_treatment")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
