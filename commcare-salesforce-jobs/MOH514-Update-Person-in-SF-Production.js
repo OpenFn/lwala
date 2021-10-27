@@ -3132,7 +3132,7 @@ alterState((state) => {
 //Family Plannning
 alterState((state) => {
   if (
-    dataValue("form.TT5.Mother_Information.referred_for_family_planning_services")(state) == "yes"
+    dataValue("form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services")(state) == "yes"
   ) {
     return upsert(
       "Service__c",
