@@ -164,7 +164,9 @@ alterState((state) => {
           var purpose = dataValue("form.Purpose_of_Referral")(state);
           var service = dataValue("form.Reason_for_Service")(state);
           var referral =
-            purpose === null && service === "Malaria Case" ? "Malaria" : purpose;
+            purpose === null && service === "Malaria Case"
+              ? "Malaria"
+              : purpose;
           var reason =
             referral === "HIV_Testing_and_Counseling"
               ? "HIV counselling or Testing"
@@ -312,9 +314,8 @@ alterState((state) => {
         ),
         field(
           "Newborn_visited_by_a_CHW_within_6_days__c",
-          dataValue(
-            "form.TT5.Child_Information.visit_6_days_from_delivery")
-        ),//MOTG
+          dataValue("form.TT5.Child_Information.visit_6_days_from_delivery")
+        ), //MOTG
 
         field(
           "Last_Malaria_Home_Test__c",
@@ -712,7 +713,9 @@ alterState((state) => {
     )(state);
   }
   // Transfer Outs
-  else if (dataValue("form.Status.Client_Status")(state) === "Transferred_Out") {
+  else if (
+    dataValue("form.Status.Client_Status")(state) === "Transferred_Out"
+  ) {
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -2844,7 +2847,9 @@ alterState((state) => {
 //Immunization - Defaulter
 alterState((state) => {
   if (
-    dataValue("form.TT5.Child_Information.Immunizations.refer_immunization_type")(state) === "yes"
+    dataValue(
+      "form.TT5.Child_Information.Immunizations.refer_immunization_type"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2860,27 +2865,34 @@ alterState((state) => {
           var serviceId = id + "immunization";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Immunization"),
           field("Reason_for_Service__c", "Missed immunization type"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No immunization referral.");
   return state;
 });
-//Immunization 
+//Immunization
 alterState((state) => {
   if (
-    dataValue("form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization")(state) === "yes"
+    dataValue(
+      "form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2896,27 +2908,34 @@ alterState((state) => {
           var serviceId = id + "immunization";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Immunization"),
           field("Reason_for_Service__c", "Immunizations"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No Immunization referral.");
   return state;
 });
-//Immunization - Vitamin A 
+//Immunization - Vitamin A
 alterState((state) => {
   if (
-    dataValue("form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements")(state) === "yes"
+    dataValue(
+      "form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2932,28 +2951,31 @@ alterState((state) => {
           var serviceId = id + "immunization";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Immunization"),
           field("Reason_for_Service__c", "Vitamin A supplement"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No Vitamin A referral.");
   return state;
 });
 //Chest Indrawing
 alterState((state) => {
-  if (
-    dataValue('form.psbi.Child_chest_in_drawing_c')(state) === "yes"
-  ) {
+  if (dataValue("form.psbi.Child_chest_in_drawing_c")(state) === "yes") {
     return upsert(
       "Service__c",
       "Service_UID__c",
@@ -2968,19 +2990,24 @@ alterState((state) => {
           var serviceId = id + "illness";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Illness"),
           field("Reason_for_Service__c", "Chest in-drawing"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No chest indrawing referral.");
   return state;
@@ -2988,7 +3015,8 @@ alterState((state) => {
 //Fast Breathing
 alterState((state) => {
   if (
-    dataValue('form.psbi.did_you_refer_the_child_for_fast_breathing')(state) === "yes"
+    dataValue("form.psbi.did_you_refer_the_child_for_fast_breathing")(state) ===
+    "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3004,19 +3032,24 @@ alterState((state) => {
           var serviceId = id + "illness";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Illness"),
           field("Reason_for_Service__c", "Fast Breathing"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No fast breathing referral.");
   return state;
@@ -3024,7 +3057,9 @@ alterState((state) => {
 //Fever
 alterState((state) => {
   if (
-    dataValue('form.CCMM.Fever_Referral_Status.data.treatment_and_tracking.CCMM.Fever_Referral_Status')(state) === "yes"
+    dataValue(
+      "form.CCMM.Fever_Referral_Status.data.treatment_and_tracking.CCMM.Fever_Referral_Status"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3040,19 +3075,24 @@ alterState((state) => {
           var serviceId = id + "illness";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Illness"),
           field("Reason_for_Service__c", "Fever"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No fever referral.");
   return state;
@@ -3060,7 +3100,9 @@ alterState((state) => {
 //Cough
 alterState((state) => {
   if (
-    dataValue('form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days')(state) === "yes"
+    dataValue(
+      "form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3076,19 +3118,24 @@ alterState((state) => {
           var serviceId = id + "illness";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Illness"),
           field("Reason_for_Service__c", "Cough 14+ days"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No cough referral.");
   return state;
@@ -3096,7 +3143,9 @@ alterState((state) => {
 //Pregnancy
 alterState((state) => {
   if (
-    dataValue("form.Person.Basic_Information.family_planning.refer_preg")(state) === "yes"
+    dataValue("form.Person.Basic_Information.family_planning.refer_preg")(
+      state
+    ) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3112,19 +3161,24 @@ alterState((state) => {
           var serviceId = id + "pregnancy";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Ante-Natal Care"),
           field("Reason_for_Service__c", "Pregnancy Care (ANC)"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No Pregnancy referral.");
   return state;
@@ -3132,7 +3186,9 @@ alterState((state) => {
 //Family Plannning
 alterState((state) => {
   if (
-    dataValue("form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services")(state) === "yes"
+    dataValue(
+      "form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3148,19 +3204,24 @@ alterState((state) => {
           var serviceId = id + "family_planning";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Family Planning"),
           field("Reason_for_Service__c", "Family Planning (FP)"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No Family Planning referral.");
   return state;
@@ -3168,7 +3229,9 @@ alterState((state) => {
 //Chronic Illness
 alterState((state) => {
   if (
-    dataValue("form.Person.Basic_Information.person_info.refer_chronic_illness")(state) === "yes"
+    dataValue(
+      "form.Person.Basic_Information.person_info.refer_chronic_illness"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3184,19 +3247,24 @@ alterState((state) => {
           var serviceId = id + "chronic_illness";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Illness"),
           field("Reason_for_Service__c", "Chronic Illness"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No chronic illness referral.");
   return state;
@@ -3204,7 +3272,9 @@ alterState((state) => {
 //HIV - HTC
 alterState((state) => {
   if (
-    dataValue("form.Person.Basic_Information.person_info.hiv_counselling_and_testing")(state) === "yes"
+    dataValue(
+      "form.Person.Basic_Information.person_info.hiv_counselling_and_testing"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3220,28 +3290,31 @@ alterState((state) => {
           var serviceId = id + "HIV_HTC";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "HIV"),
           field("Reason_for_Service__c", "HIV counseling and testing"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No HIV HTC referral.");
   return state;
 });
 //HIV - Clinical
 alterState((state) => {
-  if (
-    dataValue("form.Person.HAWI.did_you_refer")(state) === "yes"
-  ) {
+  if (dataValue("form.Person.HAWI.did_you_refer")(state) === "yes") {
     return upsert(
       "Service__c",
       "Service_UID__c",
@@ -3256,28 +3329,31 @@ alterState((state) => {
           var serviceId = id + "HIV_Clinical";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "HIV"),
           field("Reason_for_Service__c", "ART treatment"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No ART Treatment referral.");
   return state;
 });
 //TB
 alterState((state) => {
-  if (
-    dataValue("form.treatment_and_tracking.tb_treatment")(state) === "yes"
-  ) {
+  if (dataValue("form.treatment_and_tracking.tb_treatment")(state) === "yes") {
     return upsert(
       "Service__c",
       "Service_UID__c",
@@ -3292,22 +3368,25 @@ alterState((state) => {
           var serviceId = id + "TB";
           return serviceId;
         }),
-        field("Household_CHW__c", dataValue("form.CHW_ID_Final"),
+        field(
+          "Household_CHW__c",
+          dataValue("form.CHW_ID_Final"),
           field("Type_of_Service__c", "Illness"),
           field("Reason_for_Service__c", "TB treatment"),
-          field("Date__c", dataValue("form.case.update.Date"),
+          field(
+            "Date__c",
+            dataValue("form.case.update.Date"),
             field("RecordTypeID", "01224000000YAuK"),
             relationship(
               "Person__r",
               "CommCare_ID__c",
               dataValue("form.case.@case_id")
-            ),
+            )
           )
         )
-      ))(state);
+      )
+    )(state);
   }
   console.log("No TB referral.");
   return state;
 });
-
-
