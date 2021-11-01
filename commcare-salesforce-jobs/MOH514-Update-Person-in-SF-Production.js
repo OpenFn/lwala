@@ -28,16 +28,16 @@ alterState((state) => {
   state.handleMultiSelect = function (state, multiField) {
     return multiField
       ? multiField
-          .replace(/ /gi, ";")
-          .toLowerCase()
-          .split(";")
-          .map((value) => {
-            return (
-              value.charAt(0).toUpperCase() + value.slice(1).replace("_", " ")
-            );
-            //return value;
-          })
-          .join(";")
+        .replace(/ /gi, ";")
+        .toLowerCase()
+        .split(";")
+        .map((value) => {
+          return (
+            value.charAt(0).toUpperCase() + value.slice(1).replace("_", " ")
+          );
+          //return value;
+        })
+        .join(";")
       : "";
   };
 
@@ -106,8 +106,8 @@ alterState((state) => {
 // Evaluates client status and how to upsert Person records
 alterState((state) => {
   if (
-    dataValue("form.Status.Client_Status")(state) == "Active" &&
-    dataValue("form.Source")(state) == 1 &&
+    dataValue("form.Status.Client_Status")(state) === "Active" &&
+    dataValue("form.Source")(state) === 1 &&
     dataValue("metadata.username")(state) !== "test.2021"
   ) {
     // Deliveries
@@ -142,10 +142,10 @@ alterState((state) => {
             name1 === undefined || name1 === "" || name1 === null
               ? unborn
               : name1.replace(/\w\S*/g, function (txt) {
-                  return (
-                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                  );
-                });
+                return (
+                  txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                );
+              });
           return name1 !== null ? name2 : "Unborn Child";
         }),
         field(
@@ -164,13 +164,13 @@ alterState((state) => {
           var purpose = dataValue("form.Purpose_of_Referral")(state);
           var service = dataValue("form.Reason_for_Service")(state);
           var referral =
-            purpose == null && service == "Malaria Case" ? "Malaria" : purpose;
+            purpose === null && service === "Malaria Case" ? "Malaria" : purpose;
           var reason =
             referral === "HIV_Testing_and_Counseling"
               ? "HIV counselling or Testing"
               : referral === "Pregnancy Care"
-              ? "Pregnancy Care (ANC)"
-              : referral;
+                ? "Pregnancy Care (ANC)"
+                : referral;
           return reason !== undefined
             ? reason.toString().replace(/_/g, " ")
             : null;
@@ -200,8 +200,8 @@ alterState((state) => {
             purpose && purpose === "HIV_Testing_and_Counseling"
               ? "HIV Testing and Counseling"
               : purpose === "Pregnancy_Care"
-              ? "Pregnancy Care (ANC)"
-              : purpose;
+                ? "Pregnancy Care (ANC)"
+                : purpose;
           return reason !== undefined
             ? reason.toString().replace(/_/g, " ")
             : null;
@@ -262,9 +262,9 @@ alterState((state) => {
           var status = dataValue("form.case.update.child_status")(state);
           var rt = dataValue("form.RecordType")(state);
           //if(status!==undefined && rt=="Unborn" && status!=="Yes"){ //Q: child_status not present?
-          if (status !== undefined && rt == "Unborn") {
+          if (status !== undefined && rt === "Unborn") {
             status = "Unborn";
-          } else if (status !== undefined && rt == "Born") {
+          } else if (status !== undefined && rt === "Born") {
             status = "Born";
           }
           return status;
@@ -290,7 +290,7 @@ alterState((state) => {
         ),
         field("HAWI_Defaulter__c", (state) => {
           var hawi = dataValue("form.HAWI.Preferred_Care_F.default")(state);
-          return hawi == "Yes" ? true : false;
+          return hawi === "Yes" ? true : false;
         }),
         field(
           "Date_of_Default__c",
@@ -310,12 +310,12 @@ alterState((state) => {
             "form.TT5.Child_Information.newborn_visited_48_hours_of_delivery"
           )
         ),
-       field(
+        field(
           "Newborn_visited_by_a_CHW_within_6_days__c",
-        dataValue(
-          "form.TT5.Child_Information.visit_6_days_from_delivery")
+          dataValue(
+            "form.TT5.Child_Information.visit_6_days_from_delivery")
         ),//MOTG
-        
+
         field(
           "Last_Malaria_Home_Test__c",
           dataValue("form.treatment_and_tracking.malaria_test_date")
@@ -380,7 +380,7 @@ alterState((state) => {
             state
           );
           if (facility !== undefined) {
-            return facility == "Skilled" ? "Facility" : "Home";
+            return facility === "Skilled" ? "Facility" : "Home";
           }
           return facility;
         }),
@@ -427,8 +427,8 @@ alterState((state) => {
           return method2
             ? method2.toString().replace(/_/g, " ")
             : method1
-            ? method1.toString().replace(/_/g, " ")
-            : method1;
+              ? method1.toString().replace(/_/g, " ")
+              : method1;
         }),
         field("Reasons_for_not_taking_FP_method__c", (state) => {
           var reason = dataValue(
@@ -438,7 +438,7 @@ alterState((state) => {
         }),
         field("Pregnant__c", (state) => {
           var preg = dataValue("form.TT5.Mother_Information.Pregnant")(state);
-          return preg == "Yes" ? true : false;
+          return preg === "Yes" ? true : false;
         }),
         field(
           "Counselled_on_FP_Methods__c",
@@ -451,10 +451,10 @@ alterState((state) => {
           var choiceGroups = choices ? choices.split(" ") : null;
           var choicesMulti = choiceGroups
             ? choiceGroups
-                .map((cg) => {
-                  return state.counselMap[cg];
-                })
-                .join(";")
+              .map((cg) => {
+                return state.counselMap[cg];
+              })
+              .join(";")
             : choiceGroups;
           return choicesMulti;
         }),
@@ -506,7 +506,7 @@ alterState((state) => {
           var referred = dataValue(
             "form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services"
           )(state);
-          return referred == "yes"
+          return referred === "yes"
             ? dataValue("form.TT5.Mother_Information.date_today")(state)
             : null;
         }),
@@ -712,7 +712,7 @@ alterState((state) => {
     )(state);
   }
   // Transfer Outs
-  else if (dataValue("form.Status.Client_Status")(state) == "Transferred_Out") {
+  else if (dataValue("form.Status.Client_Status")(state) === "Transferred_Out") {
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -743,7 +743,7 @@ alterState((state) => {
   }
   // Lost to Follow Up
   else if (
-    dataValue("form.Status.Client_Status")(state) == "Lost_to_Follow_Up"
+    dataValue("form.Status.Client_Status")(state) === "Lost_to_Follow_Up"
   ) {
     return upsert(
       "Person__c",
@@ -770,7 +770,7 @@ alterState((state) => {
   }
   // Graduated from Thrive Thru 5
   else if (
-    dataValue("form.Status.Client_Status")(state) == "Graduated_From_TT5"
+    dataValue("form.Status.Client_Status")(state) === "Graduated_From_TT5"
   ) {
     return upsert(
       "Person__c",
@@ -798,7 +798,7 @@ alterState((state) => {
   }
   // Data entry error
   else if (
-    dataValue("form.Status.Client_Status")(state) == "Data_Entry_Error"
+    dataValue("form.Status.Client_Status")(state) === "Data_Entry_Error"
   ) {
     return upsert(
       "Person__c",
@@ -823,7 +823,7 @@ alterState((state) => {
     )(state);
   }
   // Deceased
-  else if (dataValue("form.Status.Client_Status")(state) == "Deceased") {
+  else if (dataValue("form.Status.Client_Status")(state) === "Deceased") {
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -865,9 +865,9 @@ alterState((state) => {
     (dataValue("form.case.update.TT5_enrollment_status")(state) ==
       "Enrolled in TT5" ||
       dataValue("form.age")(state) < 5 ||
-      dataValue("form.case.update.Active_in_TT5")(state) == "Yes" ||
-      dataValue("form.case.update.Pregnant") == "Yes") &&
-    dataValue("form.Status.Client_Status")(state) == "Active"
+      dataValue("form.case.update.Active_in_TT5")(state) === "Yes" ||
+      dataValue("form.case.update.Pregnant") === "Yes") &&
+    dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
     return upsert(
       "Person__c",
@@ -879,11 +879,11 @@ alterState((state) => {
         field("Thrive_Thru_5_Registrant__c", "Yes"),
         field("Active_TT5_Mother__c", (state) => {
           var preg = dataValue("form.case.update.Pregnant")(state);
-          return preg == "Yes" ? "Yes" : null;
+          return preg === "Yes" ? "Yes" : null;
         }),
         field("TT5_Mother_Registrant__c", (state) => {
           var preg = dataValue("form.case.update.Pregnant")(state);
-          return preg == "Yes" ? "Yes" : null;
+          return preg === "Yes" ? "Yes" : null;
         })
       )
     )(state);
@@ -897,8 +897,8 @@ alterState((state) => {
 alterState((state) => {
   if (
     (dataValue("form.age")(state) > 5 ||
-      dataValue("form.case.update.Active_in_TT5")(state) == "No") &&
-    dataValue("form.Status.Client_Status")(state) == "Active"
+      dataValue("form.case.update.Active_in_TT5")(state) === "No") &&
+    dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
     return upsert(
       "Person__c",
@@ -920,9 +920,9 @@ alterState((state) => {
   if (
     (dataValue("form.case.update.HAWI_enrollment_status")(state) ==
       "Enrolled in HAWI" ||
-      dataValue("form.hiv_status")(state) == "positive" ||
-      dataValue("form.case.update.Active_in_HAWI")(state) == "Yes") &&
-    dataValue("form.Status.Client_Status")(state) == "Active"
+      dataValue("form.hiv_status")(state) === "positive" ||
+      dataValue("form.case.update.Active_in_HAWI")(state) === "Yes") &&
+    dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
     return upsert(
       "Person__c",
@@ -945,8 +945,8 @@ alterState((state) => {
 alterState((state) => {
   if (
     dataValue("form.case.update.HAWI_enrollment_status")(state) ==
-      "Not enrolled in HAWI" &&
-    dataValue("form.Status.Client_Status")(state) == "Active"
+    "Not enrolled in HAWI" &&
+    dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
     return upsert(
       "Person__c",
@@ -989,8 +989,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.ANCs.ANC_1")(state);
@@ -1046,8 +1046,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Reason_for_Service__c", "ANC 2"),
         field("Date__c", (state) => {
@@ -1105,8 +1105,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.ANCs.ANC_3")(state);
@@ -1163,8 +1163,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.ANCs.ANC_4")(state);
@@ -1221,8 +1221,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.ANCs.ANC_5")(state);
@@ -1279,8 +1279,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.Immunizations.BCG")(
@@ -1347,8 +1347,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1415,8 +1415,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1483,8 +1483,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1551,8 +1551,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1618,8 +1618,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1685,8 +1685,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1752,8 +1752,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1788,7 +1788,7 @@ alterState((state) => {
 
 //Deworming
 alterState((state) => {
-  if (dataValue("form.TT5.Child_Information.Deworming")(state) == "Yes") {
+  if (dataValue("form.TT5.Child_Information.Deworming")(state) === "Yes") {
     return upsert(
       "Service__c",
       "Service_UID__c",
@@ -1810,8 +1810,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", dataValue("form.Date")),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
@@ -1835,9 +1835,9 @@ alterState((state) => {
 alterState((state) => {
   if (
     dataValue("form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state) !==
-      undefined &&
+    undefined &&
     dataValue("form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state) !==
-      ""
+    ""
   ) {
     return upsert(
       "Service__c",
@@ -1860,8 +1860,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Date__c", dataValue("form.Date")),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
@@ -1919,8 +1919,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("Referred__c", 1),
         field("Type_of_Service__c", "CHW Mobile Survey"),
@@ -1983,8 +1983,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Reason_for_Service__c", "Nutrition Screening"),
@@ -2015,19 +2015,19 @@ alterState((state) => {
           if (
             dataValue("form.TT5.Child_Information.Nutrition2.Nutrition_Status")(
               state
-            ) == "normal"
+            ) === "normal"
           ) {
             status = "Normal";
           } else if (
             dataValue("form.TT5.Child_Information.Nutrition2.Nutrition_Status")(
               state
-            ) == "moderate"
+            ) === "moderate"
           ) {
             status = "Moderately Malnourished";
           } else if (
             dataValue("form.TT5.Child_Information.Nutrition2.Nutrition_Status")(
               state
-            ) == "severe"
+            ) === "severe"
           ) {
             status = "Severely Malnourished";
           }
@@ -2079,8 +2079,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : "a0308000021zm8Z";
+              ? chw
+              : "a0308000021zm8Z";
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2119,7 +2119,7 @@ alterState((state) => {
   if (
     dataValue(
       "form.TT5.Child_Information.pregnancy_danger_signs.refer_skilled_delivery"
-    )(state) == "yes"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2143,8 +2143,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2174,7 +2174,7 @@ alterState((state) => {
   if (
     dataValue(
       "form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral"
-    )(state) == "Yes"
+    )(state) === "Yes"
   ) {
     return upsert(
       "Service__c",
@@ -2203,8 +2203,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2242,7 +2242,7 @@ alterState((state) => {
   if (
     dataValue(
       "form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc"
-    )(state) == "yes"
+    )(state) === "yes"
   ) {
     //Update when Julia updates group ???
     return upsert(
@@ -2267,8 +2267,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2296,7 +2296,7 @@ alterState((state) => {
 //Malnutrition Referral
 alterState((state) => {
   if (
-    dataValue("form.TT5.Child_Information.Nutrition2.Referral")(state) == "yes"
+    dataValue("form.TT5.Child_Information.Nutrition2.Referral")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2320,8 +2320,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2346,8 +2346,8 @@ alterState((state) => {
           )(state);
           return facility !== undefined
             ? //? facility.toString().replace(/_/g, ' ')
-              facility.charAt(0).toUpperCase() +
-                facility.substr(1).toLowerCase().replace(/_/g, " ")
+            facility.charAt(0).toUpperCase() +
+            facility.substr(1).toLowerCase().replace(/_/g, " ")
             : null;
         }),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
@@ -2369,7 +2369,7 @@ alterState((state) => {
   if (
     dataValue(
       "form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Referral"
-    )(state) == "yes"
+    )(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2393,8 +2393,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2429,7 +2429,7 @@ alterState((state) => {
 
 //TB Referral
 alterState((state) => {
-  if (dataValue("form.treatment_and_tracking.TB_referral")(state) == "yes") {
+  if (dataValue("form.treatment_and_tracking.TB_referral")(state) === "yes") {
     return upsert(
       "Service__c",
       "Service_UID__c",
@@ -2452,8 +2452,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2490,7 +2490,7 @@ alterState((state) => {
 //Diarrhea Referral
 alterState((state) => {
   if (
-    dataValue("form.treatment_and_tracking.diarrhea_referral")(state) == "yes"
+    dataValue("form.treatment_and_tracking.diarrhea_referral")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2514,8 +2514,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2552,7 +2552,7 @@ alterState((state) => {
 //Malaria Referral
 alterState((state) => {
   if (
-    dataValue("form.treatment_and_tracking.malaria_referral")(state) == "yes"
+    dataValue("form.treatment_and_tracking.malaria_referral")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2576,8 +2576,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-            ? chw
-            : undefined;
+              ? chw
+              : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2667,9 +2667,9 @@ alterState((state) => {
             var facility = dataValue("Facility_of_Clinical_Service")(state);
             if (facility === "" || facility === undefined) {
               facility = "unknown";
-            } else if (facility == "Other_Clinic") {
+            } else if (facility === "Other_Clinic") {
               facility = "Other";
-            } else if (facility == "Rongo_Sub-District_Hospital") {
+            } else if (facility === "Rongo_Sub-District_Hospital") {
               facility = "Rongo_SubDistrict_Hospital";
             }
             return facility;
@@ -2717,11 +2717,11 @@ alterState((state) => {
           field("Reason_for_Service__c", (state) => {
             var reason = "";
             var name = dataValue("Clinical_Service")(state);
-            if (name == "Adverse_Drug_Reaction_Side_Effect") {
+            if (name === "Adverse_Drug_Reaction_Side_Effect") {
               reason = "Adverse Drug Reaction/Side Effect";
-            } else if (name == "Pregnancy_Care") {
+            } else if (name === "Pregnancy_Care") {
               reason = "Pregnancy Care (ANC)";
-            } else if (name == "Family_Planning") {
+            } else if (name === "Family_Planning") {
               reason = "Family Planning (FP)";
             } else if (name !== undefined) {
               reason = name.replace(/_/g, " ");
@@ -2755,7 +2755,7 @@ alterState((state) => {
 //Upsert Visit records
 alterState((state) => {
   if (
-    dataValue("form.Source")(state) == 1 &&
+    dataValue("form.Source")(state) === 1 &&
     dataValue("metadata.username")(state) !== "test.2021"
   ) {
     return upsert(
@@ -2779,10 +2779,10 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : "a031x000004oJe2"
-            ? "a0308000021zm8Z"
-            : chw
-            ? chw
-            : "a0308000021zm8Z";
+              ? "a0308000021zm8Z"
+              : chw
+                ? chw
+                : "a0308000021zm8Z";
         }),
         field("Supervisor_Visit__c", (state) => {
           var visit = dataValue("form.supervisor_visit")(state);
@@ -2844,7 +2844,7 @@ alterState((state) => {
 //Immunization - Defaulter
 alterState((state) => {
   if (
-    dataValue("form.TT5.Child_Information.Immunizations.refer_immunization_type")(state) == "yes"
+    dataValue("form.TT5.Child_Information.Immunizations.refer_immunization_type")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2873,14 +2873,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No immunization referral.");
-    return state;  
+  }
+  console.log("No immunization referral.");
+  return state;
 });
 //Immunization 
 alterState((state) => {
   if (
-    dataValue("form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization")(state) == "yes"
+    dataValue("form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2909,14 +2909,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No Immunization referral.");
-    return state;  
+  }
+  console.log("No Immunization referral.");
+  return state;
 });
 //Immunization - Vitamin A 
 alterState((state) => {
   if (
-    dataValue("form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements")(state) == "yes"
+    dataValue("form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2945,14 +2945,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No Vitamin A referral.");
-    return state;  
+  }
+  console.log("No Vitamin A referral.");
+  return state;
 });
 //Chest Indrawing
 alterState((state) => {
   if (
-    dataValue('form.psbi.Child_chest_in_drawing_c')(state) == "yes"
+    dataValue('form.psbi.Child_chest_in_drawing_c')(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -2981,14 +2981,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No chest indrawing referral.");
-    return state;  
+  }
+  console.log("No chest indrawing referral.");
+  return state;
 });
 //Fast Breathing
 alterState((state) => {
   if (
-    dataValue('form.psbi.did_you_refer_the_child_for_fast_breathing')(state) == "yes"
+    dataValue('form.psbi.did_you_refer_the_child_for_fast_breathing')(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3017,14 +3017,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No fast breathing referral.");
-    return state;  
+  }
+  console.log("No fast breathing referral.");
+  return state;
 });
 //Fever
 alterState((state) => {
   if (
-    dataValue('form.CCMM.Fever_Referral_Status.data.treatment_and_tracking.CCMM.Fever_Referral_Status')(state) == "yes"
+    dataValue('form.CCMM.Fever_Referral_Status.data.treatment_and_tracking.CCMM.Fever_Referral_Status')(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3053,14 +3053,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No fever referral.");
-    return state;  
+  }
+  console.log("No fever referral.");
+  return state;
 });
 //Cough
 alterState((state) => {
   if (
-    dataValue('form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days')(state) == "yes"
+    dataValue('form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days')(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3089,14 +3089,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No cough referral.");
-    return state;  
+  }
+  console.log("No cough referral.");
+  return state;
 });
 //Pregnancy
 alterState((state) => {
   if (
-    dataValue("form.Person.Basic_Information.family_planning.refer_preg")(state) == "yes"
+    dataValue("form.Person.Basic_Information.family_planning.refer_preg")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3125,14 +3125,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No Pregnancy referral.");
-    return state;  
+  }
+  console.log("No Pregnancy referral.");
+  return state;
 });
 //Family Plannning
 alterState((state) => {
   if (
-    dataValue("form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services")(state) == "yes"
+    dataValue("form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3161,14 +3161,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No Family Planning referral.");
-    return state;  
+  }
+  console.log("No Family Planning referral.");
+  return state;
 });
 //Chronic Illness
 alterState((state) => {
   if (
-    dataValue("form.Person.Basic_Information.person_info.refer_chronic_illness")(state) == "yes"
+    dataValue("form.Person.Basic_Information.person_info.refer_chronic_illness")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3197,14 +3197,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No chronic illness referral.");
-    return state;  
+  }
+  console.log("No chronic illness referral.");
+  return state;
 });
 //HIV - HTC
 alterState((state) => {
   if (
-    dataValue("form.Person.Basic_Information.person_info.hiv_counselling_and_testing")(state) == "yes"
+    dataValue("form.Person.Basic_Information.person_info.hiv_counselling_and_testing")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3233,14 +3233,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No HIV HTC referral.");
-    return state;  
+  }
+  console.log("No HIV HTC referral.");
+  return state;
 });
 //HIV - Clinical
 alterState((state) => {
   if (
-    dataValue("form.Person.HAWI.did_you_refer")(state) == "yes"
+    dataValue("form.Person.HAWI.did_you_refer")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3269,14 +3269,14 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No ART Treatment referral.");
-    return state;  
+  }
+  console.log("No ART Treatment referral.");
+  return state;
 });
 //TB
 alterState((state) => {
   if (
-    dataValue("form.treatment_and_tracking.tb_treatment")(state) == "yes"
+    dataValue("form.treatment_and_tracking.tb_treatment")(state) === "yes"
   ) {
     return upsert(
       "Service__c",
@@ -3305,9 +3305,9 @@ alterState((state) => {
           )
         )
       ))(state);
-    }
-    console.log("No TB referral.");
-    return state;  
+  }
+  console.log("No TB referral.");
+  return state;
 });
 
 
