@@ -109,6 +109,9 @@ upsert(
     field("Other_Health_Insurance__c", dataValue("form.if_other_please_specify"))
   )
 ),
+ //New Nutrition Field (MOTG)
+ field('enrolled_in_a_lwala_nutrition_program',dataValue('form.case.update.enrolled_in_a_lwala_nutrition_program')),
+ field('lwala_nutrition_program_enrollment_date',dataValue('form.case.update.lwala_nutrition_program_enrollment_date'))
   upsert(
     'Visit__c',
     'CommCare_Visit_ID__c',
@@ -142,10 +145,6 @@ upsert(
       )
     )
   ),
-  
-  //New Nutrition Field (MOTG)
- field('enrolled_in_a_lwala_nutrition_program',dataValue('form.case.update.enrolled_in_a_lwala_nutrition_program')),
- field('lwala_nutrition_program_enrollment_date',dataValue('form.case.update.lwala_nutrition_program_enrollment_date'))
   //New logic to insert child Person records if person is marked as deceased in HH form
   each(
     merge(
