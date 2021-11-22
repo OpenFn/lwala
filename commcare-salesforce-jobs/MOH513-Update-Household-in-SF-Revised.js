@@ -41,7 +41,7 @@ upsert(
     }),
     field('Household_village__c', dataValue('form.village')),
     //New Nutrition Field (MOTG)
-    field("Active_in_lwala_nutrition_program__c",dataValue("form.case.update.enrolled_in_a_lwala_nutrition_program")),
+    field("Active_in_Nutrition_Program__c",dataValue("form.case.update.enrolled_in_a_lwala_nutrition_program")),
     field("lwala_nutrition_program_enrollment_date__c",dataValue("form.case.update.lwala_nutrition_program_enrollment_date")),
     field("Trained_in_gardening__c",dataValue('form.household_trained_on_gardening')),
     field("household_trained_on_gardening_date__c",dataValue('form.case.update.when_was_the_household_trained_on_gardening')),
