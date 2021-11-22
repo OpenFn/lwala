@@ -106,12 +106,12 @@ upsert(
       return status && status === 'other_please_specify_if_active' ? 'Other' :
         status === 'nhif' ? 'NHIF' : status === 'Linda_mama' || 'linda_mama' ? 'Linda mama' : status;
     }),
-    field("Other_Health_Insurance__c", dataValue("form.if_other_please_specify"))
-  )
-),
- //New Nutrition Field (MOTG)
+    field("Other_Health_Insurance__c", dataValue("form.if_other_please_specify")),
+    //New Nutrition Field (MOTG)
  field('enrolled_in_a_lwala_nutrition_program',dataValue('form.case.update.enrolled_in_a_lwala_nutrition_program')),
  field('lwala_nutrition_program_enrollment_date',dataValue('form.case.update.lwala_nutrition_program_enrollment_date'))
+  )
+),
   upsert(
     'Visit__c',
     'CommCare_Visit_ID__c',
