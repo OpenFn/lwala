@@ -45,7 +45,7 @@ upsert(
     field("lwala_nutrition_program_enrollment_date__c",dataValue("form.case.update.lwala_nutrition_program_enrollment_date")),
     field("Trained_in_gardening__c",dataValue('form.household_trained_on_gardening')),
     field("household_trained_on_gardening_date__c",dataValue('form.case.update.when_was_the_household_trained_on_gardening')),
-    field("provided_with_seed_input_support__c",dataValue('form.case.update.household_provided_with_seed_input_support')),
+    field("Seed_Input_Support__c",dataValue('form.case.update.household_provided_with_seed_input_support')),
     field("household_provided_with_seed_input_suppo__c",dataValue('form.case.update.when_was_the_household_provided_with_seed_input_support')),
     field(
       'Access_to_safe_water__c',
