@@ -55,13 +55,13 @@ alterState((state) => {
     nutrition_counseling: "Nutrition counseling",
     growth_monitoring: "Growth monitoring",
     exclusive_breastfeeding: "Exclusive breastfeeding",
-    complementary_feeding: "Sleeping under LLITN",
-    sleeping_under_llitn: "Knowing HIV status",
-    knowing_hiv_status: "Indoor pollution",
-    indoor_pollution: "Personal Hygiene",
-    personal_hygiene: "Safe drinking water",
-    safe_drinking_water: "Safe disposal of human waste",
-    safe_disposal_of_human_waste: "Complementary feeding",
+    complementary_feeding: "Complementary feeding",
+    sleeping_under_llitn: "Sleeping under LLITN",
+    knowing_hiv_status: "Knowing HIV status",
+    indoor_pollution: "Indoor pollution",
+    personal_hygiene: "Personal Hygiene",
+    safe_drinking_water: "Safe drinking water",
+    safe_disposal_of_human_waste: "Safe disposal of human waste",
   };
 
   const serviceMap = {
