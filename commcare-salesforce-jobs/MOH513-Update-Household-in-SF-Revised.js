@@ -19,6 +19,7 @@ upsert(
   'Household__c',
   'CommCare_Code__c',
   fields(
+    field("CommCare_Username__c", dataValue('form.meta.username')),
     field('CommCare_Code__c', dataValue('form.case.@case_id')),
     field('MOH_household_code__c', state => {
       var moh = dataValue('form.Household_Information.moh_code')(state);
