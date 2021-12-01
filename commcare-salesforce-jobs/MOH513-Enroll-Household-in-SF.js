@@ -142,6 +142,10 @@ alterState((state) => {
           //relationship("Household__r", "CommCare_Code__c", dataValue("case.index.parent.#text")),
           field("CommCare_ID__c", dataValue("case.@case_id")),
           field("CommCare_HH_Code__c", dataValue("case.index.parent.#text")),
+          relationship(
+          'Household__r',
+          'CommCare_Code__c',
+          dataValue("case.index.parent.#text")),
           relationship("RecordType", "Name", (state) => {
             var rt = dataValue("Basic_Information.Record_Type")(state);
             var status = dataValue("Basic_Information.Child_Status")(state);
