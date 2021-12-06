@@ -2702,7 +2702,14 @@ alterState((state) => {
             return serviceId.replace(/\//g, "");
           })(state),
           field("Source__c", 1),
-          field("Household_CHW__c", dataValue("chw")),
+          field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+              ? "a030800001zQrk5"
+              : chw
+                ? chw
+                : undefined;
+          }),
           field("Reason_for_Service__c", (state) => {
             var name = dataValue("Clinical_Service")(state);
             return name ? state.serviceMap[name] : name;
@@ -2761,7 +2768,14 @@ alterState((state) => {
             return serviceId.replace(/\//g, "");
           }),
           field("Source__c", true),
-          field("Household_CHW__c", dataValue("chw")),
+          field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
           field("Reason_for_Service__c", (state) => {
             var reason = "";
             var name = dataValue("Clinical_Service")(state);
@@ -2910,9 +2924,14 @@ alterState((state) => {
           var serviceId = id + "immunization";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Immunization"),
         field("Reason_for_Service__c", "Missed immunization type"),
         field(
@@ -2951,9 +2970,14 @@ alterState((state) => {
           var serviceId = id + "immunization";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Immunization"),
         field("Reason_for_Service__c", "Immunizations"),
         field(
@@ -2992,9 +3016,14 @@ alterState((state) => {
           var serviceId = id + "immunization";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Immunization"),
         field("Reason_for_Service__c", "Vitamin A supplement"),
         field(
@@ -3029,9 +3058,14 @@ alterState((state) => {
           var serviceId = id + "illness";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Chest in-drawing"),
         field(
@@ -3069,9 +3103,14 @@ alterState((state) => {
           var serviceId = id + "illness";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Fast Breathing"),
         field(
@@ -3110,9 +3149,14 @@ alterState((state) => {
           var serviceId = id + "illness";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Fever"),
         field(
@@ -3151,9 +3195,14 @@ alterState((state) => {
           var serviceId = id + "illness";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Cough 14+ days"),
         field(
@@ -3192,9 +3241,14 @@ alterState((state) => {
           var serviceId = id + "pregnancy";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Ante-Natal Care"),
         field("Reason_for_Service__c", "Pregnancy Care (ANC)"),
         field(
@@ -3233,9 +3287,14 @@ alterState((state) => {
           var serviceId = id + "family_planning";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Family Planning"),
         field("Reason_for_Service__c", "Family Planning (FP)"),
         field(
@@ -3274,9 +3333,14 @@ alterState((state) => {
           var serviceId = id + "chronic_illness";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Chronic Illness"),
         field(
@@ -3315,9 +3379,14 @@ alterState((state) => {
           var serviceId = id + "HIV_HTC";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "HIV"),
         field("Reason_for_Service__c", "HIV counseling and testing"),
         field(
@@ -3352,9 +3421,14 @@ alterState((state) => {
           var serviceId = id + "HIV_Clinical";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "HIV"),
         field("Reason_for_Service__c", "ART treatment"),
         field(
@@ -3389,9 +3463,14 @@ alterState((state) => {
           var serviceId = id + "TB";
           return serviceId;
         }),
-        field(
-          "Household_CHW__c",
-          dataValue("form.CHW_ID_Final")),
+        field("Household_CHW__c", (state) => {
+            var chw = dataValue("form.CHW_ID_Final")(state);
+            return chw === "a030800001zQrk"
+            ? "a030800001zQrk5"
+            : chw
+              ? chw
+              : undefined;
+          }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "TB treatment"),
         field(
