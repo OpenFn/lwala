@@ -721,6 +721,11 @@ field("Client_counselled_on__c", (state) => {
       "CommCare_ID__c",
       fields(
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("Source__c", 1),
         field("Name", (state) => {
           var name1 = dataValue("form.Person_Name")(state);
@@ -752,6 +757,11 @@ field("Client_counselled_on__c", (state) => {
       "Person__c",
       "CommCare_ID__c",
       fields(
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("Source__c", 1),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         field("Name", (state) => {
@@ -779,6 +789,11 @@ field("Client_counselled_on__c", (state) => {
       "Person__c",
       "CommCare_ID__c",
       fields(
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("Source__c", 1),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         field("Name", (state) => {
@@ -807,6 +822,11 @@ field("Client_counselled_on__c", (state) => {
       "Person__c",
       "CommCare_ID__c",
       fields(
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("Source__c", 1),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         field("Name", (state) => {
@@ -831,6 +851,11 @@ field("Client_counselled_on__c", (state) => {
       "Person__c",
       "CommCare_ID__c",
       fields(
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("Source__c", 1),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         field("Name", (state) => {
@@ -876,6 +901,11 @@ alterState((state) => {
       "Person__c",
       "CommCare_ID__c",
       fields(
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         field("Active_in_Thrive_Thru_5__c", "Yes"),
         field("Enrollment_Date__c", dataValue("metadata.timeEnd")),
@@ -907,6 +937,11 @@ alterState((state) => {
       "Person__c",
       "CommCare_ID__c",
       fields(
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         field("Active_in_Thrive_Thru_5__c", "No"),
         field("Thrive_Thru_5_Registrant__c", "No")
@@ -931,6 +966,11 @@ alterState((state) => {
       "Person__c",
       "CommCare_ID__c",
       fields(
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         field("Active_in_HAWI__c", "Yes"),
         field("HAWI_Enrollment_Date__c", dataValue("metadata.timeEnd")),
@@ -955,6 +995,11 @@ alterState((state) => {
       "Person__c",
       "CommCare_ID__c",
       fields(
+        relationship(
+          "Household__r",
+          "CommCare_Code__c",
+          dataValue("form.HH_ID")
+        ),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         field("Active_in_HAWI__c", "No"),
         field("HAWI_Registrant__c", "No")
