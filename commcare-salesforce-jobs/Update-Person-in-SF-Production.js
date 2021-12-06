@@ -669,7 +669,7 @@ alterState(state => {
         }),
         field('Source__c', 1),
         field('Reason_for_Service__c', 'BCG'),
-        ffield("Household_CHW__c", (state) => {
+        field("Household_CHW__c", (state) => {
           var chw = dataValue("form.CHW_ID_Final")(state);
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
