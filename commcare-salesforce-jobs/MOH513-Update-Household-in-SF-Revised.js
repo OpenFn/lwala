@@ -185,6 +185,11 @@ upsert(
           }
           return rt;
         }),
+        relationship(
+          'Household__r',
+          'CommCare_Code__c',
+          dataValue('form.case.@case_id')
+        ),
         field('Name', 'Deceased Person'),
         field('Source__c', true),
         relationship('Catchment__r', 'Name', dataValue('catchment')),
