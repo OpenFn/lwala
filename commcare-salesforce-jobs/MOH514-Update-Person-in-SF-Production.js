@@ -107,8 +107,9 @@ alterState((state) => {
 alterState((state) => {
   if (
     dataValue("form.Status.Client_Status")(state) === "Active" &&
-    dataValue("form.Source")(state) === 1 &&
-    dataValue("metadata.username")(state) !== "test.2021"
+    dataValue("form.Source")(state) === 1 
+    //&&
+    //dataValue("metadata.username")(state) !== "test.2021"
   ) {
     // Deliveries
     return upsert(
