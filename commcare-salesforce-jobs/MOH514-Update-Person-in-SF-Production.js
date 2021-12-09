@@ -445,11 +445,12 @@ alterState((state) => {
           "Counselled_on_FP_Methods__c",
           dataValue("form.TT5.Mother_Information.CounselledFP_methods")
         ),
-field("Client_counselled_on__c", (state) => {
+        field("Client_counselled_on__c", (state) => {
           var choices = dataValue(
             "form.treatment_and_tracking.counseling.counsel_topic"
-          )(state) || dataValue("form.counseling.counsel_topic")(state) ;
+          )(state) || dataValue("form.counseling.counsel_topic")(state);
           var choiceGroups = choices ? choices.split(" ") : null;
+          console.log(choices); 
           var choicesMulti = choiceGroups
             ? choiceGroups
               .map((cg) => {
