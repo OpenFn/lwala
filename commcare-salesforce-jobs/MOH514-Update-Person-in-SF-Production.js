@@ -28,16 +28,16 @@ alterState((state) => {
   state.handleMultiSelect = function (state, multiField) {
     return multiField
       ? multiField
-        .replace(/ /gi, ";")
-        .toLowerCase()
-        .split(";")
-        .map((value) => {
-          return (
-            value.charAt(0).toUpperCase() + value.slice(1).replace("_", " ")
-          );
-          //return value;
-        })
-        .join(";")
+          .replace(/ /gi, ";")
+          .toLowerCase()
+          .split(";")
+          .map((value) => {
+            return (
+              value.charAt(0).toUpperCase() + value.slice(1).replace("_", " ")
+            );
+            //return value;
+          })
+          .join(";")
       : "";
   };
 
@@ -106,12 +106,12 @@ alterState((state) => {
 // Evaluates client status and how to upsert Person records
 alterState((state) => {
   if (
-    dataValue("form.Status.Client_Status")(state) === "Active" &&
-    dataValue("form.Source")(state) === 1 
-    //&&
-    //dataValue("metadata.username")(state) !== "test.2021"
+    dataValue("form.Status.Client_Status")(state) === "Active"
+    // Below criteria redundant to trigger?
+    // && (dataValue("form.Source")(state) === "1" ||
+    //   dataValue("form.Source")(state) === 1)
   ) {
-    // Deliveries
+    console.log("Upserting Person to SF...");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -143,10 +143,10 @@ alterState((state) => {
             name1 === undefined || name1 === "" || name1 === null
               ? unborn
               : name1.replace(/\w\S*/g, function (txt) {
-                return (
-                  txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                );
-              });
+                  return (
+                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                  );
+                });
           return name1 !== null ? name2 : "Unborn Child";
         }),
         field(
@@ -172,8 +172,8 @@ alterState((state) => {
             referral === "HIV_Testing_and_Counseling"
               ? "HIV counselling or Testing"
               : referral === "Pregnancy Care"
-                ? "Pregnancy Care (ANC)"
-                : referral;
+              ? "Pregnancy Care (ANC)"
+              : referral;
           return reason !== undefined
             ? reason.toString().replace(/_/g, " ")
             : null;
@@ -203,8 +203,8 @@ alterState((state) => {
             purpose && purpose === "HIV_Testing_and_Counseling"
               ? "HIV Testing and Counseling"
               : purpose === "Pregnancy_Care"
-                ? "Pregnancy Care (ANC)"
-                : purpose;
+              ? "Pregnancy Care (ANC)"
+              : purpose;
           return reason !== undefined
             ? reason.toString().replace(/_/g, " ")
             : null;
@@ -429,8 +429,8 @@ alterState((state) => {
           return method2
             ? method2.toString().replace(/_/g, " ")
             : method1
-              ? method1.toString().replace(/_/g, " ")
-              : method1;
+            ? method1.toString().replace(/_/g, " ")
+            : method1;
         }),
         field("Reasons_for_not_taking_FP_method__c", (state) => {
           var reason = dataValue(
@@ -447,17 +447,18 @@ alterState((state) => {
           dataValue("form.TT5.Mother_Information.CounselledFP_methods")
         ),
         field("Client_counselled_on__c", (state) => {
-          var choices = dataValue(
-            "form.treatment_and_tracking.counseling.counsel_topic"
-          )(state) || dataValue("form.counseling.counsel_topic")(state);
+          var choices =
+            dataValue("form.treatment_and_tracking.counseling.counsel_topic")(
+              state
+            ) || dataValue("form.counseling.counsel_topic")(state);
           var choiceGroups = choices ? choices.split(" ") : null;
-          console.log(choices); 
+          console.log(choices);
           var choicesMulti = choiceGroups
             ? choiceGroups
-              .map((cg) => {
-                return state.counselMap[cg];
-              })
-              .join(";")
+                .map((cg) => {
+                  return state.counselMap[cg];
+                })
+                .join(";")
             : choiceGroups;
           return choicesMulti;
         }),
@@ -718,6 +719,7 @@ alterState((state) => {
   else if (
     dataValue("form.Status.Client_Status")(state) === "Transferred_Out"
   ) {
+    console.log("Transferred out");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -755,6 +757,7 @@ alterState((state) => {
   else if (
     dataValue("form.Status.Client_Status")(state) === "Lost_to_Follow_Up"
   ) {
+    console.log("Lost to follow up");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -787,6 +790,7 @@ alterState((state) => {
   else if (
     dataValue("form.Status.Client_Status")(state) === "Graduated_From_TT5"
   ) {
+    console.log("Graduated from TT5");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -820,6 +824,7 @@ alterState((state) => {
   else if (
     dataValue("form.Status.Client_Status")(state) === "Data_Entry_Error"
   ) {
+    console.log("Data entry error flagged in CommCare; resyncing");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -849,6 +854,7 @@ alterState((state) => {
   }
   // Deceased
   else if (dataValue("form.Status.Client_Status")(state) === "Deceased") {
+    console.log("Person is deceased");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -899,6 +905,7 @@ alterState((state) => {
       dataValue("form.case.update.Pregnant") === "Yes") &&
     dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
+    console.log("Person active in TT5");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -935,6 +942,7 @@ alterState((state) => {
       dataValue("form.case.update.Active_in_TT5")(state) === "No") &&
     dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
+    console.log("Person NOT active in TT5");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -964,6 +972,7 @@ alterState((state) => {
       dataValue("form.case.update.Active_in_HAWI")(state) === "Yes") &&
     dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
+    console.log("Person in HAWI");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -990,9 +999,10 @@ alterState((state) => {
 alterState((state) => {
   if (
     dataValue("form.case.update.HAWI_enrollment_status")(state) ==
-    "Not enrolled in HAWI" &&
+      "Not enrolled in HAWI" &&
     dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
+    console.log("Person NOT in HAWI");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -1039,8 +1049,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.ANCs.ANC_1")(state);
@@ -1096,8 +1106,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Reason_for_Service__c", "ANC 2"),
         field("Date__c", (state) => {
@@ -1155,8 +1165,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.ANCs.ANC_3")(state);
@@ -1213,8 +1223,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.ANCs.ANC_4")(state);
@@ -1271,8 +1281,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.ANCs.ANC_5")(state);
@@ -1329,8 +1339,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue("form.TT5.Child_Information.Immunizations.BCG")(
@@ -1397,8 +1407,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1465,8 +1475,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1533,8 +1543,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1601,8 +1611,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1668,8 +1678,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1735,8 +1745,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1802,8 +1812,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", (state) => {
           var date = dataValue(
@@ -1860,8 +1870,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", dataValue("form.Date")),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
@@ -1885,9 +1895,9 @@ alterState((state) => {
 alterState((state) => {
   if (
     dataValue("form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state) !==
-    undefined &&
+      undefined &&
     dataValue("form.HAWI.Home_Based_Care.Home_Based_Care_Provided")(state) !==
-    ""
+      ""
   ) {
     return upsert(
       "Service__c",
@@ -1910,8 +1920,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Date__c", dataValue("form.Date")),
         field("Follow_Up_By_Date__c", dataValue("form.Date")),
@@ -1969,8 +1979,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("Referred__c", 1),
         field("Type_of_Service__c", "CHW Mobile Survey"),
@@ -2033,8 +2043,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Reason_for_Service__c", "Nutrition Screening"),
@@ -2129,8 +2139,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : "a0308000021zm8Z";
+            ? chw
+            : "a0308000021zm8Z";
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2193,8 +2203,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2253,8 +2263,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2317,8 +2327,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2370,8 +2380,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2396,8 +2406,8 @@ alterState((state) => {
           )(state);
           return facility !== undefined
             ? //? facility.toString().replace(/_/g, ' ')
-            facility.charAt(0).toUpperCase() +
-            facility.substr(1).toLowerCase().replace(/_/g, " ")
+              facility.charAt(0).toUpperCase() +
+                facility.substr(1).toLowerCase().replace(/_/g, " ")
             : null;
         }),
         field("Age_Time_of_Service__c", dataValue("form.age")), //Added by MOTG
@@ -2443,8 +2453,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2502,8 +2512,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2564,8 +2574,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2626,8 +2636,8 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
+            ? chw
+            : undefined;
         }),
         field("RecordTypeID", "01224000000YAuK"),
         field("Referred__c", 1),
@@ -2709,8 +2719,8 @@ alterState((state) => {
             return chw === "a030800001zQrk"
               ? "a030800001zQrk5"
               : chw
-                ? chw
-                : undefined;
+              ? chw
+              : undefined;
           }),
           field("Reason_for_Service__c", (state) => {
             var name = dataValue("Clinical_Service")(state);
@@ -2773,8 +2783,8 @@ alterState((state) => {
           field("Household_CHW__c", (state) => {
             var chw = dataValue("form.CHW_ID_Final")(state);
             return chw === "a030800001zQrk"
-            ? "a030800001zQrk5"
-            : chw
+              ? "a030800001zQrk5"
+              : chw
               ? chw
               : undefined;
           }),
@@ -2843,10 +2853,10 @@ alterState((state) => {
           return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : "a031x000004oJe2"
-              ? "a0308000021zm8Z"
-              : chw
-                ? chw
-                : "a0308000021zm8Z";
+            ? "a0308000021zm8Z"
+            : chw
+            ? chw
+            : "a0308000021zm8Z";
         }),
         field("Supervisor_Visit__c", (state) => {
           var visit = dataValue("form.supervisor_visit")(state);
@@ -2927,18 +2937,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Immunization"),
         field("Reason_for_Service__c", "Missed immunization type"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -2973,18 +2981,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Immunization"),
         field("Reason_for_Service__c", "Immunizations"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3019,18 +3025,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Immunization"),
         field("Reason_for_Service__c", "Vitamin A supplement"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3061,18 +3065,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Chest in-drawing"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3106,18 +3108,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Fast Breathing"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3152,18 +3152,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Fever"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3198,18 +3196,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Cough 14+ days"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3244,18 +3240,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Ante-Natal Care"),
         field("Reason_for_Service__c", "Pregnancy Care (ANC)"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3290,18 +3284,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Family Planning"),
         field("Reason_for_Service__c", "Family Planning (FP)"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3336,18 +3328,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "Chronic Illness"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3382,18 +3372,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "HIV"),
         field("Reason_for_Service__c", "HIV counseling and testing"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3424,18 +3412,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "HIV"),
         field("Reason_for_Service__c", "ART treatment"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
@@ -3466,18 +3452,16 @@ alterState((state) => {
           return serviceId;
         }),
         field("Household_CHW__c", (state) => {
-            var chw = dataValue("form.CHW_ID_Final")(state);
-            return chw === "a030800001zQrk"
+          var chw = dataValue("form.CHW_ID_Final")(state);
+          return chw === "a030800001zQrk"
             ? "a030800001zQrk5"
             : chw
-              ? chw
-              : undefined;
-          }),
+            ? chw
+            : undefined;
+        }),
         field("Type_of_Service__c", "Illness"),
         field("Reason_for_Service__c", "TB treatment"),
-        field(
-          "Date__c",
-          dataValue("form.case.update.Date")),
+        field("Date__c", dataValue("form.case.update.Date")),
         field("RecordTypeID", "01224000000YAuK"),
         relationship(
           "Person__r",
