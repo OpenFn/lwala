@@ -452,7 +452,7 @@ alterState((state) => {
               state
             ) || dataValue("form.counseling.counsel_topic")(state);
           var choiceGroups = choices ? choices.split(" ") : null;
-          console.log(choices);
+          console.log("Counsel topic choices", choices);
           var choicesMulti = choiceGroups
             ? choiceGroups
                 .map((cg) => {
