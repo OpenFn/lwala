@@ -1,5 +1,5 @@
 // MOH514 - Update Person form
-alterState((state) => {
+fn((state) => {
   if (
     dataValue("form.TT5.Child_Information.Clinical_Services")(state) !==
     undefined
@@ -104,7 +104,7 @@ alterState((state) => {
 });
 
 // Evaluates client status and how to upsert Person records
-alterState((state) => {
+fn((state) => {
   if (
     dataValue("form.Status.Client_Status")(state) === "Active"
     // Below criteria redundant to trigger?
@@ -119,7 +119,7 @@ alterState((state) => {
         field(
           "deworming_medication__c",
           dataValue("form.TT5.Child_Information.Deworming")
-        ), // new mapping for deworming
+        ),
         field("Source__c", 1),
         field("CommCare_ID__c", dataValue("form.case.@case_id")),
         relationship(
@@ -134,6 +134,7 @@ alterState((state) => {
         field("Telephone__c", dataValue("form.Status.updated_phone_number")),
         field("CommCare_HH_Code__c", dataValue("form.HH_ID")),
         field("Client_Status__c", dataValue("form.Status.Client_Status")),
+        //== TODO: Ask how indicated when there is an unborn child =====//
         field("Name", (state) => {
           var name1 = dataValue("form.Person_Name")(state);
           var unborn = dataValue(
@@ -154,113 +155,7 @@ alterState((state) => {
           dataValue(
             "form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Sex"
           )
-        ), // new mapping for sex after delivery
-        relationship("RecordType", "Name", (state) => {
-          var rt = dataValue("form.RecordType")(state);
-          return rt === "Unborn" || rt === ""
-            ? "Child"
-            : rt.toString().replace(/_/g, " "); //convert Unborn children to Child RT
-        }),
-        field("Reason_for_a_refferal__c", (state) => {
-          var purpose = dataValue("form.Purpose_of_Referral")(state);
-          var service = dataValue("form.Reason_for_Service")(state);
-          var referral =
-            purpose === null && service === "Malaria Case"
-              ? "Malaria"
-              : purpose;
-          var reason =
-            referral === "HIV_Testing_and_Counseling"
-              ? "HIV counselling or Testing"
-              : referral === "Pregnancy Care"
-              ? "Pregnancy Care (ANC)"
-              : referral;
-          return reason !== undefined
-            ? reason.toString().replace(/_/g, " ")
-            : null;
-        }),
-        field("Purpose_of_referral__c", (state) => {
-          var purpose =
-            dataValue("form.TT5.Child_Information.Clinical_Services.Purpose")(
-              state
-            ) ||
-            dataValue(
-              "form.TT5.Child_Information.Nutrition2.Purpose_of_Referral"
-            )(state) ||
-            dataValue(
-              "form.treatment_and_tracking.Referral.Purpose_of_Referral"
-            )(state) ||
-            //dataValue('form.Purpose_of_Referral')(state) ||
-            // dataValue('form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral')(state) ||
-            dataValue("form.treatment_and_tracking.CCMM.Purpose_of_Referral")(
-              state
-            ) ||
-            //dataValue('form.ANCs.pregnancy_danger_signs.danger_sign_referral.Purpose_of_Referral')(state) ||
-            dataValue("form.TT5.Child_Information.Clinical_Services.Purpose")(
-              state
-            );
-
-          var reason =
-            purpose && purpose === "HIV_Testing_and_Counseling"
-              ? "HIV Testing and Counseling"
-              : purpose === "Pregnancy_Care"
-              ? "Pregnancy Care (ANC)"
-              : purpose;
-          return reason !== undefined
-            ? reason.toString().replace(/_/g, " ")
-            : null;
-        }),
-        field("Individual_birth_plan_counselling__c", (state) => {
-          var plan1 = dataValue(
-            "form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan"
-          )(state);
-          var plan2 = dataValue(
-            "form.ANCs.pregnancy_danger_signs.individual_birth_plan"
-          )(state);
-          return plan2 ? plan2 : plan1;
-        }),
-        field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
-          var reason = dataValue("form.TT5.Mother_Information.No_Preg_Test")(
-            state
-          );
-          return reason !== undefined
-            ? reason.toString().replace(/_/g, " ")
-            : null;
-        }),
-        field("Pregnancy_danger_signs__c", (state) => {
-          var signs = dataValue(
-            "form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs"
-          )(state);
-          var newSign = "";
-          if (signs !== undefined) {
-            signs = signs
-              .toLowerCase()
-              .split(" ")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(";");
-            return (newSign = signs
-              ? signs.toString().replace(/_/g, " ")
-              : signs);
-          } else {
-            return (newSign = null);
-          }
-          return newSign;
-        }),
-        field("Child_Danger_Signs__c", (state) => {
-          var signs = dataValue(
-            "form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs"
-          )(state);
-          var newSign = "";
-          if (signs !== undefined) {
-            signs = signs
-              .toLowerCase()
-              .split(" ")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(";");
-            return (newSign = signs.toString().replace(/_/g, " "));
-          } else {
-            return signs;
-          }
-        }),
+        ),
         field("Child_Status__c", (state) => {
           var status = dataValue("form.case.update.child_status")(state);
           var rt = dataValue("form.RecordType")(state);
@@ -272,13 +167,115 @@ alterState((state) => {
           }
           return status;
         }),
+        //===================================================//
+        relationship("RecordType", "Name", (state) => {
+          var rt = dataValue("form.RecordType")(state);
+          return rt === "Unborn" || rt === ""
+            ? "Child"
+            : rt.toString().replace(/_/g, " "); //convert Unborn children to Child RT
+        }),
+        //=== QUESTION: REMOVE THESE MAPPINGS? ===========//
+        // field("Reason_for_a_refferal__c", (state) => {
+        //   var purpose = dataValue("form.Purpose_of_Referral")(state);
+        //   var service = dataValue("form.Reason_for_Service")(state);
+        //   var referral =
+        //     purpose === null && service === "Malaria Case"
+        //       ? "Malaria"
+        //       : purpose;
+        //   var reason =
+        //     referral === "HIV_Testing_and_Counseling"
+        //       ? "HIV counselling or Testing"
+        //       : referral === "Pregnancy Care"
+        //       ? "Pregnancy Care (ANC)"
+        //       : referral;
+        //   return reason !== undefined
+        //     ? reason.toString().replace(/_/g, " ")
+        //     : null;
+        // }),
+        // field("Purpose_of_referral__c", (state) => {
+        //   var purpose =
+        //     dataValue("form.TT5.Child_Information.Clinical_Services.Purpose")(
+        //       state
+        //     ) ||
+        //     dataValue(
+        //       "form.TT5.Child_Information.Nutrition2.Purpose_of_Referral"
+        //     )(state) ||
+        //     dataValue(
+        //       "form.treatment_and_tracking.Referral.Purpose_of_Referral"
+        //     )(state) ||
+        //     //dataValue('form.Purpose_of_Referral')(state) ||
+        //     // dataValue('form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral')(state) ||
+        //     dataValue("form.treatment_and_tracking.CCMM.Purpose_of_Referral")(
+        //       state
+        //     ) ||
+        //     //dataValue('form.ANCs.pregnancy_danger_signs.danger_sign_referral.Purpose_of_Referral')(state) ||
+        //     dataValue("form.TT5.Child_Information.Clinical_Services.Purpose")(
+        //       state
+        //     );
+
+        //   var reason =
+        //     purpose && purpose === "HIV_Testing_and_Counseling"
+        //       ? "HIV Testing and Counseling"
+        //       : purpose === "Pregnancy_Care"
+        //       ? "Pregnancy Care (ANC)"
+        //       : purpose;
+        //   return reason !== undefined
+        //     ? reason.toString().replace(/_/g, " ")
+        //     : null;
+        // }),
+        // field("Individual_birth_plan_counselling__c", (state) => {
+        //   var plan1 = dataValue(
+        //     "form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan"
+        //   )(state);
+        //   var plan2 = dataValue(
+        //     "form.ANCs.pregnancy_danger_signs.individual_birth_plan"
+        //   )(state);
+        //   return plan2 ? plan2 : plan1;
+        // }),
+        // field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
+        //   var reason = dataValue("form.TT5.Mother_Information.No_Preg_Test")(
+        //     state
+        //   );
+        //   return reason !== undefined
+        //     ? reason.toString().replace(/_/g, " ")
+        //     : null;
+        // }),
+        // field("Pregnancy_danger_signs__c", (state) => {
+        //   var signs = dataValue(
+        //     "form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs"
+        //   )(state);
+        //   var newSign = "";
+        //   if (signs !== undefined) {
+        //     signs = signs
+        //       .toLowerCase()
+        //       .split(" ")
+        //       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        //       .join(";");
+        //     return (newSign = signs
+        //       ? signs.toString().replace(/_/g, " ")
+        //       : signs);
+        //   } else {
+        //     return (newSign = null);
+        //   }
+        //   return newSign;
+        // }),
+        // field("Child_Danger_Signs__c", (state) => {
+        //   var signs = dataValue(
+        //     "form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs"
+        //   )(state);
+        //   var newSign = "";
+        //   if (signs !== undefined) {
+        //     signs = signs
+        //       .toLowerCase()
+        //       .split(" ")
+        //       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        //       .join(";");
+        //     return (newSign = signs.toString().replace(/_/g, " "));
+        //   } else {
+        //     return signs;
+        //   }
+        // }),
         field("Current_Malaria_Status__c", dataValue("form.Malaria_Status")),
-        field(
-          "Counselled_on_Exclusive_Breastfeeding__c",
-          dataValue(
-            "form.TT5.Child_Information.Exclusive_Breastfeeding.counseling"
-          )
-        ), //multiselect?
         field(
           "Unique_Patient_Code__c",
           dataValue("form.case.update.Unique_Patient_Code")
@@ -316,8 +313,7 @@ alterState((state) => {
         field(
           "Newborn_visited_by_a_CHW_within_6_days__c",
           dataValue("form.TT5.Child_Information.visit_6_days_from_delivery")
-        ), //MOTG
-
+        ),
         field(
           "Last_Malaria_Home_Test__c",
           dataValue("form.treatment_and_tracking.malaria_test_date")
@@ -342,6 +338,7 @@ alterState((state) => {
           "Malaria_Referral__c",
           dataValue("form.TT5.Child_Information.CCMM.Referral_Date")
         ),
+        //== QUESTION: TO update these mappings?? ========///
         field(
           "Fever_over_7days__c",
           dataValue("form.treatment_and_tracking.symptoms_check_fever")
@@ -350,6 +347,7 @@ alterState((state) => {
           "Cough_over_14days__c",
           dataValue("form.treatment_and_tracking.symptoms_check_cough")
         ),
+        //=========================================//
         field(
           "Diarrhoea_over_14days__c",
           dataValue("form.treatment_and_tracking.symptoms_check_diarrhea")
@@ -362,7 +360,6 @@ alterState((state) => {
           "TB_patients_therapy_observed__c",
           dataValue("form.treatment_and_tracking.observed_tb_therapy")
         ),
-        //field("Injuries_and_wounds_managed__c", dataValue("Injuries_and_wounds_managed")),
         field(
           "Injuries_or_wounds__c",
           dataValue("form.treatment_and_tracking.wounds_or_injuries")
@@ -896,7 +893,7 @@ alterState((state) => {
 });
 
 // Person is added to TT5 ?
-alterState((state) => {
+fn((state) => {
   if (
     (dataValue("form.case.update.TT5_enrollment_status")(state) ==
       "Enrolled in TT5" ||
@@ -936,7 +933,7 @@ alterState((state) => {
 });
 
 //Person over age 5 / NOT active in TT5
-alterState((state) => {
+fn((state) => {
   if (
     (dataValue("form.age")(state) > 5 ||
       dataValue("form.case.update.Active_in_TT5")(state) === "No") &&
@@ -964,7 +961,7 @@ alterState((state) => {
 });
 
 //Person is added to HAWI ?
-alterState((state) => {
+fn((state) => {
   if (
     (dataValue("form.case.update.HAWI_enrollment_status")(state) ==
       "Enrolled in HAWI" ||
@@ -996,7 +993,7 @@ alterState((state) => {
 });
 
 // Person is NOT enrolled in HAWI
-alterState((state) => {
+fn((state) => {
   if (
     dataValue("form.case.update.HAWI_enrollment_status")(state) ==
       "Not enrolled in HAWI" &&
