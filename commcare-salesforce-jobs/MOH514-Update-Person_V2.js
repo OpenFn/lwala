@@ -1,21 +1,21 @@
 // MOH514 - Update Person form
 fn((state) => {
-  if (
-    dataValue("form.TT5.Child_Information.Clinical_Services")(state) !==
-    undefined
-  ) {
-    const clinical = state.data.form.TT5.Child_Information.Clinical_Services;
-    if (!Array.isArray(clinical)) {
-      state.data.form.TT5.Child_Information.Clinical_Services = [clinical];
-    }
-  }
+  // if (
+  //   dataValue("form.TT5.Child_Information.Clinical_Services")(state) !==
+  //   undefined
+  // ) {
+  //   const clinical = state.data.form.TT5.Child_Information.Clinical_Services;
+  //   if (!Array.isArray(clinical)) {
+  //     state.data.form.TT5.Child_Information.Clinical_Services = [clinical];
+  //   }
+  // }
 
-  if (dataValue("form.HAWI.Clinical_Services_Rendered")(state) !== undefined) {
-    const clinical1 = state.data.form.HAWI.Clinical_Services_Rendered;
-    if (!Array.isArray(clinical1)) {
-      state.data.form.HAWI.Clinical_Services_Rendered = [clinical1];
-    }
-  }
+  // if (dataValue("form.HAWI.Clinical_Services_Rendered")(state) !== undefined) {
+  //   const clinical1 = state.data.form.HAWI.Clinical_Services_Rendered;
+  //   if (!Array.isArray(clinical1)) {
+  //     state.data.form.HAWI.Clinical_Services_Rendered = [clinical1];
+  //   }
+  // }
 
   state.cleanChoice = function (state, choice) {
     if (choice) {
@@ -35,7 +35,6 @@ fn((state) => {
             return (
               value.charAt(0).toUpperCase() + value.slice(1).replace("_", " ")
             );
-            //return value;
           })
           .join(";")
       : "";
@@ -105,13 +104,8 @@ fn((state) => {
 
 // Evaluates client status and how to upsert Person records
 fn((state) => {
-  if (
-    dataValue("form.Status.Client_Status")(state) === "Active"
-    // Below criteria redundant to trigger?
-    // && (dataValue("form.Source")(state) === "1" ||
-    //   dataValue("form.Source")(state) === 1)
-  ) {
-    console.log("Upserting Person to SF...");
+  if (dataValue("form.Status.Client_Status")(state) === "Active") {
+    console.log("Upserting Person in SF...");
     return upsert(
       "Person__c",
       "CommCare_ID__c",
@@ -159,10 +153,9 @@ fn((state) => {
         field("Child_Status__c", (state) => {
           var status = dataValue("form.case.update.child_status")(state);
           var rt = dataValue("form.RecordType")(state);
-          //if(status!==undefined && rt=="Unborn" && status!=="Yes"){ //Q: child_status not present?
-          if (status !== undefined && rt === "Unborn") {
+          if (status && rt === "Unborn") {
             status = "Unborn";
-          } else if (status !== undefined && rt === "Born") {
+          } else if (status && rt === "Born") {
             status = "Born";
           }
           return status;
@@ -174,115 +167,52 @@ fn((state) => {
             ? "Child"
             : rt.toString().replace(/_/g, " "); //convert Unborn children to Child RT
         }),
-        //=== QUESTION: REMOVE THESE MAPPINGS? ===========//
-        // field("Reason_for_a_refferal__c", (state) => {
-        //   var purpose = dataValue("form.Purpose_of_Referral")(state);
-        //   var service = dataValue("form.Reason_for_Service")(state);
-        //   var referral =
-        //     purpose === null && service === "Malaria Case"
-        //       ? "Malaria"
-        //       : purpose;
-        //   var reason =
-        //     referral === "HIV_Testing_and_Counseling"
-        //       ? "HIV counselling or Testing"
-        //       : referral === "Pregnancy Care"
-        //       ? "Pregnancy Care (ANC)"
-        //       : referral;
-        //   return reason !== undefined
-        //     ? reason.toString().replace(/_/g, " ")
-        //     : null;
-        // }),
-        // field("Purpose_of_referral__c", (state) => {
-        //   var purpose =
-        //     dataValue("form.TT5.Child_Information.Clinical_Services.Purpose")(
-        //       state
-        //     ) ||
-        //     dataValue(
-        //       "form.TT5.Child_Information.Nutrition2.Purpose_of_Referral"
-        //     )(state) ||
-        //     dataValue(
-        //       "form.treatment_and_tracking.Referral.Purpose_of_Referral"
-        //     )(state) ||
-        //     //dataValue('form.Purpose_of_Referral')(state) ||
-        //     // dataValue('form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Purpose_of_Referral')(state) ||
-        //     dataValue("form.treatment_and_tracking.CCMM.Purpose_of_Referral")(
-        //       state
-        //     ) ||
-        //     //dataValue('form.ANCs.pregnancy_danger_signs.danger_sign_referral.Purpose_of_Referral')(state) ||
-        //     dataValue("form.TT5.Child_Information.Clinical_Services.Purpose")(
-        //       state
-        //     );
-
-        //   var reason =
-        //     purpose && purpose === "HIV_Testing_and_Counseling"
-        //       ? "HIV Testing and Counseling"
-        //       : purpose === "Pregnancy_Care"
-        //       ? "Pregnancy Care (ANC)"
-        //       : purpose;
-        //   return reason !== undefined
-        //     ? reason.toString().replace(/_/g, " ")
-        //     : null;
-        // }),
-        // field("Individual_birth_plan_counselling__c", (state) => {
-        //   var plan1 = dataValue(
-        //     "form.TT5.Child_Information.pregnancy_danger_signs.individual_birth_plan"
-        //   )(state);
-        //   var plan2 = dataValue(
-        //     "form.ANCs.pregnancy_danger_signs.individual_birth_plan"
-        //   )(state);
-        //   return plan2 ? plan2 : plan1;
-        // }),
-        // field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
-        //   var reason = dataValue("form.TT5.Mother_Information.No_Preg_Test")(
-        //     state
-        //   );
-        //   return reason !== undefined
-        //     ? reason.toString().replace(/_/g, " ")
-        //     : null;
-        // }),
-        // field("Pregnancy_danger_signs__c", (state) => {
-        //   var signs = dataValue(
-        //     "form.TT5.Child_Information.pregnancy_danger_signs.pregnancy_danger_signs"
-        //   )(state);
-        //   var newSign = "";
-        //   if (signs !== undefined) {
-        //     signs = signs
-        //       .toLowerCase()
-        //       .split(" ")
-        //       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        //       .join(";");
-        //     return (newSign = signs
-        //       ? signs.toString().replace(/_/g, " ")
-        //       : signs);
-        //   } else {
-        //     return (newSign = null);
-        //   }
-        //   return newSign;
-        // }),
-        // field("Child_Danger_Signs__c", (state) => {
-        //   var signs = dataValue(
-        //     "form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs"
-        //   )(state);
-        //   var newSign = "";
-        //   if (signs !== undefined) {
-        //     signs = signs
-        //       .toLowerCase()
-        //       .split(" ")
-        //       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        //       .join(";");
-        //     return (newSign = signs.toString().replace(/_/g, " "));
-        //   } else {
-        //     return signs;
-        //   }
-        // }),
+        field(
+          "Individual_birth_plan_counselling__c",
+          dataValue("form.ANCs.pregnancy_danger_signs.individual_birth_plan")
+        ),
+        field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
+          var reason = dataValue("form.TT5.Mother_Information.No_Preg_Test")(
+            state
+          );
+          return reason ? reason.toString().replace(/_/g, " ") : undefined;
+        }),
+        field("Pregnancy_danger_signs__c", (state) => {
+          var signs = dataValue(
+            "form.ANCs.pregnancy_danger_signs.pregnancy_danger_signs"
+          )(state);
+          return signs
+            ? signs
+                .toLowerCase()
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(";")
+                .toString()
+                .replace(/_/g, " ")
+            : undefined;
+        }),
+        field("Child_Danger_Signs__c", (state) => {
+          var signs = dataValue(
+            "form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs"
+          )(state);
+          return signs
+            ? signs
+                .toLowerCase()
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(";")
+                .toString()
+                .replace(/_/g, " ")
+            : signs;
+        }),
         field("Current_Malaria_Status__c", dataValue("form.Malaria_Status")),
         field(
           "Unique_Patient_Code__c",
-          dataValue("form.case.update.Unique_Patient_Code")
+          dataValue("form.HAWI.Unique_Patient_Code")
         ),
         field(
           "Active_in_Support_Group__c",
-          dataValue("form.case.update.Active_in_Support_Group")
+          dataValue("form.HAWI.Support_Group")
         ),
         field(
           "Preferred_Care_Facility__c",
@@ -322,21 +252,15 @@ fn((state) => {
           "Current_Malaria_Status__c",
           dataValue("form.treatment_and_tracking.malaria_test_results")
         ),
-        field(
-          "Last_Malaria_Home_Treatment__c",
-          dataValue("form.TT5.Child_Information.CCMM.Home_Treatment")
-        ),
-        field(
-          "Malaria_Follow_Up__c",
-          dataValue("form.TT5.Child_Information.CCMM.Fever-Follow-Up_By_Date")
-        ),
+        field("Last_Malaria_Home_Treatment__c", (state) => {
+          var home = dataValue("form.treatment_and_tracking.home_treatment");
+          return home === "yes"
+            ? dataValue("form.treatment_and_tracking.malaria_test_date")(state)
+            : undefined;
+        }),
         field(
           "Malaria_Facility__c",
-          dataValue("form.TT5.Child_Information.CCMM.malaria_referral_facility")
-        ),
-        field(
-          "Malaria_Referral__c",
-          dataValue("form.TT5.Child_Information.CCMM.Referral_Date")
+          dataValue("form.treatment_and_tracking..malaria_referral_facility")
         ),
         //== QUESTION: TO update these mappings?? ========///
         field(
@@ -372,24 +296,25 @@ fn((state) => {
             "form.ANCs.pregnancy_danger_signs.Delivery_Information.Breastfeeding_Delivery"
           )
         ),
-        field("Verbal_autopsy__c", dataValue("form.Status.verbal_autopsy")),
-        field("Date_of_Birth__c", dataValue("form.case.update.DOB")),
+        field(
+          "Date_of_Birth__c",
+          dataValue("form.ANCs.pregnancy_danger_signs.Delivery_Information.DOB")
+        ),
         field("Place_of_Delivery__c", (state) => {
           var facility = dataValue("form.TT5.Child_Information.Delivery_Type")(
             state
           );
-          if (facility !== undefined) {
-            return facility === "Skilled" ? "Facility" : "Home";
-          }
-          return facility;
+          return facility === "Skilled"
+            ? "Facility"
+            : facility === "Unskilled"
+            ? "Home"
+            : undefined;
         }),
         field("Delivery_Facility__c", (state) => {
           var facility = dataValue(
             "form.TT5.Child_Information.Delivery_Facility"
           )(state);
-          return facility !== undefined
-            ? facility.toString().replace(/_/g, " ")
-            : null;
+          return facility ? facility.toString().replace(/_/g, " ") : null;
         }),
         field(
           "Delivery_Facility_Other__c",
@@ -407,28 +332,14 @@ fn((state) => {
             "form.TT5.Child_Information.Exclusive_Breastfeeding.counseling"
           )
         ),
-        field("Family_Planning__c", (state) => {
-          var method1 = dataValue(
-            "form.Basic_Information.family_planning.Currently_on_family_planning"
-          )(state);
-          var method2 = dataValue(
-            "form.TT5.Mother_Information.family_planning"
-          )(state);
-          return method2 ? "Yes" : method1;
-        }),
-        field("Family_Planning_Method__c", (state) => {
-          var method1 = dataValue(
-            "form.Basic_Information.family_planning.Family_Planning_Method"
-          )(state);
-          var method2 = dataValue(
-            "form.TT5.Mother_Information.family_planning_method"
-          )(state);
-          return method2
-            ? method2.toString().replace(/_/g, " ")
-            : method1
-            ? method1.toString().replace(/_/g, " ")
-            : method1;
-        }),
+        field(
+          "Family_Planning__c",
+          dataValue("form.TT5.Mother_Information.family_planning")
+        ),
+        field(
+          "Family_Planning_Method__c",
+          dataValue("form.TT5.Mother_Information.family_planning_method")
+        ),
         field("Reasons_for_not_taking_FP_method__c", (state) => {
           var reason = dataValue(
             "form.TT5.Mother_Information.No_FPmethod_reason"
@@ -487,85 +398,7 @@ fn((state) => {
           )(state);
           return state.cleanChoice(state, choice);
         }),
-        field("Mother_ANC_Referral__c", dataValue("form.ANCs.refer_for_anc")),
-        field("ANC_referral_date__c", dataValue("form.ANCs.refer_anc")),
-        field(
-          "Mother_Skilled_Delivery_Referral__c",
-          dataValue("form.ANCs.pregnancy_danger_signs.refer_skilled_delivery")
-        ),
-        field(
-          "Mother_skilled_Ref_date__c",
-          dataValue("form.ANCs.pregnancy_danger_signs.refer_skilled_delivery1")
-        ),
-        field(
-          "Woman_referred_for_FP_services__c",
-          dataValue(
-            "form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services"
-          )
-        ),
-        field("Family_planning_services_referral_date__c", (state) => {
-          var referred = dataValue(
-            "form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services"
-          )(state);
-          return referred === "yes"
-            ? dataValue("form.TT5.Mother_Information.date_today")(state)
-            : null;
-        }),
-        field(
-          "Mother_PNC_referral__c",
-          dataValue(
-            "form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc"
-          )
-        ),
-        field(
-          "Mother_PNC_referral_date__c",
-          dataValue(
-            "form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_the_mother_for_pnc"
-          )
-        ),
-        field(
-          "Immunizations_referral__c",
-          dataValue(
-            "form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization"
-          )
-        ),
-        field(
-          "Immunizations_referral_date__c",
-          dataValue(
-            "form.TT5.Child_Information.Immunizations.refer_immunization"
-          )
-        ),
-        field(
-          "Vitamin_A_supplement_referral__c",
-          dataValue(
-            "form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements"
-          )
-        ),
-        field(
-          "Vitamin_A_supplement_referral_date__c",
-          dataValue(
-            "form.TT5.Child_Information.Immunizations.refer_vitamin_a_supplements"
-          )
-        ),
-        field(
-          "Cough_14_days_referral__c",
-          dataValue(
-            "form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days"
-          )
-        ),
-        field(
-          "Cough_14_days_referral_date__c",
-          dataValue("form.treatment_and_tracking.refer_14days")
-        ),
-        field("Know_HIV_status__c", dataValue("form.known_hiv_status")),
-        field(
-          "HIV_counselling_and_testing_referral__c",
-          dataValue("form.did_you_refer_for_hiv_counselling_and_testing_htc")
-        ),
-        field(
-          "HIV_counseling_and_testing_referral_date__c",
-          dataValue("form.refer_hiv")
-        ),
+        field("Know_HIV_status__c", dataValue("form.HAWI.known_hiv_status")),
         field("Treatment_Distribution__c", (state) => {
           var choice = dataValue(
             "form.treatment_and_tracking.distribution.distributed_treatments"
@@ -573,59 +406,14 @@ fn((state) => {
           return state.cleanChoice(state, choice);
         }),
         field(
-          "Nutrition_referral_date__c",
-          dataValue("form.TT5.Child_Information.Nutrition2.date_malnutrition")
-        ),
-        field(
-          "Nutrition_referral__c",
-          dataValue("form.TT5.Child_Information.Nutrition2.Referral")
-        ),
-        field(
           "Current_Height__c",
           dataValue("form.TT5.Child_Information.Nutrition.current_height")
-        ),
-        field("Cause_of_Death__c", (state) => {
-          var choice = dataValue("form.Status.Cause_of_Death")(state);
-          return state.cleanChoice(state, choice);
-        }),
-        field(
-          "ART_treatment_referral_date__c",
-          dataValue("form.HAWI.when_ART_refer")
-        ),
-        field(
-          "ART_treatment_referral__c",
-          dataValue("form.HAWI.did_you_refer")
-        ),
-        field(
-          "ART_treatment_referral_date__c",
-          dataValue("form.HAWI.when_ART_refer")
-        ),
-        field("ART_treatment_referral__c", dataValue("form.HAWI.default")),
-        field(
-          "Immunizations_referral_date__c",
-          dataValue(
-            "form.TT5.Child_Information.Immunizations.referral_for_immunization"
-          )
-        ),
-        field(
-          "Immunizations_referral__c",
-          dataValue(
-            "form.TT5.Child_Information.Immunizations.refer_immunization_type"
-          )
         ),
         field(
           "Child_missed_immunization_type__c",
           dataValue(
             "form.TT5.Child_Information.Immunizations.immunization_type"
           )
-        ),
-        field(
-          "TB_treatment_referral_date__c",
-          dataValue("form.treatment_and_tracking.refer_clientTB")
-        ),
-        field(
-          "TB_referral__c",
-          dataValue("form.treatment_and_tracking.tb_treatment")
         ),
         field("Default_on_TB_treatment__c", (state) => {
           var choice = dataValue(
@@ -643,29 +431,13 @@ fn((state) => {
           "Pregnancy_test_result__c",
           dataValue("form.TT5.Mother_Information.pregnancy_test_result")
         ),
-        field(
-          "Pregnancy_referral__c",
-          dataValue("form.TT5.Mother_Information.refer_preg")
-        ),
-        field(
-          "Pregnancy_referral_date__c",
-          dataValue("form.TT5.Mother_Information.referal_pregnancy")
-        ),
         field("Chronic_illness__c", (state) => {
           var choice = dataValue(
-            "form.please_specify_which_chronic_illness_the_person_has"
+            "form.question1.please_specify_which_chronic_illness_the_person_has"
           )(state);
           var choice2 = state.handleMultiSelect(state, choice);
           return choice2 ? choice2.replace(/_/g, " ") : "";
         }),
-        field(
-          "Chronic_illness_referral__c",
-          dataValue("form.did_you_refer_the_client_for_any_chronic_illness")
-        ),
-        field(
-          "Chronic_illness_referral_date__c",
-          dataValue("form.date_chronic_illness")
-        ),
         field(
           "Birth_Certificate__c",
           dataValue("form.Status.birth_certificate")
@@ -687,28 +459,9 @@ fn((state) => {
           dataValue("form.psbi.breaths_per_minuite")
         ),
         field(
-          "Child_fast_breathing_referral_date__c",
-          dataValue("form.psbi.Fast_breathing_followup_date__c")
-        ),
-        field(
-          "Fast_breathing_followup_date__c",
-          dataValue("form.psbi.when_did_you_follow_up_for_fast_breathing")
-        ),
-        field(
           "Child_chest_in_drawing__c",
           dataValue("form.psbi.Child_chest_in_drawing_c")
-        ),
-        field(
-          "Child_chest_in_drawing_referral_date__c",
-          dataValue("form.psbi.Child_chest_in_drawing_referral_date_c")
-        ),
-        field("Childs_chest_indrawing_followup__c", (state) => {
-          var choice = dataValue("form.psbi.Childs_chest_indrawing_followup_c")(
-            state
-          );
-          var choice2 = choice ? choice.split(" ").join(";") : choice;
-          return choice2 ? choice2.replace(/_/g, " ") : choice2;
-        })
+        )
       )
     )(state);
   }
@@ -899,7 +652,7 @@ fn((state) => {
       "Enrolled in TT5" ||
       dataValue("form.age")(state) < 5 ||
       dataValue("form.case.update.Active_in_TT5")(state) === "Yes" ||
-      dataValue("form.case.update.Pregnant") === "Yes") &&
+      dataValue("form.TT5.Mother_Information.Pregnant") === "Yes") &&
     dataValue("form.Status.Client_Status")(state) === "Active"
   ) {
     console.log("Person active in TT5");
@@ -917,11 +670,11 @@ fn((state) => {
         field("Enrollment_Date__c", dataValue("metadata.timeEnd")),
         field("Thrive_Thru_5_Registrant__c", "Yes"),
         field("Active_TT5_Mother__c", (state) => {
-          var preg = dataValue("form.case.update.Pregnant")(state);
+          var preg = dataValue("form.TT5.Mother_Information.Pregnant")(state);
           return preg === "Yes" ? "Yes" : null;
         }),
         field("TT5_Mother_Registrant__c", (state) => {
-          var preg = dataValue("form.case.update.Pregnant")(state);
+          var preg = dataValue("form.TT5.Mother_Information.Pregnant")(state);
           return preg === "Yes" ? "Yes" : null;
         })
       )
