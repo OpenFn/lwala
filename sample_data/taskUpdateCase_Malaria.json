@@ -1,0 +1,43 @@
+{
+    "__query_params": {},
+    "attachments": {},
+    "case_id": "c71fcc50-359f-4969-94bf-609da4327252",
+    "closed": false,
+    "date_closed": null,
+    "date_modified": "2021-12-15T14:47:18.734000Z",
+    "domain": "lwala-community-alliance",
+    "indices": {
+        "parent": {
+            "case_id": "96e28652-e35d-4143-b01c-f51e2ed89628",
+            "case_type": "Person",
+            "relationship": "child"
+        }
+    },
+    "properties": {
+        "CHW_ID": "a030800001zR4hq",
+        "Case_Type": "Follow-Up",
+        "Clinician_Notes": "Please follow-up on **Malnutrition** case to ensure client has visited facility.",
+        "Follow-Up_By_Date": "2021-12-22",
+        "Follow-Up_Required": "Yes",
+        "Household_CHW": "a030800001zR4hq",
+        "Household_Code": "8c515e33-849d-4617-b028-e3c30c75125c",
+        "Reason_for_Service": "Malnutrition",
+        "Referral_Status": "Open",
+        "Source": "1",
+        "Type_of_Service": "Malnutrition",
+        "age": "1",
+        "case_name": "Snotty Busy 070180",
+        "case_type": "Case",
+        "date_opened": "2021-12-15T14:47:18.734",
+        "distributed_treatments": "acts_6s",
+        "external_id": null,
+        "owner_id": "a3c31c9be392427a97f8704262065661",
+        "referred_facility": "Lwala_Hospital",
+        "referred_facility_other": ""
+    },
+    "server_date_modified": "2021-12-15T14:47:22.520034Z",
+    "user_id": "a3c31c9be392427a97f8704262065661",
+    "xform_ids": [
+        "4753485e-ff36-4990-89ff-b9ee737c3e4f"
+    ]
+}
