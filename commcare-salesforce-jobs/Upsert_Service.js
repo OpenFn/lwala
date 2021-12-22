@@ -25,7 +25,7 @@ upsert(
     relationship(
       "Household_CHW__r",
       "CommCare_ID__c",
-      "a030800001zR4hq" //Sandbox test CHW
+      "a030Q000008XyXV" //Sandbox test CHW
       //dataValue("properties.CHW_ID") //ADD BEFORE PROD DEPLOYMENT; removed for sandbox testing
     ),
     relationship(
