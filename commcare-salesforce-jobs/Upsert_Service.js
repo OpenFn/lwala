@@ -22,12 +22,12 @@ upsert(
   fields(
     field("Service_UID__c", dataValue("case_id")),
     field("RecordTypeID", "01224000000YAuK"),
-    relationship(
-      "Household_CHW__r",
-      "CommCare_ID__c",
-      "a030Q000008XyXV" //Sandbox test CHW
-      //dataValue("properties.CHW_ID") //ADD BEFORE PROD DEPLOYMENT; removed for sandbox testing
-    ),
+    field("Household_CHW__c", "a030Q000008XyXV"), //Sandbox test CHW
+    // relationship( //ADD BACK BEFORE PROD DEPLOYMENT; removed for sandbox testing
+    //   "Household_CHW__r",
+    //   "CommCare_ID__c",
+    //   dataValue("properties.CHW_ID") 
+    // ),
     relationship(
       "Person__r",
       "CommCare_ID__c",
