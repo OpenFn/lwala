@@ -99,7 +99,10 @@ upsert(
       dataValue("properties.CHW.Follow-Up.Client_Improved")
     ),
     field("Case_Type__c", dataValue("properties.Case_Type")),
-    field("Follow_Up_By_Date__c", dataValue("properties.Follow-Up_By_Date")),
+    field("Follow_Up_By_Date__c", (state) => {
+      var date = dataValue("properties.Follow-Up_By_Date")(state);
+      return date && date !== "" ? date : undefined;
+    }),
     field("Date__c", (state) =>
       new Date(state.data.properties.date_opened).toISOString()
     ),
