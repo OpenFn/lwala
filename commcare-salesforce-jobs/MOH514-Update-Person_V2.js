@@ -1,6 +1,5 @@
 // MOH514 - Update Person form
 fn((state) => {
-
   state.cleanChoice = function (state, choice) {
     if (choice) {
       return choice.charAt(0).toUpperCase() + choice.slice(1).replace("_", " ");
@@ -78,11 +77,30 @@ fn((state) => {
       "Other barriers (culture, male partners, parents, etc)",
   };
 
+  const milestoneTypeMap = {
+    cognitive_delays_learning_difficulties:
+      "Cognitive Delays Learning Difficulties",
+    motor_delays: "Motor Delays",
+    speech_and_language_delay: "Delay Speech and Language Delay",
+    social_and_emotional: "Social and emotional",
+  };
+
+  const milestoneMap = {
+    movement: "Movement",
+    hearing: "Hearing",
+    communication: "Communication",
+    seeing: "Seeing",
+    cognitive_delays: "Cognitive Delays",
+    play: "Play",
+  };
+
   return {
     ...state,
     counselMap,
     serviceMap,
     reasonMapping,
+    milestoneTypeMap,
+    milestoneMap,
   };
 });
 
@@ -229,24 +247,24 @@ fn((state) => {
           dataValue("form.TT5.Child_Information.visit_6_days_from_delivery")
         ),
         field(
-          "Last_Malaria_Home_Test__c",
-          dataValue("form.treatment_and_tracking.malaria_test_date")
-        ),
-        field(
           "Current_Malaria_Status__c",
           dataValue("form.treatment_and_tracking.malaria_test_results")
         ),
-        field("Last_Malaria_Home_Treatment__c", (state) => {
-          var home = dataValue("form.treatment_and_tracking.home_treatment");
-          return home === "yes"
-            ? dataValue("form.treatment_and_tracking.malaria_test_date")(state)
-            : undefined;
-        }),
         field(
           "Malaria_Facility__c",
           dataValue("form.treatment_and_tracking..malaria_referral_facility")
         ),
         //== QUESTION: TO update these mappings?? ========///
+        // field(
+        //   "Last_Malaria_Home_Test__c",
+        //   dataValue("form.treatment_and_tracking.malaria_test_date")
+        // ),
+        // field("Last_Malaria_Home_Treatment__c", (state) => {
+        //   var home = dataValue("form.treatment_and_tracking.home_treatment");
+        //   return home === "yes"
+        //     ? dataValue("form.treatment_and_tracking.malaria_test_date")(state)
+        //     : undefined;
+        // }),
         field(
           "Fever_over_7days__c",
           dataValue("form.treatment_and_tracking.symptoms_check_fever")
@@ -383,6 +401,14 @@ fn((state) => {
           return state.cleanChoice(state, choice);
         }),
         field("Know_HIV_status__c", dataValue("form.HAWI.known_hiv_status")),
+        field("HIV_Status__c", (state) => {
+          var status = dataValue("form.HAWI.known_hiv_status")(state);
+          return status === "yes"
+            ? "Known"
+            : status === "no"
+            ? "Unknown"
+            : undefined;
+        }),
         field("Treatment_Distribution__c", (state) => {
           var choice = dataValue(
             "form.treatment_and_tracking.distribution.distributed_treatments"
@@ -460,16 +486,40 @@ fn((state) => {
         ),
         field(
           "Did_you_counsel_caregiver_on__c",
-          dataValue("form.TT5.Child_Information.did_you_counsel_the_caregiver_on_delayed_milestones")
+          dataValue(
+            "form.TT5.Child_Information.did_you_counsel_the_caregiver_on_delayed_milestones"
+          )
         ),
         field(
-          "Delayed_Milestones_Counselled_On__c",
-          dataValue("form.TT5.Child_Information.which_delayed_milestone_area_did_you_counsel_the_caregiver_on")
+          "Delayed_Milestone__c",
+          dataValue(
+            "form.TT5.Child_Information.does_the_child_has_a_delayed_milestone"
+          )
         ),
         field(
-          "Delayed_Milestone_Type__c",
-          dataValue("form.TT5.Child_Information.which_delayed_milestone")
+          "Child_has_2_or_more_play_items__c",
+          dataValue(
+            "form.TT5.Child_Information.does_the_child_has_2_or_more_play_items_at_home"
+          )
         ),
+        field(
+          "Child_has_3_or_more_picture_books__c",
+          dataValue(
+            "form.TT5.Child_Information.does_the_child_has_3_or_more_picture_books"
+          )
+        ),
+        field("Delayed_Milestones_Counselled_On__c", (state) => {
+          var ms = dataValue(
+            "form.TT5.Child_Information.which_delayed_milestone_area_did_you_counsel_the_caregiver_on"
+          )(state);
+          return ms ? state.milestoneMap[ms] : undefined;
+        }),
+        field("Delayed_Milestone_Type__c", (state) => {
+          var ms = dataValue(
+            "form.TT5.Child_Information.which_delayed_milestone"
+          )(state);
+          return ms ? state.milestoneTypeMap[ms] : undefined;
+        })
       )
     )(state);
   }
