@@ -21,12 +21,13 @@ upsert(
   "Service_UID__c",
   fields(
     field("Service_UID__c", dataValue("case_id")),
+    field("CommCare_Code__c", dataValue("case_id")),
     field("RecordTypeID", "01224000000YAuK"),
     field("Household_CHW__c", "a030Q000008XyXV"), //Sandbox test CHW
     // relationship( //ADD BACK BEFORE PROD DEPLOYMENT; removed for sandbox testing
     //   "Household_CHW__r",
     //   "CommCare_ID__c",
-    //   dataValue("properties.CHW_ID") 
+    //   dataValue("properties.CHW_ID")
     // ),
     relationship(
       "Person__r",
@@ -35,6 +36,12 @@ upsert(
     ),
     field("Open_Case__c", dataValue("closed")),
     field("Source__c", dataValue("properties.Source") === "1"),
+    field("Clinical_facility__c", (state) => {
+      var chwf = dataValue("properties.CHW.Facility_Services.Facility")(state);
+      var fac = dataValue("properties.referred_facility")(state);
+      var facility = fac || chwf;
+      return state.facilityMap[facility];
+    }),
     field(
       "Client_Received_Services_at_Facility__c",
       dataValue("properties.CHW.Facility_Services.Facility_Visit")
@@ -42,13 +49,6 @@ upsert(
     field(
       "Clinical_Visit_Date__c",
       dataValue("properties.CHW.Facility_Services.Facility_Date")
-    ),
-    field(
-      "Clinical_facility__c",
-      (state) =>
-        state.facilityMap[
-          dataValue("properties.CHW.Facility_Services.Facility")(state)
-        ]
     ),
     field(
       "CHW_Followed_Up_with_the_Client__c",
@@ -97,12 +97,9 @@ upsert(
     field(
       "Client_s_Symptoms_Improved__c",
       dataValue("properties.CHW.Follow-Up.Client_Improved")
-    ), // why X?
-    field("Case_Type__c", dataValue("properties.CHW.Follow-Up.Case_Type")), // why X?
-    field(
-      "Follow_Up_By_Date__c",
-      dataValue("properties.CHW.Follow-Up.Follow-Up_By_Date")
     ),
+    field("Case_Type__c", dataValue("properties.Case_Type")),
+    field("Follow_Up_By_Date__c", dataValue("properties.Follow-Up_By_Date")),
     field("Date__c", (state) =>
       new Date(state.data.properties.date_opened).toISOString()
     ),
