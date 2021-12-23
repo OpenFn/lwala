@@ -93,6 +93,11 @@ fn((state) => {
     cognitive_delays: "Cognitive Delays",
     play: "Play",
   };
+  const nutritionMap = {
+    severe: "Severely Malnourished",
+    moderate: "Moderately Malnourished",
+    normal: "Normal",
+  };
 
   return {
     ...state,
@@ -101,6 +106,7 @@ fn((state) => {
     reasonMapping,
     milestoneTypeMap,
     milestoneMap,
+    nutritionMap,
   };
 });
 
@@ -427,10 +433,12 @@ fn((state) => {
           "Current_MUAC__c",
           dataValue("form.TT5.Child_Information.Nutrition.MUAC")
         ),
-        field(
-          "Current_Nutrition_Status__c",
-          dataValue("form.TT5.Child_Information.Nutrition2.Nutrition_Status")
-        ),
+        field("Current_Nutrition_Status__c", (state) => {
+          var status = dataValue(
+            "form.TT5.Child_Information.Nutrition2.Nutrition_Status"
+          )(state);
+          return status ? state.nutritionMap[status] : undefined;
+        }),
         field(
           "Child_missed_immunization_type__c",
           dataValue(
