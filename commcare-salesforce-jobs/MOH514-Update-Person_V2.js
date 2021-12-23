@@ -390,8 +390,20 @@ fn((state) => {
           return state.cleanChoice(state, choice);
         }),
         field(
+          "Current_Weight__c",
+          dataValue("form.TT5.Child_Information.Nutrition.current_weight")
+        ),
+        field(
           "Current_Height__c",
           dataValue("form.TT5.Child_Information.Nutrition.current_height")
+        ),
+        field(
+          "Current_MUAC__c",
+          dataValue("form.TT5.Child_Information.Nutrition.MUAC")
+        ),
+        field(
+          "Current_Nutrition_Status__c",
+          dataValue("form.TT5.Child_Information.Nutrition2.Nutrition_Status")
         ),
         field(
           "Child_missed_immunization_type__c",
