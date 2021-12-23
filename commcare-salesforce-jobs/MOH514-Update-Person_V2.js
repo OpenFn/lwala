@@ -457,7 +457,19 @@ fn((state) => {
         field(
           "Child_chest_in_drawing__c",
           dataValue("form.psbi.Child_chest_in_drawing_c")
-        )
+        ),
+        field(
+          "Did_you_counsel_caregiver_on__c",
+          dataValue("form.TT5.Child_Information.did_you_counsel_the_caregiver_on_delayed_milestones")
+        ),
+        field(
+          "Delayed_Milestones_Counselled_On__c",
+          dataValue("form.TT5.Child_Information.which_delayed_milestone_area_did_you_counsel_the_caregiver_on")
+        ),
+        field(
+          "Delayed_Milestone_Type__c",
+          dataValue("form.TT5.Child_Information.which_delayed_milestone")
+        ),
       )
     )(state);
   }
