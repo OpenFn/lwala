@@ -29,11 +29,18 @@ upsert(
     //   "CommCare_ID__c",
     //   dataValue("properties.CHW_ID")
     // ),
+    //TODO: Only map this if state.data.indices.parent.case_type = "Person"
     relationship(
       "Person__r",
       "CommCare_ID__c",
       dataValue("indices.parent.case_id")
     ),
+    //TODO: Only map this if state.data.indices.parent.case_type = "Case"
+    // relationship(
+    //   "Parent_Service__r",
+    //   "Service_UID__c",
+    //   dataValue("indices.parent.case_id")
+    // ),
     field("Open_Case__c", dataValue("closed")),
     field("Source__c", dataValue("properties.Source") === "1"),
     field("Clinical_facility__c", (state) => {
