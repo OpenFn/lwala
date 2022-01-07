@@ -3,7 +3,7 @@ upsert(
   "CommCare_ID__c",
   fields(
     field("CommCare_ID__c", dataValue("case_id")),
-    relationship("Household__r","CommCare_Code__c",dataValue("indices.parent.case_id")),
+    relationship("Household__r","CommCare_Code__c", dataValue("indices.parent.case_id")),
     field("BCG__c", dataValue("properties.CHW.Follow-Up.Immunizations.BCG")),
     field("OPV_0__c", dataValue("properties.CHW.Follow-Up.Immunizations.OPV_0")),
     field("OPV_1__c", dataValue("properties.CHW.Follow-Up.Immunizations.OPV_PCV_Penta_1")),
