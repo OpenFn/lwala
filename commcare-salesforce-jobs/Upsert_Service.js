@@ -82,59 +82,59 @@ upsert('Service__c', 'Service_UID__c', state => ({
     }),
     field(
       'Client_Received_Services_at_Facility__c',
-      dataValue('properties.CHW.Facility_Services.Facility_Visit')
+      dataValue('properties.Facility_Visit')
     ),
     field(
       'Clinical_Visit_Date__c',
-      dataValue('properties.CHW.Facility_Services.Facility_Date')
+      dataValue('properties.Facility_Date')
     ),
     field(
       'CHW_Followed_Up_with_the_Client__c',
-      dataValue('properties.CHW.Follow-Up.Follow-Up')
+      dataValue('properties.Follow-Up')
     ),
     field(
       'Follow_Up_Date__c',
-      dataValue('properties.CHW.Follow-Up.Follow-Up_Date')
+      dataValue('properties.Follow-Up_Date')
     ),
     field(
       'Person_Complied_w_Referral_in_24_hrs__c',
-      dataValue('properties.CHW.Follow-Up.referral_compliance')
+      dataValue('properties.referral_compliance')
     ),
     field(
       'Skillled_Delivery__c',
-      dataValue('properties.CHW.Follow-Up.skilled_delivery')
+      dataValue('properties.skilled_delivery')
     ),
     field(
       'Child_received_immunizations',
-      dataValue('properties.CHW.Follow-Up.immunization')
+      dataValue('properties.immunization')
     ),
     field(
       'Received_a_diagnosis_for_PSBI__c',
-      dataValue('properties.CHW.Follow-Up.PSBI.psbi_diagnosis')
+      dataValue('properties.psbi_diagnosis') //CHW.Follow-Up.PSBI.psbi_diagnosis
     ),
     field(
       'Received_antibiotics_per_protocol__c',
-      dataValue('properties.CHW.Follow-Up.PSBI.antibiotic_8days')
+      dataValue('properties.antibiotic_8days') //CHW.Follow-Up.PSBI.antibiotic_8day
     ),
     field(
       'Distributed_Treatment_on_Last_Visit__c',
-      dataValue('properties.CHW.Follow-Up.distribute_treatment')
+      dataValue('properties.distribute_treatment') //CHW.Follow-Up.distribute_treatment
     ),
     field(
       'Person_had_an_adverse_drug_reaction__c',
-      dataValue('properties.CHW.Follow-Up.adverse_drug_reaction')
+      dataValue('properties.adverse_drug_reaction')
     ),
     field(
       'Defaulted__c',
-      dataValue('properties.CHW.Follow-Up.default_on_treatment') === 'yes'
+      dataValue('properties.default_on_treatment') === 'yes'
     ),
     field(
       'Date_of_Default__c',
-      dataValue('properties.CHW.Follow-Up.date_of_default')
+      dataValue('properties.date_of_default')
     ),
     field(
       'Client_s_Symptoms_Improved__c',
-      dataValue('properties.CHW.Follow-Up.Client_Improved')
+      dataValue('properties.Client_Improved')
     ),
     field('Case_Type__c', dataValue('properties.Case_Type')),
     field('Follow_Up_By_Date__c', state => {
