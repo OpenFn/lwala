@@ -72,7 +72,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
     //   "CommCare_ID__c",
     //   dataValue("properties.CHW_ID")
     // ),
-    field('Open_Case__c', dataValue('closed')),
+    field('Open_Case__c', dataValue('closed') === false),
     field('Age_Time_of_Service__c', dataValue('properties.age')),
     field('Source__c', dataValue('properties.Source') === '1'),
     field('Clinical_facility__c', state => {
