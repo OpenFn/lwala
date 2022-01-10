@@ -1,3 +1,21 @@
+// NOTE: We perform a query before anything else if this is a "Case"
+fn((state) => {
+  state.type = state.data.indices.parent.case_type;
+
+  if (state.type === "Case")
+    return query(
+      `SELECT Person__r.CommCare_ID__c FROM Service__c WHERE Service_UID__c = '${state.data.indices.parent.case_id}'`
+    )(state).then((state) => {
+      const { records } = state.references[0];
+      console.log(JSON.stringify(records, null, 2));
+      const ccId = records.length == 1 ? records[0].Person__r.CommCare_ID__c : null;
+      return { ...state, ccId };
+    });
+
+  return state;
+});
+
+// NOTE: We construct a facilityMap and populate some conditional relationships
 fn((state) => {
   const facilityMap = {
     Lwala_Hospital: "Lwala Hospital",
@@ -13,13 +31,38 @@ fn((state) => {
     Other: "Other",
   };
 
-  return { ...state, facilityMap };
+  let relationships = [];
+
+  // If it's a person, add the person relationship
+  if (state.type === "Person") {
+    relationships.push(
+      relationship(
+        "Person__r",
+        "CommCare_ID__c",
+        state.data.indices.parent.case_id
+      )
+    );
+  }
+
+  // If it's a service, add the service rship AND a different person rship
+  if (state.type === "Case") {
+    relationships.push(
+      relationship(
+        "Parent_Service__r",
+        "Service_UID__c",
+        state.data.indices.parent.case_id
+      )
+    );
+    relationships.push(relationship("Person__r", "CommCare_ID__c", state.ccId));
+  }
+
+  return { ...state, facilityMap, relationships };
 });
 
-upsert(
-  "Service__c",
-  "Service_UID__c",
-  fields(
+// NOTE: We finally upsert to the Service__c object in Salesforce
+upsert("Service__c", "Service_UID__c", (state) => ({
+  ...fields(...state.relationships),
+  ...fields(
     field("Service_UID__c", dataValue("case_id")),
     field("CommCare_Code__c", dataValue("case_id")),
     field("RecordTypeID", "01224000000YAuK"),
@@ -28,18 +71,6 @@ upsert(
     //   "Household_CHW__r",
     //   "CommCare_ID__c",
     //   dataValue("properties.CHW_ID")
-    // ),
-    //TODO: Only map this if state.data.indices.parent.case_type = "Person"
-    relationship(
-      "Person__r",
-      "CommCare_ID__c",
-      dataValue("indices.parent.case_id")
-    ),
-    //TODO: Only map this if state.data.indices.parent.case_type = "Case"
-    // relationship(
-    //   "Parent_Service__r",
-    //   "Service_UID__c",
-    //   dataValue("indices.parent.case_id")
     // ),
     field("Open_Case__c", dataValue("closed")),
     field("Source__c", dataValue("properties.Source") === "1"),
@@ -134,5 +165,5 @@ upsert(
     field("Weight__c", dataValue("properties.weight")),
     field("MUAC__c", dataValue("properties.muac")),
     field("Nutrition_Status__c", dataValue("properties.Nutrition_Status"))
-  )
-);
+  ),
+}));
