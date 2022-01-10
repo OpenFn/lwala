@@ -126,7 +126,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
     ),
     field(
       'Defaulted__c',
-      dataValue('properties.default_on_treatment') === 'yes'
+      dataValue('properties.date_of_default') !== undefined
     ),
     field(
       'Date_of_Default__c',
