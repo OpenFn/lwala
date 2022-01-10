@@ -110,7 +110,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
       dataValue('properties.skilled_delivery')
     ),
     field(
-      'Child_received_immunizations',
+      'Child_received_immunizations__c',
       dataValue('properties.immunization')
     ),
     field(
