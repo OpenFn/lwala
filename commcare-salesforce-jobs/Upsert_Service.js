@@ -7,7 +7,8 @@ fn(state => {
       `SELECT Person__r.CommCare_ID__c FROM Service__c WHERE Service_UID__c = '${state.data.indices.parent.case_id}'`
     )(state).then(state => {
       const { records } = state.references[0];
-      const ccId = records.length == 1 ? records[0].id : null;
+      const ccId =
+        records.length == 1 ? records[0].Person__r.CommCare_ID__c : null;
       return { ...state, ccId };
     });
 
