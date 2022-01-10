@@ -130,9 +130,10 @@ upsert('Service__c', 'Service_UID__c', state => ({
       dataValue('properties.adverse_drug_reaction')
     ),
     field(
-      'Defaulted__c',
-      dataValue('properties.date_of_default') !== undefined
-    ),
+      'Defaulted__c', state => {
+      var date = dataValue('properties.date_of_default')(state);
+      return date && date !== '' ? true : false;
+    }),
     field(
       'Date_of_Default__c',
       dataValue('properties.date_of_default')
