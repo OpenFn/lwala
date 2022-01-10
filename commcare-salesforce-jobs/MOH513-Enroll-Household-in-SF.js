@@ -51,7 +51,7 @@ upsert(
     }),
     //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     relationship("Catchment__r", "Name", state => {
-      var catchment = dataValue("form.catchment")(state);
+      var catchment = state.data.form.catchment || state.data.form.location_info.catchment_name;
       return catchment === '' || catchment === undefined ? 'Unknown Location' : catchment;
     }), // check
     field("Area__c", state => {
