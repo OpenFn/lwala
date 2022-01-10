@@ -1,4 +1,4 @@
-//MOH513 Enroll Household Form
+//MOH513 Enroll Household Form ... TESTING location hierarchy changes
 //Alters CommCare Person arrays so that they are formatted as arrays instead of just single values.
 alterState((state) => {
   const person = state.data.form.Person;
@@ -50,15 +50,18 @@ upsert(
       return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
     }),
     //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+    //== LOCATION FIELD UPDATESS =====================//
     relationship("Catchment__r", "Name", state => {
-      var catchment = state.data.form.catchment || state.data.form.location_info.catchment_name;
+      var catchment = state.data.form.location_info.catchment_name;
       return catchment === '' || catchment === undefined ? 'Unknown Location' : catchment;
-    }), // check
-    field("Area__c", state => {
-      var area = dataValue("form.area")(state);
-      return area === '' || area === undefined ? 'a002400000k6IKi' : area;
+    }), 
+    relationship("Area__r", "Name", state => {
+      var area = state.data.form.location_info.area_name;
+      return area === '' || area === undefined ? 'Unknown Location' : area;
     }),
-    field("Household_village__c", dataValue("form.village")),
+    relationship("Area__r", "Name", dataValue("form.location_info.village_name")),
+    field("Household_village__c", dataValue("form.location_info.village_name")),
+    //=========================================================//
     field("Deaths_in_the_last_6_months__c", (state) => {
       var death = dataValue(
         "form.Household_Information.deaths_in_past_6_months"
