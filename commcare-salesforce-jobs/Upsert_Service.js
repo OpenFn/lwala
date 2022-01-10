@@ -91,7 +91,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
     field(
       'Clinical_Visit_Date__c', state => {
       var date = dataValue('properties.Facility_Date')(state);
-      return date === '' || date === undefined ? undefined : false;
+      return date === '' || date === undefined ? undefined : date;
     }),
     field(
       'CHW_Followed_Up_with_the_Client__c',
