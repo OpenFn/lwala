@@ -59,14 +59,15 @@ upsert(
       location === '' || location === undefined ? 
       'Unknown Location' : location.catchment_name;
     }), 
-    relationship("Area__r", "Name", state => {
-      var location = state.data.form.location_info;
-      var area = state.data.form.area; 
-      return area && area!== '' ? 
-      area : 
-      location === '' || location === undefined ? 
-      'Unknown Location' : location.area_name;
-    }), 
+    field("Area__c", dataValue("form.area")),
+    // relationship("Area__r", "Name", state => { //New mapping after locations update
+    //   var location = state.data.form.location_info;
+    //   var area = state.data.form.area; 
+    //   return area && area!== '' ? 
+    //   area : 
+    //   location === '' || location === undefined ? 
+    //   'Unknown Location' : location.area_name;
+    // }), 
     relationship("Village__r", "Name", dataValue("form.location_info.village_name")),
     field("Household_village__c", dataValue("form.location_info.village_name")),
     //=========================================================//
