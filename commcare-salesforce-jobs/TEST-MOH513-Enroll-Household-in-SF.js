@@ -68,7 +68,7 @@ upsert(
     //   location === '' || location === undefined ? 
     //   'Unknown Location' : location.area_name;
     // }), 
-    relationship("Village__r", "Name", dataValue("form.location_info.village_name")),
+    //relationship("Village__r", "Name", dataValue("form.location_info.village_name")), //new mapping after location updates
     field("Household_village__c", dataValue("form.location_info.village_name")),
     //=========================================================//
     field("Deaths_in_the_last_6_months__c", (state) => {
