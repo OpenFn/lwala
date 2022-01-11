@@ -22,6 +22,20 @@ fn((state) => {
           .join(";")
       : "";
   };
+  
+  const pregDangerMap = {
+    Vaginal_Bleeding: "Vaginal Bleeding",
+    Water_Breaks: "Water Breaks before Time of Delivery", 
+    Prolonged_Labour: "Prolonged Labour over 12 Hours", 
+    Convulsions: "Convulsions or Fits", 
+    Abdominal_Pain: "Severe Abdominal Pain before Delivery", 
+    High_Fever: "High Fever", 
+    Low_Baby_Movement: "Feeling the Baby move less or not at all",
+    Swelling: "Swelling of Face and Hands", 
+    Severe_Headache: "Severe or Continuous Headache for more than 12 hours", 
+    Severe_Vomiting: "Severe or Continuous Vomiting", 
+    none: "None"
+  };
 
   const counselMap = {
     anc_visits: "ANC Visits",
