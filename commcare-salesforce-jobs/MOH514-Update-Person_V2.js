@@ -204,13 +204,7 @@ fn((state) => {
             "form.ANCs.pregnancy_danger_signs.pregnancy_danger_signs"
           )(state);
           return signs
-            ? signs
-                .toLowerCase()
-                .split(" ")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(";")
-                .toString()
-                .replace(/_/g, " ")
+            ? state.pregDangerMap[signs]
             : undefined;
         }),
         field("Child_Danger_Signs__c", (state) => {
