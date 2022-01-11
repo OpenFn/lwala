@@ -59,7 +59,7 @@ upsert(
       location === '' || location === undefined ? 
       'Unknown Location' : location.catchment_name;
     }), 
-    field("Area__c", dataValue("form.area")),
+    //field("Area__c", dataValue("form.area")),
     // relationship("Area__r", "Name", state => { //New mapping after locations update
     //   var location = state.data.form.location_info;
     //   var area = state.data.form.area; 
