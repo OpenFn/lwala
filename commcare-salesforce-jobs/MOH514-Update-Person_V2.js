@@ -121,6 +121,7 @@ fn((state) => {
     milestoneTypeMap,
     milestoneMap,
     nutritionMap,
+    pregDangerMap
   };
 });
 
