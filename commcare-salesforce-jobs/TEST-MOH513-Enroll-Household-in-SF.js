@@ -52,14 +52,22 @@ upsert(
     //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     //== LOCATION FIELD UPDATESS =====================//
     relationship("Catchment__r", "Name", state => {
-      var catchment = state.data.form.location_info.catchment_name;
-      return catchment === '' || catchment === undefined ? 'Unknown Location' : catchment;
+      var location = state.data.form.location_info;
+      var catchment = state.data.form.catchment; 
+      return catchment && catchment!== '' ? 
+      catchment : 
+      location === '' || location === undefined ? 
+      'Unknown Location' : location.catchment_name;
     }), 
     relationship("Area__r", "Name", state => {
-      var area = state.data.form.location_info.area_name;
-      return area === '' || area === undefined ? 'Unknown Location' : area;
-    }),
-    relationship("Area__r", "Name", dataValue("form.location_info.village_name")),
+      var location = state.data.form.location_info;
+      var area = state.data.form.area; 
+      return area && area!== '' ? 
+      area : 
+      location === '' || location === undefined ? 
+      'Unknown Location' : location.area_name;
+    }), 
+    relationship("Village__r", "Name", dataValue("form.location_info.village_name")),
     field("Household_village__c", dataValue("form.location_info.village_name")),
     //=========================================================//
     field("Deaths_in_the_last_6_months__c", (state) => {
