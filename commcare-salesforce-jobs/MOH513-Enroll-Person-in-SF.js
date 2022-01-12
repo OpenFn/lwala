@@ -2,29 +2,34 @@
 
 // Provide a function which checks if dates are empty strings
 alterState(state => {
-  const truthyValue = (value) => value || null;
-  return { ...state, truthyValue }
-})
+  const truthyValue = value => value || null;
+  return { ...state, truthyValue };
+});
 
 alterState(state => {
-  if (dataValue('form.Source')(state) == 1 &&
-    dataValue('metadata.username')(state) !== 'test.2021') {
+  if (
+    dataValue('form.Source')(state) == 1 &&
+    dataValue('metadata.username')(state) !== 'test.2021'
+  ) {
     return upsert(
       'Person__c',
       'CommCare_ID__c',
       fields(
-        field('CommCare_Username__c', dataValue('metadata.username')), 
+        field('CommCare_Username__c', dataValue('metadata.username')),
         field('CommCare_ID__c', dataValue('form.subcase_0.case.@case_id')),
         relationship(
           'Household__r',
           'CommCare_Code__c',
-          dataValue('form.case.@case_id')),
-        relationship("Catchment__r", "Name", state => {
-          var catchment = dataValue("form.catchment")(state);
-          return catchment === '' || catchment === undefined ? 'Unknown Location' : catchment;
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Catchment__r', 'Name', state => {
+          var catchment = dataValue('form.catchment')(state);
+          return catchment === '' || catchment === undefined
+            ? 'Unknown Location'
+            : catchment;
         }), // check
-        field("Area__c", state => {
-          var area = dataValue("form.area")(state);
+        field('Area__c', state => {
+          var area = dataValue('form.area')(state);
           return area === '' || area === undefined ? 'a002400000k6IKi' : area;
         }),
         field('Household_Village__c', dataValue('form.village')),
@@ -41,10 +46,10 @@ alterState(state => {
             name1 === undefined
               ? 'No Name'
               : name1.replace(/\w\S*/g, function (txt) {
-                return (
-                  txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                );
-              });
+                  return (
+                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                  );
+                });
           return status !== 'Unborn' ? name2 : 'Unborn Child';
         }),
         relationship('RecordType', 'Name', state => {
@@ -76,9 +81,10 @@ alterState(state => {
           );
           return dob !== undefined || status == 'Born' ? 'Born' : 'Unborn'; //what about deceased?
         }),
-        field(
-          'Date_of_Birth__c',
-          state => state.truthyValue(dataValue('form.Person.Basic_Information.DOB')(state))
+        field('Date_of_Birth__c', state =>
+          state.truthyValue(
+            dataValue('form.Person.Basic_Information.DOB')(state)
+          )
         ),
         field('Gender__c', dataValue('form.Person.Basic_Information.Gender')),
         field(
@@ -156,10 +162,10 @@ alterState(state => {
           var toTitleCase =
             disability !== undefined
               ? disability
-                .toLowerCase()
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(';')
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
               : null;
           return toTitleCase;
         }),
@@ -170,10 +176,10 @@ alterState(state => {
           var toTitleCase =
             disability !== undefined
               ? disability
-                .toLowerCase()
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(';')
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
               : null;
           return toTitleCase;
         }),
@@ -235,29 +241,37 @@ alterState(state => {
           dataValue('form.Person.TT5.Child_Information.ANCs.LMP')
         ),
         field('Source__c', 1),
-        field(
-          'ANC_1__c',
-          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_1')(state))
+        field('ANC_1__c', state =>
+          state.truthyValue(
+            dataValue('form.Person.TT5.Child_Information.ANCs.ANC_1')(state)
+          )
         ),
-        field(
-          'ANC_2__c',
-          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_2')(state))
+        field('ANC_2__c', state =>
+          state.truthyValue(
+            dataValue('form.Person.TT5.Child_Information.ANCs.ANC_2')(state)
+          )
         ),
-        field(
-          'ANC_3__c',
-          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_3')(state))
+        field('ANC_3__c', state =>
+          state.truthyValue(
+            dataValue('form.Person.TT5.Child_Information.ANCs.ANC_3')(state)
+          )
         ),
-        field(
-          'ANC_4__c',
-          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_4')(state))
+        field('ANC_4__c', state =>
+          state.truthyValue(
+            dataValue('form.Person.TT5.Child_Information.ANCs.ANC_4')(state)
+          )
         ),
-        field(
-          'ANC_5__c',
-          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.ANCs.ANC_5')(state))
+        field('ANC_5__c', state =>
+          state.truthyValue(
+            dataValue('form.Person.TT5.Child_Information.ANCs.ANC_5')(state)
+          )
         ),
-        field(
-          'BCG__c',
-          state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.Immunizations.BCG')(state))
+        field('BCG__c', state =>
+          state.truthyValue(
+            dataValue('form.Person.TT5.Child_Information.Immunizations.BCG')(
+              state
+            )
+          )
         ),
         field(
           'OPV_0__c',
@@ -366,7 +380,12 @@ alterState(state => {
             ? facility.toString().replace(/_/g, ' ')
             : null;
         }),
-        field('Delivery_Facility_Other__c', dataValue('form.Person.TT5.Child_Information.Delivery_Information.Delivery_Facility_Other')),
+        field(
+          'Delivery_Facility_Other__c',
+          dataValue(
+            'form.Person.TT5.Child_Information.Delivery_Information.Delivery_Facility_Other'
+          )
+        ),
         field('Place_of_Delivery__c', state => {
           var facility = dataValue(
             'form.Person.TT5.Child_Information.Delivery_Information.Skilled_Unskilled'
@@ -376,60 +395,127 @@ alterState(state => {
           }
           return facility;
         }),
-        field('Cough_14_days_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_for_cough')),
-        field('Cough_14_days_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.person_info.date_refer_to_clinc')(state))),
-        field('Know_HIV_status__c', dataValue('form.Person.Basic_Information.person_info.known_hiv_status')),
-        field('HIV_counselling_and_testing_referral__c', dataValue('form.Person.Basic_Information.person_info.hiv_counselling_testing')),
-        field('HIV_counseling_and_testing_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.person_info.when_hiv_testing')(state))),
-        field('Chronic_illness_referral__c', dataValue('form.Person.Basic_Information.person_info.refer_chronic_illness')),
-        field('Chronic_illness_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.person_info.datereferal_chronic_illness')(state))),
-        field('Current_Height__c', dataValue('form.Person.TT5.Child_Information.nutrition.height')),
-        field('Nutrition_referral_date__c', state => state.truthyValue(dataValue('form.Person.TT5.Child_Information.nutrition.date_malnutrition')(state))),
+        field(
+          'Cough_14_days_referral__c',
+          dataValue('form.Person.Basic_Information.person_info.refer_for_cough')
+        ),
+        field('Cough_14_days_referral_date__c', state =>
+          state.truthyValue(
+            dataValue(
+              'form.Person.Basic_Information.person_info.date_refer_to_clinc'
+            )(state)
+          )
+        ),
+        field(
+          'Know_HIV_status__c',
+          dataValue(
+            'form.Person.Basic_Information.person_info.known_hiv_status'
+          )
+        ),
+        field(
+          'HIV_counselling_and_testing_referral__c',
+          dataValue(
+            'form.Person.Basic_Information.person_info.hiv_counselling_testing'
+          )
+        ),
+        field('HIV_counseling_and_testing_referral_date__c', state =>
+          state.truthyValue(
+            dataValue(
+              'form.Person.Basic_Information.person_info.when_hiv_testing'
+            )(state)
+          )
+        ),
+        field(
+          'Chronic_illness_referral__c',
+          dataValue(
+            'form.Person.Basic_Information.person_info.refer_chronic_illness'
+          )
+        ),
+        field('Chronic_illness_referral_date__c', state =>
+          state.truthyValue(
+            dataValue(
+              'form.Person.Basic_Information.person_info.datereferal_chronic_illness'
+            )(state)
+          )
+        ),
+        field(
+          'Current_Height__c',
+          dataValue('form.Person.TT5.Child_Information.nutrition.height')
+        ),
+        field('Nutrition_referral_date__c', state =>
+          state.truthyValue(
+            dataValue(
+              'form.Person.TT5.Child_Information.nutrition.date_malnutrition'
+            )(state)
+          )
+        ),
         field('Received_pregnancy_test__c', state => {
-          var preg = dataValue('form.Person.Basic_Information.family_planning.administer_preg_test')(state);
+          var preg = dataValue(
+            'form.Person.Basic_Information.family_planning.administer_preg_test'
+          )(state);
           return preg && preg === 'OK' ? 'Yes' : preg;
         }),
-        field('Pregnancy_test_result__c', dataValue('form.Person.Basic_Information.family_planning.pregnancy_test_result')),
-        field('Pregnancy_referral__c', dataValue('form.Person.Basic_Information.family_planning.refer_preg')),
-        field('Pregnancy_referral_date__c', state => state.truthyValue(dataValue('form.Person.Basic_Information.family_planning.referal_pregnancy')(state))),
         field(
-          "Family_Planning__c", (state) => {
-            var plan = dataValue("'form.Person.Basic_Information.family_planning.Currently_on_family_planning")(state);
-            return plan ? 'Yes' : plan;
-          }),
+          'Pregnancy_test_result__c',
+          dataValue(
+            'form.Person.Basic_Information.family_planning.pregnancy_test_result'
+          )
+        ),
         field(
-          "Family_Planning_Method__c", (state) => {
-            var method = dataValue("form.Person.Basic_Information.family_planning.Family_Planning_Method")(state);
-            return method
-              ? method.toString().replace(/_/g, " ")
-              : method;
-          }),
-        field(
-          "Reasons_for_not_taking_FP_method__c", (state) => {
-            var reason = dataValue("form.Person.Basic_Information.family_planning.No_FPmethod_reason")(state);
-            var reasonsMap = {
-              lack_of_access_to_fp_information: 'Lack of access to FP information',
-              lack_of_hospitals_or_places_where_fp_services_can_be_accessed: 'Lack of hospitals or places where FP services can be accessed',
-              myths_and_misconceptions: 'Myths and misconceptions',
-              barriers_at_service_delivery_points: 'Barriers at service delivery points',
-              pregnant: 'The client is pregnant',
-              intentions_of_getting_pregnant: 'Intentions of getting pregnant',
-              not_sexually_active: 'The client is not sexually active',
-              other_barriers_culture_male_partners_parents_etc: 'Other barriers (culture, male partners, parents, etc)'
-            };
-            return reason ? reasonsMap[reason] : reason;
-          }),
-        field("Reason_for_not_taking_a_pregnancy_test__c", (state) => {
-          var reason = dataValue("form.Person.asic_Information.family_planning.No_Preg_Test")(state);
-          return reason
-            ? reason.toString().replace(/_/g, " ")
-            : reason;
+          'Pregnancy_referral__c',
+          dataValue('form.Person.Basic_Information.family_planning.refer_preg')
+        ),
+        field('Pregnancy_referral_date__c', state =>
+          state.truthyValue(
+            dataValue(
+              'form.Person.Basic_Information.family_planning.referal_pregnancy'
+            )(state)
+          )
+        ),
+        field('Family_Planning__c', state => {
+          var plan = dataValue(
+            'form.Person.Basic_Information.family_planning.Currently_on_family_planning'
+          )(state);
+          return plan ? 'Yes' : plan;
+        }),
+        field('Family_Planning_Method__c', state => {
+          var method = dataValue(
+            'form.Person.Basic_Information.family_planning.Family_Planning_Method'
+          )(state);
+          return method ? method.toString().replace(/_/g, ' ') : method;
+        }),
+        field('Reasons_for_not_taking_FP_method__c', state => {
+          var reason = dataValue(
+            'form.Person.Basic_Information.family_planning.No_FPmethod_reason'
+          )(state);
+          var reasonsMap = {
+            lack_of_access_to_fp_information:
+              'Lack of access to FP information',
+            lack_of_hospitals_or_places_where_fp_services_can_be_accessed:
+              'Lack of hospitals or places where FP services can be accessed',
+            myths_and_misconceptions: 'Myths and misconceptions',
+            barriers_at_service_delivery_points:
+              'Barriers at service delivery points',
+            pregnant: 'The client is pregnant',
+            intentions_of_getting_pregnant: 'Intentions of getting pregnant',
+            not_sexually_active: 'The client is not sexually active',
+            other_barriers_culture_male_partners_parents_etc:
+              'Other barriers (culture, male partners, parents, etc)',
+          };
+          return reason ? reasonsMap[reason] : reason;
+        }),
+        field('Reason_for_not_taking_a_pregnancy_test__c', state => {
+          var reason = dataValue(
+            'form.Person.asic_Information.family_planning.No_Preg_Test'
+          )(state);
+          return reason ? reason.toString().replace(/_/g, ' ') : reason;
         }),
         field('Cause_of_Death__c', state => {
-          var death = dataValue('form.Person.Basic_Information.cause_of_death_dead')(state);
-          return death ? death.toString().replace(/_/g, ' ')
-            : death;
-        }),
+          var death = dataValue(
+            'form.Person.Basic_Information.cause_of_death_dead'
+          )(state);
+          return death ? death.toString().replace(/_/g, ' ') : death;
+        })
       )
     )(state);
   }
@@ -442,7 +528,7 @@ alterState(state => {
   if (
     dataValue('form.Person.Updated_Total_Number_of_Members')(state) !== null &&
     dataValue('form.Person.Updated_Total_Household_Members')(state) !==
-    undefined
+      undefined
   ) {
     return upsert(
       'Household__c',
@@ -464,8 +550,10 @@ alterState(state => {
 // **Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 
 alterState(state => {
-  if (dataValue('form.Source')(state) == 1 &&
-    dataValue('metadata.username')(state) !== 'test.2021') {
+  if (
+    dataValue('form.Source')(state) == 1 &&
+    dataValue('metadata.username')(state) !== 'test.2021'
+  ) {
     return upsert(
       'Visit__c',
       'CommCare_Visit_ID__c',
@@ -488,15 +576,21 @@ alterState(state => {
             ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
             : null;
         }),
-        field('Date__c', state => state.truthyValue(dataValue('form.Date')(state))),
-        field("Household_CHW__c", state => {
-          var chw = dataValue("form.CHW_ID")(state);
-          return chw === 'a030800001zQrk' ? 'a030800001zQrk5' : 
-          chw === 'a031x000004oJe2' || chw === 'a031x000004oJe2AAE' ? 'a0308000021zm8Z' : 
-          chw ? chw : 'a0308000021zm8Z';
-          //otherwise return "Unknown CHW"
+        field('Date__c', state =>
+          state.truthyValue(dataValue('form.Date')(state))
+        ),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw === 'a031x000004oJe2' || chw === 'a031x000004oJe2AAE'
+            ? 'a0308000021zm8Z'
+            : chw
+            ? chw
+            : 'a0308000021zm8Z';
+          //otherwise return 'Unknown CHW'
         }),
-        //field("Household_CHW__c", "a031x000002S9lm"), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
+        //field('Household_CHW__c', 'a031x000002S9lm'), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
         field('Location__latitude__s', state => {
           var lat = state.data.metadata.location;
           return lat !== null ? lat.substring(0, lat.indexOf(' ')) : null;
@@ -508,7 +602,7 @@ alterState(state => {
             : null;
         })
       )
-    )(state)
+    )(state);
   }
   console.log('Data is from test user, not inserting visit');
   return state;

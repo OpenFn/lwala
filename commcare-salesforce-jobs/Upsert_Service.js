@@ -1,4 +1,4 @@
-// NOTE: We perform a query before anything else if this is a "Case"
+// NOTE: We perform a query before anything else if this is a 'Case'
 fn(state => {
   state.type = state.data.indices.parent.case_type;
 
@@ -68,14 +68,14 @@ upsert('Service__c', 'Service_UID__c', state => ({
     field('RecordTypeID', '01224000000YAuK'),
     field('Household_CHW__c', 'a030Q000008XyXV'), //Sandbox test CHW
     // relationship( //ADD BACK BEFORE PROD DEPLOYMENT; removed for sandbox testing
-    //   "Household_CHW__r",
-    //   "CommCare_ID__c",
-    //   dataValue("properties.CHW_ID")
+    //   'Household_CHW__r',
+    //   'CommCare_ID__c',
+    //   dataValue('properties.CHW_ID')
     // ),
     field('Open_Case__c', state => {
       var status = dataValue('closed')(state);
-      return status === false ? true : false}
-    ),
+      return status === false ? true : false;
+    }),
     field('Age_Time_of_Service__c', dataValue('properties.age')),
     field('Source__c', dataValue('properties.Source') === '1'),
     field('Clinical_facility__c', state => {
@@ -88,8 +88,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
       'Client_Received_Services_at_Facility__c',
       dataValue('properties.Facility_Visit')
     ),
-    field(
-      'Clinical_Visit_Date__c', state => {
+    field('Clinical_Visit_Date__c', state => {
       var date = dataValue('properties.Facility_Date')(state);
       return date === '' || date === undefined ? undefined : date;
     }),
@@ -97,18 +96,12 @@ upsert('Service__c', 'Service_UID__c', state => ({
       'CHW_Followed_Up_with_the_Client__c',
       dataValue('properties.Follow-Up')
     ),
-    field(
-      'Follow_Up_Date__c',
-      dataValue('properties.Follow-Up_Date')
-    ),
+    field('Follow_Up_Date__c', dataValue('properties.Follow-Up_Date')),
     field(
       'Person_Complied_w_Referral_in_24_hrs__c',
       dataValue('properties.referral_compliance')
     ),
-    field(
-      'Skillled_Delivery__c',
-      dataValue('properties.skilled_delivery')
-    ),
+    field('Skillled_Delivery__c', dataValue('properties.skilled_delivery')),
     field(
       'Child_received_immunizations__c',
       dataValue('properties.immunization')
@@ -129,15 +122,11 @@ upsert('Service__c', 'Service_UID__c', state => ({
       'Person_had_an_adverse_drug_reaction__c',
       dataValue('properties.adverse_drug_reaction')
     ),
-    field(
-      'Defaulted__c', state => {
+    field('Defaulted__c', state => {
       var date = dataValue('properties.date_of_default')(state);
       return date && date !== '' ? true : false;
     }),
-    field(
-      'Date_of_Default__c',
-      dataValue('properties.date_of_default')
-    ),
+    field('Date_of_Default__c', dataValue('properties.date_of_default')),
     field(
       'Client_s_Symptoms_Improved__c',
       dataValue('properties.Client_Improved')

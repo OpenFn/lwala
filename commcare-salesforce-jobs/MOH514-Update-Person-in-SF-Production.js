@@ -108,8 +108,8 @@ alterState(state => {
   if (
     dataValue('form.Status.Client_Status')(state) === 'Active'
     // Below criteria redundant to trigger?
-    // && (dataValue("form.Source")(state) === "1" ||
-    //   dataValue("form.Source")(state) === 1)
+    // && (dataValue('form.Source')(state) === '1' ||
+    //   dataValue('form.Source')(state) === 1)
   ) {
     console.log('Upserting Person to SF...');
     return upsert(
@@ -264,7 +264,7 @@ alterState(state => {
         field('Child_Status__c', state => {
           var status = dataValue('form.case.update.child_status')(state);
           var rt = dataValue('form.RecordType')(state);
-          //if(status!==undefined && rt=="Unborn" && status!=="Yes"){ //Q: child_status not present?
+          //if(status!==undefined && rt=='Unborn' && status!=='Yes'){ //Q: child_status not present?
           if (status !== undefined && rt === 'Unborn') {
             status = 'Unborn';
           } else if (status !== undefined && rt === 'Born') {
@@ -362,7 +362,7 @@ alterState(state => {
           'TB_patients_therapy_observed__c',
           dataValue('form.treatment_and_tracking.observed_tb_therapy')
         ),
-        //field("Injuries_and_wounds_managed__c", dataValue("Injuries_and_wounds_managed")),
+        //field('Injuries_and_wounds_managed__c', dataValue('Injuries_and_wounds_managed')),
         field(
           'Injuries_or_wounds__c',
           dataValue('form.treatment_and_tracking.wounds_or_injuries')
