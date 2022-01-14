@@ -11,6 +11,8 @@ alterState(state => {
     dataValue('form.Source')(state) == 1 &&
     dataValue('metadata.username')(state) !== 'test.2021'
   ) {
+    console.log('case id', dataValue('form.subcase_0.case.@case_id')(state));
+    console.log('case id', dataValue('form.case.@case_id')(state));
     return upsert(
       'Person__c',
       'CommCare_ID__c',
