@@ -281,33 +281,33 @@ upsert('Service__c', 'Service_UID__c', state => ({
     //===== NEW MAPPINGS - JAN 14 ===========================//
     field('Pregnancy_Danger_Signs__c', state => {
       var sign = dataValue('properties.pregnancy_danger_signs')(state);
-      return sign && sign.split(' ').join(';');
+      return sign && sign.split(',').join(';');
       //TODO:apply state.pregDangerMap to each 'sign' value which is multiselect in commcare
     }),
     field('Child_Danger_Signs__c', state => {
       var check = dataValue('properties.Other_Danger_Signs')(state);
-      return check && check.split(' ').join(';');
+      return check && check.split(',').join(';');
       //TODO:apply state.childSignMap to each 'check' value which is multiselect in commcare
     }),
     field('Delayed_Milestone__c', state => {
       var check = dataValue('properties.which_delayed_milestone')(state);
-      return check && check.split(' ').join(';');
+      return check && check.split(',').join(';');
       //TODO: apply state.milestoneTypeMap to each 'check' value which is multiselect in commcare
     }),
     field('Serious_Symptoms__c', state => {
       var check = dataValue('properties.symptoms_check_other')(state);
-      return check && check.split(' ').join(';');
+      return check && check.split(',').join(';');
       //TODO: apply state.symptomsMap to each 'check' value which is multiselect in commcare
     }),
     field('Other_Referral_Reasons__c', state => {
       var check = dataValue('properties.Purpose_of_Referral')(state);
-      return check && check.split(' ').join(';');
+      return check && check.split(',').join(';');
       //TODO: apply state.otherReferralMap to each 'check' value which is multiselect in commcare
     }),
 
     field('Home_Based_Care_Rendered__c', state => {
       const hbc = dataValue('properties.Home_Based_Care_Provided')(state);
-      return hbc ? hbc.split(' ').join(';').replace(/_/g, ' ') : hbc;
+      return hbc ? hbc.split(',').join(';').replace(/_/g, ' ') : hbc;
       //TODO: apply state.homeCareMap to each 'hbc' value which is multiselect in commcare
     }),
     field('PSBI_Visit__c', state => {
