@@ -178,7 +178,6 @@ fn(state => {
     otherReferralMap,
     homeCareMap,
     clinicalMap,
-    psbiMap,
   };
 });
 
