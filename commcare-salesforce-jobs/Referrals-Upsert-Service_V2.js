@@ -299,12 +299,11 @@ upsert('Service__c', 'Service_UID__c', state => ({
       return check && check.split(',').join(';');
       //TODO: apply state.symptomsMap to each 'check' value which is multiselect in commcare
     }),
-    field('Other_Referral_Reasons__c', state => {
-      var check = dataValue('properties.Purpose_of_Referral')(state);
-      return check && check.split(',').join(';');
-      //TODO: apply state.otherReferralMap to each 'check' value which is multiselect in commcare
-    }),
-
+    // field('Other_Referral_Reasons__c', state => {
+    //   var check = dataValue('properties.Purpose_of_Referral')(state);
+    //   return check && check.split(',').join(';');
+    //   //TODO: apply state.otherReferralMap to each 'check' value which is multiselect in commcare
+    // }),
     field('Home_Based_Care_Rendered__c', state => {
       const hbc = dataValue('properties.Home_Based_Care_Provided')(state);
       return hbc ? hbc.split(',').join(';').replace(/_/g, ' ') : hbc;
