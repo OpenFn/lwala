@@ -311,7 +311,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
     }),
     field('PSBI_Visit__c', state => {
       var number = dataValue('properties.psbi_task')(state);
-      return `Day ${number}`; //sample output: 'Day 3'
+      return number && number!=='' ? `Day ${number}` : undefined; //sample output: 'Day 3'
     }),
     field('Clinical_Services__c', state => {
       var check = dataValue('properties.TT5_Clinical_Service')(state);
