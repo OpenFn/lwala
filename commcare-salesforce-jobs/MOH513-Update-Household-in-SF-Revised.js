@@ -151,13 +151,16 @@ upsert(
     ),
     field('Health_insurance_type__c', state => {
       var status = dataValue('form.health_insurance')(state);
-      return status && status === 'other_please_specify_if_active'
-        ? 'Other'
-        : status === 'nhif'
-        ? 'NHIF'
-        : status === 'Linda_mama' || 'linda_mama'
-        ? 'Linda mama'
-        : status;
+      var value =
+        status && status !== ''
+          ? status
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.homeCareMap[value] || value;
+              })
+          : undefined;
+      return value ? value.join(';') : undefined;
     }),
     field(
       'Other_Health_Insurance__c',
