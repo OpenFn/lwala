@@ -390,15 +390,15 @@ upsert('Service__c', 'Service_UID__c', state => ({
     }),
     field('Clinical_Services__c', state => {
       var check = dataValue('properties.TT5_Clinical_Service')(state);
-      return state.clinicalMap[check] || check;
+      return check ? state.clinicalMap[check] : check;
     }),
     field('Referred_Facility__c', state => {
       var check = dataValue('properties.referred_facility')(state);
-      return state.facilityMap[check] || check;
+      return check ? state.facilityMap[check] : check;
     }),
     field('HAWI_Clinical_Services__c', state => {
-      var sign = dataValue('properties.HAWI_Clinical_Service')(state);
-      return state.serviceMap[sign] || check;
+      var check = dataValue('properties.HAWI_Clinical_Service')(state);
+      return check ? state.serviceMap[check] : check;
     })
     //=====================================//
   ),
