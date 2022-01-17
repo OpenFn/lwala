@@ -307,7 +307,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
     field('Nutrition_Status__c', dataValue('properties.Nutrition_Status')),
     //===== NEW MAPPINGS - JAN 14 ===========================//
     field('Pregnancy_Danger_Signs__c', state => {
-      var sign = dataValue('properties.pregnancy_danger_signs')(state);
+      var check = dataValue('properties.pregnancy_danger_signs')(state);
       var value =
         check && check !== ''
           ? check
