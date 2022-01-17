@@ -80,45 +80,72 @@ fn(state => {
   };
 
   const childSignMap = {
-    comm: 'Poor Breastfeeding (under 6 months old child)',
-    comm: 'Not able to feed since birth, or stopped feeding well',
-    comm: 'Not able to breastfeed',
-    comm: 'Fever (37.5 C or more)',
-    comm: 'Very low temperature (35.4 C or less)',
-    comm: 'Shivering',
-    comm: 'Fast Breathing',
-    comm: 'Very Sleepy',
-    comm: 'Convulsions and Fits',
-    comm: 'Only moves when stimulated, or does not move even on stimulation',
-    comm: 'Yellow sole(Baby body turning yellow especially eyes, palms, soles)',
-    comm: 'Bleeding from the umbilical stump',
-    comm: 'Signs of local infection: umbilicus is red or draining pus, skin boils, or eyes draining pus',
-    comm: 'Weight chart using color coded scales if RED or YELLOW(Weight below 2.5kg or born less than 36 weeks of age)',
-    comm: 'Unable to cry',
-    comm: 'Cyanosis',
-    comm: 'Bulging fontanelle',
+    Poor_Breastfeeding: 'Poor Breastfeeding (under 6 months old child)',
+    not_able_to_feed_since_birth_or_stopped_feeding_well:
+      'Not able to feed since birth, or stopped feeding well',
+    not_able_to_breastfeed: 'Not able to breastfeed',
+    Fever: 'Fever (37.5 C or more)',
+    very_low_temperature: 'Very low temperature (35.4 C or less)',
+    shivering: 'Shivering',
+    Fast_Breathing: 'Fast Breathing',
+    Very_Sleepy: 'Very Sleepy',
+    Convulsions_and_Fits: 'Convulsions and Fits',
+    only_moves_when_stimulated_or_does_not_move_even_on_stimulation:
+      'Only moves when stimulated, or does not move even on stimulation',
+    yellow_solebaby_body_turning_yellow_especially_eyes_palms_soles:
+      'Yellow sole(Baby body turning yellow especially eyes, palms, soles)',
+    bleeding_from_the_umbilical_stump: 'Bleeding from the umbilical stump',
+    signs_of_local_infection_umbilicus_is_red_or_draining_pus_skin_boils_or_eye:
+      'Signs of local infection: umbilicus is red or draining pus, skin boils, or eyes draining pus',
+    weight_chart_using_color_coded_scales_if_red_or_yellowweight_below_25kg_or_:
+      'Weight chart using color coded scales if RED or YELLOW(Weight below 2.5kg or born less than 36 weeks of age)',
+    unable_to_cry: 'Unable to cry',
+    cyanosis: 'Cyanosis',
+    bulging_fontanelle: 'Bulging fontanelle',
   };
 
   const otherReferralMap = {
-    comm: 'HIV Testing and Counseling',
-    comm: 'Visit to Clinician',
-    comm: 'Adverse Drug Reaction Side Effect',
-    comm: 'Malnutrition',
-    comm: 'Malaria',
-    comm: 'PMTCT',
-    comm: 'TB',
-    comm: 'Treatment for other OIs',
-    comm: 'ARI',
-    comm: 'Anemia',
-    comm: 'Diarrhea',
-    comm: 'Pregnancy Care (ANC)',
-    comm: 'Family Planning (FP)',
-    comm: 'Preconception Counseling',
-    comm: 'Injury',
-    comm: 'Blood in Stool',
-    comm: 'Immunization',
-    comm: 'Routine Health Check ups',
-    comm: 'Other',
+    HIV_Testing_and_Counseling: 'HIV Testing and Counseling',
+    Visit_to_Clinician: 'Visit to Clinician',
+    Adverse_Drug_Reaction_Side_Effect: 'Adverse Drug Reaction Side Effect',
+    Malnutrition: 'Malnutrition',
+    Malaria: 'Malaria',
+    PMTCT: 'PMTCT',
+    TB: 'TB',
+    Treatment_for_other_OIs: 'Treatment for other OIs',
+    ARI: 'ARI',
+    Anemia: 'Anemia',
+    Diarrhea: 'Diarrhea',
+    Pregnancy_Care_ANCE: 'Pregnancy Care (ANC)',
+    Family_Planning_FP: 'Family Planning (FP)',
+    Preconception_Counseling: 'Preconception Counseling',
+    Injury: 'Injury',
+    Blood_in_Stool: 'Blood in Stool',
+    Immunization: 'Immunization',
+    Routine_Health_Check_ups: 'Routine Health Check ups',
+    Other: 'Other',
+    Poor_Breastfeeding: 'Poor Breastfeeding (under 6 months old child)',
+    not_able_to_feed_since_birth_or_stopped_feeding_well:
+      'Not able to feed since birth, or stopped feeding well',
+    not_able_to_breastfeed: 'Not able to breastfeed',
+    Fever: 'Fever (37.5 C or more)',
+    very_low_temperature: 'Very low temperature (35.4 C or less)',
+    shivering: 'Shivering',
+    Fast_Breathing: 'Fast Breathing',
+    Very_Sleepy: 'Very Sleepy',
+    Convulsions_and_Fits: 'Convulsions and Fits',
+    only_moves_when_stimulated_or_does_not_move_even_on_stimulation:
+      'Only moves when stimulated, or does not move even on stimulation',
+    yellow_solebaby_body_turning_yellow_especially_eyes_palms_soles:
+      'Yellow sole(Baby body turning yellow especially eyes, palms, soles)',
+    bleeding_from_the_umbilical_stump: 'Bleeding from the umbilical stump',
+    signs_of_local_infection_umbilicus_is_red_or_draining_pus_skin_boils_or_eye:
+      'Signs of local infection: umbilicus is red or draining pus, skin boils, or eyes draining pus',
+    weight_chart_using_color_coded_scales_if_red_or_yellowweight_below_25kg_or_:
+      'Weight chart using color coded scales if RED or YELLOW(Weight below 2.5kg or born less than 36 weeks of age)',
+    unable_to_cry: 'Unable to cry',
+    cyanosis: 'Cyanosis',
+    bulging_fontanelle: 'Bulging fontanelle',
   };
 
   const homeCareMap = {
@@ -133,12 +160,12 @@ fn(state => {
   };
 
   const clinicalMap = {
-    comm: 'Diarrhea',
-    comm: 'Malnutrition',
-    comm: 'Malaria',
-    comm: 'Acute Respiratoy Infection (ARI)',
-    comm: 'Accident/Injury',
-    comm: 'Other',
+    diarrhea: 'Diarrhea',
+    malnutrition: 'Malnutrition',
+    malaria: 'Malaria',
+    acute_respiratory_infection: 'Acute Respiratoy Infection (ARI)',
+    accident_injury: 'Accident/Injury',
+    other: 'Other',
   };
 
   let relationships = [];
@@ -281,18 +308,42 @@ upsert('Service__c', 'Service_UID__c', state => ({
     //===== NEW MAPPINGS - JAN 14 ===========================//
     field('Pregnancy_Danger_Signs__c', state => {
       var sign = dataValue('properties.pregnancy_danger_signs')(state);
-      return sign && sign.split(',').join(';');
-      //TODO:apply state.pregDangerMap to each 'sign' value which is multiselect in commcare
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.pregDangerMap[value] || value;
+              })
+          : undefined;
+      return value.join(';') || undefined;
     }),
     field('Child_Danger_Signs__c', state => {
       var check = dataValue('properties.Other_Danger_Signs')(state);
-      return check && check.split(',').join(';');
-      //TODO:apply state.childSignMap to each 'check' value which is multiselect in commcare
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.childSignMap[value] || value;
+              })
+          : undefined;
+      return value.join(';') || undefined;
     }),
     field('Delayed_Milestone__c', state => {
       var check = dataValue('properties.which_delayed_milestone')(state);
-      return check && check.split(',').join(';');
-      //TODO: apply state.milestoneTypeMap to each 'check' value which is multiselect in commcare
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.milestoneTypeMap[value] || value;
+              })
+          : undefined;
+      return value.join(';') || undefined;
     }),
     field('Serious_Symptoms__c', state => {
       var check = dataValue('properties.symptoms_check_other')(state);
@@ -302,20 +353,36 @@ upsert('Service__c', 'Service_UID__c', state => ({
               .replace(/ /gi, ';')
               .split(';')
               .map(value => {
-                return state.symptomsMap[value] || undefined;
+                return state.symptomsMap[value] || value;
               })
           : undefined;
       return value.join(';') || undefined;
     }),
-    // field('Other_Referral_Reasons__c', state => {
-    //   var check = dataValue('properties.Purpose_of_Referral')(state);
-    //   return check && check.split(',').join(';');
-    //   //TODO: apply state.otherReferralMap to each 'check' value which is multiselect in commcare
-    // }),
+    field('Other_Referral_Reasons__c', state => {
+      var check = dataValue('properties.Purpose_of_Referral')(state);
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.otherReferralMap[value] || value;
+              })
+          : undefined;
+      return value.join(';') || undefined;
+    }),
     field('Home_Based_Care_Rendered__c', state => {
-      const hbc = dataValue('properties.Home_Based_Care_Provided')(state);
-      return hbc ? hbc.split(',').join(';').replace(/_/g, ' ') : hbc;
-      //TODO: apply state.homeCareMap to each 'hbc' value which is multiselect in commcare
+      const check = dataValue('properties.Home_Based_Care_Provided')(state);
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.homeCareMap[value] || value;
+              })
+          : undefined;
+      return value.join(';') || undefined;
     }),
     field('PSBI_Visit__c', state => {
       var number = dataValue('properties.psbi_task')(state);
@@ -323,15 +390,15 @@ upsert('Service__c', 'Service_UID__c', state => ({
     }),
     field('Clinical_Services__c', state => {
       var check = dataValue('properties.TT5_Clinical_Service')(state);
-      return state.clinicalMap[check];
+      return state.clinicalMap[check] || check;
     }),
     field('Referred_Facility__c', state => {
       var check = dataValue('properties.referred_facility')(state);
-      return state.facilityMap[check];
+      return state.facilityMap[check] || check;
     }),
     field('HAWI_Clinical_Services__c', state => {
       var sign = dataValue('properties.HAWI_Clinical_Service')(state);
-      return state.serviceMap[sign];
+      return state.serviceMap[sign] || check;
     })
     //=====================================//
   ),
