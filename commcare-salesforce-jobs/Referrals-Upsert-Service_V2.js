@@ -296,7 +296,16 @@ upsert('Service__c', 'Service_UID__c', state => ({
     }),
     field('Serious_Symptoms__c', state => {
       var check = dataValue('properties.symptoms_check_other')(state);
-      return check && check.split(',').join(';');
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.symptomsMap[value];
+              })
+          : undefined;
+      return value.join(';') || undefined;
       //TODO: apply state.symptomsMap to each 'check' value which is multiselect in commcare
     }),
     // field('Other_Referral_Reasons__c', state => {
@@ -311,7 +320,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
     }),
     field('PSBI_Visit__c', state => {
       var number = dataValue('properties.psbi_task')(state);
-      return number && number!=='' ? `Day ${number}` : undefined; //sample output: 'Day 3'
+      return number && number !== '' ? `Day ${number}` : undefined; //sample output: 'Day 3'
     }),
     field('Clinical_Services__c', state => {
       var check = dataValue('properties.TT5_Clinical_Service')(state);
