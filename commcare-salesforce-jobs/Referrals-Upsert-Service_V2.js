@@ -317,7 +317,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
                 return state.pregDangerMap[value] || value;
               })
           : undefined;
-      return value.join(';') || undefined;
+      return value ? value.join(';') : undefined;
     }),
     field('Child_Danger_Signs__c', state => {
       var check = dataValue('properties.Other_Danger_Signs')(state);
@@ -330,7 +330,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
                 return state.childSignMap[value] || value;
               })
           : undefined;
-      return value.join(';') || undefined;
+      return value ? value.join(';') : undefined;
     }),
     field('Delayed_Milestone__c', state => {
       var check = dataValue('properties.which_delayed_milestone')(state);
@@ -343,7 +343,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
                 return state.milestoneTypeMap[value] || value;
               })
           : undefined;
-      return value.join(';') || undefined;
+      return value ? value.join(';') : undefined;
     }),
     field('Serious_Symptoms__c', state => {
       var check = dataValue('properties.symptoms_check_other')(state);
@@ -356,7 +356,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
                 return state.symptomsMap[value] || value;
               })
           : undefined;
-      return value.join(';') || undefined;
+      return value ? value.join(';') : undefined;
     }),
     field('Other_Referral_Reasons__c', state => {
       var check = dataValue('properties.Purpose_of_Referral')(state);
@@ -369,7 +369,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
                 return state.otherReferralMap[value] || value;
               })
           : undefined;
-      return value.join(';') || undefined;
+      return value ? value.join(';') : undefined;
     }),
     field('Home_Based_Care_Rendered__c', state => {
       const check = dataValue('properties.Home_Based_Care_Provided')(state);
@@ -382,7 +382,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
                 return state.homeCareMap[value] || value;
               })
           : undefined;
-      return value.join(';') || undefined;
+      return value ? value.join(';') : undefined;
     }),
     field('PSBI_Visit__c', state => {
       var number = dataValue('properties.psbi_task')(state);
