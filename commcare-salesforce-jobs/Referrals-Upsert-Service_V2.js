@@ -72,10 +72,10 @@ fn(state => {
 
   const symptomsMap = {
     convulsions: 'Convulsions',
-    not_able_to_eat_drink: 'Not able to eat/drink',
+    not_able_to_eatdrink: 'Not able to eat/drink',
     vomits_everything: 'Vomits everything',
-    chest_in_drawing: 'Chest in-drawing',
-    unusally_sleepy_unconscious: 'Unusually sleepy/unconscious',
+    'chest_in-drawing': 'Chest in-drawing',
+    unusually_sleepyunconscious: 'Unusually sleepy/unconscious',
     swelling_of_both_feet: 'Swelling of both feet',
   };
 
@@ -302,11 +302,10 @@ upsert('Service__c', 'Service_UID__c', state => ({
               .replace(/ /gi, ';')
               .split(';')
               .map(value => {
-                return state.symptomsMap[value];
+                return state.symptomsMap[value] || undefined;
               })
           : undefined;
       return value.join(';') || undefined;
-      //TODO: apply state.symptomsMap to each 'check' value which is multiselect in commcare
     }),
     // field('Other_Referral_Reasons__c', state => {
     //   var check = dataValue('properties.Purpose_of_Referral')(state);
