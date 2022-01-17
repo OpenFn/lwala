@@ -358,19 +358,20 @@ upsert('Service__c', 'Service_UID__c', state => ({
           : undefined;
       return value ? value.join(';') : undefined;
     }),
-    field('Other_Referral_Reasons__c', state => {
-      var check = dataValue('properties.Purpose_of_Referral')(state);
-      var value =
-        check && check !== ''
-          ? check
-              .replace(/ /gi, ';')
-              .split(';')
-              .map(value => {
-                return state.otherReferralMap[value] || value;
-              })
-          : undefined;
-      return value ? value.join(';') : undefined;
-    }),
+    // TODO: Troubleshoot mapping and/or update picklist values in SF
+    // field('Other_Referral_Reasons__c', state => {
+    //   var check = dataValue('properties.Purpose_of_Referral')(state);
+    //   var value =
+    //     check && check !== ''
+    //       ? check
+    //           .replace(/ /gi, ';')
+    //           .split(';')
+    //           .map(value => {
+    //             return state.otherReferralMap[value] || value;
+    //           })
+    //       : undefined;
+    //   return value ? value.join(';') : undefined;
+    // }),
     field('Home_Based_Care_Rendered__c', state => {
       var check = dataValue('properties.Home_Based_Care_Provided')(state);
       var value =
