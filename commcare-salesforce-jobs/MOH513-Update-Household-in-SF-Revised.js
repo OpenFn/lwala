@@ -15,7 +15,14 @@ alterState(state => {
     none: 'None',
   };
 
-  return { ...state, supervisorMap };
+  const insuranceMap = {
+    nhif: 'NHIF',
+    Linda_mama: 'Linda mama',
+    other_please_specify_if_active: 'Other',
+    none: 'None',
+  };
+
+  return { ...state, supervisorMap, insuranceMap };
 });
 upsert(
   'Household__c',
@@ -157,7 +164,7 @@ upsert(
               .replace(/ /gi, ';')
               .split(';')
               .map(value => {
-                return state.homeCareMap[value] || value;
+                return state.insuranceMap[value] || value;
               })
           : undefined;
       return value ? value.join(';') : undefined;
