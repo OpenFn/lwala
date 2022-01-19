@@ -2833,7 +2833,7 @@ alterState(state => {
 //Upsert Visit records
 alterState(state => {
   if (
-    dataValue('form.Source')(state) === 1 &&
+    dataValue('form.Source')(state) === '1' &&
     dataValue('metadata.username')(state) !== 'test.2021'
   ) {
     return upsert(
