@@ -1023,2458 +1023,2458 @@ alterState(state => {
   return state;
 });
 
-// //--- UPSERT SERVICE RECORDS ---/
-// // ANC1
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state) ||
-//     dataValue('form.ANCs.ANC_1')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_1')(
-//             state
-//           );
-//           const date2 = date ? date : dataValue('form.ANCs.ANC_1')(state);
-//           return id + date2 + 'ANC1';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'ANC 1'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state);
-//           return date ? date : state.data.form.case.update.ANC_1;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Purpose_of_Referral__c', 'ANC 1'),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue('form.TT5.Child_Information.ANCs.Facility1')(
-//             state
-//           );
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//--- UPSERT SERVICE RECORDS ---/
+// ANC1
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state) ||
+    dataValue('form.ANCs.ANC_1')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_1')(
+            state
+          );
+          const date2 = date ? date : dataValue('form.ANCs.ANC_1')(state);
+          return id + date2 + 'ANC1';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'ANC 1'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.ANCs.ANC_1')(state);
+          return date ? date : state.data.form.case.update.ANC_1;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Purpose_of_Referral__c', 'ANC 1'),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue('form.TT5.Child_Information.ANCs.Facility1')(
+            state
+          );
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No ANC1.');
-//   return state;
-// });
+  console.log('No ANC1.');
+  return state;
+});
 
-// //ANC2
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state) ||
-//     dataValue('form.ANCs.ANC_2')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_2')(
-//             state
-//           );
-//           const date2 = date ? date : dataValue('form.ANCs.ANC_2')(state);
-//           return id + date2 + 'ANC2';
-//         }),
-//         field('Source__c', 1),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Reason_for_Service__c', 'ANC 2'),
-//         field('Date__c', state => {
-//           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state);
-//           return date ? date : state.data.form.case.update.ANC_2;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Purpose_of_Referral__c', 'ANC 2'),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue('form.TT5.Child_Information.ANCs.Facility2')(
-//             state
-//           );
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//ANC2
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state) ||
+    dataValue('form.ANCs.ANC_2')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_2')(
+            state
+          );
+          const date2 = date ? date : dataValue('form.ANCs.ANC_2')(state);
+          return id + date2 + 'ANC2';
+        }),
+        field('Source__c', 1),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Reason_for_Service__c', 'ANC 2'),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.ANCs.ANC_2')(state);
+          return date ? date : state.data.form.case.update.ANC_2;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Purpose_of_Referral__c', 'ANC 2'),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue('form.TT5.Child_Information.ANCs.Facility2')(
+            state
+          );
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No ANC2.');
-//   return state;
-// });
+  console.log('No ANC2.');
+  return state;
+});
 
-// //ANC3
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state) ||
-//     dataValue('form.ANCs.ANC_3')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_3')(
-//             state
-//           );
-//           const date2 = date ? date : dataValue('form.ANCs.ANC_3')(state);
-//           return id + date2 + 'ANC3';
-//         }),
-//         field('Source__c', true),
-//         field('Reason_for_Service__c', 'ANC 3'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state);
-//           return date ? date : state.data.form.case.update.ANC_3;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Purpose_of_Referral__c', 'ANC 3'),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue('form.TT5.Child_Information.ANCs.Facility3')(
-//             state
-//           );
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//ANC3
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state) ||
+    dataValue('form.ANCs.ANC_3')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_3')(
+            state
+          );
+          const date2 = date ? date : dataValue('form.ANCs.ANC_3')(state);
+          return id + date2 + 'ANC3';
+        }),
+        field('Source__c', true),
+        field('Reason_for_Service__c', 'ANC 3'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.ANCs.ANC_3')(state);
+          return date ? date : state.data.form.case.update.ANC_3;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Purpose_of_Referral__c', 'ANC 3'),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue('form.TT5.Child_Information.ANCs.Facility3')(
+            state
+          );
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No ANC3.');
-//   return state;
-// });
+  console.log('No ANC3.');
+  return state;
+});
 
-// //ANC4
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state) ||
-//     dataValue('form.ANCs.ANC_4')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_4')(
-//             state
-//           );
-//           const date2 = date ? date : dataValue('form.ANCs.ANC_4')(state);
-//           return id + date2 + 'ANC4';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'ANC 4'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state);
-//           return date ? date : state.data.form.case.update.ANC_4;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Purpose_of_Referral__c', 'ANC 4'),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue('form.TT5.Child_Information.ANCs.Facility4')(
-//             state
-//           );
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//ANC4
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state) ||
+    dataValue('form.ANCs.ANC_4')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_4')(
+            state
+          );
+          const date2 = date ? date : dataValue('form.ANCs.ANC_4')(state);
+          return id + date2 + 'ANC4';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'ANC 4'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.ANCs.ANC_4')(state);
+          return date ? date : state.data.form.case.update.ANC_4;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Purpose_of_Referral__c', 'ANC 4'),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue('form.TT5.Child_Information.ANCs.Facility4')(
+            state
+          );
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No ANC4.');
-//   return state;
-// });
+  console.log('No ANC4.');
+  return state;
+});
 
-// //ANC5
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state) ||
-//     dataValue('form.ANCs.ANC_5')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_5')(
-//             state
-//           );
-//           const date2 = date ? date : dataValue('form.ANCs.ANC_5')(state);
-//           return id + date2 + 'ANC5';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'ANC 5'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state);
-//           return date ? date : state.data.form.case.update.ANC_5;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Purpose_of_Referral__c', 'ANC 5'),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue('form.TT5.Child_Information.ANCs.Facility5')(
-//             state
-//           );
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//ANC5
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state) ||
+    dataValue('form.ANCs.ANC_5')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue('$.form.TT5.Child_Information.ANCs.ANC_5')(
+            state
+          );
+          const date2 = date ? date : dataValue('form.ANCs.ANC_5')(state);
+          return id + date2 + 'ANC5';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'ANC 5'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.ANCs.ANC_5')(state);
+          return date ? date : state.data.form.case.update.ANC_5;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Purpose_of_Referral__c', 'ANC 5'),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue('form.TT5.Child_Information.ANCs.Facility5')(
+            state
+          );
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No ANC5.');
-//   return state;
-// });
+  console.log('No ANC5.');
+  return state;
+});
 
-// // BCG REVIEWED
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Immunizations.BCG')(state) ||
-//     dataValue('form.case.update.BCG')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue(
-//             '$.form.TT5.Child_Information.Immunizations.BCG'
-//           )(state);
-//           const date2 = date ? date : dataValue('form.case.update.BCG')(state);
-//           return id + date2 + 'BCG';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'BCG'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue('form.TT5.Child_Information.Immunizations.BCG')(
-//             state
-//           );
-//           return date ? date : state.data.form.case.update.BCG;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Facility_BCG'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+// BCG REVIEWED
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Immunizations.BCG')(state) ||
+    dataValue('form.case.update.BCG')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue(
+            '$.form.TT5.Child_Information.Immunizations.BCG'
+          )(state);
+          const date2 = date ? date : dataValue('form.case.update.BCG')(state);
+          return id + date2 + 'BCG';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'BCG'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue('form.TT5.Child_Information.Immunizations.BCG')(
+            state
+          );
+          return date ? date : state.data.form.case.update.BCG;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Immunizations.Facility_BCG'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('Not BCG REVIEWED.');
-//   return state;
-// });
+  console.log('Not BCG REVIEWED.');
+  return state;
+});
 
-// // OPV0 REVIEWED
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Immunizations.OPV0_h')(state) ||
-//     dataValue('form.case.update.OPV0_h')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       //'CommCare_Code__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'opv0';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue(
-//             '$.form.TT5.Child_Information.Immunizations.OPV0_h'
-//           )(state);
-//           const date2 = date
-//             ? date
-//             : dataValue('form.case.update.OPV0_h')(state);
-//           return id + date2 + 'OPV0';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'OPV0'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue(
-//             'form.TT5.Child_Information.Immunizations.OPV0_h'
-//           )(state);
-//           return date ? date : state.data.form.case.update.OPV0_h;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Facility_OPV_0'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+// OPV0 REVIEWED
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Immunizations.OPV0_h')(state) ||
+    dataValue('form.case.update.OPV0_h')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      //'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'opv0';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue(
+            '$.form.TT5.Child_Information.Immunizations.OPV0_h'
+          )(state);
+          const date2 = date
+            ? date
+            : dataValue('form.case.update.OPV0_h')(state);
+          return id + date2 + 'OPV0';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'OPV0'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue(
+            'form.TT5.Child_Information.Immunizations.OPV0_h'
+          )(state);
+          return date ? date : state.data.form.case.update.OPV0_h;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Immunizations.Facility_OPV_0'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('Not OPV0 reviewed.');
-//   return state;
-// });
+  console.log('Not OPV0 reviewed.');
+  return state;
+});
 
-// // OPV1 REVIEWED
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')(state) ||
-//     dataValue('form.case.update.OPV1_h')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       //'CommCare_Code__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'opv1';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue(
-//             '$.form.TT5.Child_Information.Immunizations.OPV1_h'
-//           )(state);
-//           const date2 = date
-//             ? date
-//             : dataValue('form.case.update.OPV1_h')(state);
-//           return id + date2 + 'OPV1';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'OPV1'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue(
-//             'form.TT5.Child_Information.Immunizations.OPV1_h'
-//           )(state);
-//           return date ? date : state.data.form.case.update.OPV1_h;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Facility_OPV_1'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+// OPV1 REVIEWED
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Immunizations.OPV1_h')(state) ||
+    dataValue('form.case.update.OPV1_h')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      //'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'opv1';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue(
+            '$.form.TT5.Child_Information.Immunizations.OPV1_h'
+          )(state);
+          const date2 = date
+            ? date
+            : dataValue('form.case.update.OPV1_h')(state);
+          return id + date2 + 'OPV1';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'OPV1'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue(
+            'form.TT5.Child_Information.Immunizations.OPV1_h'
+          )(state);
+          return date ? date : state.data.form.case.update.OPV1_h;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Immunizations.Facility_OPV_1'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('Not OPV1 reviewed.');
-//   return state;
-// });
+  console.log('Not OPV1 reviewed.');
+  return state;
+});
 
-// // OPV2
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')(state) ||
-//     dataValue('form.case.update.OPV2_h')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       //'CommCare_Code__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'opv2';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue(
-//             '$.form.TT5.Child_Information.Immunizations.OPV2_h'
-//           )(state);
-//           const date2 = date
-//             ? date
-//             : dataValue('form.case.update.OPV2_h')(state);
-//           return id + date2 + 'OPV2';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'OPV2'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue(
-//             'form.TT5.Child_Information.Immunizations.OPV2_h'
-//           )(state);
-//           return date ? date : state.data.form.case.update.OPV2_h;
-//         }),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Facility_OPV_2'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+// OPV2
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Immunizations.OPV2_h')(state) ||
+    dataValue('form.case.update.OPV2_h')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      //'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'opv2';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue(
+            '$.form.TT5.Child_Information.Immunizations.OPV2_h'
+          )(state);
+          const date2 = date
+            ? date
+            : dataValue('form.case.update.OPV2_h')(state);
+          return id + date2 + 'OPV2';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'OPV2'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue(
+            'form.TT5.Child_Information.Immunizations.OPV2_h'
+          )(state);
+          return date ? date : state.data.form.case.update.OPV2_h;
+        }),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Immunizations.Facility_OPV_2'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('Not OPV2 reviewed.');
-//   return state;
-// });
+  console.log('Not OPV2 reviewed.');
+  return state;
+});
 
-// //OPV3
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')(state) ||
-//     dataValue('form.case.update.OPV3_h')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       //'CommCare_Code__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'opv3';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue(
-//             '$.form.TT5.Child_Information.Immunizations.OPV3_h'
-//           )(state);
-//           const date2 = date
-//             ? date
-//             : dataValue('form.case.update.OPV3_h')(state);
-//           return id + date2 + 'OPV3';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'OPV3'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue(
-//             'form.TT5.Child_Information.Immunizations.OPV3_h'
-//           )(state);
-//           return date ? date : state.data.form.case.update.OPV3_h;
-//         }),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Facility_OPV_3'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//OPV3
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Immunizations.OPV3_h')(state) ||
+    dataValue('form.case.update.OPV3_h')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      //'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'opv3';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue(
+            '$.form.TT5.Child_Information.Immunizations.OPV3_h'
+          )(state);
+          const date2 = date
+            ? date
+            : dataValue('form.case.update.OPV3_h')(state);
+          return id + date2 + 'OPV3';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'OPV3'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue(
+            'form.TT5.Child_Information.Immunizations.OPV3_h'
+          )(state);
+          return date ? date : state.data.form.case.update.OPV3_h;
+        }),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Immunizations.Facility_OPV_3'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('Not OPV3 reviewed.');
-//   return state;
-// });
+  console.log('Not OPV3 reviewed.');
+  return state;
+});
 
-// //Measles 6
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')(state) ||
-//     dataValue('form.case.update.Measles6_h')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       //'CommCare_Code__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'measles6';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue(
-//             '$.form.TT5.Child_Information.Immunizations.Measles6_h'
-//           )(state);
-//           const date2 = date
-//             ? date
-//             : dataValue('form.case.update.Measles6_h')(state);
-//           return id + date2 + 'Measles6';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'Measles 6'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Measles6_h'
-//           )(state);
-//           return date ? date : state.data.form.case.update.Measles6_h;
-//         }),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Facility_Measles_6'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//Measles 6
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Immunizations.Measles6_h')(state) ||
+    dataValue('form.case.update.Measles6_h')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      //'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'measles6';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue(
+            '$.form.TT5.Child_Information.Immunizations.Measles6_h'
+          )(state);
+          const date2 = date
+            ? date
+            : dataValue('form.case.update.Measles6_h')(state);
+          return id + date2 + 'Measles6';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'Measles 6'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue(
+            'form.TT5.Child_Information.Immunizations.Measles6_h'
+          )(state);
+          return date ? date : state.data.form.case.update.Measles6_h;
+        }),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Immunizations.Facility_Measles_6'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No measles 6.');
-//   return state;
-// });
+  console.log('No measles 6.');
+  return state;
+});
 
-// //Measles 9
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Immunizations.Measles9_h')(state) ||
-//     dataValue('form.case.update.Measles9_h')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       //'CommCare_Code__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'measles9';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue(
-//             '$.form.TT5.Child_Information.Immunizations.Measles9_h'
-//           )(state);
-//           const date2 = date
-//             ? date
-//             : dataValue('form.case.update.Measles9_h')(state);
-//           return id + date2 + 'Measles9';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'Measles 9'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Measles9_h'
-//           )(state);
-//           return date ? date : state.data.form.case.update.Measles9_h;
-//         }),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Facility_Measles_9'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//Measles 9
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Immunizations.Measles9_h')(state) ||
+    dataValue('form.case.update.Measles9_h')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      //'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'measles9';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue(
+            '$.form.TT5.Child_Information.Immunizations.Measles9_h'
+          )(state);
+          const date2 = date
+            ? date
+            : dataValue('form.case.update.Measles9_h')(state);
+          return id + date2 + 'Measles9';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'Measles 9'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue(
+            'form.TT5.Child_Information.Immunizations.Measles9_h'
+          )(state);
+          return date ? date : state.data.form.case.update.Measles9_h;
+        }),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Immunizations.Facility_Measles_9'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No measles 9.');
-//   return state;
-// });
+  console.log('No measles 9.');
+  return state;
+});
 
-// //Measles 18
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Immunizations.Measles18_h')(state) ||
-//     dataValue('form.case.update.Measles18_h')(state)
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       //'CommCare_Code__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'measles18';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           const id = dataValue('$.form.case.@case_id')(state);
-//           const date = dataValue(
-//             '$.form.TT5.Child_Information.Immunizations.Measles18_h'
-//           )(state);
-//           const date2 = date
-//             ? date
-//             : dataValue('form.case.update.Measles18_h')(state);
-//           return id + date2 + 'Measles18';
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'Measles 18'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', state => {
-//           var date = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Measles18_h'
-//           )(state);
-//           return date ? date : state.data.form.case.update.Measles18_h;
-//         }),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Immunizations.Facility_Measles_18'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//Measles 18
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Immunizations.Measles18_h')(state) ||
+    dataValue('form.case.update.Measles18_h')(state)
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      //'CommCare_Code__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'measles18';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          const id = dataValue('$.form.case.@case_id')(state);
+          const date = dataValue(
+            '$.form.TT5.Child_Information.Immunizations.Measles18_h'
+          )(state);
+          const date2 = date
+            ? date
+            : dataValue('form.case.update.Measles18_h')(state);
+          return id + date2 + 'Measles18';
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'Measles 18'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', state => {
+          var date = dataValue(
+            'form.TT5.Child_Information.Immunizations.Measles18_h'
+          )(state);
+          return date ? date : state.data.form.case.update.Measles18_h;
+        }),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Immunizations.Facility_Measles_18'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No measles 18.');
-//   return state;
-// });
+  console.log('No measles 18.');
+  return state;
+});
 
-// //Deworming
-// alterState(state => {
-//   if (dataValue('form.TT5.Child_Information.Deworming')(state) === 'Yes') {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'deworming';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'deworming';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'Deworming'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', dataValue('form.Date')),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Deworming
+alterState(state => {
+  if (dataValue('form.TT5.Child_Information.Deworming')(state) === 'Yes') {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'deworming';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'deworming';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'Deworming'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', dataValue('form.Date')),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No deworming.');
-//   return state;
-// });
+  console.log('No deworming.');
+  return state;
+});
 
-// //Home Based care for HAWI clients
-// alterState(state => {
-//   if (
-//     dataValue('form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(state) !==
-//       undefined &&
-//     dataValue('form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(state) !==
-//       ''
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'homecare';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'homecare';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Reason_for_Service__c', 'Home-Based Care'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Date__c', dataValue('form.Date')),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Home_Based_Care_Rendered__c', state => {
-//           var care = '';
-//           var str = dataValue(
-//             'form.HAWI.Home_Based_Care.Home_Based_Care_Provided'
-//           )(state);
-//           care = str.replace(/ /g, ';');
-//           care = care.replace(/_/g, ' ');
-//           return care;
-//         }),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Home Based care for HAWI clients
+alterState(state => {
+  if (
+    dataValue('form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(state) !==
+      undefined &&
+    dataValue('form.HAWI.Home_Based_Care.Home_Based_Care_Provided')(state) !==
+      ''
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'homecare';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'homecare';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Reason_for_Service__c', 'Home-Based Care'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Date__c', dataValue('form.Date')),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Home_Based_Care_Rendered__c', state => {
+          var care = '';
+          var str = dataValue(
+            'form.HAWI.Home_Based_Care.Home_Based_Care_Provided'
+          )(state);
+          care = str.replace(/ /g, ';');
+          care = care.replace(/_/g, ' ');
+          return care;
+        }),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No HAWI HBC.');
-//   return state;
-// });
+  console.log('No HAWI HBC.');
+  return state;
+});
 
-// //Malaria cases
-// //Child
-// alterState(state => {
-//   if (dataValue('form.treatment_and_tracking.malaria_test')(state) === 'yes') {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'malaria';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'malaria';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.Date')),
-//         field('Follow_Up_By_Date__c', state => {
-//           var date = dataValue('form.Follow-Up_By_Date')(state);
-//           return date !== undefined || date !== '' ? date : null;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Referred__c', 1),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'Malaria'),
-//         field(
-//           'Malaria_Status__c',
-//           dataValue('form.treatment_and_tracking.malaria_test_results')
-//         ),
-//         field(
-//           'Home_Treatment_Date__c',
-//           dataValue('form.TT5.Child_Information.CCMM.Home_Treatment_Date')
-//         ),
-//         field(
-//           'Malaria_Home_Test_Date__c',
-//           dataValue('form.treatment_and_tracking.malaria_test_date')
-//         ),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Malaria cases
+//Child
+alterState(state => {
+  if (dataValue('form.treatment_and_tracking.malaria_test')(state) === 'yes') {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malaria';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malaria';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.Date')),
+        field('Follow_Up_By_Date__c', state => {
+          var date = dataValue('form.Follow-Up_By_Date')(state);
+          return date !== undefined || date !== '' ? date : null;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Referred__c', 1),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'Malaria'),
+        field(
+          'Malaria_Status__c',
+          dataValue('form.treatment_and_tracking.malaria_test_results')
+        ),
+        field(
+          'Home_Treatment_Date__c',
+          dataValue('form.TT5.Child_Information.CCMM.Home_Treatment_Date')
+        ),
+        field(
+          'Malaria_Home_Test_Date__c',
+          dataValue('form.treatment_and_tracking.malaria_test_date')
+        ),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No malaria test.');
-//   return state;
-// });
+  console.log('No malaria test.');
+  return state;
+});
 
-// //Malnutrition case
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
-//       state
-//     ) !== undefined
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'malnutrition';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'malnutrition';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.Date')),
-//         field('Follow_Up_By_Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Reason_for_Service__c', 'Nutrition Screening'),
-//         field(
-//           'Clinical_Visit_Date__c',
-//           dataValue('form.TT5.Child_Information.Nutrition2.Clinical_Date')
-//         ),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         ),
-//         field(
-//           'Height__c',
-//           dataValue('form.TT5.Child_Information.Nutrition.Height')
-//         ),
-//         field(
-//           'Weight__c',
-//           dataValue('form.TT5.Child_Information.Nutrition.Weight')
-//         ),
-//         field(
-//           'MUAC__c',
-//           dataValue('form.TT5.Child_Information.Nutrition.MUAC')
-//         ),
-//         field('Nutrition_Status__c', state => {
-//           var status = '';
-//           if (
-//             dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
-//               state
-//             ) === 'normal'
-//           ) {
-//             status = 'Normal';
-//           } else if (
-//             dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
-//               state
-//             ) === 'moderate'
-//           ) {
-//             status = 'Moderately Malnourished';
-//           } else if (
-//             dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
-//               state
-//             ) === 'severe'
-//           ) {
-//             status = 'Severely Malnourished';
-//           }
-//           return status;
-//         }),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         })
-//       )
-//     )(state);
-//   }
+//Malnutrition case
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
+      state
+    ) !== undefined
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malnutrition';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malnutrition';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.Date')),
+        field('Follow_Up_By_Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Reason_for_Service__c', 'Nutrition Screening'),
+        field(
+          'Clinical_Visit_Date__c',
+          dataValue('form.TT5.Child_Information.Nutrition2.Clinical_Date')
+        ),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        ),
+        field(
+          'Height__c',
+          dataValue('form.TT5.Child_Information.Nutrition.Height')
+        ),
+        field(
+          'Weight__c',
+          dataValue('form.TT5.Child_Information.Nutrition.Weight')
+        ),
+        field(
+          'MUAC__c',
+          dataValue('form.TT5.Child_Information.Nutrition.MUAC')
+        ),
+        field('Nutrition_Status__c', state => {
+          var status = '';
+          if (
+            dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
+              state
+            ) === 'normal'
+          ) {
+            status = 'Normal';
+          } else if (
+            dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
+              state
+            ) === 'moderate'
+          ) {
+            status = 'Moderately Malnourished';
+          } else if (
+            dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')(
+              state
+            ) === 'severe'
+          ) {
+            status = 'Severely Malnourished';
+          }
+          return status;
+        }),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        })
+      )
+    )(state);
+  }
 
-//   console.log('No malnutrition.');
-//   return state;
-// });
+  console.log('No malnutrition.');
+  return state;
+});
 
-// //Referrals ... check on Site__r mappings and PNC service
-// //Other Referrals
-// alterState(state => {
-//   if (
-//     dataValue('form.treatment_and_tracking.symptoms_other_referral')(state) ==
-//     'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'other';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'other';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : 'a0308000021zm8Z';
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field('Follow_Up_By_Date__c', state => {
-//           var date = dataValue('form.Follow-Up_By_Date')(state);
-//           return date === null || date === '' ? null : date;
-//         }),
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', state => {
-//           var purpose = dataValue(
-//             'form.treatment_and_tracking.symptoms_check_other'
-//           )(state)
-//             .toLowerCase()
-//             .split(' ')
-//             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-//             .join(';');
-//           return purpose.toString().replace(/_/g, ' ');
-//         }),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Referrals ... check on Site__r mappings and PNC service
+//Other Referrals
+alterState(state => {
+  if (
+    dataValue('form.treatment_and_tracking.symptoms_other_referral')(state) ==
+    'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'other';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'other';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : 'a0308000021zm8Z';
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field('Follow_Up_By_Date__c', state => {
+          var date = dataValue('form.Follow-Up_By_Date')(state);
+          return date === null || date === '' ? null : date;
+        }),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', state => {
+          var purpose = dataValue(
+            'form.treatment_and_tracking.symptoms_check_other'
+          )(state)
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(';');
+          return purpose.toString().replace(/_/g, ' ');
+        }),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No other referral.');
-//   return state;
-// });
+  console.log('No other referral.');
+  return state;
+});
 
-// //Skilled Delivery Referral
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.TT5.Child_Information.pregnancy_danger_signs.refer_skilled_delivery'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'skilled_delivery';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'skilled_delivery';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field('Follow_Up_By_Date__c', state => {
-//           var date = dataValue('form.Follow-Up_By_Date')(state);
-//           return date === null || date === '' ? null : date;
-//         }),
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'Skilled Delivery'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Skilled Delivery Referral
+alterState(state => {
+  if (
+    dataValue(
+      'form.TT5.Child_Information.pregnancy_danger_signs.refer_skilled_delivery'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'skilled_delivery';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'skilled_delivery';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field('Follow_Up_By_Date__c', state => {
+          var date = dataValue('form.Follow-Up_By_Date')(state);
+          return date === null || date === '' ? null : date;
+        }),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'Skilled Delivery'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No skilled delivery.');
-//   return state;
-// });
+  console.log('No skilled delivery.');
+  return state;
+});
 
-// //Prenancy danger signs Referral
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral'
-//     )(state) === 'Yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'pregnancy_danger_signs';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'pregnancy_danger_signs';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field(
-//           'Date__c',
-//           dataValue(
-//             'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral_date'
-//           )
-//         ),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field(
-//           'Follow_Up_By_Date__c',
-//           dataValue(
-//             'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.Follow-Up_By_Date'
-//           )
-//         ),
-//         field(
-//           'Clinician_Comments__c',
-//           dataValue(
-//             'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.Clinician_Notes'
-//           )
-//         ),
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'Pregnancy Danger Signs'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Prenancy danger signs Referral
+alterState(state => {
+  if (
+    dataValue(
+      'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral'
+    )(state) === 'Yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'pregnancy_danger_signs';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'pregnancy_danger_signs';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field(
+          'Date__c',
+          dataValue(
+            'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.referral_date'
+          )
+        ),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field(
+          'Follow_Up_By_Date__c',
+          dataValue(
+            'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.Follow-Up_By_Date'
+          )
+        ),
+        field(
+          'Clinician_Comments__c',
+          dataValue(
+            'form.TT5.Child_Information.pregnancy_danger_signs.danger_sign_referral.Clinician_Notes'
+          )
+        ),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'Pregnancy Danger Signs'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No danger signs.');
-//   return state;
-// });
+  console.log('No danger signs.');
+  return state;
+});
 
-// //PNC Referral ---> TO UPDATE
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc'
-//     )(state) === 'yes'
-//   ) {
-//     //Update when Julia updates group ???
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'pnc';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'pnc';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field('Follow_Up_By_Date__c', state => {
-//           var date = dataValue('form.Follow-Up_By_Date')(state);
-//           return date === null || date === '' ? null : date;
-//         }),
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'PNC'),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//PNC Referral ---> TO UPDATE
+alterState(state => {
+  if (
+    dataValue(
+      'form.ANCs.pregnancy_danger_signs.Delivery_Information.refer_pnc'
+    )(state) === 'yes'
+  ) {
+    //Update when Julia updates group ???
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'pnc';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'pnc';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field('Follow_Up_By_Date__c', state => {
+          var date = dataValue('form.Follow-Up_By_Date')(state);
+          return date === null || date === '' ? null : date;
+        }),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'PNC'),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No PNC.');
-//   return state;
-// });
+  console.log('No PNC.');
+  return state;
+});
 
-// //Malnutrition Referral
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Nutrition2.Referral')(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'malnutrition';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'malnutrition';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field('Follow_Up_By_Date__c', state => {
-//           var date = dataValue('form.Follow-Up_By_Date')(state);
-//           return date === null || date === '' ? null : date;
-//         }), //UPDATE
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'Malnutrition'),
-//         field(
-//           'Nutrition_Status__c',
-//           dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')
-//         ),
-//         field(
-//           'MUAC__c',
-//           dataValue('form.TT5.Child_Information.Nutrition.MUAC')
-//         ),
-//         field('Clinical_facility__c', state => {
-//           var facility = dataValue(
-//             'form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition'
-//           )(state);
-//           return facility !== undefined
-//             ? //? facility.toString().replace(/_/g, ' ')
-//               facility.charAt(0).toUpperCase() +
-//                 facility.substr(1).toLowerCase().replace(/_/g, ' ')
-//             : null;
-//         }),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Malnutrition Referral
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Nutrition2.Referral')(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malnutrition';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malnutrition';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field('Follow_Up_By_Date__c', state => {
+          var date = dataValue('form.Follow-Up_By_Date')(state);
+          return date === null || date === '' ? null : date;
+        }), //UPDATE
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'Malnutrition'),
+        field(
+          'Nutrition_Status__c',
+          dataValue('form.TT5.Child_Information.Nutrition2.Nutrition_Status')
+        ),
+        field(
+          'MUAC__c',
+          dataValue('form.TT5.Child_Information.Nutrition.MUAC')
+        ),
+        field('Clinical_facility__c', state => {
+          var facility = dataValue(
+            'form.TT5.Child_Information.Nutrition2.referred_facility_malnutrition'
+          )(state);
+          return facility !== undefined
+            ? //? facility.toString().replace(/_/g, ' ')
+              facility.charAt(0).toUpperCase() +
+                facility.substr(1).toLowerCase().replace(/_/g, ' ')
+            : null;
+        }),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No malnutrition referral.');
-//   return state;
-// });
+  console.log('No malnutrition referral.');
+  return state;
+});
 
-// //Child Danger Sign Referral
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Referral'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'child_danger_sign';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'child_danger_sign';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field(
-//           'Follow_Up_By_Date__c',
-//           dataValue(
-//             'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Follow-Up_By_Date'
-//           )
-//         ),
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'Child Danger Sign'),
-//         field(
-//           'Clinician_Comments__c',
-//           dataValue(
-//             'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Clinician_Notes'
-//           )
-//         ),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Child Danger Sign Referral
+alterState(state => {
+  if (
+    dataValue(
+      'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Referral'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'child_danger_sign';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'child_danger_sign';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field(
+          'Follow_Up_By_Date__c',
+          dataValue(
+            'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Danger_Signs_Follow-Up_By_Date'
+          )
+        ),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'Child Danger Sign'),
+        field(
+          'Clinician_Comments__c',
+          dataValue(
+            'form.TT5.Child_Information.Danger_Signs.danger_sign_referral.Clinician_Notes'
+          )
+        ),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No danger sign referral.');
-//   return state;
-// });
+  console.log('No danger sign referral.');
+  return state;
+});
 
-// //TB Referral
-// alterState(state => {
-//   if (dataValue('form.treatment_and_tracking.TB_referral')(state) === 'yes') {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'tb';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'tb';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field('Follow_Up_By_Date__c', state => {
-//           var date = dataValue('form.Follow-Up_By_Date')(state);
-//           return date === null || date === '' ? null : date;
-//         }),
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'TB'),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.treatment_and_tracking.TB_referral_facility'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         }),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//TB Referral
+alterState(state => {
+  if (dataValue('form.treatment_and_tracking.TB_referral')(state) === 'yes') {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'tb';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'tb';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field('Follow_Up_By_Date__c', state => {
+          var date = dataValue('form.Follow-Up_By_Date')(state);
+          return date === null || date === '' ? null : date;
+        }),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'TB'),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.treatment_and_tracking.TB_referral_facility'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        }),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No tb referral.');
-//   return state;
-// });
+  console.log('No tb referral.');
+  return state;
+});
 
-// //Diarrhea Referral
-// alterState(state => {
-//   if (
-//     dataValue('form.treatment_and_tracking.diarrhea_referral')(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'diarrhea';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'diarrhea';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field('Follow_Up_By_Date__c', state => {
-//           var date = dataValue('form.Follow-Up_By_Date')(state);
-//           return date === null || date === '' ? null : date;
-//         }),
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'Diarrhea'),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.treatment_and_tracking.diarrhea_referral_facility'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         }),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Diarrhea Referral
+alterState(state => {
+  if (
+    dataValue('form.treatment_and_tracking.diarrhea_referral')(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'diarrhea';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'diarrhea';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field('Follow_Up_By_Date__c', state => {
+          var date = dataValue('form.Follow-Up_By_Date')(state);
+          return date === null || date === '' ? null : date;
+        }),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'Diarrhea'),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.treatment_and_tracking.diarrhea_referral_facility'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        }),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No diarrhea referral.');
-//   return state;
-// });
+  console.log('No diarrhea referral.');
+  return state;
+});
 
-// //Malaria Referral
-// alterState(state => {
-//   if (
-//     dataValue('form.treatment_and_tracking.malaria_referral')(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'malaria';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'malaria';
-//           return serviceId;
-//         }),
-//         field('Source__c', 1),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('Type_of_Service__c', 'CHW Mobile Survey'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         field('Referred__c', 1),
-//         field('Follow_Up_By_Date__c', state => {
-//           var date = dataValue('form.Follow-Up_By_Date')(state);
-//           return date === null || date === '' ? null : date;
-//         }),
-//         field('Reason_for_Service__c', 'Referral'),
-//         field('Open_Case__c', 1),
-//         field('Purpose_of_Referral__c', 'Malaria'),
-//         relationship('Site__r', 'Label__c', state => {
-//           var facility = dataValue(
-//             'form.treatment_and_tracking.malaria_referral_facility'
-//           )(state);
-//           if (facility === '' || facility === undefined) {
-//             facility = 'unknown';
-//           }
-//           return facility;
-//         }),
-//         field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
+//Malaria Referral
+alterState(state => {
+  if (
+    dataValue('form.treatment_and_tracking.malaria_referral')(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malaria';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'malaria';
+          return serviceId;
+        }),
+        field('Source__c', 1),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('Type_of_Service__c', 'CHW Mobile Survey'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('RecordTypeID', '01224000000YAuK'),
+        field('Referred__c', 1),
+        field('Follow_Up_By_Date__c', state => {
+          var date = dataValue('form.Follow-Up_By_Date')(state);
+          return date === null || date === '' ? null : date;
+        }),
+        field('Reason_for_Service__c', 'Referral'),
+        field('Open_Case__c', 1),
+        field('Purpose_of_Referral__c', 'Malaria'),
+        relationship('Site__r', 'Label__c', state => {
+          var facility = dataValue(
+            'form.treatment_and_tracking.malaria_referral_facility'
+          )(state);
+          if (facility === '' || facility === undefined) {
+            facility = 'unknown';
+          }
+          return facility;
+        }),
+        field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No malaria referral.');
-//   return state;
-// });
+  console.log('No malaria referral.');
+  return state;
+});
 
-// //HAWI other clinical services received
-// alterState(state => {
-//   const serviceMap = {
-//     Scheduled_PSC_Apt: 'Scheduled PSC Apt',
-//     Adverse_Drug_Reaction_Side_Effect: 'Adverse Drug Reaction/Side Effect',
-//     Malnutrition: 'Malnutrition',
-//     Malaria: 'Malaria',
-//     TB: 'TB',
-//     Treatment_for_Other_OIs: 'Treatment for other Ols',
-//     ARI: 'ARI',
-//     Anemia: 'Anemia',
-//     Diarrhea: 'Diarrhea',
-//     Pregnancy_Care: 'Pregnancy Care (ANC)',
-//     Family_Planning: 'Family Planning (FP)',
-//     Preconception_Counseling: 'Preconception Counseling',
-//     Injury: 'Injury',
-//     Other: 'Other',
-//   };
+//HAWI other clinical services received
+alterState(state => {
+  const serviceMap = {
+    Scheduled_PSC_Apt: 'Scheduled PSC Apt',
+    Adverse_Drug_Reaction_Side_Effect: 'Adverse Drug Reaction/Side Effect',
+    Malnutrition: 'Malnutrition',
+    Malaria: 'Malaria',
+    TB: 'TB',
+    Treatment_for_Other_OIs: 'Treatment for other Ols',
+    ARI: 'ARI',
+    Anemia: 'Anemia',
+    Diarrhea: 'Diarrhea',
+    Pregnancy_Care: 'Pregnancy Care (ANC)',
+    Family_Planning: 'Family Planning (FP)',
+    Preconception_Counseling: 'Preconception Counseling',
+    Injury: 'Injury',
+    Other: 'Other',
+  };
 
-//   if (dataValue('form.HAWI.Clinical_Service_Q')(state) === 'yes') {
-//     return beta.each(
-//       dataPath('form.HAWI.Clinical_Services_Rendered[*]'), //CHECK IF ARRAY
-//       upsert(
-//         'Service__c',
-//         'Service_UID__c',
-//         fields(
-//           field('CommCare_Code__c', state => {
-//             var id = dataValue('Case_ID')(state);
-//             var serviceId = [
-//               id,
-//               dataValue('Purpose')(state),
-//               dataValue('Clinical_Date')(state),
-//             ].join('');
-//             return serviceId.replace(/\//g, '');
-//           })(state),
-//           field('Service_UID__c', state => {
-//             var id = dataValue('Case_ID')(state);
-//             var serviceId = [
-//               id,
-//               dataValue('Purpose')(state),
-//               dataValue('Clinical_Date')(state),
-//             ].join('');
-//             return serviceId.replace(/\//g, '');
-//           })(state),
-//           field('Source__c', 1),
-//           field('Household_CHW__c', state => {
-//             var chw = dataValue('form.CHW_ID_Final')(state);
-//             return chw === 'a030800001zQrk'
-//               ? 'a030800001zQrk5'
-//               : chw
-//               ? chw
-//               : undefined;
-//           }),
-//           field('Reason_for_Service__c', state => {
-//             var name = dataValue('Clinical_Service')(state);
-//             return name ? state.serviceMap[name] : name;
-//           }),
-//           field('Purpose_of_Referral__c', dataValue('Purpose')),
-//           field('Date__c', dataValue('Date_of_Clinical_Service')),
-//           field('Type_of_Service__c', 'CHW Mobile Survey'),
-//           field('RecordTypeID', '01224000000YAuK'),
-//           relationship('Site__r', 'Label__c', state => {
-//             var facility = dataValue('Facility_of_Clinical_Service')(state);
-//             if (facility === '' || facility === undefined) {
-//               facility = 'unknown';
-//             } else if (facility === 'Other_Clinic') {
-//               facility = 'Other';
-//             } else if (facility === 'Rongo_Sub-District_Hospital') {
-//               facility = 'Rongo_SubDistrict_Hospital';
-//             }
-//             return facility;
-//           }),
-//           field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
-//         )
-//       )
-//     )(state);
-//   }
+  if (dataValue('form.HAWI.Clinical_Service_Q')(state) === 'yes') {
+    return beta.each(
+      dataPath('form.HAWI.Clinical_Services_Rendered[*]'), //CHECK IF ARRAY
+      upsert(
+        'Service__c',
+        'Service_UID__c',
+        fields(
+          field('CommCare_Code__c', state => {
+            var id = dataValue('Case_ID')(state);
+            var serviceId = [
+              id,
+              dataValue('Purpose')(state),
+              dataValue('Clinical_Date')(state),
+            ].join('');
+            return serviceId.replace(/\//g, '');
+          })(state),
+          field('Service_UID__c', state => {
+            var id = dataValue('Case_ID')(state);
+            var serviceId = [
+              id,
+              dataValue('Purpose')(state),
+              dataValue('Clinical_Date')(state),
+            ].join('');
+            return serviceId.replace(/\//g, '');
+          })(state),
+          field('Source__c', 1),
+          field('Household_CHW__c', state => {
+            var chw = dataValue('form.CHW_ID_Final')(state);
+            return chw === 'a030800001zQrk'
+              ? 'a030800001zQrk5'
+              : chw
+              ? chw
+              : undefined;
+          }),
+          field('Reason_for_Service__c', state => {
+            var name = dataValue('Clinical_Service')(state);
+            return name ? state.serviceMap[name] : name;
+          }),
+          field('Purpose_of_Referral__c', dataValue('Purpose')),
+          field('Date__c', dataValue('Date_of_Clinical_Service')),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
+          relationship('Site__r', 'Label__c', state => {
+            var facility = dataValue('Facility_of_Clinical_Service')(state);
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
+            } else if (facility === 'Other_Clinic') {
+              facility = 'Other';
+            } else if (facility === 'Rongo_Sub-District_Hospital') {
+              facility = 'Rongo_SubDistrict_Hospital';
+            }
+            return facility;
+          }),
+          field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+          relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No other HAWI clinical services.');
-//   return state;
-// });
+  console.log('No other HAWI clinical services.');
+  return state;
+});
 
-// //TT5 other clinical services received
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Clinical_Services_Q')(state) === 'Yes'
-//   ) {
-//     return beta.each(
-//       dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
-//       upsert(
-//         'Service__c',
-//         'Service_UID__c',
-//         fields(
-//           field('CommCare_Code__c', state => {
-//             var id = dataValue('Case_ID')(state);
-//             var serviceId = [
-//               id,
-//               dataValue('Purpose')(state),
-//               dataValue('Clinical_Date')(state),
-//             ].join('');
-//             return serviceId.replace(/\//g, '');
-//           }),
-//           field('Service_UID__c', state => {
-//             var id = dataValue('Case_ID')(state);
-//             var serviceId = [
-//               id,
-//               dataValue('Purpose')(state),
-//               dataValue('Clinical_Date')(state),
-//             ].join('');
-//             return serviceId.replace(/\//g, '');
-//           }),
-//           field('Source__c', true),
-//           field('Household_CHW__c', state => {
-//             var chw = dataValue('form.CHW_ID_Final')(state);
-//             return chw === 'a030800001zQrk'
-//               ? 'a030800001zQrk5'
-//               : chw
-//               ? chw
-//               : undefined;
-//           }),
-//           field('Reason_for_Service__c', state => {
-//             var reason = '';
-//             var name = dataValue('Clinical_Service')(state);
-//             if (name === 'Adverse_Drug_Reaction_Side_Effect') {
-//               reason = 'Adverse Drug Reaction/Side Effect';
-//             } else if (name === 'Pregnancy_Care') {
-//               reason = 'Pregnancy Care (ANC)';
-//             } else if (name === 'Family_Planning') {
-//               reason = 'Family Planning (FP)';
-//             } else if (name !== undefined) {
-//               reason = name.replace(/_/g, ' ');
-//             }
-//             return reason;
-//           }),
-//           field('Purpose_of_Referral__c', dataValue('Purpose')),
-//           field('Date__c', dataValue('Clinical_Date')),
-//           field('Type_of_Service__c', 'CHW Mobile Survey'),
-//           field('RecordTypeID', '01224000000YAuK'),
-//           field('Clinic_Zinc__c', dataValue('diarrhea_clinic_treatment_zinc')),
-//           field('Clinic_ORS__c', dataValue('diarrhea_clinic_treatment_ORS')),
-//           relationship('Site__r', 'Label__c', state => {
-//             var facility = dataValue('Facility_Clinical')(state);
-//             if (facility === '' || facility === undefined) {
-//               facility = 'unknown';
-//             }
-//             return facility;
-//           }),
-//           field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
-//           relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
-//         )
-//       )
-//     )(state);
-//   }
+//TT5 other clinical services received
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Clinical_Services_Q')(state) === 'Yes'
+  ) {
+    return beta.each(
+      dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
+      upsert(
+        'Service__c',
+        'Service_UID__c',
+        fields(
+          field('CommCare_Code__c', state => {
+            var id = dataValue('Case_ID')(state);
+            var serviceId = [
+              id,
+              dataValue('Purpose')(state),
+              dataValue('Clinical_Date')(state),
+            ].join('');
+            return serviceId.replace(/\//g, '');
+          }),
+          field('Service_UID__c', state => {
+            var id = dataValue('Case_ID')(state);
+            var serviceId = [
+              id,
+              dataValue('Purpose')(state),
+              dataValue('Clinical_Date')(state),
+            ].join('');
+            return serviceId.replace(/\//g, '');
+          }),
+          field('Source__c', true),
+          field('Household_CHW__c', state => {
+            var chw = dataValue('form.CHW_ID_Final')(state);
+            return chw === 'a030800001zQrk'
+              ? 'a030800001zQrk5'
+              : chw
+              ? chw
+              : undefined;
+          }),
+          field('Reason_for_Service__c', state => {
+            var reason = '';
+            var name = dataValue('Clinical_Service')(state);
+            if (name === 'Adverse_Drug_Reaction_Side_Effect') {
+              reason = 'Adverse Drug Reaction/Side Effect';
+            } else if (name === 'Pregnancy_Care') {
+              reason = 'Pregnancy Care (ANC)';
+            } else if (name === 'Family_Planning') {
+              reason = 'Family Planning (FP)';
+            } else if (name !== undefined) {
+              reason = name.replace(/_/g, ' ');
+            }
+            return reason;
+          }),
+          field('Purpose_of_Referral__c', dataValue('Purpose')),
+          field('Date__c', dataValue('Clinical_Date')),
+          field('Type_of_Service__c', 'CHW Mobile Survey'),
+          field('RecordTypeID', '01224000000YAuK'),
+          field('Clinic_Zinc__c', dataValue('diarrhea_clinic_treatment_zinc')),
+          field('Clinic_ORS__c', dataValue('diarrhea_clinic_treatment_ORS')),
+          relationship('Site__r', 'Label__c', state => {
+            var facility = dataValue('Facility_Clinical')(state);
+            if (facility === '' || facility === undefined) {
+              facility = 'unknown';
+            }
+            return facility;
+          }),
+          field('Age_Time_of_Service__c', dataValue('form.age')), //Added by MOTG
+          relationship('Person__r', 'CommCare_ID__c', dataValue('Case_ID'))
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No other clinical services.');
-//   return state;
-// });
+  console.log('No other clinical services.');
+  return state;
+});
 
-// //Upsert Visit records
-// alterState(state => {
-//   if (
-//     dataValue('form.Source')(state) === 1 &&
-//     dataValue('metadata.username')(state) !== 'test.2021'
-//   ) {
-//     return upsert(
-//       'Visit__c',
-//       'CommCare_Visit_ID__c',
-//       fields(
-//         field('CommCare_Visit_ID__c', dataValue('id')),
-//         field('Visit_UID__c', state => {
-//           var hh = dataValue('form.HH_ID')(state);
-//           var date = dataValue('metadata.timeEnd')(state);
-//           return hh + date;
-//         }),
-//         relationship(
-//           'Household__r',
-//           'CommCare_Code__c',
-//           dataValue('form.HH_ID')
-//         ),
-//         field('Name', 'CHW Visit'),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : 'a031x000004oJe2'
-//             ? 'a0308000021zm8Z'
-//             : chw
-//             ? chw
-//             : 'a0308000021zm8Z';
-//         }),
-//         field('Supervisor_Visit__c', state => {
-//           var visit = dataValue('form.supervisor_visit')(state);
-//           if (visit !== undefined) {
-//             visit = visit.toString().replace(/ /g, ';');
-//             return visit.toString().replace(/_/g, ' ');
-//           }
-//           return visit;
-//         }),
-//         field('Date__c', dataValue('metadata.timeEnd')),
-//         field('Location__latitude__s', state => {
-//           const location = state.data.metadata.location;
-//           const locationArr = location !== null ? location.split(' ') : [];
-//           return locationArr[0];
-//         }),
-//         field('Location__longitude__s', state => {
-//           const location = state.data.metadata.location;
-//           const locationArr = location !== null ? location.split(' ') : [];
-//           return locationArr[1];
-//         })
-//       )
-//     )(state);
-//   }
+//Upsert Visit records
+alterState(state => {
+  if (
+    dataValue('form.Source')(state) === 1 &&
+    dataValue('metadata.username')(state) !== 'test.2021'
+  ) {
+    return upsert(
+      'Visit__c',
+      'CommCare_Visit_ID__c',
+      fields(
+        field('CommCare_Visit_ID__c', dataValue('id')),
+        field('Visit_UID__c', state => {
+          var hh = dataValue('form.HH_ID')(state);
+          var date = dataValue('metadata.timeEnd')(state);
+          return hh + date;
+        }),
+        relationship(
+          'Household__r',
+          'CommCare_Code__c',
+          dataValue('form.HH_ID')
+        ),
+        field('Name', 'CHW Visit'),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : 'a031x000004oJe2'
+            ? 'a0308000021zm8Z'
+            : chw
+            ? chw
+            : 'a0308000021zm8Z';
+        }),
+        field('Supervisor_Visit__c', state => {
+          var visit = dataValue('form.supervisor_visit')(state);
+          if (visit !== undefined) {
+            visit = visit.toString().replace(/ /g, ';');
+            return visit.toString().replace(/_/g, ' ');
+          }
+          return visit;
+        }),
+        field('Date__c', dataValue('metadata.timeEnd')),
+        field('Location__latitude__s', state => {
+          const location = state.data.metadata.location;
+          const locationArr = location !== null ? location.split(' ') : [];
+          return locationArr[0];
+        }),
+        field('Location__longitude__s', state => {
+          const location = state.data.metadata.location;
+          const locationArr = location !== null ? location.split(' ') : [];
+          return locationArr[1];
+        })
+      )
+    )(state);
+  }
 
-//   console.log('form.Source is not 1, not upserting visit.');
-//   return state;
-// });
+  console.log('form.Source is not 1, not upserting visit.');
+  return state;
+});
 
-// //Map Zinc and ors
-// alterState(state => {
-//   if (
-//     dataValue('form.TT5.Child_Information.Clinical_Services_Q')(state) === 'Yes'
-//   ) {
-//     return beta.each(
-//       dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
-//       upsert(
-//         'Person__c',
-//         'CommCare_ID__c',
-//         fields(
-//           field('Source__c', 1),
-//           field('CommCare_ID__c', dataValue('Case_ID')),
-//           field('Child_zinc__c', state => {
-//             var zinc = dataValue('diarrhea_clinic_treatment_zinc')(state);
-//             return zinc === 'Yes' ? 'Yes' : undefined;
-//           }),
-//           field('Child_ORS__c', state => {
-//             var ors = dataValue('diarrhea_clinic_treatment_ORS')(state);
-//             return ors === 'Yes' ? 'Yes' : undefined;
-//           })
-//         )
-//       )
-//     )(state);
-//   }
+//Map Zinc and ors
+alterState(state => {
+  if (
+    dataValue('form.TT5.Child_Information.Clinical_Services_Q')(state) === 'Yes'
+  ) {
+    return beta.each(
+      dataPath('form.TT5.Child_Information.Clinical_Services[*]'),
+      upsert(
+        'Person__c',
+        'CommCare_ID__c',
+        fields(
+          field('Source__c', 1),
+          field('CommCare_ID__c', dataValue('Case_ID')),
+          field('Child_zinc__c', state => {
+            var zinc = dataValue('diarrhea_clinic_treatment_zinc')(state);
+            return zinc === 'Yes' ? 'Yes' : undefined;
+          }),
+          field('Child_ORS__c', state => {
+            var ors = dataValue('diarrhea_clinic_treatment_ORS')(state);
+            return ors === 'Yes' ? 'Yes' : undefined;
+          })
+        )
+      )
+    )(state);
+  }
 
-//   console.log('No zinc and ors.');
-//   return state;
-// });
-// //MOTG
-// //Immunization - Defaulter
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.TT5.Child_Information.Immunizations.refer_immunization_type'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'immunization';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'immunization';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Immunization'),
-//         field('Reason_for_Service__c', 'Missed immunization type'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No immunization referral.');
-//   return state;
-// });
-// //Immunization
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'immunization';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'immunization';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Immunization'),
-//         field('Reason_for_Service__c', 'Immunizations'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No Immunization referral.');
-//   return state;
-// });
-// //Immunization - Vitamin A
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'immunization';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'immunization';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Immunization'),
-//         field('Reason_for_Service__c', 'Vitamin A supplement'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No Vitamin A referral.');
-//   return state;
-// });
-// //Chest Indrawing
-// alterState(state => {
-//   if (dataValue('form.psbi.Child_chest_in_drawing_c')(state) === 'yes') {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'illness';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'illness';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Illness'),
-//         field('Reason_for_Service__c', 'Chest in-drawing'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No chest indrawing referral.');
-//   return state;
-// });
-// //Fast Breathing
-// alterState(state => {
-//   if (
-//     dataValue('form.psbi.did_you_refer_the_child_for_fast_breathing')(state) ===
-//     'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'illness';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'illness';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Illness'),
-//         field('Reason_for_Service__c', 'Fast Breathing'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No fast breathing referral.');
-//   return state;
-// });
-// //Fever
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.CCMM.Fever_Referral_Status.data.treatment_and_tracking.CCMM.Fever_Referral_Status'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'illness';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'illness';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Illness'),
-//         field('Reason_for_Service__c', 'Fever'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No fever referral.');
-//   return state;
-// });
-// //Cough
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'illness';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'illness';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Illness'),
-//         field('Reason_for_Service__c', 'Cough 14+ days'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No cough referral.');
-//   return state;
-// });
-// //Pregnancy
-// alterState(state => {
-//   if (
-//     dataValue('form.Person.Basic_Information.family_planning.refer_preg')(
-//       state
-//     ) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'pregnancy';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'pregnancy';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Ante-Natal Care'),
-//         field('Reason_for_Service__c', 'Pregnancy Care (ANC)'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No Pregnancy referral.');
-//   return state;
-// });
-// //Family Plannning
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'family_planning';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'family_planning';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Family Planning'),
-//         field('Reason_for_Service__c', 'Family Planning (FP)'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No Family Planning referral.');
-//   return state;
-// });
-// //Chronic Illness
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.Person.Basic_Information.person_info.refer_chronic_illness'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'chronic_illness';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'chronic_illness';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Illness'),
-//         field('Reason_for_Service__c', 'Chronic Illness'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No chronic illness referral.');
-//   return state;
-// });
-// //HIV - HTC
-// alterState(state => {
-//   if (
-//     dataValue(
-//       'form.Person.Basic_Information.person_info.hiv_counselling_and_testing'
-//     )(state) === 'yes'
-//   ) {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'HIV_HTC';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'HIV_HTC';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'HIV'),
-//         field('Reason_for_Service__c', 'HIV counseling and testing'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No HIV HTC referral.');
-//   return state;
-// });
-// //HIV - Clinical
-// alterState(state => {
-//   if (dataValue('form.Person.HAWI.did_you_refer')(state) === 'yes') {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'HIV_Clinical';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'HIV_Clinical';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'HIV'),
-//         field('Reason_for_Service__c', 'ART treatment'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No ART Treatment referral.');
-//   return state;
-// });
-// //TB
-// alterState(state => {
-//   if (dataValue('form.treatment_and_tracking.tb_treatment')(state) === 'yes') {
-//     return upsert(
-//       'Service__c',
-//       'Service_UID__c',
-//       fields(
-//         field('CommCare_Code__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'TB';
-//           return serviceId;
-//         }),
-//         field('Service_UID__c', state => {
-//           var id = dataValue('id')(state);
-//           var serviceId = id + 'TB';
-//           return serviceId;
-//         }),
-//         field('Household_CHW__c', state => {
-//           var chw = dataValue('form.CHW_ID_Final')(state);
-//           return chw === 'a030800001zQrk'
-//             ? 'a030800001zQrk5'
-//             : chw
-//             ? chw
-//             : undefined;
-//         }),
-//         field('Type_of_Service__c', 'Illness'),
-//         field('Reason_for_Service__c', 'TB treatment'),
-//         field('Date__c', dataValue('form.case.update.Date')),
-//         field('RecordTypeID', '01224000000YAuK'),
-//         relationship(
-//           'Person__r',
-//           'CommCare_ID__c',
-//           dataValue('form.case.@case_id')
-//         )
-//       )
-//     )(state);
-//   }
-//   console.log('No TB referral.');
-//   return state;
-// });
+  console.log('No zinc and ors.');
+  return state;
+});
+//MOTG
+//Immunization - Defaulter
+alterState(state => {
+  if (
+    dataValue(
+      'form.TT5.Child_Information.Immunizations.refer_immunization_type'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'immunization';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'immunization';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Immunization'),
+        field('Reason_for_Service__c', 'Missed immunization type'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No immunization referral.');
+  return state;
+});
+//Immunization
+alterState(state => {
+  if (
+    dataValue(
+      'form.TT5.Child_Information.Immunizations.did_you_refer_the_child_0-11_months_for_immunization'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'immunization';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'immunization';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Immunization'),
+        field('Reason_for_Service__c', 'Immunizations'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No Immunization referral.');
+  return state;
+});
+//Immunization - Vitamin A
+alterState(state => {
+  if (
+    dataValue(
+      'form.TT5.Child_Information.Immunizations.did_you_refer_the_child_6-59_months_for_vitamin_a_supplements'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'immunization';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'immunization';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Immunization'),
+        field('Reason_for_Service__c', 'Vitamin A supplement'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No Vitamin A referral.');
+  return state;
+});
+//Chest Indrawing
+alterState(state => {
+  if (dataValue('form.psbi.Child_chest_in_drawing_c')(state) === 'yes') {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'illness';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'illness';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Illness'),
+        field('Reason_for_Service__c', 'Chest in-drawing'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No chest indrawing referral.');
+  return state;
+});
+//Fast Breathing
+alterState(state => {
+  if (
+    dataValue('form.psbi.did_you_refer_the_child_for_fast_breathing')(state) ===
+    'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'illness';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'illness';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Illness'),
+        field('Reason_for_Service__c', 'Fast Breathing'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No fast breathing referral.');
+  return state;
+});
+//Fever
+alterState(state => {
+  if (
+    dataValue(
+      'form.CCMM.Fever_Referral_Status.data.treatment_and_tracking.CCMM.Fever_Referral_Status'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'illness';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'illness';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Illness'),
+        field('Reason_for_Service__c', 'Fever'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No fever referral.');
+  return state;
+});
+//Cough
+alterState(state => {
+  if (
+    dataValue(
+      'form.treatment_and_tracking.did_you_refer_the_client_for_cough_14_days'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'illness';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'illness';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Illness'),
+        field('Reason_for_Service__c', 'Cough 14+ days'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No cough referral.');
+  return state;
+});
+//Pregnancy
+alterState(state => {
+  if (
+    dataValue('form.Person.Basic_Information.family_planning.refer_preg')(
+      state
+    ) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'pregnancy';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'pregnancy';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Ante-Natal Care'),
+        field('Reason_for_Service__c', 'Pregnancy Care (ANC)'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No Pregnancy referral.');
+  return state;
+});
+//Family Plannning
+alterState(state => {
+  if (
+    dataValue(
+      'form.TT5.Mother_Information.was_the_woman_referred_for_family_planning_services'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'family_planning';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'family_planning';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Family Planning'),
+        field('Reason_for_Service__c', 'Family Planning (FP)'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No Family Planning referral.');
+  return state;
+});
+//Chronic Illness
+alterState(state => {
+  if (
+    dataValue(
+      'form.Person.Basic_Information.person_info.refer_chronic_illness'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'chronic_illness';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'chronic_illness';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Illness'),
+        field('Reason_for_Service__c', 'Chronic Illness'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No chronic illness referral.');
+  return state;
+});
+//HIV - HTC
+alterState(state => {
+  if (
+    dataValue(
+      'form.Person.Basic_Information.person_info.hiv_counselling_and_testing'
+    )(state) === 'yes'
+  ) {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'HIV_HTC';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'HIV_HTC';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'HIV'),
+        field('Reason_for_Service__c', 'HIV counseling and testing'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No HIV HTC referral.');
+  return state;
+});
+//HIV - Clinical
+alterState(state => {
+  if (dataValue('form.Person.HAWI.did_you_refer')(state) === 'yes') {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'HIV_Clinical';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'HIV_Clinical';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'HIV'),
+        field('Reason_for_Service__c', 'ART treatment'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No ART Treatment referral.');
+  return state;
+});
+//TB
+alterState(state => {
+  if (dataValue('form.treatment_and_tracking.tb_treatment')(state) === 'yes') {
+    return upsert(
+      'Service__c',
+      'Service_UID__c',
+      fields(
+        field('CommCare_Code__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'TB';
+          return serviceId;
+        }),
+        field('Service_UID__c', state => {
+          var id = dataValue('id')(state);
+          var serviceId = id + 'TB';
+          return serviceId;
+        }),
+        field('Household_CHW__c', state => {
+          var chw = dataValue('form.CHW_ID_Final')(state);
+          return chw === 'a030800001zQrk'
+            ? 'a030800001zQrk5'
+            : chw
+            ? chw
+            : undefined;
+        }),
+        field('Type_of_Service__c', 'Illness'),
+        field('Reason_for_Service__c', 'TB treatment'),
+        field('Date__c', dataValue('form.case.update.Date')),
+        field('RecordTypeID', '01224000000YAuK'),
+        relationship(
+          'Person__r',
+          'CommCare_ID__c',
+          dataValue('form.case.@case_id')
+        )
+      )
+    )(state);
+  }
+  console.log('No TB referral.');
+  return state;
+});
