@@ -215,12 +215,12 @@ upsert('Service__c', 'Service_UID__c', state => ({
     field('Service_UID__c', dataValue('case_id')),
     field('CommCare_Code__c', dataValue('case_id')),
     field('RecordTypeID', '01224000000YAuK'),
-    field('Household_CHW__c', 'a030Q000008XyXV'), //Sandbox test CHW
-    // relationship( //ADD BACK BEFORE PROD DEPLOYMENT; removed for sandbox testing
-    //   'Household_CHW__r',
-    //   'CommCare_ID__c',
-    //   dataValue('properties.CHW_ID')
-    // ),
+    //field('Household_CHW__c', 'a030Q000008XyXV'), //Sandbox MOTG test CHW
+    relationship( //ADD BACK BEFORE PROD DEPLOYMENT; removed for sandbox testing
+      'Household_CHW__r',
+      'CommCare_ID__c',
+      dataValue('properties.CHW_ID')
+    ),
     field('Open_Case__c', state => {
       var status = dataValue('closed')(state);
       return status === false ? true : false;
