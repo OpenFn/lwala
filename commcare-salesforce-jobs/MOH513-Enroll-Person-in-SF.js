@@ -11,18 +11,18 @@ alterState(state => {
     dataValue('form.Source')(state) == 1 &&
     dataValue('metadata.username')(state) !== 'test.2021'
   ) {
-    console.log('case id', dataValue('form.subcase_0.case.@case_id')(state));
-    console.log('case id', dataValue('form.case.@case_id')(state));
+    console.log('case id', state.data.form.subcase_0.case['@case_id']);
+    console.log('case id', state.data.form.case['@case_id']);
     return upsert(
       'Person__c',
       'CommCare_ID__c',
       fields(
         field('CommCare_Username__c', dataValue('metadata.username')),
-        field('CommCare_ID__c', dataValue('form.subcase_0.case.@case_id')),
+        field('CommCare_ID__c', state.data.form.subcase_0.case['@case_id']),
         relationship(
           'Household__r',
           'CommCare_Code__c',
-          dataValue('form.case.@case_id')
+          state.data.form.case['@case_id']
         ),
         relationship('Catchment__r', 'Name', state => {
           var catchment = dataValue('form.catchment')(state);
@@ -337,7 +337,7 @@ alterState(state => {
           'Active_in_Support_Group__c',
           dataValue('form.Person.HAWI.Active_in_Support_Group')
         ),
-        field('CommCare_HH_Code__c', dataValue('form.case.@case_id')),
+        field('CommCare_HH_Code__c', state.data.form.case['@case_id']),
         field('Currently_on_ART_s__c', dataValue('form.Person.HAWI.ART')),
         field('ART_Regimen__c', dataValue('form.Person.HAWI.ARVs')),
         field(
@@ -536,7 +536,7 @@ alterState(state => {
       'Household__c',
       'CommCare_Code__c',
       fields(
-        field('CommCare_Code__c', dataValue('form.case.@case_id')),
+        field('CommCare_Code__c', state.data.form.case['@case_id']),
         field(
           'Total_household_people__c',
           dataValue('Updated_Total_Number_of_Members')
@@ -564,10 +564,10 @@ alterState(state => {
         relationship(
           'Household__r',
           'CommCare_Code__c',
-          dataValue('form.case.@case_id')
+          state.data.form.case['@case_id']
         ),
         field('Visit_UID__c', state => {
-          var hh = dataValue('form.case.@case_id')(state);
+          var hh = state.data.form.case['@case_id'];
           var date = dataValue('form.Date')(state);
           return hh + date;
         }),
