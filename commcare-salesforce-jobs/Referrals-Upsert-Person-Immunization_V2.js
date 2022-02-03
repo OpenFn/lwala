@@ -15,6 +15,11 @@ upsert(
     field('OPV_3__c', dataValue('properties.OPV_PCV_Penta_3')),
     field('Measles_6__c', dataValue('properties.Measles_6')),
     field('Measles_9__c', dataValue('properties.Measles_9')),
-    field('Measles_18__c', dataValue('properties.Measles_18'))
+    field('Measles_18__c', dataValue('properties.Measles_18')),
+    field('ANC_1__c', dataValue('properties.ANC_1')),
+    field('ANC_2__c', dataValue('properties.ANC_2')),
+    field('ANC_3__c', dataValue('properties.ANC_3')),
+    field('ANC_4__c', dataValue('properties.ANC_4')),
+    field('ANC_5__c', dataValue('properties.ANC_5')),
   )
 );
