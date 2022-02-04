@@ -158,6 +158,15 @@ fn(state => {
     Provision_of_Supplies: 'Provision of Supplies',
     OI_Management_Support: 'OI Management Support',
   };
+  
+  const ecdMap = {
+    physiotherapy: 'Physiotherapy',
+    speech_therapy: 'Speech Therapy',
+    nutrition_education: 'Nutrition Education',
+    play_therapy: 'Play Therapy',
+    assessment: 'Assessment',
+    counselling: 'Counselling',
+  };
 
   const clinicalMap = {
     diarrhea: 'Diarrhea',
@@ -205,6 +214,7 @@ fn(state => {
     otherReferralMap,
     homeCareMap,
     clinicalMap,
+    ecdMap
   };
 });
 
@@ -397,7 +407,20 @@ upsert('Service__c', 'Service_UID__c', state => ({
     field('HAWI_Clinical_Services__c', state => {
       var check = dataValue('properties.HAWI_Clinical_Service')(state);
       return check ? state.serviceMap[check] : check;
-    })
+    }),
+    field('ECD_Clinical_Services__c', state => {
+      var check = dataValue('properties.ECD_Clinical_Service')(state);
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.ecdMap[value] || value;
+              })
+          : undefined;
+      return value ? value.join(';') : undefined;
+    }),
     //=====================================//
   ),
 }));
