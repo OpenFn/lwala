@@ -96,6 +96,15 @@ upsert(
         'form.nutrition_enrollment.when_was_the_household_provided_with_seed_input_support'
       )
     ),
+      field(
+      'MIYCN_Trained__c',
+      dataValue('form.nutrition_enrollment.household_trained_on_MIYCN')
+    ),
+       field(
+      'Kitchen_Garden__c',
+  dataValue('form.nutrition_enrollment.household_has_kitchen_garden')
+    ),
+    
     field(
       'Access_to_safe_water__c',
       dataValue('form.Household_Information.Safe_Water')
