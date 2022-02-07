@@ -12,17 +12,53 @@ upsert(
       var date = dataValue('properties.BCG')(state); 
       return date && date !=='' ? date : undefined; 
     }),
-    field('OPV_0__c', dataValue('properties.OPV_0')),
-    field('OPV_1__c', dataValue('properties.OPV_PCV_Penta_1')),
-    field('OPV_2__c', dataValue('properties.OPV_PCV_Penta_2')),
-    field('OPV_3__c', dataValue('properties.OPV_PCV_Penta_3')),
-    field('Measles_6__c', dataValue('properties.Measles_6')),
-    field('Measles_9__c', dataValue('properties.Measles_9')),
-    field('Measles_18__c', dataValue('properties.Measles_18')),
-    field('ANC_1__c', dataValue('properties.ANC_1')),
-    field('ANC_2__c', dataValue('properties.ANC_2')),
-    field('ANC_3__c', dataValue('properties.ANC_3')),
-    field('ANC_4__c', dataValue('properties.ANC_4')),
-    field('ANC_5__c', dataValue('properties.ANC_5')),
+    field('OPV_0__c',  state => {
+      var date = dataValue('properties.OPV_0')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('OPV_1__c', state => {
+      var date = dataValue('properties.OPV_PCV_Penta_1')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('OPV_2__c',  state => {
+      var date = dataValue('properties.OPV_PCV_Penta_2')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('OPV_3__c',  state => {
+      var date = dataValue('properties.OPV_PCV_Penta_3')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('Measles_6__c', state => {
+      var date = dataValue('properties.Measles_6')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('Measles_9__c', state => {
+      var date = dataValue('properties.Measles_9')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('Measles_18__c', state => {
+      var date = dataValue('properties.Measles_18')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('ANC_1__c', state => {
+      var date = dataValue('properties.ANC_1')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('ANC_2__c', state => {
+      var date = dataValue('properties.ANC_2')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('ANC_3__c', state => {
+      var date = dataValue('properties.ANC_3')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('ANC_4__c', state => {
+      var date = dataValue('properties.ANC_4')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
+    field('ANC_5__c', state => {
+      var date = dataValue('properties.ANC_5')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
   )
 );
