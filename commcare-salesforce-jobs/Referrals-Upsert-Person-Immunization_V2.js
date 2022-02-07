@@ -8,7 +8,10 @@ upsert(
       'CommCare_Code__c',
       dataValue('indices.parent.case_id')
     ),
-    field('BCG__c', dataValue('properties.BCG')),
+    field('BCG__c', state => {
+      var date = dataValue('properties.BCG')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
     field('OPV_0__c', dataValue('properties.OPV_0')),
     field('OPV_1__c', dataValue('properties.OPV_PCV_Penta_1')),
     field('OPV_2__c', dataValue('properties.OPV_PCV_Penta_2')),
