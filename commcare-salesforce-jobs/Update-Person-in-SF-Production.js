@@ -99,7 +99,13 @@ alterState(state => {
               dataValue(
                 'form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding'
               )
-            )
+            ),
+            field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+            field('Case_Closed_Date__c', state => {
+              var closed = dataValue('form.case.update.closed')(state); 
+              var date =  dataValue('server_modified_on')(state); 
+              return closed && closed == true ? date : undefined; 
+            })
           )
         )(state);
       } else {
@@ -159,7 +165,13 @@ alterState(state => {
               dataValue(
                 'form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding'
               )
-            )
+            ),
+            field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+            field('Case_Closed_Date__c', state => {
+              var closed = dataValue('form.case.update.closed')(state); 
+              var date =  dataValue('server_modified_on')(state); 
+              return closed && closed == true ? date : undefined; 
+            })
           )
         )(state);
       }
@@ -183,7 +195,13 @@ alterState(state => {
         field(
           'Date_of_Transfer_Out__c',
           dataValue('$.form.Status.Date_of_Transfer_Out')
-        )
+        ),
+        field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+        field('Case_Closed_Date__c', state => {
+              var closed = dataValue('form.case.update.closed')(state); 
+              var date =  dataValue('server_modified_on')(state); 
+              return closed && closed == true ? date : undefined; 
+        })
       )
     )(state);
   }
@@ -202,7 +220,13 @@ alterState(state => {
         field('Active_in_HAWI__c', 'No'),
         field('Active_TT5_Mother__c', 'No'),
         field('Date_Last_Seen__c', dataValue('$.form.Status.Date_Last_Seen')),
-        field('Inactive_Date__c', dataValue('$.form.Date'))
+        field('Inactive_Date__c', dataValue('$.form.Date')),
+        field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+        field('Case_Closed_Date__c', state => {
+              var closed = dataValue('form.case.update.closed')(state); 
+              var date =  dataValue('server_modified_on')(state); 
+              return closed && closed == true ? date : undefined; 
+        })
       )
     )(state);
   }
@@ -221,7 +245,13 @@ alterState(state => {
         field('Active_in_HAWI__c', 'No'),
         field('Active_TT5_Mother__c', 'No'),
         field('Date_Last_Seen__c', dataValue('$.form.Status.Date_Last_Seen')),
-        field('Inactive_Date__c', dataValue('$.form.Date'))
+        field('Inactive_Date__c', dataValue('$.form.Date')),
+        field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+        field('Case_Closed_Date__c', state => {
+              var closed = dataValue('form.case.update.closed')(state); 
+              var date =  dataValue('server_modified_on')(state); 
+              return closed && closed == true ? date : undefined; 
+        })
       )
     )(state);
   }
@@ -239,7 +269,13 @@ alterState(state => {
         field('Active_in_Thrive_Thru_5__c', 'No'),
         field('Active_TT5_Mother__c', 'No'),
         field('Active_in_HAWI__c', 'No'),
-        field('Inactive_Date__c', dataValue('$.form.Date'))
+        field('Inactive_Date__c', dataValue('$.form.Date')),
+        field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+        field('Case_Closed_Date__c', state => {
+              var closed = dataValue('form.case.update.closed')(state); 
+              var date =  dataValue('server_modified_on')(state); 
+              return closed && closed == true ? date : undefined; 
+        })
       )
     )(state);
   }
@@ -261,7 +297,13 @@ alterState(state => {
             .toString()
             .replace(/_/g, ' ');
         }),
-        field('Inactive_Date__c', dataValue('$.form.Date'))
+        field('Inactive_Date__c', dataValue('$.form.Date')),
+        field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+        field('Case_Closed_Date__c', state => {
+              var closed = dataValue('form.case.update.closed')(state); 
+              var date =  dataValue('server_modified_on')(state); 
+              return closed && closed == true ? date : undefined; 
+        })
       )
     )(state);
   }
