@@ -181,7 +181,13 @@ upsert(
     field(
       'Other_Health_Insurance__c',
       dataValue('form.if_other_please_specify')
-    )
+    ),
+    field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+    field('Case_Closed_Date__c', state => {
+      var closed = dataValue('form.case.update.closed')(state); 
+      var date =  dataValue('server_modified_on')(state); 
+      return closed && closed == true ? date : undefined; 
+    })
   )
 ),
   upsert(
