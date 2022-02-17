@@ -123,6 +123,7 @@ fn(state => {
     Blood_in_Stool: 'Blood in Stool',
     Immunization: 'Immunization',
     Routine_Health_Check_ups: 'Routine Health Check ups',
+    routine_health_check_ups: 'Routine Health Check ups',
     Other: 'Other',
     Poor_Breastfeeding: 'Poor Breastfeeding (under 6 months old child)',
     not_able_to_feed_since_birth_or_stopped_feeding_well:
