@@ -60,5 +60,11 @@ upsert(
       var date = dataValue('properties.ANC_5')(state); 
       return date && date !=='' ? date : undefined; 
     }),
+    field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+    field('Case_Closed_Date__c', state => {
+      var closed = dataValue('properties.closed')(state); 
+      var date =  dataValue('server_modified_on')(state); 
+      return closed && closed == true ? date : undefined; 
+    })
   )
 );
