@@ -564,7 +564,8 @@ each(
       field('Active_TT5_Mother__c', 'No'),
       field('TT5_Mother_Registrant__c', 'No'),
       field('Date_of_Death__c', dataValue('Date')),
-      field('Inactive_Date__c', dataValue('Date'))
+      field('Inactive_Date__c', dataValue('Date')),
+      field('Last_Modified_Date_CommCare__c', state.data.server_modified_on)
     )
   )
 );
