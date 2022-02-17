@@ -518,7 +518,13 @@ alterState(state => {
           )(state);
           return death ? death.toString().replace(/_/g, ' ') : death;
         })
-      )
+      ),
+      field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+      field('Case_Closed_Date__c', state => {
+        var closed = dataValue('form.case.update.closed')(state); 
+        var date =  dataValue('server_modified_on')(state); 
+        return closed && closed == true ? date : undefined; 
+      })
     )(state);
   }
   console.log('form.Source does not equal 1, not upserting person record.');
