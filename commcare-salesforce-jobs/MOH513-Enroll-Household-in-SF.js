@@ -133,7 +133,13 @@ upsert(
       dataValue('form.if_other_please_specify')
     ),
     field('Work_with_TBA__c', dataValue('form.tba')),
-    field('TBA_name__c', dataValue('form.which_tba'))
+    field('TBA_name__c', dataValue('form.which_tba')),
+    field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+    field('Case_Closed_Date__c', state => {
+      var closed = dataValue('form.case.update.closed')(state); 
+      var date =  dataValue('server_modified_on')(state); 
+      return closed && closed == true ? date : undefined; 
+    })
   )
 );
 
@@ -496,7 +502,8 @@ alterState(state => {
               'Basic_Information.family_planning.No_Preg_Test'
             )(state);
             return reason ? reason.toString().replace(/_/g, ' ') : reason;
-          })
+          }),
+          field('Last_Modified_Date_CommCare__c', state.data.server_modified_on)
         )
       )
     )(state);
