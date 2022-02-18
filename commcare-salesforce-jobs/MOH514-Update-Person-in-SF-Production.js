@@ -1,13 +1,14 @@
 // MOH514 - Update Person form
 fn(state => {
   const testUsers = ['test.2021', 'test.2020', 'test.202020'];
-  console.log(testUsers);
   return { ...state, testUsers };
 });
 
 fn(state => {
-  console.log('TES', state.testUsers);
-  if (state.testUsers.includes(state.data.metadata.username)) return state;
+  if (state.testUsers.includes(state.data.metadata.username)) {
+    console.log('No actions performed');
+    return state;
+  }
 
   return execute(
     fn(state => {
@@ -3627,5 +3628,5 @@ fn(state => {
       console.log('No TB referral.');
       return state;
     })
-  );
-})(state);
+  )(state);
+});
