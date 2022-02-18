@@ -90,9 +90,7 @@ fn(state => {
           return dob !== undefined || status == 'Born' ? 'Born' : 'Unborn'; //what about deceased?
         }),
         field('Date_of_Birth__c', state =>
-          state.truthyValue(
-            dataValue('form.Person.Basic_Information.DOB')(state)
-          )
+          state.truthyValue(dataValue('form.Person.Basic_Information.DOB')(state))
         ),
         field('Gender__c', dataValue('form.Person.Basic_Information.Gender')),
         field(
@@ -517,14 +515,17 @@ fn(state => {
             'form.Person.Basic_Information.cause_of_death_dead'
           )(state);
           return death ? death.toString().replace(/_/g, ' ') : death;
+        }),
+        field(
+          'Last_Modified_Date_CommCare__c',
+          dataValue('server_modified_on')
+        ),
+        field('Case_Closed_Date__c', state => {
+          var closed = dataValue('form.case.update.closed')(state);
+          var date = dataValue('server_modified_on')(state);
+          return closed && closed == true ? date : undefined;
         })
-      ),
-      field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
-      field('Case_Closed_Date__c', state => {
-        var closed = dataValue('form.case.update.closed')(state);
-        var date = dataValue('server_modified_on')(state);
-        return closed && closed == true ? date : undefined;
-      })
+      )
     )(state);
   }
   console.log('form.Source does not equal 1, not upserting person record.');
@@ -584,9 +585,7 @@ fn(state => {
             ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
             : null;
         }),
-        field('Date__c', state =>
-          state.truthyValue(dataValue('form.Date')(state))
-        ),
+        field('Date__c', state => state.truthyValue(dataValue('form.Date')(state))),
         field('Household_CHW__c', state => {
           var chw = dataValue('form.CHW_ID')(state);
           return chw === 'a030800001zQrk'
