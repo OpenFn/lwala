@@ -1,12 +1,12 @@
 // ** MOH513 Enroll Person form ** -> Upserting person record based on CommCare ID
 
 // Provide a function which checks if dates are empty strings
-alterState(state => {
+fn(state => {
   const truthyValue = value => value || null;
   return { ...state, truthyValue };
 });
 
-alterState(state => {
+fn(state => {
   if (
     dataValue('form.Source')(state) == 1 &&
     dataValue('metadata.username')(state) !== 'test.2021'
@@ -61,20 +61,26 @@ alterState(state => {
           var status = dataValue('form.Person.Basic_Information.Child_Status')(
             state
           );
-          return rt === 'Unborn' || (status && status === 'Unborn')
-            ? 'Child'
-            : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
+          if (rt) {
+            return rt === 'Unborn' || (status && status === 'Unborn')
+              ? 'Child'
+              : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
+          }
+          return null;
         }),
         field('Client_Status__c', 'Active'),
         field('Relation_to_the_head_of_the_household__c', state => {
           var relation = dataValue(
             'form.Person.Basic_Information.relation_to_hh'
-          )(state)
-            .toString()
-            .replace(/_/g, ' ');
-          var toTitleCase =
-            relation.charAt(0).toUpperCase() + relation.slice(1);
-          return toTitleCase;
+          )(state);
+          if (relation) {
+            relation = relation.toString().replace(/_/g, ' ');
+            var toTitleCase =
+              relation.charAt(0).toUpperCase() + relation.slice(1);
+            return toTitleCase;
+          }
+
+          return null;
         }),
         field('Child_Status__c', state => {
           var dob = dataValue('form.Person.Basic_Information.DOB')(state);
@@ -101,9 +107,7 @@ alterState(state => {
           var level = dataValue(
             'form.Person.Basic_Information.Education_Level'
           )(state);
-          return level !== undefined
-            ? level.toString().replace(/_/g, ' ')
-            : null;
+          return level ? level.toString().replace(/_/g, ' ') : null;
         }),
         field(
           'Telephone__c',
@@ -131,7 +135,7 @@ alterState(state => {
           var chronic = dataValue(
             'form.Person.Basic_Information.person_info.chronic_illness'
           )(state);
-          if (chronic !== undefined) {
+          if (chronic) {
             chronic = chronic
               .toLowerCase()
               .split(' ')
@@ -370,17 +374,13 @@ alterState(state => {
           var facility = dataValue('form.Person.HAWI.Preferred_Care_Facility')(
             state
           );
-          return facility !== undefined
-            ? facility.toString().replace(/_/g, ' ')
-            : null;
+          return facility ? facility.toString().replace(/_/g, ' ') : null;
         }),
         field('Delivery_Facility__c', state => {
           var facility = dataValue(
             'form.Person.TT5.Child_Information.Delivery_Information.Birth_Facility'
           )(state);
-          return facility !== undefined
-            ? facility.toString().replace(/_/g, ' ')
-            : null;
+          return facility ? facility.toString().replace(/_/g, ' ') : null;
         }),
         field(
           'Delivery_Facility_Other__c',
@@ -521,9 +521,9 @@ alterState(state => {
       ),
       field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
       field('Case_Closed_Date__c', state => {
-        var closed = dataValue('form.case.update.closed')(state); 
-        var date =  dataValue('server_modified_on')(state); 
-        return closed && closed == true ? date : undefined; 
+        var closed = dataValue('form.case.update.closed')(state);
+        var date = dataValue('server_modified_on')(state);
+        return closed && closed == true ? date : undefined;
       })
     )(state);
   }
@@ -532,7 +532,7 @@ alterState(state => {
 });
 
 // **Update HH Members Total_Number_of_Members
-alterState(state => {
+fn(state => {
   if (
     dataValue('form.Person.Updated_Total_Number_of_Members')(state) !== null &&
     dataValue('form.Person.Updated_Total_Household_Members')(state) !==
@@ -557,7 +557,7 @@ alterState(state => {
 
 // **Upserting Supervisor Visit records; checks if Visit already exists via CommCare Visit ID which = CommCare submission ID
 
-alterState(state => {
+fn(state => {
   if (
     dataValue('form.Source')(state) == 1 &&
     dataValue('metadata.username')(state) !== 'test.2021'
@@ -580,7 +580,7 @@ alterState(state => {
         field('Name', 'CHW Visit'),
         field('Supervisor_Visit__c', state => {
           var visit = dataValue('form.supervisor_visit')(state);
-          return visit !== undefined
+          return visit
             ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
             : null;
         }),
