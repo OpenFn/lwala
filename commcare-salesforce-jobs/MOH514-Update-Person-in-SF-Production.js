@@ -6,7 +6,7 @@ fn(state => {
 
 fn(state => {
   if (state.testUsers.includes(state.data.metadata.username)) {
-    console.log('No actions performed');
+    console.log('This is a CommCare test user. Not uploading data to Salesforce.');
     return state;
   }
 
