@@ -62,7 +62,7 @@ upsert(
     }),
     field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
-      var closed = dataValue('properties.closed')(state); 
+      var closed = dataValue('closed')(state); 
       var date =  dataValue('server_modified_on')(state); 
       return closed && closed == true ? date : undefined; 
     })
