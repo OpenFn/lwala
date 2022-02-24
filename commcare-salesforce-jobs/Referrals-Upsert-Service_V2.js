@@ -64,9 +64,9 @@ fn(state => {
 
   const milestoneTypeMap = {
     cognitive_delays_learning_difficulties:
-      'Cognitive Delays Learning Difficulties',
+      'Cognitive Delays (Learning Difficulties)',
     motor_delays: 'Motor Delays',
-    speech_and_language_delay: 'Delay Speech and Language Delay',
+    speech_and_language_delay: 'Speech and language Delay',
     social_and_emotional: 'Social and emotional',
   };
 
