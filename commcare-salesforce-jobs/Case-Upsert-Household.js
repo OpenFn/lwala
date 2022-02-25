@@ -39,7 +39,7 @@ upsert(
   'CommCare_Code__c',
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),
-    field('MOH_household_code__c', dataValue('form.moh_code')),
+    field('MOH_household_code__c', dataValue('properties.MOH_code')),
     field('CommCare_Code__c', dataValue('case_id'),
     field('Source__c', true),
     field('Household_CHW__c', state => {
@@ -63,20 +63,20 @@ upsert(
       var area = dataValue('properties.Area_Name')(state);
       return area === '' || area === undefined ? 'a002400000k6IKi' : area;
     }),
-    field('Household_village__c', dataValue('form.village')),
+    field('Household_village__c', dataValue('properties.village')),
     field('Deaths_in_the_last_6_months__c', state => {
       var death = dataValue(
-        'form.Household_Information.deaths_in_past_6_months'
+        'properties.deaths_in_past_6_months'
       )(state);
       return death > 0 ? 'Yes' : 'No';
     }),
     field(
       'Access_to_safe_water__c',
-      dataValue('form.Household_Information.Safe_Water')
+      dataValue('properties.Safe_Water')
     ),
     field(
       'Treats_Drinking_Water__c',
-     dataValue('properties.Treats_Drinking_Water')
+    dataValue('properties.Treats_Drinking_Water')
     ),
     field(
       'Tippy_Tap__c',
@@ -84,7 +84,7 @@ upsert(
     ),
     field(
       'Pit_Latrine__c',
-      dataValue('form.Household_Information.Functional_Latrine')
+    dataValue('properties.Functional_Latrine')
     ),
     field(
       'Rubbish_Pit__c',
@@ -112,13 +112,13 @@ upsert(
       'Total_household_people__c',
  dataValue('properties.Total_Number_of_Members')
     ),
-    field('Health_insurance__c', dataValue('form.health_insurace_cover')),
+    field('Health_insurance__c', dataValue('properties.health_insurace_cover')),
     field(
       'Health_insurance_active_status__c',
-      dataValue('form.healthinsurance_active')
+      dataValue('properties.healthinsurance_active')
     ),
     field('Health_insurance_type__c', state => {
-      var status = dataValue('form.health_insurance')(state);
+      var status = dataValue('properties.health_insurance')(state);
       return status && status === 'other_please_specify_if_active'
         ? 'Other'
         : status === 'nhif'
@@ -129,14 +129,16 @@ upsert(
     }),
     field(
       'Other_Health_Insurance__c',
-      dataValue('form.if_other_please_specify')
+      dataValue('properties.if_other_please_specify')
     ),
-    field('Work_with_TBA__c', dataValue('form.tba')),
-    field('TBA_name__c', dataValue('form.which_tba')),
-    field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+    field('Work_with_TBA__c', dataValue('properties.tba')),
+    field('TBA_name__c', dataValue('properties.which_tba')),
+    field('Last_Modified_Date_CommCare__c', 
+   dataValue('server_date_modified')
+    ),
     field('Case_Closed_Date__c', state => {
-      var closed = dataValue('form.case.update.closed')(state); 
-      var date =  dataValue('server_modified_on')(state); 
+      var closed = dataValue('date_closed')(state); 
+      var date =  dataValue('server_date_modified')(state); 
       return closed && closed == true ? date : undefined; 
     })
   )
