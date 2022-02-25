@@ -1,10 +1,4 @@
-fn(state => {
-  const person = state.data.form.Person;
-  if (!Array.isArray(person)) {
-    state.data.form.Person = [person];
-  }
-
-  titleCase = str => {
+titleCase = str => {
     var splitStr = str.toLowerCase().split(' ');
     for (var i = 0; i < splitStr.length; i++) {
       splitStr[i] =
