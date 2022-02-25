@@ -60,6 +60,10 @@ upsert(
       var date = dataValue('properties.ANC_5')(state); 
       return date && date !=='' ? date : undefined; 
     }),
+     field('Date_of_Birth__c', state => {
+      var date = dataValue('properties.DOB')(state); 
+      return date && date !=='' ? date : undefined; 
+    }),
     field('Last_Modified_Date_CommCare__c', dataValue('server_date_modified')),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('closed')(state); 
