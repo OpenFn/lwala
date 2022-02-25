@@ -65,6 +65,7 @@ upsert(
       return area === '' || area === undefined ? 'a002400000k6IKi' : area;
     }),
     field('Household_village__c', dataValue('properties.village')),
+    field('	Village__c',dataValue('properties.village_name')),
     field('Deaths_in_the_last_6_months__c', state => {
       var death = dataValue(
         'properties.deaths_in_past_6_months'
