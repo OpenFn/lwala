@@ -27,8 +27,8 @@ fn(state => {
     barriers_at_service_delivery_points: 'Barriers at service delivery points',
   };
 
-  state.area = state.data.form.area;
-  state.catchment = state.data.form.catchment;
+  state.area = state.data.properties.area_name; 
+  state.catchment = state.data.properties.catchment_name;
 
   return { ...state, reasonMapping };
 });
