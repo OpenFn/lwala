@@ -74,7 +74,7 @@ upsert(
           }
           return status;
         }),
-    field( field('Gender__c', dataValue('properties.Gender')),
+    field('Gender__c', dataValue('properties.Gender')),
     field('Last_Modified_Date_CommCare__c', dataValue('server_date_modified')),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('closed')(state); 
