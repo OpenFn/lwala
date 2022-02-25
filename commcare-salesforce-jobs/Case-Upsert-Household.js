@@ -40,10 +40,10 @@ upsert(
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),
     field('MOH_household_code__c', dataValue('form.moh_code')),
-    field('CommCare_Code__c', dataValue('form.case.@case_id')),
+    field('CommCare_Code__c', dataValue('case_id'),
     field('Source__c', true),
     field('Household_CHW__c', state => {
-      var chw = dataValue('form.CHW_ID')(state);
+      var chw = dataValue('properties.CHW_ID')(state);
       return chw === 'a030800001zQrk'
         ? 'a030800001zQrk5'
         : chw
@@ -60,7 +60,7 @@ upsert(
         : catchment;
     }), // check
     field('Area__c', state => {
-      var area = dataValue('form.area')(state);
+      var area = dataValue('properties.Area_Name')(state);
       return area === '' || area === undefined ? 'a002400000k6IKi' : area;
     }),
     field('Household_village__c', dataValue('form.village')),
@@ -76,11 +76,11 @@ upsert(
     ),
     field(
       'Treats_Drinking_Water__c',
-      dataValue('form.Household_Information.Treats_Drinking_Water')
+     dataValue('properties.Treats_Drinking_Water')
     ),
     field(
       'Tippy_Tap__c',
-      dataValue('form.Household_Information.Active_Handwashing_Station')
+     dataValue('properties.Active_Handwashing_Station')
     ),
     field(
       'Pit_Latrine__c',
@@ -88,28 +88,29 @@ upsert(
     ),
     field(
       'Rubbish_Pit__c',
-      dataValue('form.Household_Information.Rubbish_Pit')
+      dataValue('properties.Rubbish_Pit')
     ),
     field(
       'Drying_Rack__c',
-      dataValue('form.Household_Information.Drying_Rack')
+     dataValue('properties.Drying_Rack')
     ),
     field(
       'Kitchen_Garden__c',
-      dataValue('form.Household_Information.Kitchen_Garden')
+      dataValue('properties.Kitchen_Garden')
     ),
     field(
       'Cookstove__c',
-      dataValue('form.Household_Information.Improved_Cooking_Method')
+      dataValue('properties.Improved_Cooking_Method')
     ),
-    field('Clothe__c', dataValue('form.Household_Information.Clothesline')),
+  dataValue('properties.Clothesline')
+    ),
     field(
       'WASH_Trained__c',
-      dataValue('form.Household_Information.WASH_Trained')
+    dataValue('properties.WASH_Trained')
     ),
     field(
       'Total_household_people__c',
-      dataValue('form.Total_Number_of_Members')
+ dataValue('properties.Total_Number_of_Members')
     ),
     field('Health_insurance__c', dataValue('form.health_insurace_cover')),
     field(
