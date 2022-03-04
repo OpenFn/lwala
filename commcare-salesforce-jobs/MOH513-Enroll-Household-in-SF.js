@@ -9,8 +9,12 @@ alterState(state => ({
   ...state,
   data: {
     ...state.data,
-    areaNewId: state.references[0].records[0].Id,
-    catchmentNewId: state.references[0].records[0].Parent_Geographic_Area__c,
+    areaNewId: state.references[0].records
+      ? state.references[0].records[0].Id
+      : undefined,
+    catchmentNewId: state.references[0].records
+      ? state.references[0].records[0].Parent_Geographic_Area__c
+      : undefined,
   },
 }));
 
