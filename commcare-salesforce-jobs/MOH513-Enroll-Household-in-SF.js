@@ -54,17 +54,23 @@ upsert(
     }),
     //field('Household_CHW__c', 'a031x000002S9lm'), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     relationship('Catchment__r', 'Name', state => {
-      var catchment =
-        state.data.form.catchment ||
-        state.data.form.location_info.catchment_name;
-      return catchment === '' || catchment === undefined
-        ? 'Unknown Location'
-        : catchment;
+      var catchment = dataValue('form.catchment')(state);
+      var catchmentNew = dataValue('form.location_info.catchment_name')(state);
+      return catchment !== '' || catchment !== undefined
+        ? catchment
+        : catchmentNew;
     }), // check
     field('Area__c', state => {
       var area = dataValue('form.area')(state);
-      return area === '' || area === undefined ? 'a002400000k6IKi' : area;
+      var areaNew = dataValue('form.location_id.area_name')(state);
+      return area !== '' || area !== undefined ? area : areaNew;
     }),
+    relationship(
+      //new village location mapping
+      'Village__c',
+      'CommCare_User_ID__c',
+      dataValue('form.location_id')
+    ),
     field('Household_village__c', dataValue('form.village')),
     field('Deaths_in_the_last_6_months__c', state => {
       var death = dataValue(
@@ -136,9 +142,9 @@ upsert(
     field('TBA_name__c', dataValue('form.which_tba')),
     field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
-      var closed = dataValue('form.case.update.closed')(state); 
-      var date =  dataValue('server_modified_on')(state); 
-      return closed && closed == true ? date : undefined; 
+      var closed = dataValue('form.case.update.closed')(state);
+      var date = dataValue('server_modified_on')(state);
+      return closed && closed == true ? date : undefined;
     })
   )
 );
