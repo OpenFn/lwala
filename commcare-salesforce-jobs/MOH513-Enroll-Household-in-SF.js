@@ -1,6 +1,20 @@
 //MOH513 Enroll Household Form
 //Alters CommCare Person arrays so that they are formatted as arrays instead of just single values.
-alterState(state => {
+query(
+  `SELECT Id, Parent_Geographic_Area__c FROM Location__c 
+  WHERE Name = '${dataValue('form.location_info.area_name')(state)}'`
+);
+
+fn(state => ({
+  ...state,
+  data: {
+    ...state.data,
+    areaNewId: state.references[0].records[0].Id,
+    catchmentNewId: state.references[0].records[0].Parent_Geographic_Area__c,
+  },
+}));
+
+fn(state => {
   const person = state.data.form.Person;
   if (!Array.isArray(person)) {
     state.data.form.Person = [person];
@@ -56,13 +70,16 @@ upsert(
     relationship('Catchment__r', 'Name', state => {
       var catchment = dataValue('form.catchment')(state);
       var catchmentNew = dataValue('form.location_info.catchment_name')(state);
+      //|| dataValue('catchmentNewId')(state);
       return catchment !== '' || catchment !== undefined
         ? catchment
         : catchmentNew;
     }), // check
     field('Area__c', state => {
       var area = dataValue('form.area')(state);
-      var areaNew = dataValue('form.location_id.area_name')(state);
+      var areaNew =
+        dataValue('areaNewId')(state) ||
+        dataValue('form.location_info.area_name')(state);
       return area !== '' || area !== undefined ? area : areaNew;
     }),
     relationship(
