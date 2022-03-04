@@ -84,7 +84,7 @@ upsert(
     }),
     relationship(
       //new village location mapping
-      'Village__c',
+      'Village__r',
       'CommCare_User_ID__c',
       dataValue('form.location_id')
     ),
