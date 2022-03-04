@@ -5,7 +5,7 @@ query(
   WHERE Name = '${dataValue('form.location_info.area_name')(state)}'`
 );
 
-fn(state => ({
+alterState(state => ({
   ...state,
   data: {
     ...state.data,
@@ -14,7 +14,7 @@ fn(state => ({
   },
 }));
 
-fn(state => {
+alterState(state => {
   const person = state.data.form.Person;
   if (!Array.isArray(person)) {
     state.data.form.Person = [person];
