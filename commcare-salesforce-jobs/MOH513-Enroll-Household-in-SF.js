@@ -21,6 +21,7 @@ alterState(state => ({
 }));
 
 alterState(state => {
+  console.log('Area: ', state.data.areaNewId);
   const person = state.data.form.Person;
   if (!Array.isArray(person)) {
     state.data.form.Person = [person];
@@ -77,16 +78,16 @@ upsert(
       var catchment = dataValue('form.catchment')(state);
       var catchmentNew = dataValue('form.location_info.catchment_name')(state);
       //|| dataValue('catchmentNewId')(state);
-      return catchment !== '' || catchment !== undefined
-        ? catchment
-        : catchmentNew;
+      return catchmentNew !== '' || catchmentNew !== undefined
+        ? catchmentNew
+        : catchment;
     }), // check
     field('Area__c', state => {
       var area = dataValue('form.area')(state);
       var areaNew =
         dataValue('areaNewId')(state) ||
         dataValue('form.location_info.area_name')(state);
-      return area !== '' || area !== undefined ? area : areaNew;
+      return areaNew !== '' || areaNew !== undefined ? areaNew : area;
     }),
     relationship(
       //new village location mapping
@@ -211,17 +212,17 @@ alterState(state => {
           }),
           field('Source__c', true),
           field('Client_Status__c', 'Active'),
-          relationship('Catchment__r', 'Name', state => {
-            var catchment = state.catchment;
-            return catchment === '' || catchment === undefined
-              ? 'Unknown Location'
-              : catchment;
-          }), // check
-          field('Area__c', state => {
-            var area = state.area;
-            return area === '' || area === undefined ? 'a002400000k6IKi' : area;
-          }),
-          field('Household_Village__c', state.data.form.village),
+          // relationship('Catchment__r', 'Name', state => {
+          //   var catchment = state.catchment;
+          //   return catchment === '' || catchment === undefined
+          //     ? 'Unknown Location'
+          //     : catchment;
+          // }), // check
+          // field('Area__c', state => {
+          //   var area = state.area;
+          //   return area === '' || area === undefined ? 'a002400000k6IKi' : area;
+          // }),
+          // field('Household_Village__c', state.data.form.village),
           field('Relation_to_the_head_of_the_household__c', state => {
             var relation = dataValue('Basic_Information.relation_to_hh')(state);
             var toTitleCase =
@@ -579,7 +580,6 @@ each(
       }),
       field('Name', 'Deceased Person'),
       field('Source__c', true),
-      relationship('Catchment__r', 'Name', dataValue('catchment')),
       field('Client_Status__c', 'Deceased'),
       field('Dead_age__c', dataValue('age_dead')),
       field('Cause_of_Death__c', state => {
