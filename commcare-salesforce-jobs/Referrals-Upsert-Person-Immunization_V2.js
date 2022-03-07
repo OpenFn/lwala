@@ -64,6 +64,7 @@ upsert(
       var date = dataValue('properties.DOB')(state); 
       return date && date !=='' ? date : undefined; 
     }),
+    field('Place_of_Delivery__c',dataValue('properties.Delivery_Status')),
     field('Child_Status__c', dataValue('properties.Child_Status')),
     field('Gender__c', dataValue('properties.Gender')),
     field('Last_Modified_Date_CommCare__c', dataValue('server_date_modified')),
