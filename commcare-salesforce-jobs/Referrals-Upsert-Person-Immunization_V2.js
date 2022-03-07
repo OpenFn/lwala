@@ -64,16 +64,7 @@ upsert(
       var date = dataValue('properties.DOB')(state); 
       return date && date !=='' ? date : undefined; 
     }),
-       field('Child_Status__c', state => {
-          var status = dataValue('properties.Child_Status')(state);
-          var rt = dataValue('properties.RecordType')(state);
-          if (status && rt === 'Unborn') {
-            status = 'Unborn';
-          } else if (status && rt === 'Born') {
-            status = 'Born';
-          }
-          return status;
-        }),
+    field('Child_Status__c', dataValue('properties.Child_Status')),
     field('Gender__c', dataValue('properties.Gender')),
     field('Last_Modified_Date_CommCare__c', dataValue('server_date_modified')),
     field('Case_Closed_Date__c', state => {
