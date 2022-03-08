@@ -177,12 +177,27 @@ upsert(
 alterState(state => {
   if (dataValue('form.Person[0].Source')(state) == 1) {
     return beta.each(
-      dataPath('form.Person[*]'),
+      //merge(dataPath('form.Person[*]'), fields(field(), field())),
       upsert(
         'Person__c',
         'CommCare_ID__c',
         fields(
-          //relationship('Household__r', 'CommCare_Code__c', dataValue('case.index.parent.#text')),
+          relationship('Catchment__r', 'Name', state => {
+            var catchment = dataValue('form.catchment')(state);
+            var catchmentNew = dataValue('form.location_info.catchment_name')(
+              state
+            );
+            return catchmentNew !== '' || catchmentNew !== undefined
+              ? catchmentNew
+              : catchment;
+          }),
+          field('Area__c', state => {
+            var area = dataValue('form.area')(state);
+            var areaNew =
+              dataValue('areaNewId')(state) ||
+              dataValue('form.location_info.area_name')(state);
+            return areaNew !== '' || areaNew !== undefined ? areaNew : area;
+          }),
           field('CommCare_ID__c', dataValue('case.@case_id')),
           field('CommCare_HH_Code__c', dataValue('case.index.parent.#text')),
           relationship(
