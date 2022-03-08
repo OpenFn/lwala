@@ -177,6 +177,7 @@ upsert(
 alterState(state => {
   if (dataValue('form.Person[0].Source')(state) == 1) {
     return beta.each(
+      dataPath('form.Person[*]'),
       //merge(dataPath('form.Person[*]'), fields(field(), field())),
       upsert(
         'Person__c',
