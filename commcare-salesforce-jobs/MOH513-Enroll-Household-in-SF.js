@@ -21,7 +21,7 @@ alterState(state => ({
 }));
 
 alterState(state => {
-  console.log('Area: ', state.data.areaNewId);
+  //console.log('Area: ', state.data.areaNewId);
   const person = state.data.form.Person;
   if (!Array.isArray(person)) {
     state.data.form.Person = [person];
@@ -173,6 +173,11 @@ upsert(
   )
 );
 
+alterState(state => {
+  console.log('final state', state.data);
+  return state;
+});
+
 //Upsert Person via CommCare case ID for each person enrolled
 alterState(state => {
   if (dataValue('form.Person[0].Source')(state) == 1) {
@@ -243,17 +248,6 @@ alterState(state => {
           }),
           field('Source__c', true),
           field('Client_Status__c', 'Active'),
-          // relationship('Catchment__r', 'Name', state => {
-          //   var catchment = state.catchment;
-          //   return catchment === '' || catchment === undefined
-          //     ? 'Unknown Location'
-          //     : catchment;
-          // }), // check
-          // field('Area__c', state => {
-          //   var area = state.area;
-          //   return area === '' || area === undefined ? 'a002400000k6IKi' : area;
-          // }),
-          // field('Household_Village__c', state.data.form.village),
           field('Relation_to_the_head_of_the_household__c', state => {
             var relation = dataValue('Basic_Information.relation_to_hh')(state);
             var toTitleCase =
