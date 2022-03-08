@@ -177,8 +177,23 @@ upsert(
 alterState(state => {
   if (dataValue('form.Person[0].Source')(state) == 1) {
     return beta.each(
-      dataPath('form.Person[*]'),
-      //merge(dataPath('form.Person[*]'), fields(field(), field())),
+      //dataPath('form.Person[*]'),
+      merge(
+        dataPath('form.Person[*]'),
+        fields(
+          field('form.catchment', dataValue('form.catchment')),
+          field(
+            'form.location_info.catchment_name',
+            dataValue('form.location_info.catchment_name')
+          ),
+          field(
+            'form.location_info.area_name',
+            dataValue('form.location_info.area_name')
+          ),
+          field('areaNewId', dataValue('areaNewId')),
+          field('form.area', dataValue('form.area'))
+        )
+      ),
       upsert(
         'Person__c',
         'CommCare_ID__c',
