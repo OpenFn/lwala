@@ -19,7 +19,11 @@ alterState(state => ({
         : undefined,
     catchmentNewName:
       state.references[0].records && state.references[0].records.length !== 0
-        ? state.references[0].records[0].Parent_Geographic_Area__r.Name
+        ? state.references[0].records[0].Parent_Geographic_Area__r
+          ? state.references[0].records[0].Parent_Geographic_Area__r.Name
+          : state.data.form.location_info.catchment_name
+          ? state.data.form.location_info.catchment_name
+          : state.data.form.catchment
         : undefined,
   },
 }));
