@@ -177,11 +177,6 @@ upsert(
   )
 );
 
-alterState(state => {
-  console.log('final state', state.data);
-  return state;
-});
-
 //Upsert Person via CommCare case ID for each person enrolled
 alterState(state => {
   if (dataValue('form.Person[0].Source')(state) == 1) {
