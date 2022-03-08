@@ -1,7 +1,7 @@
 //MOH513 Enroll Household Form
 //Alters CommCare Person arrays so that they are formatted as arrays instead of just single values.
 query(
-  `SELECT Id, Parent_Geographic_Area__c FROM Location__c 
+  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name FROM Location__c 
   WHERE Name = '${dataValue('form.location_info.area_name')(state)}'`
 );
 
@@ -16,6 +16,10 @@ alterState(state => ({
     catchmentNewId:
       state.references[0].records && state.references[0].records.length !== 0
         ? state.references[0].records[0].Parent_Geographic_Area__c
+        : undefined,
+    catchmentNewName:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Parent_Geographic_Area__r.Name
         : undefined,
   },
 }));
@@ -196,22 +200,16 @@ alterState(state => {
             dataValue('form.location_info.area_name')
           ),
           field('areaNewId', dataValue('areaNewId')),
-          field('form.area', dataValue('form.area'))
+          field('form.area', dataValue('form.area')),
+          field('catchmentNewId', dataValue('catchmentNewId')),
+          field('catchmentNewName', dataValue('catchmentNewName'))
         )
       ),
       upsert(
         'Person__c',
         'CommCare_ID__c',
         fields(
-          relationship('Catchment__r', 'Name', state => {
-            var catchment = dataValue('form.catchment')(state);
-            var catchmentNew = dataValue('form.location_info.catchment_name')(
-              state
-            );
-            return catchmentNew !== '' || catchmentNew !== undefined
-              ? catchmentNew
-              : catchment;
-          }),
+          relationship('Catchment__r', 'Name', dataValue('catchmentNewName')),
           field('Area__c', state => {
             var area = dataValue('form.area')(state);
             var areaNew =
