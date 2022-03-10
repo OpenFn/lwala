@@ -142,6 +142,10 @@ upsert(
       'WASH_Trained__c',
       dataValue('form.Household_Information.WASH_Trained')
     ),
+     field(
+      'Has_muac_tape__c',
+      dataValue('form.Household_Information.family_muac_tape_available')
+    ),
     field('Uses_ITNs__c', dataValue('form.Household_Information.ITNs')),
     //field('Family_planning__c', dataValue('form.Household_Information.family_planning')), // new mapping
     //field('Family_planning_method__c', dataValue('form.Household_Information.Family_planning_method')), // new mapping
