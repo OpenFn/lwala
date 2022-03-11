@@ -535,6 +535,17 @@ fn(state => {
           )(state);
           return ms ? state.milestoneTypeMap[ms] : undefined;
         }),
+        field('Caretaker_trained_in_muac__c',dataValue('form.TT5.Child_Information.caretaker_muac.mother_trained_muac')),
+        field('Caretaker_screened_for_muac_this__c',dataValue('form.TT5.Child_Information.caretaker_muac.mother_screened_child_muac')),
+        field('Caretaker_muac_findings__c',dataValue('form.TT5.Child_Information.caretaker_muac.mother_screened_child_muac_result')), 
+        field('Caretaker_action_after_muac_screening__c',dataValue('form.TT5.Child_Information.caretaker_muac.mother_screened_muac_action')), 
+        field('of_Caretaker_MUAC_screenings__c',dataValue('form.TT5.Child_Information.caretaker_muac.mother_nb_screening')),
+        field('Pulse_Oximeter__c',dataValue('form.psbi.pulse_oximeter_available')),
+        field('Heart_Rate_Pulse_Oximeter__c',dataValue('form.psbi.heart_rate_pulse_oximeter')),
+        field('Oxygen_Concentration_Pulse_Oximeter__c',dataValue('form.psbi.oxygen_concentration')),
+        field('Can_child_drink__c',dataValue('form.psbi.can_child_drink')),
+        field('Antibiotic_provided_for_fast_breathing__c',dataValue('form.psbi.antibiotic_fast_breathing')),
+        field('Antibiotic_provided_for_chest_indrawing__c',dataValue('form.psbi.antibiotic_chest_indrawing')),
         field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
         field('Case_Closed_Date__c', state => {
           var closed = dataValue('form.case.update.closed')(state); 
