@@ -66,7 +66,7 @@ upsert(
     }),
     field('Exclusive_Breastfeeding__c',dataValue('properties.Exclusive_Breastfeeding')),
     field('Immediate_Breastfeeding__c',dataValue('properties.Breastfeeding_Delivery')),
-    field('Place_of_Delivery__c',dataValue('properties.Delivery_Status')),
+    field('Place_of_Delivery__c',dataValue('properties.Skilled_Unskilled')),
     field('Child_Status__c', dataValue('properties.Child_Status')),
     field('Gender__c', dataValue('properties.Gender')),
     field('Last_Modified_Date_CommCare__c', dataValue('server_date_modified')),
