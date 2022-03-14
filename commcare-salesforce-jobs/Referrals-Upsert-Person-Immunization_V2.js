@@ -65,6 +65,7 @@ upsert(
       return date && date !=='' ? date : undefined; 
     }),
     field('Exclusive_Breastfeeding__c',dataValue('properties.Exclusive_Breastfeeding')),
+    field('Immediate_Breastfeeding__c',dataValue('properties.Breastfeeding_Delivery')),
     field('Place_of_Delivery__c',dataValue('properties.Delivery_Status')),
     field('Child_Status__c', dataValue('properties.Child_Status')),
     field('Gender__c', dataValue('properties.Gender')),
