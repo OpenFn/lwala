@@ -345,7 +345,7 @@ fn(state => {
         field(
           'Exclusive_Breastfeeding__c',
           dataValue(
-            'form.Person.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding2'
+            'form.Person.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding'
           )
         ),
         field(
