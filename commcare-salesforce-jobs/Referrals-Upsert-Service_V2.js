@@ -51,7 +51,7 @@ fn(state => {
     Malnutrition: 'Malnutrition',
     Malaria: 'Malaria',
     TB: 'TB',
-    Treatment_for_Other_OIs: 'Treatment for Other Ols',
+    Treatment_for_Other_OIs: 'Treatment for Other OIs',
     ARI: 'ARI',
     Anemia: 'Anemia',
     Diarrhea: 'Diarrhea',
