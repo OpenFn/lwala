@@ -283,7 +283,7 @@ fn(state => {
               }
             }),
             field('Child_Status__c', state => {
-              var status = dataValue('form.case.update.child_status')(state);
+              var status = dataValue('form.case.update.child_status')(state) || dataValue('form.case.update.Child_Status')(state);
               var rt = dataValue('form.RecordType')(state);
               //if(status!==undefined && rt=='Unborn' && status!=='Yes'){ //Q: child_status not present?
               if (status !== undefined && rt === 'Unborn') {
