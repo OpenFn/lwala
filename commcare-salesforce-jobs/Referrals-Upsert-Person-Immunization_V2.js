@@ -2,7 +2,9 @@ upsert(
   'Household__c',
   'CommCare_Code__c',
   fields(
-    field('CommCare_Code__c', dataValue('indices.parent.case_id'))
+    field('CommCare_Code__c', state => {
+      return dataValue('indices.parent.case_id')(state) || dataValue('properties.parent_id')(state); 
+      })
   )
 ),
 upsert(
