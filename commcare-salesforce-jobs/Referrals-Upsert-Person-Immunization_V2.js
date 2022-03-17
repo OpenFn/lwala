@@ -15,7 +15,9 @@ upsert(
     relationship(
       'Household__r',
       'CommCare_Code__c',
-      dataValue('indices.parent.case_id')
+      state => {
+      return dataValue('indices.parent.case_id')(state) || dataValue('properties.parent_id')(state); 
+      }
     ),
     field('BCG__c', state => {
       var date = dataValue('properties.BCG')(state); 
