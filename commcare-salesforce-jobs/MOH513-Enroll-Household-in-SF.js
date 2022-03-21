@@ -204,7 +204,7 @@ alterState(state => {
         'Person__c',
         'CommCare_ID__c',
         fields(
-          relationship('Catchment__c', dataValue('catchmentNewId')),
+          field('Catchment__c', dataValue('catchmentNewId')),
           field('Area__c', state => {
             var area = dataValue('form.area')(state);
             var areaNew = dataValue('areaNewId')(state);
