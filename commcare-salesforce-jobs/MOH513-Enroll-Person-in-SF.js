@@ -6,6 +6,31 @@ fn(state => {
   return { ...state, truthyValue };
 });
 
+query(
+  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c, FROM Location__c 
+  WHERE Name = '${dataValue('form.location_id')(state)}'`
+);
+
+alterState(state => ({
+  ...state,
+  data: {
+    ...state.data,
+    villageNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Id
+        : undefined,
+    areaNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Parent_Geographic_Area__c
+        : undefined,
+    catchmentNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Parent_Geographic_Area__r
+            .Parent_Geographic_Area__c
+        : undefined,
+  },
+}));
+
 fn(state => {
   if (
     dataValue('form.Source')(state) == 1 &&
@@ -24,16 +49,8 @@ fn(state => {
           'CommCare_Code__c',
           state.data.form.case['@case_id']
         ),
-        relationship('Catchment__r', 'Name', state => {
-          var catchment = dataValue('form.catchment')(state);
-          return catchment === '' || catchment === undefined
-            ? 'Unknown Location'
-            : catchment;
-        }), // check
-        field('Area__c', state => {
-          var area = dataValue('form.area')(state);
-          return area === '' || area === undefined ? 'a002400000k6IKi' : area;
-        }),
+        relationship('Catchment__c', dataValue('catchmentNewId')),
+        field('Area__c', dataValue('areaNewId')),
         field('Household_Village__c', dataValue('form.village')),
         //field('Household_CHW__c', dataValue('form.CHW_ID')),
         field('Name', state => {
@@ -43,7 +60,6 @@ fn(state => {
           var name1 = dataValue('form.Person.Basic_Information.Person_Name')(
             state
           );
-
           var name2 =
             name1 === undefined
               ? 'No Name'
@@ -90,7 +106,9 @@ fn(state => {
           return dob !== undefined || status == 'Born' ? 'Born' : 'Unborn'; //what about deceased?
         }),
         field('Date_of_Birth__c', state =>
-          state.truthyValue(dataValue('form.Person.Basic_Information.DOB')(state))
+          state.truthyValue(
+            dataValue('form.Person.Basic_Information.DOB')(state)
+          )
         ),
         field('Gender__c', dataValue('form.Person.Basic_Information.Gender')),
         field(
@@ -585,7 +603,9 @@ fn(state => {
             ? visit.toString().replace(/ /g, ';').replace(/_/g, ' ')
             : null;
         }),
-        field('Date__c', state => state.truthyValue(dataValue('form.Date')(state))),
+        field('Date__c', state =>
+          state.truthyValue(dataValue('form.Date')(state))
+        ),
         field('Household_CHW__c', state => {
           var chw = dataValue('form.CHW_ID')(state);
           return chw === 'a030800001zQrk'

@@ -1,29 +1,28 @@
 //MOH513 Enroll Household Form
 //Alters CommCare Person arrays so that they are formatted as arrays instead of just single values.
+
+//First we get the Village Location record from Salesforcee
 query(
-  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name FROM Location__c 
-  WHERE Name = '${dataValue('form.location_info.area_name')(state)}'`
+  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c, FROM Location__c 
+  WHERE Name = '${dataValue('form.location_id')(state)}'`
 );
 
 alterState(state => ({
   ...state,
   data: {
     ...state.data,
-    areaNewId:
+    villageNewId:
       state.references[0].records && state.references[0].records.length !== 0
         ? state.references[0].records[0].Id
         : undefined,
-    catchmentNewId:
+    areaNewId:
       state.references[0].records && state.references[0].records.length !== 0
         ? state.references[0].records[0].Parent_Geographic_Area__c
         : undefined,
-    catchmentNewName:
+    catchmentNewId:
       state.references[0].records && state.references[0].records.length !== 0
         ? state.references[0].records[0].Parent_Geographic_Area__r
-          ? state.references[0].records[0].Parent_Geographic_Area__r.Name
-          : state.data.form.location_info.catchment_name
-          ? state.data.form.location_info.catchment_name
-          : state.data.form.catchment
+            .Parent_Geographic_Area__c
         : undefined,
   },
 }));
@@ -82,19 +81,16 @@ upsert(
         : undefined;
     }),
     //field('Household_CHW__c', 'a031x000002S9lm'), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-    relationship('Catchment__r', 'Name', state => {
+    relationship('Catchment__c', 'Name', state => {
       var catchment = dataValue('form.catchment')(state);
-      var catchmentNew = dataValue('form.location_info.catchment_name')(state);
-      //|| dataValue('catchmentNewId')(state);
+      var catchmentNew = dataValue('catchmentNewId')(state);
       return catchmentNew !== '' || catchmentNew !== undefined
         ? catchmentNew
         : catchment;
-    }), // check
+    }),
     field('Area__c', state => {
       var area = dataValue('form.area')(state);
-      var areaNew =
-        dataValue('areaNewId')(state) ||
-        dataValue('form.location_info.area_name')(state);
+      var areaNew = dataValue('areaNewId')(state);
       return areaNew !== '' || areaNew !== undefined ? areaNew : area;
     }),
     relationship(
@@ -208,12 +204,10 @@ alterState(state => {
         'Person__c',
         'CommCare_ID__c',
         fields(
-          relationship('Catchment__r', 'Name', dataValue('catchmentNewName')),
+          relationship('Catchment__c', dataValue('catchmentNewId')),
           field('Area__c', state => {
             var area = dataValue('form.area')(state);
-            var areaNew =
-              dataValue('areaNewId')(state) ||
-              dataValue('form.location_info.area_name')(state);
+            var areaNew = dataValue('areaNewId')(state);
             return areaNew !== '' || areaNew !== undefined ? areaNew : area;
           }),
           field('CommCare_ID__c', dataValue('case.@case_id')),
