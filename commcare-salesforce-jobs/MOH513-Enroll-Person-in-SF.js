@@ -50,7 +50,7 @@ fn(state => {
           'CommCare_Code__c',
           state.data.form.case['@case_id']
         ),
-        relationship('Catchment__c', dataValue('catchmentNewId')),
+        field('Catchment__c', dataValue('catchmentNewId')),
         field('Area__c', dataValue('areaNewId')),
         field('Household_Village__c', dataValue('form.village')),
         //field('Household_CHW__c', dataValue('form.CHW_ID')),
