@@ -81,7 +81,7 @@ upsert(
         : undefined;
     }),
     //field('Household_CHW__c', 'a031x000002S9lm'), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
-    relationship('Catchment__c', 'Name', state => {
+    relationship('Catchment__c', state => {
       var catchment = dataValue('form.catchment')(state);
       var catchmentNew = dataValue('catchmentNewId')(state);
       return catchmentNew !== '' || catchmentNew !== undefined
