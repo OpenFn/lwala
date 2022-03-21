@@ -69,6 +69,7 @@ fn(state => {
                     txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
                   );
                 });
+          //If the Child_Status is 'Unborn', we return 'Unborn Child'. Otherwise return the name.
           return status !== 'Unborn' ? name2 : 'Unborn Child';
         }),
         relationship('RecordType', 'Name', state => {
@@ -78,10 +79,11 @@ fn(state => {
           var status = dataValue('form.Person.Basic_Information.Child_Status')(
             state
           );
+          //Here we set set RT to 'Child' if unborn child
           if (rt) {
             return rt === 'Unborn' || (status && status === 'Unborn')
               ? 'Child'
-              : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
+              : rt.toString().replace(/_/g, ' ');
           }
           return null;
         }),

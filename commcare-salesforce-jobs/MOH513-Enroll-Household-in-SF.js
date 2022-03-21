@@ -220,9 +220,10 @@ alterState(state => {
           relationship('RecordType', 'Name', state => {
             var rt = dataValue('Basic_Information.Record_Type')(state);
             var status = dataValue('Basic_Information.Child_Status')(state);
+            //Here we set set RT to 'Child' if unborn child
             return status == 'Unborn'
               ? 'Child'
-              : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
+              : rt.toString().replace(/_/g, ' ');
           }),
           field('Name', state => {
             var status = dataValue('Basic_Information.Child_Status')(state);
