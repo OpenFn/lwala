@@ -4,7 +4,7 @@
 //First we get the Village Location record from Salesforcee
 query(
   `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c 
-  WHERE Name = '${dataValue('form.location_id')(state)}'`
+  WHERE CommCare_User_ID__c = '${dataValue('form.location_id')(state)}'`
 );
 
 alterState(state => ({
