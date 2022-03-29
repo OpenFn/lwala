@@ -120,6 +120,7 @@ fn(state => {
     Family_Planning_FP: 'Family Planning (FP)',
     Preconception_Counseling: 'Preconception Counseling',
     Injury: 'Injury',
+    blood_in_stool: 'Blood in Stool',
     Blood_in_Stool: 'Blood in Stool',
     Immunization: 'Immunization',
     Routine_Health_Check_ups: 'Routine Health Check ups',
