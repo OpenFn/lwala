@@ -64,7 +64,7 @@ alterState(state => {
 });
 
 //Upserting Household, checks if Household exists via MOH Household Code
-upsert(
+upsertIf((state.data.metadata.username!=='openfn.test'&& state.data.metadata.username!=='test.2021'),
   'Household__c',
   'CommCare_Code__c',
   fields(
