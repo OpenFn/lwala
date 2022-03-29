@@ -53,12 +53,6 @@ fn(state => {
         field('Catchment__c', dataValue('catchmentNewId')),
         field('Area__c', dataValue('areaNewId')),
         field('Household_Village__c', dataValue('form.village')),
-        relationship(
-          //new village location mapping
-          'Village__r',
-          'CommCare_User_ID__c',
-          dataValue('form.subcase_0.case.create.owner_id')
-        ),
         //field('Household_CHW__c', dataValue('form.CHW_ID')),
         field('Name', state => {
           var status = dataValue('form.Person.Basic_Information.Child_Status')(
