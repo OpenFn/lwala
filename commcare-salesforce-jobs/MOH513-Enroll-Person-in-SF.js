@@ -26,8 +26,9 @@ fn(state => ({
         : undefined,
     catchmentNewId:
       state.references[0].records && state.references[0].records.length !== 0
-        ? state.references[0].records[0].Parent_Geographic_Area__r
-            .Parent_Geographic_Area__c
+        ? (state.references[0].records[0].Parent_Geographic_Area__r 
+          ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
+          : undefined)
         : undefined,
   },
 }));
