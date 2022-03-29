@@ -201,7 +201,7 @@ alterState(state => {
           field('username', dataValue('metadata.username'))
         )
       ),
-      upsertIf(state.data.metadata.username!=='openfn.test'&& state.data.metadata.username!=='test.2021'),
+      upsertIf((state.data.metadata.username!=='openfn.test'&& state.data.metadata.username!=='test.2021'),
         'Person__c',
         'CommCare_ID__c',
         fields(
