@@ -197,10 +197,11 @@ alterState(state => {
           field('areaNewId', dataValue('areaNewId')),
           field('form.area', dataValue('form.area')),
           field('catchmentNewId', dataValue('catchmentNewId')),
-          field('catchmentNewName', dataValue('catchmentNewName'))
+          field('catchmentNewName', dataValue('catchmentNewName')),
+          field('username', dataValue('metadata.username'))
         )
       ),
-      upsert(
+      upsertIf((dataValue('username')!=='openfn.test'&& dataValue('username')!=='test.2021'),
         'Person__c',
         'CommCare_ID__c',
         fields(
