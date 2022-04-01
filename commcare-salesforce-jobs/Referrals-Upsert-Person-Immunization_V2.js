@@ -80,7 +80,7 @@ upsert(
     field('Place_of_Delivery__c',dataValue('properties.Skilled_Unskilled')),
     field('Child_Status__c', dataValue('properties.Child_Status')),
     field('Gender__c', dataValue('properties.Gender')),
-     field('HIV_Status__c, datavalue(properties.hiv_status'),//MOTG
+    field('HIV_Status__c', dataValue('properties.hiv_status')),//MOTG
     field('Last_Modified_Date_CommCare__c', dataValue('server_date_modified')),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('closed')(state); 
