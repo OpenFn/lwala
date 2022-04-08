@@ -1,6 +1,6 @@
 upsertIf(
-  state.data.properties.user_id !== 'a3c31c9be392427a97f8704262065661' && //test.2021
-    state.data.properties.user_id !== 'd1e19bd5a4754e4d94d9e31f735302e6', //openfn.test
+  state.data.user_id !== 'a3c31c9be392427a97f8704262065661' && //test.2021
+    state.data.user_id !== 'd1e19bd5a4754e4d94d9e31f735302e6', //openfn.test
   'Household__c',
   'CommCare_Code__c',
   fields(
@@ -13,8 +13,8 @@ upsertIf(
   )
 ),
   upsertIf(
-    state.data.properties.user_id !== 'a3c31c9be392427a97f8704262065661' &&
-      state.data.properties.user_id !== 'd1e19bd5a4754e4d94d9e31f735302e6',
+    state.data.user_id !== 'a3c31c9be392427a97f8704262065661' &&
+      state.data.user_id !== 'd1e19bd5a4754e4d94d9e31f735302e6',
     'Person__c',
     'CommCare_ID__c',
     fields(
