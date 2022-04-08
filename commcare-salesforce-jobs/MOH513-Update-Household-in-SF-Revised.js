@@ -24,7 +24,9 @@ alterState(state => {
 
   return { ...state, supervisorMap, insuranceMap };
 });
-upsert(
+upsertIf(
+  state.data.metadata.username !== 'openfn.test' &&
+    state.data.metadata.username !== 'test.2021',
   'Household__c',
   'CommCare_Code__c',
   fields(
@@ -96,15 +98,15 @@ upsert(
         'form.nutrition_enrollment.when_was_the_household_provided_with_seed_input_support'
       )
     ),
-      field(
+    field(
       'MIYCN_Trained__c',
       dataValue('form.nutrition_enrollment.household_trained_on_MIYCN')
     ),
-       field(
+    field(
       'Kitchen_Garden__c',
-  dataValue('form.nutrition_enrollment.household_has_kitchen_garden')
+      dataValue('form.nutrition_enrollment.household_has_kitchen_garden')
     ),
-    
+
     field(
       'Access_to_safe_water__c',
       dataValue('form.Household_Information.Safe_Water')
@@ -142,7 +144,7 @@ upsert(
       'WASH_Trained__c',
       dataValue('form.Household_Information.WASH_Trained')
     ),
-     field(
+    field(
       'Has_muac_tape__c',
       dataValue('form.Household_Information.family_muac_tape_available')
     ),
@@ -188,9 +190,9 @@ upsert(
     ),
     field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
-      var closed = dataValue('form.case.update.closed')(state); 
-      var date =  dataValue('server_modified_on')(state); 
-      return closed && closed == true ? date : undefined; 
+      var closed = dataValue('form.case.update.closed')(state);
+      var date = dataValue('server_modified_on')(state);
+      return closed && closed == true ? date : undefined;
     })
   )
 ),
