@@ -39,7 +39,7 @@ upsert(
   'Household__c',
   'CommCare_Code__c',
   fields(
-    field('CommCare_Username__c', dataValue('form.meta.username')),
+    field('CommCare_Username__c', dataValue('form.meta.username')),//Need a case property
     field('MOH_household_code__c', dataValue('properties.moh_code')),
     field('CommCare_Code__c', dataValue('case_id'),
     field('Source__c', true),
@@ -65,7 +65,7 @@ upsert(
       return area === '' || area === undefined ? 'a002400000k6IKi' : area;
     }),
     field('Household_village__c', dataValue('properties.village')),
-    field('	Village__c',dataValue('properties.village_name')),
+    field('Village__c',dataValue('properties.village_name')),
     field('Deaths_in_the_last_6_months__c', state => {
       var death = dataValue(
         'properties.deaths_in_past_6_months'
@@ -73,49 +73,18 @@ upsert(
       return death > 0 ? 'Yes' : 'No';
     }),
     field('Access_to_safe_water__c',dataValue('properties.Safe_Water')),
-    field(
-      'Treats_Drinking_Water__c',
-    dataValue('properties.Treats_Drinking_Water')
-    ),
-    field(
-      'Tippy_Tap__c',
-     dataValue('properties.Active_Handwashing_Station')
-    ),
-    field(
-      'Pit_Latrine__c',
-    dataValue('properties.Functional_Latrine')
-    ),
-    field(
-      'Rubbish_Pit__c',
-      dataValue('properties.Rubbish_Pit')
-    ),
-    field(
-      'Drying_Rack__c',
-     dataValue('properties.Drying_Rack')
-    ),
-    field(
-      'Kitchen_Garden__c',
-      dataValue('properties.Kitchen_Garden')
-    ),
-    field(
-      'Cookstove__c',
-      dataValue('properties.Improved_Cooking_Method')
-    ),
-  dataValue('properties.Clothesline')
-    ),
-    field(
-      'WASH_Trained__c',
-    dataValue('properties.WASH_Trained')
-    ),
-    field(
-      'Total_household_people__c',
- dataValue('properties.Total_Number_of_Members')
-    ),
+    field('Treats_Drinking_Water__c',dataValue('properties.Treats_Drinking_Water')),
+    field('Tippy_Tap__c',dataValue('properties.Active_Handwashing_Station')),
+    field('Pit_Latrine__c',dataValue('properties.Functional_Latrine')),
+    field('Rubbish_Pit__c',dataValue('properties.Rubbish_Pit')),
+    field('Drying_Rack__c',dataValue('properties.Drying_Rack')),
+    field('Kitchen_Garden__c',dataValue('properties.Kitchen_Garden')),
+    field('Cookstove__c',dataValue('properties.Improved_Cooking_Method')),
+    field('Clothe__c',dataValue('properties.Clothesline')),
+    field('WASH_Trained__c',dataValue('properties.WASH_Trained')),
+    field('Total_household_people__c',dataValue('properties.Total_Number_of_Members')),
     field('Health_insurance__c', dataValue('properties.health_insurace_cover')),
-    field(
-      'Health_insurance_active_status__c',
-      dataValue('properties.healthinsurance_active')
-    ),
+    field('Health_insurance_active_status__c',dataValue('properties.healthinsurance_active')),
     field('Health_insurance_type__c', state => {
       var status = dataValue('properties.health_insurance')(state);
       return status && status === 'other_please_specify_if_active'
@@ -126,19 +95,15 @@ upsert(
         ? 'Linda mama'
         : status;
     }),
-    field(
-      'Other_Health_Insurance__c',
-      dataValue('properties.if_other_please_specify')
-    ),
+    field('Other_Health_Insurance__c',dataValue('properties.if_other_please_specify')),
     field('Work_with_TBA__c', dataValue('properties.tba')),
     field('TBA_name__c', dataValue('properties.which_tba')),
-    field('Last_Modified_Date_CommCare__c', 
-   dataValue('server_date_modified')//Need a case property
-    ),
-    field('Case_Closed_Date__c', state => {
-      var closed = dataValue('date_closed')(state); 
-      var date =  dataValue('server_date_modified')(state); 
-      return closed && closed == true ? date : undefined; 
-    })//Need a case property
+    field('Last_Modified_Date_CommCare__c', dataValue('server_date_modified')),//Need a case property),
+    //field('Case_Closed_Date__c', state => {
+    //  var closed = dataValue('date_closed')(state); 
+    //  var date =  dataValue('server_date_modified')(state); 
+    //  return closed && closed == true ? date : undefined; 
+   // })
+    )
   )
 );
