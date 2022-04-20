@@ -55,7 +55,7 @@ upsert(
     relationship('Catchment__r', 'Name', state => {
       var catchment =
         state.data.properties.catchement ||
-        state.data.properites.location_info.catchment_name;
+        state.data.properites.catchment_name;
       return catchment === '' || catchment === undefined
         ? 'Unknown Location'
         : catchment;
@@ -63,7 +63,7 @@ upsert(
     field('Area__c', state => {
       var area = dataValue('properties.Area_Name')(state);
       return area === '' || area === undefined ? 'a002400000k6IKi' : area;
-    }),
+    }),//do we need to add the location_info.area_name here? 
     field('Household_village__c', dataValue('properties.village')),//case property, but not in message
     field('Village__c',dataValue('properties.village_name')), //lookup
     field('Deaths_in_the_last_6_months__c', state => {
