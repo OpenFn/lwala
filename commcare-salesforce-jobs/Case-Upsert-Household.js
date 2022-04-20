@@ -40,7 +40,7 @@ upsert(
   'CommCare_Code__c',
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),
-    field('MOH_household_code__c', dataValue('properties.MOH_code')),
+    field('MOH_household_code__c', dataValue('properties.moh_code')),
     field('CommCare_Code__c', dataValue('case_id'),
     field('Source__c', true),
     field('Household_CHW__c', state => {
@@ -72,10 +72,7 @@ upsert(
       )(state);
       return death > 0 ? 'Yes' : 'No';
     }),
-    field(
-      'Access_to_safe_water__c',
-      dataValue('properties.Safe_Water')
-    ),
+    field('Access_to_safe_water__c',dataValue('properties.Safe_Water')),
     field(
       'Treats_Drinking_Water__c',
     dataValue('properties.Treats_Drinking_Water')
@@ -134,14 +131,14 @@ upsert(
       dataValue('properties.if_other_please_specify')
     ),
     field('Work_with_TBA__c', dataValue('properties.tba')),
-    field('TBA_name__c', dataValue('properties.which_tba')),
+    field('TBA_name__c', dataValue('properties.tba')),
     field('Last_Modified_Date_CommCare__c', 
-   dataValue('server_date_modified')
+   dataValue('server_date_modified')//Need a case property
     ),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('date_closed')(state); 
       var date =  dataValue('server_date_modified')(state); 
       return closed && closed == true ? date : undefined; 
-    })
+    })//Need a case property
   )
 );
