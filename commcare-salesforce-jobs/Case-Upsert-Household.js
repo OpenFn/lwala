@@ -72,17 +72,17 @@ upsert(
       )(state);
       return death > 0 ? 'Yes' : 'No';
     }),
-    field('Access_to_safe_water__c',dataValue('properties.Safe_Water')),
-    field('Treats_Drinking_Water__c',dataValue('properties.Treats_Drinking_Water')),
-    field('Tippy_Tap__c',dataValue('properties.Active_Handwashing_Station')),
-    field('Pit_Latrine__c',dataValue('properties.Functional_Latrine')),
-    field('Rubbish_Pit__c',dataValue('properties.Rubbish_Pit')),
-    field('Drying_Rack__c',dataValue('properties.Drying_Rack')),
-    field('Kitchen_Garden__c',dataValue('properties.Kitchen_Garden')),
-    field('Cookstove__c',dataValue('properties.Improved_Cooking_Method')),
-    field('Clothe__c',dataValue('properties.Clothesline')),
-    field('WASH_Trained__c',dataValue('properties.WASH_Trained')),
-    field('Total_household_people__c',dataValue('properties.Total_Number_of_Members')),
+    field('Access_to_safe_water__c',dataValue('properties.Safe_Water')),//not coming through
+    field('Treats_Drinking_Water__c',dataValue('properties.Treats_Drinking_Water')),//not coming through
+    field('Tippy_Tap__c',dataValue('properties.Active_Handwashing_Station')),//not coming through
+    field('Pit_Latrine__c',dataValue('properties.Functional_Latrine')),//not coming through
+    field('Rubbish_Pit__c',dataValue('properties.Rubbish_Pit')),//not coming through
+    field('Drying_Rack__c',dataValue('properties.Drying_Rack')),//not coming through
+    field('Kitchen_Garden__c',dataValue('properties.Kitchen_Garden')),//not coming through
+    field('Cookstove__c',dataValue('properties.Improved_Cooking_Method')),//not coming through
+    field('Clothe__c',dataValue('properties.Clothesline')),//not coming through
+    field('WASH_Trained__c',dataValue('properties.WASH_Trained')),//not coming through
+    field('Total_household_people__c',dataValue('properties.Total_Number_of_Members')), //not coming through
     field('Health_insurance__c', dataValue('properties.health_insurace_cover')),
     field('Health_insurance_active_status__c',dataValue('properties.healthinsurance_active')),
     field('Health_insurance_type__c', state => {
