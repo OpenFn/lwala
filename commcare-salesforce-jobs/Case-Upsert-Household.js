@@ -131,7 +131,7 @@ upsert(
       dataValue('properties.if_other_please_specify')
     ),
     field('Work_with_TBA__c', dataValue('properties.tba')),
-    field('TBA_name__c', dataValue('properties.tba')),
+    field('TBA_name__c', dataValue('properties.which_tba')),
     field('Last_Modified_Date_CommCare__c', 
    dataValue('server_date_modified')//Need a case property
     ),
