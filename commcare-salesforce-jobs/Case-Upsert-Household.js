@@ -1,40 +1,3 @@
-//fn(state => {
-//  const person = state.data.form.Person;
-//  if (!Array.isArray(person)) {
-//    state.data.form.Person = [person];
-//  }
-
-//  titleCase = str => {
-//    var splitStr = str.toLowerCase().split(' ');
-//    for (var i = 0; i < splitStr.length; i++) {
-//      splitStr[i] =
-//        splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-//    }
-//    return splitStr.join(' ');
-//  };
-
-//Not necessary - relates to a person (MOTG)
- // const reasonMapping = {
- //   pregnant: 'The client is pregnant',
- //   intentions_of_getting_pregnant: 'Intentions of getting pregnant',
- //   lack_of_access_to_fp_information: 'Lack of access to FP information',
- //   not_sexually_active: 'The client is not sexually active',
- //   other_barriers_culture_male_partners_parents_etc:
- //     'Other barriers (culture, male partners, parents, etc)',
- //   no_access_to_fp_services_hospitals:
- //     'Lack of hospitals or places where FP services can be accessed',
- //   not_willing_to_use_fp_due_to_negative_effects_myths_and_misconceptions:
- //     'Myths and misconceptions',
- //   barriers_at_service_delivery_points: 'Barriers at service delivery points',
- // };
-
-//  state.area = state.data.properties.area_name; 
-//  state.catchment = state.data.properties.catchment_name;
-
-//  return { ...state, reasonMapping };
-//});
-
-//Upserting Household, checks if Household exists via MOH Household Code
 upsert(
   'Household__c',
   'CommCare_Code__c',
@@ -51,7 +14,6 @@ upsert(
         ? chw
         : undefined;
     }),
-    //field('Household_CHW__c', 'a031x000002S9lm'), //HARDCODED FOR SANDBOX TESTING --> To replace with line above
     relationship('Catchment__r', 'Name', state => {
       var catchment =
         state.data.properties.catchement ||
