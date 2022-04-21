@@ -146,7 +146,6 @@ upsert(
         field('Telephone__c', dataValue('form.Status.updated_phone_number')),
         field('CommCare_HH_Code__c', dataValue('form.HH_ID')),
         field('Client_Status__c', dataValue('form.Status.Client_Status')),
-        //== TODO: Ask how indicated when there is an unborn child =====//
         field('Name', state => {
           var name1 = dataValue('form.Person_Name')(state);
           var unborn = dataValue(
@@ -262,17 +261,6 @@ upsert(
           'Malaria_Facility__c',
           dataValue('form.treatment_and_tracking..malaria_referral_facility')
         ),
-        //== QUESTION: TO update these mappings?? ========///
-        // field(
-        //   'Last_Malaria_Home_Test__c',
-        //   dataValue('form.treatment_and_tracking.malaria_test_date')
-        // ),
-        // field('Last_Malaria_Home_Treatment__c', (state) => {
-        //   var home = dataValue('form.treatment_and_tracking.home_treatment');
-        //   return home === 'yes'
-        //     ? dataValue('form.treatment_and_tracking.malaria_test_date')(state)
-        //     : undefined;
-        // }),
         field(
           'Fever_over_7days__c',
           dataValue('form.treatment_and_tracking.symptoms_check_fever')
@@ -281,7 +269,6 @@ upsert(
           'Cough_over_14days__c',
           dataValue('form.treatment_and_tracking.symptoms_check_cough')
         ),
-        //=========================================//
         field(
           'Diarrhoea_over_14days__c',
           dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
@@ -370,7 +357,6 @@ upsert(
               state
             ) || dataValue('form.counseling.counsel_topic')(state);
           var choiceGroups = choices ? choices.split(' ') : null;
-          //console.log(choices);
           var choicesMulti = choiceGroups
             ? choiceGroups
                 .map(cg => {
