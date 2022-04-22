@@ -5,7 +5,7 @@ upsert(
     field('CommCare_Username__c', dataValue('form.meta.username')),//Need a case property
     field('MOH_household_code__c', dataValue('properties.moh_code')),
     field('CommCare_Code__c', dataValue('case_id')),
-    field('Source__c', true)),
+    field('Source__c', true),
     field('Household_CHW__c', state => {
       var chw = dataValue('properties.CHW_ID')(state);
       return chw === 'a030800001zQrk'
