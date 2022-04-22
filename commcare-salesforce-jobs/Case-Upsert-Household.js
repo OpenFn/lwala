@@ -17,7 +17,7 @@ upsert(
     relationship('Catchment__r', 'Name', state => {
       var catchment =
         state.data.properties.catchement ||
-        state.data.properites.catchment_name;
+        state.data.properties.catchment_name;
       return catchment === '' || catchment === undefined
         ? 'Unknown Location'
         : catchment;
