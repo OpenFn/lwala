@@ -112,10 +112,11 @@ upsert(
       'MIYCN_Trained__c',
       dataValue('properties.nutrition_enrollment.household_trained_on_MIYCN')
     ),
-    field(
-      'Kitchen_Garden__c',
-      dataValue('properties.nutrition_enrollment.household_has_kitchen_garden')
-    ),
+    // not in message:
+    // field(
+    //   'Kitchen_Garden__c',
+    //   dataValue('properties.nutrition_enrollment.household_has_kitchen_garden')
+    // ),
 
     //field('Case_Closed_Date__c', state => {
     //  var closed = dataValue('date_closed')(state); 
@@ -123,5 +124,4 @@ upsert(
     //  return closed && closed == true ? date : undefined; 
    // })
     )
-  //)
 );
