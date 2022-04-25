@@ -49,7 +49,7 @@ upsertIf(
     //  var reason = dataValue('form.Reason_for_Inactive')(state);
     //  return reason ? reason.toString().replace(/_/g, ' ') : null;
     //}),
-    field('Source__c', 1),
+    //field('Source__c', 1),//
     field(
       'Completed_COVID_19_Phone_Screening__c',
       dataValue(
