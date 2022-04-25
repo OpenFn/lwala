@@ -27,16 +27,16 @@ fn(state => {
 upsertIf(
   state.data.metadata.username !== 'openfn.test' &&
     state.data.metadata.username !== 'test.2021',
-  'Household__c',
-  'CommCare_Code__c',
+  'Visit__c',
+  'CommCare_Visit_ID__c',
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),
-    field('CommCare_Code__c', dataValue('form.case.@case_id')),
-    field('MOH_household_code__c', state => {
-      var moh = dataValue('form.Household_Information.moh_code')(state);
-      var mohLinked = dataValue('form.MOH_household_code_linked')(state);
-      return moh ? moh : mohLinked && mohLinked !== '' ? mohLinked : undefined;
-    }),
+    field('CommCare_Visit_ID__c', dataValue('form.meta.instanceID')),
+    //field('MOH_household_code__c', state => {
+    //  var moh = dataValue('form.Household_Information.moh_code')(state);
+    //  var mohLinked = dataValue('form.MOH_household_code_linked')(state);
+    // return moh ? moh : mohLinked && mohLinked !== '' ? mohLinked : undefined;
+   // }),
     field('Active_Household__c', state => {
       var status = dataValue('form.Household_Status')(state);
       return status && status === 'No'
@@ -45,10 +45,10 @@ upsertIf(
         ? true
         : status;
     }),
-    field('Inactive_Reason__c', state => {
-      var reason = dataValue('form.Reason_for_Inactive')(state);
-      return reason ? reason.toString().replace(/_/g, ' ') : null;
-    }),
+    //field('Inactive_Reason__c', state => {
+    //  var reason = dataValue('form.Reason_for_Inactive')(state);
+    //  return reason ? reason.toString().replace(/_/g, ' ') : null;
+    //}),
     field('Source__c', 1),
     field(
       'Completed_COVID_19_Phone_Screening__c',
@@ -157,10 +157,10 @@ upsertIf(
       );
       return deaths && deaths > 0 ? 'Yes' : 'No';
     }),
-    field(
-      'Total_household_people__c',
-      dataValue('form.Total_Number_of_Members')
-    ),
+    //field(
+    //  'Total_household_people__c',
+    //  dataValue('form.Total_Number_of_Members')
+   // ),
     field('Supervisor_Visit__c', state =>
       state.data.form.supervisor_visit
         ? state.supervisorMap[state.data.form.supervisor_visit]
@@ -188,7 +188,7 @@ upsertIf(
       'Other_Health_Insurance__c',
       dataValue('form.if_other_please_specify')
     ),
-    field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+    //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('form.case.update.closed')(state);
       var date = dataValue('server_modified_on')(state);
