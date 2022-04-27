@@ -199,3 +199,5 @@ upsertIf(
       var date = dataValue('server_modified_on')(state);
       return closed && closed == true ? date : undefined;
     })
+      );
+)
