@@ -24,7 +24,7 @@ upsert(
     }), // check
     field('Area__c', state => {
       var area = dataValue('properties.Area_Name')(state);
-      return area === '' || area === undefined ? 'a002400000k6IKi' : area;
+      return area === '' || area === undefined ? 'a000Q00000Egmun' : area;
     }),//do we need to add the location_info.area_name here? 
     field('Household_village__c', dataValue('properties.village')),//case property, but not in message
     //field('Village__c',dataValue('properties.village_name')), //lookup
