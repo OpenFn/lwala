@@ -32,6 +32,8 @@ upsertIf(
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),
     field('CommCare_Visit_ID__c', dataValue('form.meta.instanceID')),
+    field('Household_CHW__c', 'a030Q00000A0jeY')),
+    field('Catchment__c', 'a000Q00000Egmtk')),
     //field('MOH_household_code__c', state => {
     //  var moh = dataValue('form.Household_Information.moh_code')(state);
     //  var mohLinked = dataValue('form.MOH_household_code_linked')(state);
