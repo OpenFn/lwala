@@ -34,10 +34,10 @@ upsertIf(
     field('CommCare_Visit_ID__c', dataValue('form.meta.instanceID')),
     field('Household_CHW__c', 'a030Q00000A0jeY')),
     field('Catchment__c', 'a000Q00000Egmtk')),
-    relationship(
+     relationship(
           'Household__r',
           'CommCare_Code__c',
-          state.data.form.case['@case_id']
+          dataValue('form.case')
         ),
     //field('MOH_household_code__c', state => {
     //  var moh = dataValue('form.Household_Information.moh_code')(state);
@@ -199,5 +199,3 @@ upsertIf(
       var date = dataValue('server_modified_on')(state);
       return closed && closed == true ? date : undefined;
     })
-  )
-);
