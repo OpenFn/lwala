@@ -8,8 +8,8 @@ upsert(
     field('Source__c', true),
     field('Household_CHW__c', state => {
       var chw = dataValue('properties.CHW_ID')(state);
-      return chw === 'a030800001zQrk'
-        ? 'a030800001zQrk5'
+      return chw === 'a030Q00000A0jeY'
+        ? 'a030Q00000A0jeY'
         : chw
         ? chw
         : undefined;
