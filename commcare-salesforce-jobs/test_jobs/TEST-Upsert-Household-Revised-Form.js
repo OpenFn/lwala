@@ -31,7 +31,7 @@ upsertIf(
   'CommCare_Visit_ID__c',
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),
-    field('CommCare_Visit_ID__c', dataValue('form.meta.instanceID')),
+    field('CommCare_Visit_ID__c', dataValue('form.case')),
     field('Household_CHW__c', 'a030Q00000A0jeY')),
     field('Catchment__c', 'a000Q00000Egmtk')),
      relationship(
