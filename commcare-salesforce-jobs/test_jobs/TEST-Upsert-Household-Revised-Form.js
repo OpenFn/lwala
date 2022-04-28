@@ -35,6 +35,7 @@ upsertIf(
     field('Household_CHW__c', 'a030Q00000A0jeY'),
     field('Catchment__c', 'a000Q00000Egmtk'),
     field('Household__c','a010Q00000BL6lT'),
+    field('Date__c',dataValue('form.Date')),
     //field('MOH_household_code__c', state => {
     //  var moh = dataValue('form.Household_Information.moh_code')(state);
     //  var mohLinked = dataValue('form.MOH_household_code_linked')(state);
