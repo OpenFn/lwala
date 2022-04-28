@@ -31,13 +31,13 @@ upsertIf(
   'CommCare_Visit_ID__c',
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),
-    field('CommCare_Visit_ID__c', dataValue('form.case')),
+    field('CommCare_Visit_ID__c', dataValue('id')),
     field('Household_CHW__c', 'a030Q00000A0jeY'),
     field('Catchment__c', 'a000Q00000Egmtk'),
      relationship(
           'Household__r',
           'CommCare_Code__c',
-          dataValue('form.case')
+          dataValue('form.case.@case_id')
         ),
     //field('MOH_household_code__c', state => {
     //  var moh = dataValue('form.Household_Information.moh_code')(state);
