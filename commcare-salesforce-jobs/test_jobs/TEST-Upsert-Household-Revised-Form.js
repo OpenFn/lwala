@@ -200,5 +200,4 @@ upsertIf(
       return closed && closed == true ? date : undefined;
     })
   )
-)
-      
+);
