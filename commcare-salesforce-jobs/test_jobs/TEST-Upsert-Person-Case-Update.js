@@ -223,49 +223,49 @@ upsert(
         field('Active_in_Support_Group__c',dataValue('properties.Active_in_Support_Group')),
         field('Preferred_Care_Facility__c',dataValue('properties.Preferred_Care_Facility')),
         field('Currently_on_ART_s__c', dataValue('properties.ART')),
-        field('ART_Regimen__c', dataValue('form.HAWI.ARVs')),
+        field('ART_Regimen__c', dataValue('properties.ARVs')),
         field('HAWI_Defaulter__c', state => {
-          var hawi = dataValue('form.HAWI.Preferred_Care_F.default')(state);
+          var hawi = dataValue('properties.default')(state);
           return hawi === 'Yes' ? true : false;
         }),
-        field('Date_of_Default__c',dataValue('form.HAWI.Preferred_Care_F.date_of_default')),
-        field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
+        field('Date_of_Default__c',dataValue('form.HAWI.Preferred_Care_F.date_of_default')),//need to create a case property 
+        field('Know_HIV_status__c', dataValue('properties.known_hiv_status')),
         field('HIV_Status__c', state => {
-          var status = dataValue('form.HAWI.known_hiv_status')(state);
+          var status = dataValue('properties.hiv_status')(state);
           return status === 'yes'
             ? 'Known'
             : status === 'no'
             ? 'Unknown'
             : undefined;
-        }),
+        }),//CHECK MAPPING ON THIS ONE
         
         
         //Illness
-        field('Persons_temperature__c',dataValue('form.treatment_and_tracking.temperature')),
-        field('Days_since_illness_start__c',dataValue('form.treatment_and_tracking.duration_of_sickness')),
-        field('Current_Malaria_Status__c',dataValue('form.treatment_and_tracking.malaria_test_results')),
-        field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
-        field('Malaria_Facility__c',dataValue('form.treatment_and_tracking..malaria_referral_facility')),
-        field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),
-        field('Cough_over_14days__c',dataValue('form.treatment_and_tracking.symptoms_check_cough')),
-        field('Diarrhoea_over_14days__c',dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')),
-        field('Diarrhoea_less_than_14_days__c',dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')),
-        field('TB_patients_therapy_observed__c',dataValue('form.treatment_and_tracking.observed_tb_therapy')),
-        field('Injuries_or_wounds__c',dataValue('form.treatment_and_tracking.wounds_or_injuries')),
-        field('Pulse_Oximeter__c',dataValue('form.psbi.pulse_oximeter_available')),
-        field('Heart_Rate_Pulse_Oximeter__c',dataValue('form.psbi.heart_rate_pulse_oximeter')),
-        field('Oxygen_Concentration_Pulse_Oximeter__c',dataValue('form.psbi.oxygen_concentration')),
-        field('Can_child_drink__c',dataValue('form.psbi.can_child_drink')),
-        field('Antibiotic_provided_for_fast_breathing__c',dataValue('form.psbi.antibiotic_fast_breathing')),
-        field('Antibiotic_provided_for_chest_indrawing__c',dataValue('form.psbi.antibiotic_chest_indrawing')),
-        field('Child_zinc__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),
-        field('Child_ORS__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),
-        field('Childs_breath_per_minute__c',dataValue('form.psbi.breaths_per_minuite')),
-        field('Child_chest_in_drawing__c',dataValue('form.psbi.Child_chest_in_drawing_c')),
+        field('Persons_temperature__c',dataValue('properties.temperature')),
+        field('Days_since_illness_start__c',dataValue('properties.duration_of_sickness')),
+        field('Current_Malaria_Status__c',dataValue('properties.malaria_test_results')),
+        field(/*'Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
+        field('Malaria_Facility__c',dataValue('form.treatment_and_tracking.malaria_referral_facility')),*/
+        field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),//check
+        field('Cough_over_14days__c',dataValue('properties.symptoms_check_cough')),
+        field('Diarrhoea_over_14days__c',dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')),//check
+        field('Diarrhoea_less_than_14_days__c',dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')),//check
+        field('TB_patients_therapy_observed__c',dataValue('properties.observed_tb_therapy')),
+        field('Injuries_or_wounds__c',dataValue('properties.wounds_or_injuries')),
+        field('Pulse_Oximeter__c',dataValue('properties.pulse_oximeter_available')),
+        field('Heart_Rate_Pulse_Oximeter__c',dataValue('properties.heart_rate_pulse_oximeter')),
+        field('Oxygen_Concentration_Pulse_Oximeter__c',dataValue('properties.oxygen_concentration')),
+        field('Can_child_drink__c',dataValue('properties.can_child_drink')),
+        field('Antibiotic_provided_for_fast_breathing__c',dataValue('properties.antibiotic_fast_breathing')),
+        field('Antibiotic_provided_for_chest_indrawing__c',dataValue('properties.antibiotic_chest_indrawing')),
+        field('Child_zinc__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),//check
+        field('Child_ORS__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),//check
+        field('Childs_breath_per_minute__c',dataValue('form.psbi.breaths_per_minuite')),//check
+        field('Child_chest_in_drawing__c',dataValue('form.psbi.Child_chest_in_drawing_c')),//check
         field('Default_on_TB_treatment__c', state => {
           var choice = dataValue(
             'form.treatment_and_tracking.default_tb_treatment'
-          )(state);
+          )(state);//check
           return state.cleanChoice(state, choice);
         }),
         field('Treatment_Distribution__c', state => {
@@ -273,12 +273,12 @@ upsert(
             'form.treatment_and_tracking.distribution.distributed_treatments'
           )(state);
           return state.cleanChoice(state, choice);
-        }),
+        }),//check
         
         
         //Delivery
-        field('Date_of_Birth__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.DOB')),
-        field('Immediate_Breastfeeding__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.Breastfeeding_Delivery')),
+        field('Date_of_Birth__c',dataValue('properties.DOB')),
+        field('Immediate_Breastfeeding__c',dataValue('properties.Breastfeeding_Delivery')),
         field('Place_of_Delivery__c', state => {
           var facility = dataValue('properties.Delivery_Type')(
             state
@@ -291,33 +291,33 @@ upsert(
         }),
         field('Delivery_Facility__c', state => {
           var facility = dataValue(
-            'form.TT5.Child_Information.Delivery_Facility'
+            'properties.Delivery_Facility'
           )(state);
           return facility ? facility.toString().replace(/_/g, ' ') : null;
         }),
-        field('Delivery_Facility_Other__c',dataValue('form.TT5.Child_Information.Delivery_Facility_Other')),
+        field('Delivery_Facility_Other__c',dataValue('form.TT5.Child_Information.Delivery_Facility_Other')),//create case property
       
         
         //Family Planning
-        field('Family_Planning__c',dataValue('form.TT5.Mother_Information.family_planning')),
-        field('Family_Planning_Method__c',dataValue('form.TT5.Mother_Information.family_planning_method')),
+        field('Family_Planning__c',dataValue('properties.Currently_on_family_planning')),
+        field('Family_Planning_Method__c',dataValue('properties.family_planning_method')),
         field('Reasons_for_not_taking_FP_method__c', state => {
           var reason = dataValue(
-            'form.TT5.Mother_Information.No_FPmethod_reason'
+            'properties.No_FPmethod_reason'
           )(state);
           return reason ? state.reasonMapping[reason] : '';
         }),
         field('Pregnant__c', state => {
-          var preg = dataValue('form.TT5.Mother_Information.Pregnant')(state);
+          var preg = dataValue('propertiescoun.Pregnant')(state);
           return preg === 'Yes' ? true : false;
         }),
-        field('Counselled_on_FP_Methods__c',dataValue('form.TT5.Mother_Information.CounselledFP_methods')
+        field('Counselled_on_FP_Methods__c',dataValue('properties.CounselledFP_methods')
         ),
         field('Client_counselled_on__c', state => {
           var choices =
             dataValue('form.treatment_and_tracking.counseling.counsel_topic')(
               state
-            ) || dataValue('form.counseling.counsel_topic')(state);
+            ) || dataValue('form.counseling.counsel_topic')(state);//need to create a case property
           var choiceGroups = choices ? choices.split(' ') : null;
           var choicesMulti = choiceGroups
             ? choiceGroups
