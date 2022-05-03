@@ -133,18 +133,18 @@ upsert(
           dataValue('form.TT5.Child_Information.Deworming')
         ),*/
         field('Source__c', 1),
-        field('CommCare_ID__c', ),
+        field('CommCare_ID__c',dataValue('case_id')),
         relationship(
           'Household__r',
           'CommCare_Code__c',
           dataValue('indices.parent.case_id')),
-        field('Telephone__c', dataValue('form.Status.updated_phone_number')),
+        field('Telephone__c', dataValue('form.Status.updated_phone_number')),//need to add a case
         field('CommCare_HH_Code__c', dataValue('indices.parent.case_id')),
         field('Client_Status__c', dataValue('properties.Client_Status')),
         field('Name', state => {
-          var name1 = dataValue('form.Person_Name')(state);//check
+          var name1 = dataValue('properties.Person_Name')(state);//check
           var unborn = dataValue(
-            'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name'
+            'properties.name'
           )(state);//check
           var name2 =
             name1 === undefined || name1 === '' || name1 === null
