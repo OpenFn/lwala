@@ -330,73 +330,89 @@ upsert(
         }),
         field('Client_provided_with_FP__c', state => {
           var choice = dataValue(
-            'form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
+            'properties.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
           )(state);
           return state.cleanChoice(state, choice);
         }),
                 field(
           'Received_pregnancy_test__c',
           dataValue(
-            'form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test'
+            'properties.did_you_adminsiter_a_pregnancy_test'
           )
         ),
         field(
           'Pregnancy_test_result__c',
-          dataValue('form.TT5.Mother_Information.pregnancy_test_result')
+          dataValue('properties.pregnancy_test_result')
         ),
         
         //TT5 Child Information
         
-        field('Exclusive_Breastfeeding__c',dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding')),
-        field('Counselled_on_Exclusive_Breastfeeding__c',dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.counseling')),
-        field('Newborn_visited_48_hours_of_delivery__c',dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
+        field('Exclusive_Breastfeeding__c',dataValue('properties.Exclusive_Breastfeeding')),
+        field('Counselled_on_Exclusive_Breastfeeding__c',dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.counseling')),//check
+        field('Newborn_visited_48_hours_of_delivery__c',dataValue('properties.newborn_visited_48_hours_of_delivery')),
         field('Newborn_visit_counselling__c', state => {
           var choice = dataValue(
-            'form.TT5.Child_Information.did_you_consel_the_mother_on1'
+            'form.TT5.Child_Information.did_you_consel_the_mother_on1'//needs a case property
           )(state);
           return state.cleanChoice(state, choice);
         }),
-        field('mother_visited_48_hours_of_the_delivery__c',dataValue('form.TT5.Child_Information.visit_mother_48')),
+        field('mother_visited_48_hours_of_the_delivery__c',dataValue('form.TT5.Child_Information.visit_mother_48')),//needs a case property
         field('Mother_visit_counselling__c', state => {
           var choice = dataValue(
             'form.TT5.Child_Information.did_you_consel_the_mother_on2'
           )(state);
           return state.cleanChoice(state, choice);
-        }),
-        field('Newborn_visited_48_hours_of_delivery__c',dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
-        field('Newborn_visited_by_a_CHW_within_6_days__c',dataValue('form.TT5.Child_Information.visit_6_days_from_delivery')),
+        }),//check
+        /*field('Newborn_visited_48_hours_of_delivery__c',dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')), Duplicate Mapping*/
+        field('Newborn_visited_by_a_CHW_within_6_days__c',dataValue('properties.visit_6_days_from_delivery')),
     
         //Nutrition
         
-        field('Current_Weight__c',dataValue('form.TT5.Child_Information.Nutrition.current_weight')),
-        field('Current_Height__c',dataValue('form.TT5.Child_Information.Nutrition.current_height')),
-        field('Current_MUAC__c',dataValue('form.TT5.Child_Information.Nutrition.MUAC')),
+        field('Current_Weight__c',dataValue('properties.Current_Weight')),//Only on task update
+        field('Current_Height__c',dataValue('properties.Current_Height')),//Only on Update Person
+        field('Current_MUAC__c',dataValue('properties.MUAC')),//Only on Update Person
         field('Current_Nutrition_Status__c', state => {
           var status = dataValue(
-            'form.TT5.Child_Information.Nutrition2.Nutrition_Status'
+            'properties.Nutrition_Status'
           )(state);
           return status ? state.nutritionMap[status] : undefined;
         }),
         
         //Immunization
         
-        field('Child_missed_immunization_type__c',dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),
-      
+        field('Child_missed_immunization_type__c',dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),//check
+        field('BCG__c',dataValue('properties.BCG')),
+        field('OPV_0__c'),dataValue('properties.OPV_0')),
+        field('Measles_6__c',dataValue('properties.Measles_6')),
+        field('Measles_9__c',dataValue('properties.Measles_9')),
+        field('Measles_18__c',dataValue('properties.Measles_18')),
+        field('OPV_1__c',dataValue('properties.OPV_PCV_Penta_1')),
+        field('OPV_2__c',dataValue('properties.OPV_PCV_Penta_2')),
+        field('OPV_3__c',dataValue('properties.OPV_PCV_Penta_3')),
+        field('Rotavirus_1__c',dataValue('properties.rotavirus_1')),
+        field('Rotavirus_2__c',dataValue('properties.rotavirus_2')),
+        field('IPV__c',dataValue('properties.IPV')),
+        field('Vitamin_A_12__c',dataValue('properties.Vitamine_A')),
+        field('Vitamin_A_18__c',dataValue('properties.Vitamine_A_2')),
+        field('Vitamin_A_24__c',dataValue('properties.Vitamine_A_3')),
+        field('Deworming_12__c',dataValue('properties.Deworming_1')),
+        field('Deworming_18__c',dataValue('properties.Deworming_2')),
+        field('Deworming_24__c',dataValue('properties.Deworming_3')),
         
         //ECD
-        field('Did_you_counsel_caregiver_on__c',dataValue('form.TT5.Child_Information.did_you_counsel_the_caregiver_on_delayed_milestones')),
-        field('Delayed_Milestone__c',dataValue('form.TT5.Child_Information.does_the_child_has_a_delayed_milestone')),
-        field('Child_has_2_or_more_play_items__c',dataValue('form.TT5.Child_Information.does_the_child_has_2_or_more_play_items_at_home')),
-        field('Child_has_3_or_more_picture_books__c',dataValue('form.TT5.Child_Information.does_the_child_has_3_or_more_picture_books')),
+        field('Did_you_counsel_caregiver_on__c',dataValue('properties.did_you_counsel_the_caregiver_on_delayed_milestones')),
+        field('Delayed_Milestone__c',dataValue('properties.does_the_child_has_a_delayed_milestone')),
+        field('Child_has_2_or_more_play_items__c',dataValue('properties.does_the_child_has_2_or_more_play_items_at_home')),
+        field('Child_has_3_or_more_picture_books__c',dataValue('properties.does_the_child_has_3_or_more_picture_books')),
         field('Delayed_Milestones_Counselled_On__c', state => {
           var ms = dataValue(
-            'form.TT5.Child_Information.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
+            'properties.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
           )(state);
           return ms ? state.milestoneMap[ms] : undefined;
         }),
         field('Delayed_Milestone_Type__c', state => {
           var ms = dataValue(
-            'form.TT5.Child_Information.which_delayed_milestone'
+            'properties.which_delayed_milestone'
           )(state);
           return ms ? state.milestoneTypeMap[ms] : undefined;
         }),
@@ -405,6 +421,6 @@ upsert(
           var closed = dataValue('form.case.update.closed')(state); 
           var date =  dataValue('server_modified_on')(state); 
           return closed && closed == true ? date : undefined; 
-        })
+        })//need case property
       )
     ); 
