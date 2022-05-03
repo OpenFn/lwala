@@ -161,12 +161,12 @@ upsert(
         dataValue('properties.Gender')),
           field('Chronic_illness__c', state => {
           var choice = dataValue(
-            'form.question1.please_specify_which_chronic_illness_the_person_has'
+            'properties.chronic_illness'
           )(state);
           var choice2 = state.handleMultiSelect(state, choice);
           return choice2 ? choice2.replace(/_/g, ' ') : '';
         }),
-        field('Birth_Certificate__c',dataValue('form.Status.birth_certificate')),
+        field('Birth_Certificate__c',dataValue('properties.birth_certificate')),
         field('Child_Status__c', state => {
           var status = dataValue('properties.Child_Status')(state);
           var rt = dataValue('properties.RecordType')(state);//check that this is the right one
@@ -189,24 +189,24 @@ upsert(
         
         //TT5 Mother Information
         
-        field('MCH_booklet__c',dataValue('form.TT5.Mother_Information.mch_booklet')),
+        field('MCH_booklet__c',dataValue('form.TT5.Mother_Information.mch_booklet')),//need to create a case property
         field('Reason_for_not_taking_a_pregnancy_test__c', state => {
-          var reason = dataValue('form.TT5.Mother_Information.No_Preg_Test')(
+          var reason = dataValue('properties.No_Preg_Test')(
             state
           );//check
           return reason ? reason.toString().replace(/_/g, ' ') : undefined;
         }),
         field('Pregnancy_danger_signs__c', state => {
           var signs = dataValue(
-            'form.ANCs.pregnancy_danger_signs.pregnancy_danger_signs'
-          )(state);//check
+            'properties.pregnancy_danger_signs'
+          )(state);
           return signs ? state.pregDangerMap[signs] : undefined;
         }),
-        field('Individual_birth_plan_counselling__c',dataValue('form.ANCs.pregnancy_danger_signs.individual_birth_plan')),//check
+        field('Individual_birth_plan_counselling__c',dataValue('properties.individual_birth_plan')),
         field('Child_Danger_Signs__c', state => {
           var signs = dataValue(
             'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs'
-          )(state);//check
+          )(state);//needs a case property
           return signs
             ? signs
                 .toLowerCase()
@@ -219,10 +219,10 @@ upsert(
         }),
         
         //HAWI
-        field('Unique_Patient_Code__c',dataValue('form.HAWI.Unique_Patient_Code')),
-        field('Active_in_Support_Group__c',dataValue('form.HAWI.Support_Group')),
-        field('Preferred_Care_Facility__c',dataValue('form.HAWI.Preferred_Care_F.Preferred_Care_Facility')),
-        field('Currently_on_ART_s__c', dataValue('form.HAWI.ART')),
+        field('Unique_Patient_Code__c',dataValue('properties.Unique_Patient_Code')),
+        field('Active_in_Support_Group__c',dataValue('properties.Active_in_Support_Group')),
+        field('Preferred_Care_Facility__c',dataValue('properties.Preferred_Care_Facility')),
+        field('Currently_on_ART_s__c', dataValue('properties.ART')),
         field('ART_Regimen__c', dataValue('form.HAWI.ARVs')),
         field('HAWI_Defaulter__c', state => {
           var hawi = dataValue('form.HAWI.Preferred_Care_F.default')(state);
