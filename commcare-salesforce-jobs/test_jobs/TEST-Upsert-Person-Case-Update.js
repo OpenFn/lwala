@@ -131,7 +131,7 @@ upsert(
         field(
           'deworming_medication__c',
           dataValue('form.TT5.Child_Information.Deworming')
-        ),*/
+        ),depracated field*/
         field('Source__c', 1),
         field('CommCare_ID__c',dataValue('case_id')),
         relationship(
@@ -156,10 +156,8 @@ upsert(
                 });
           return name1 !== null ? name2 : 'Unborn Child';
         }),
-        field(
-          'Gender__c',
-        dataValue('properties.Gender')),
-          field('Chronic_illness__c', state => {
+        field('Gender__c',dataValue('properties.Gender')),
+        field('Chronic_illness__c', state => {
           var choice = dataValue(
             'properties.chronic_illness'
           )(state);
@@ -244,7 +242,7 @@ upsert(
         field('Persons_temperature__c',dataValue('properties.temperature')),
         field('Days_since_illness_start__c',dataValue('properties.duration_of_sickness')),
         field('Current_Malaria_Status__c',dataValue('properties.malaria_test_results')),
-        field(/*'Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
+        /*field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
         field('Malaria_Facility__c',dataValue('form.treatment_and_tracking.malaria_referral_facility')),*/
         field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),//check
         field('Cough_over_14days__c',dataValue('properties.symptoms_check_cough')),
@@ -311,8 +309,7 @@ upsert(
           var preg = dataValue('propertiescoun.Pregnant')(state);
           return preg === 'Yes' ? true : false;
         }),
-        field('Counselled_on_FP_Methods__c',dataValue('properties.CounselledFP_methods')
-        ),
+        field('Counselled_on_FP_Methods__c',dataValue('properties.CounselledFP_methods')),
         field('Client_counselled_on__c', state => {
           var choices =
             dataValue('form.treatment_and_tracking.counseling.counsel_topic')(
@@ -334,16 +331,8 @@ upsert(
           )(state);
           return state.cleanChoice(state, choice);
         }),
-                field(
-          'Received_pregnancy_test__c',
-          dataValue(
-            'properties.did_you_adminsiter_a_pregnancy_test'
-          )
-        ),
-        field(
-          'Pregnancy_test_result__c',
-          dataValue('properties.pregnancy_test_result')
-        ),
+        field('Received_pregnancy_test__c',dataValue('properties.did_you_adminsiter_a_pregnancy_test')),
+        field('Pregnancy_test_result__c',dataValue('properties.pregnancy_test_result')),
         
         //TT5 Child Information
         
@@ -382,7 +371,7 @@ upsert(
         
         field('Child_missed_immunization_type__c',dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),//check
         field('BCG__c',dataValue('properties.BCG')),
-        field('OPV_0__c'),dataValue('properties.OPV_0')),
+        field('OPV_0__c',dataValue('properties.OPV_0')),
         field('Measles_6__c',dataValue('properties.Measles_6')),
         field('Measles_9__c',dataValue('properties.Measles_9')),
         field('Measles_18__c',dataValue('properties.Measles_18')),
