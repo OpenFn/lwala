@@ -124,6 +124,33 @@ fn(state => {
   };
 });
 
+query(
+  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
+    'form.subcase_0.case.create.owner_id'
+  )(state)}'`
+);
+
+fn(state => ({
+  ...state,
+  data: {
+    ...state.data,
+    villageNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Id
+        : undefined,
+    areaNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Parent_Geographic_Area__c
+        : undefined,
+    catchmentNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? (state.references[0].records[0].Parent_Geographic_Area__r 
+          ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
+          : undefined)
+        : undefined,
+  },
+}));
+
 upsert(
       'Person__c',
       'CommCare_ID__c',
@@ -141,6 +168,9 @@ upsert(
         field('Telephone__c', dataValue('form.Status.updated_phone_number')),//need to add a case
         field('CommCare_HH_Code__c', dataValue('indices.parent.case_id')),
         field('Client_Status__c', dataValue('properties.Client_Status')),
+        field('Catchment__c', dataValue('catchmentNewId')),
+        field('Area__c', dataValue('areaNewId')),
+        field('Household_Village__c', dataValue('form.village')),
         field('Name', state => {
           var name1 = dataValue('properties.Person_Name')(state);//check
           var unborn = dataValue(
@@ -233,7 +263,6 @@ upsert(
             : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
         }),
         
-           ),
         
         //TT5 Mother Information
         
@@ -358,7 +387,7 @@ upsert(
           return reason ? state.reasonMapping[reason] : '';
         }),
         field('Pregnant__c', state => {
-          var preg = dataValue('propertiescoun.Pregnant')(state);
+          var preg = dataValue('properties.Pregnant')(state);
           return preg === 'Yes' ? true : false;
         }),
         field('Counselled_on_FP_Methods__c',dataValue('properties.CounselledFP_methods')),
@@ -502,7 +531,7 @@ upsert(
         }),
         
         //Death
-        field('Date_of_Death__c',dataValue(properties.Date_of_Death)),
+        field('Date_of_Death__c',dataValue('properties.Date_of_Death')),
         field('Cause_of_Death__c', state => {
           var death = dataValue(
             'properties.cause_of_death_dead'
@@ -518,4 +547,4 @@ upsert(
           var date =  dataValue('server_modified_on')(state); 
           return closed && closed == true ? date : undefined; 
         })//need case property
-      ); 
+      )); 
