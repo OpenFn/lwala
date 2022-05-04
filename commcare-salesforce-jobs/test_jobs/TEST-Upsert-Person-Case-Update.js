@@ -127,8 +127,8 @@ fn(state => {
 upsert(
       'Person__c',
       'CommCare_ID__c',
-      /*fields(
-        field(
+      fields(
+      /*  field(
           'deworming_medication__c',
           dataValue('form.TT5.Child_Information.Deworming')
         ),depracated field*/
@@ -518,5 +518,4 @@ upsert(
           var date =  dataValue('server_modified_on')(state); 
           return closed && closed == true ? date : undefined; 
         })//need case property
-      )
-    ); 
+      ); 
