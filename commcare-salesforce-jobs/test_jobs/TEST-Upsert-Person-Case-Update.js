@@ -164,6 +164,54 @@ upsert(
           var choice2 = state.handleMultiSelect(state, choice);
           return choice2 ? choice2.replace(/_/g, ' ') : '';
         }),
+        field('Currently_enrolled_in_school__c',dataValue('form.Person.Basic_Information.enrolled_in_school')),
+        field('Education_Level__c', state => {
+          var level = dataValue(
+            'form.Person.Basic_Information.Education_Level'
+          )(state);
+          return level ? level.toString().replace(/_/g, ' ') : null;
+        }),
+        field('Relation_to_the_head_of_the_household__c', state => {
+          var relation = dataValue(
+            'properties.relation_to_hh'
+          )(state);
+          if (relation) {
+            relation = relation.toString().replace(/_/g, ' ');
+            var toTitleCase =
+              relation.charAt(0).toUpperCase() + relation.slice(1);
+            return toTitleCase;
+          }
+
+          return null;
+        }),
+        field('Disability__c', state => {
+          var disability = dataValue(
+            'form.Person.Basic_Information.person_info.disability'
+          )(state);
+          var toTitleCase =
+            disability !== undefined
+              ? disability
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
+              : null;
+          return toTitleCase;
+        }),//need case property
+        field('Other_disability__c', state => {
+          var disability = dataValue(
+            'form.Person.Basic_Information.person_info.other_disability'
+          )(state);
+          var toTitleCase =
+            disability !== undefined
+              ? disability
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
+              : null;
+          return toTitleCase;
+        }),//need case property
         field('Birth_Certificate__c',dataValue('properties.birth_certificate')),
         field('Child_Status__c', state => {
           var status = dataValue('properties.Child_Status')(state);
@@ -191,7 +239,7 @@ upsert(
         field('Reason_for_not_taking_a_pregnancy_test__c', state => {
           var reason = dataValue('properties.No_Preg_Test')(
             state
-          );//check
+          );
           return reason ? reason.toString().replace(/_/g, ' ') : undefined;
         }),
         field('Pregnancy_danger_signs__c', state => {
@@ -297,6 +345,8 @@ upsert(
       
         
         //Family Planning
+        
+        field('LMP__c',dataValue('properties.LMP')),
         field('Family_Planning__c',dataValue('properties.Currently_on_family_planning')),
         field('Family_Planning_Method__c',dataValue('properties.family_planning_method')),
         field('Reasons_for_not_taking_FP_method__c', state => {
@@ -333,6 +383,9 @@ upsert(
         }),
         field('Received_pregnancy_test__c',dataValue('properties.did_you_adminsiter_a_pregnancy_test')),
         field('Pregnancy_test_result__c',dataValue('properties.pregnancy_test_result')),
+        field('Gravida__c',dataValue('properties.Gravida')),
+        field('Parity__c',dataValue('properties.Parity')),
+        
         
         //TT5 Child Information
         
