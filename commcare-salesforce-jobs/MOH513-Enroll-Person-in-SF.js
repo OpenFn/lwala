@@ -120,13 +120,13 @@ fn(state => {
           'Birth_Certificate__c',
           dataValue('form.Person.Basic_Information.birth_certificate')
         ),
-        field(
+        /*field(
           'Currently_enrolled_in_school__c',
           dataValue('form.Person.Basic_Information.enrolled_in_school')
-        ),
+        ),//Check */
         field('Education_Level__c', state => {
           var level = dataValue(
-            'form.Person.Basic_Information.Education_Level'
+            'properties.Education_Level'
           )(state);
           return level ? level.toString().replace(/_/g, ' ') : null;
         }),
