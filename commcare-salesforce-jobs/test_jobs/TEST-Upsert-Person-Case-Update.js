@@ -164,7 +164,7 @@ upsert(
           var choice2 = state.handleMultiSelect(state, choice);
           return choice2 ? choice2.replace(/_/g, ' ') : '';
         }),
-        field('Currently_enrolled_in_school__c',dataValue('form.Person.Basic_Information.enrolled_in_school')),//need case property
+        field('Currently_enrolled_in_school__c',dataValue('properties.enrolled_in_school')),
         field('Education_Level__c', state => {
           var level = dataValue(
             'properties.Education_Level'
@@ -213,7 +213,7 @@ upsert(
           return toTitleCase;
         }),//need case property
         
-        field('Use_mosquito_net__c',dataValue('Basic_Information.person_info.sleep_under_net')),//need case property
+        field('Use_mosquito_net__c',dataValue('properties.sleep_under_net')),//need case property
         field('Birth_Certificate__c',dataValue('properties.birth_certificate')),
         field('Child_Status__c', state => {
           var status = dataValue('properties.Child_Status')(state);
@@ -237,7 +237,7 @@ upsert(
         
         //TT5 Mother Information
         
-        field('MCH_booklet__c',dataValue('form.TT5.Mother_Information.mch_booklet')),//need to create a case property
+        field('MCH_booklet__c',dataValue('properties.mch_booklet')),//need to create a case property
         field('Reason_for_not_taking_a_pregnancy_test__c', state => {
           var reason = dataValue('properties.No_Preg_Test')(
             state
@@ -253,7 +253,7 @@ upsert(
         field('Individual_birth_plan_counselling__c',dataValue('properties.individual_birth_plan')),
         field('Child_Danger_Signs__c', state => {
           var signs = dataValue(
-            'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs'
+            'properties.Other_Danger_Signs'
           )(state);//needs a case property
           return signs
             ? signs
@@ -276,7 +276,7 @@ upsert(
           var hawi = dataValue('properties.default')(state);
           return hawi === 'Yes' ? true : false;
         }),
-        field('Date_of_Default__c',dataValue('form.HAWI.Preferred_Care_F.date_of_default')),//need to create a case property 
+        field('Date_of_Default__c',dataValue('properties.date_of_default')),
         field('Know_HIV_status__c', dataValue('properties.known_hiv_status')),
         field('HIV_Status__c', state => {
           var status = dataValue('properties.hiv_status')(state);
@@ -312,13 +312,13 @@ upsert(
         field('Child_chest_in_drawing__c',dataValue('form.psbi.Child_chest_in_drawing_c')),//check
         field('Default_on_TB_treatment__c', state => {
           var choice = dataValue(
-            'form.treatment_and_tracking.default_tb_treatment'
+            'properties.default_tb_treatment'
           )(state);//check
           return state.cleanChoice(state, choice);
         }),
         field('Treatment_Distribution__c', state => {
           var choice = dataValue(
-            'form.treatment_and_tracking.distribution.distributed_treatments'
+            'properties.distributed_treatments'
           )(state);
           return state.cleanChoice(state, choice);
         }),//check
@@ -364,9 +364,9 @@ upsert(
         field('Counselled_on_FP_Methods__c',dataValue('properties.CounselledFP_methods')),
         field('Client_counselled_on__c', state => {
           var choices =
-            dataValue('form.treatment_and_tracking.counseling.counsel_topic')(
+            dataValue('properties.counsel_topic')(
               state
-            ) || dataValue('form.counseling.counsel_topic')(state);//need to create a case property
+            ) || dataValue('properties.counsel_topic')(state);//need to create a case property
           var choiceGroups = choices ? choices.split(' ') : null;
           var choicesMulti = choiceGroups
             ? choiceGroups
@@ -376,7 +376,7 @@ upsert(
                 .join(';')
             : choiceGroups;
           return choicesMulti;
-        }),
+        }),//OpenFn Question - can this be simplified now that this is a case property 
         field('Client_provided_with_FP__c', state => {
           var choice = dataValue(
             'properties.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
@@ -392,21 +392,21 @@ upsert(
         //TT5 Child Information
         
         field('Exclusive_Breastfeeding__c',dataValue('properties.Exclusive_Breastfeeding')),
-        field('Counselled_on_Exclusive_Breastfeeding__c',dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.counseling')),//check
+        field('Counselled_on_Exclusive_Breastfeeding__c',dataValue('properties.counseling')),
         field('Newborn_visited_48_hours_of_delivery__c',dataValue('properties.newborn_visited_48_hours_of_delivery')),
         field('Newborn_visit_counselling__c', state => {
           var choice = dataValue(
-            'form.TT5.Child_Information.did_you_consel_the_mother_on1'//needs a case property
+            'properties.did_you_consel_the_mother_on1'
           )(state);
           return state.cleanChoice(state, choice);
         }),
-        field('mother_visited_48_hours_of_the_delivery__c',dataValue('form.TT5.Child_Information.visit_mother_48')),//needs a case property
+        field('mother_visited_48_hours_of_the_delivery__c',dataValue('properties.visit_mother_48')),
         field('Mother_visit_counselling__c', state => {
           var choice = dataValue(
-            'form.TT5.Child_Information.did_you_consel_the_mother_on2'
+            'properties.did_you_consel_the_mother_on2'
           )(state);
           return state.cleanChoice(state, choice);
-        }),//check
+        }),
         /*field('Newborn_visited_48_hours_of_delivery__c',dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')), Duplicate Mapping*/
         field('Newborn_visited_by_a_CHW_within_6_days__c',dataValue('properties.visit_6_days_from_delivery')),
     
