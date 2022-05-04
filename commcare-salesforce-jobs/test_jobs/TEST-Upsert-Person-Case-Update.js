@@ -164,10 +164,10 @@ upsert(
           var choice2 = state.handleMultiSelect(state, choice);
           return choice2 ? choice2.replace(/_/g, ' ') : '';
         }),
-        field('Currently_enrolled_in_school__c',dataValue('form.Person.Basic_Information.enrolled_in_school')),
+        field('Currently_enrolled_in_school__c',dataValue('form.Person.Basic_Information.enrolled_in_school')),//need case property
         field('Education_Level__c', state => {
           var level = dataValue(
-            'form.Person.Basic_Information.Education_Level'
+            'properties.Education_Level'
           )(state);
           return level ? level.toString().replace(/_/g, ' ') : null;
         }),
@@ -446,7 +446,7 @@ upsert(
         }),
         field('Thrive_Thru_5_Registrant__c', state => {
           var age = dataValue('properties.age')(state);
-          var preg = dataValue('form.Person.TT5.Mother_Information.Pregnant')(
+          var preg = dataValue('properties.Pregnant')(
             state
           );
           return age < 5 || preg == 'Yes' ? 'Yes' : 'No';
