@@ -293,11 +293,11 @@ upsert(
         field('Days_since_illness_start__c',dataValue('properties.duration_of_sickness')),
         field('Current_Malaria_Status__c',dataValue('properties.malaria_test_results')),
         /*field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
-        field('Malaria_Facility__c',dataValue('form.treatment_and_tracking.malaria_referral_facility')),*/
-        field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),//check
+        field('Malaria_Facility__c',dataValue('form.treatment_and_tracking.malaria_referral_facility')),
+        field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),//check*/
         field('Cough_over_14days__c',dataValue('properties.symptoms_check_cough')),
-        field('Diarrhoea_over_14days__c',dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')),//check
-        field('Diarrhoea_less_than_14_days__c',dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')),//check
+        /*field('Diarrhoea_over_14days__c',dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')),//check
+        field('Diarrhoea_less_than_14_days__c',dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')),//check*/
         field('TB_patients_therapy_observed__c',dataValue('properties.observed_tb_therapy')),
         field('Injuries_or_wounds__c',dataValue('properties.wounds_or_injuries')),
         field('Pulse_Oximeter__c',dataValue('properties.pulse_oximeter_available')),
@@ -306,10 +306,10 @@ upsert(
         field('Can_child_drink__c',dataValue('properties.can_child_drink')),
         field('Antibiotic_provided_for_fast_breathing__c',dataValue('properties.antibiotic_fast_breathing')),
         field('Antibiotic_provided_for_chest_indrawing__c',dataValue('properties.antibiotic_chest_indrawing')),
-        field('Child_zinc__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),//check
+        /*field('Child_zinc__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),//check
         field('Child_ORS__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),//check
         field('Childs_breath_per_minute__c',dataValue('form.psbi.breaths_per_minuite')),//check
-        field('Child_chest_in_drawing__c',dataValue('form.psbi.Child_chest_in_drawing_c')),//check
+        field('Child_chest_in_drawing__c',dataValue('form.psbi.Child_chest_in_drawing_c')),//check*/
         field('Default_on_TB_treatment__c', state => {
           var choice = dataValue(
             'properties.default_tb_treatment'
@@ -407,7 +407,7 @@ upsert(
           )(state);
           return state.cleanChoice(state, choice);
         }),
-        /*field('Newborn_visited_48_hours_of_delivery__c',dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')), Duplicate Mapping*/
+        /*field('Newborn_visited_48_hours_of_delivery__c',dataValue('properties.newborn_visited_48_hours_of_delivery')), Duplicate Mapping*/
         field('Newborn_visited_by_a_CHW_within_6_days__c',dataValue('properties.visit_6_days_from_delivery')),
     
         //Nutrition
