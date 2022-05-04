@@ -502,7 +502,7 @@ upsert(
         }),
         
         //Death
-        field('Date_of_Death__c',dataValue(properties.Date_of_Death)),
+        field('Date_of_Death__c',dataValue('properties.Date_of_Death')),
         field('Cause_of_Death__c', state => {
           var death = dataValue(
             'properties.cause_of_death_dead'
