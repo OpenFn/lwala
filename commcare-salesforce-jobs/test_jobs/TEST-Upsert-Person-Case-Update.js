@@ -186,7 +186,7 @@ upsert(
         }),
         field('Disability__c', state => {
           var disability = dataValue(
-            'form.Person.Basic_Information.person_info.disability'
+            'properties.disability'
           )(state);
           var toTitleCase =
             disability !== undefined
@@ -200,7 +200,7 @@ upsert(
         }),//need case property
         field('Other_disability__c', state => {
           var disability = dataValue(
-            'form.Person.Basic_Information.person_info.other_disability'
+            'properties.other_disability'
           )(state);
           var toTitleCase =
             disability !== undefined
@@ -343,7 +343,7 @@ upsert(
           )(state);
           return facility ? facility.toString().replace(/_/g, ' ') : null;
         }),
-        field('Delivery_Facility_Other__c',dataValue('form.TT5.Child_Information.Delivery_Facility_Other')),//create case property
+        field('Delivery_Facility_Other__c',dataValue('properties.Delivery_Facility_Other')),
       
         
         //Family Planning
@@ -412,6 +412,10 @@ upsert(
     
         //Nutrition
         
+        field('Caretaker_action_after_muac_screening__c',dataValue('properties.mother_screened_muac_action')),
+        field('Caretaker_muac_findings__c', dataValue('properties.mother_screened_child_muac_result')),
+        field('Caretaker_screened_for_muac_this__c',dataValue('properties,mother_screened_child_muac_result')),
+        field('Caretaker trained in muac?',dataValue('properties.mother_trained_muac')),
         field('Current_Weight__c',dataValue('properties.Current_Weight')),//Only on task update
         field('Current_Height__c',dataValue('properties.Current_Height')),//Only on Update Person
         field('Current_MUAC__c',dataValue('properties.MUAC')),//Only on Update Person
@@ -498,13 +502,14 @@ upsert(
         }),
         
         //Death
+        field('Date_of_Death__c',dataValue(properties.Date_of_Death)),
         field('Cause_of_Death__c', state => {
           var death = dataValue(
             'properties.cause_of_death_dead'
           )(state);
           return death ? death.toString().replace(/_/g, ' ') : death;
         }),//check which case property to use - there are 2
-        field('Verbal_autopsy__c', dataValue('verbal_autopsy')),//needs case property
+        field('Verbal_autopsy__c', dataValue('properties.verbal_autopsy')),
         
         //Closing
         field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
