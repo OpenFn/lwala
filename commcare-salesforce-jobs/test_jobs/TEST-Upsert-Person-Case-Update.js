@@ -233,8 +233,6 @@ upsert(
             : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
         }),
         
-           ),
-        
         //TT5 Mother Information
         
         field('MCH_booklet__c',dataValue('properties.mch_booklet')),//need to create a case property
@@ -518,4 +516,4 @@ upsert(
           var date =  dataValue('server_modified_on')(state); 
           return closed && closed == true ? date : undefined; 
         })//need case property
-      ); 
+      )); 
