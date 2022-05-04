@@ -212,6 +212,8 @@ upsert(
               : null;
           return toTitleCase;
         }),//need case property
+        
+        field('Use_mosquito_net__c',dataValue('Basic_Information.person_info.sleep_under_net')),//need case property
         field('Birth_Certificate__c',dataValue('properties.birth_certificate')),
         field('Child_Status__c', state => {
           var status = dataValue('properties.Child_Status')(state);
@@ -420,6 +422,42 @@ upsert(
           return status ? state.nutritionMap[status] : undefined;
         }),
         
+        //TT5 & HAWI
+        field('TT5_Mother_Registrant__c', state => {
+          var preg = dataValue('properties.Pregnant')(
+            state
+          );
+          return preg == 'Yes' ? 'Yes' : null;
+        }),
+        field('Enrollment_Date__c', state => {
+          var age = dataValue('properties.age')(state);
+          var date = dataValue('metadata.timeEnd')(state);
+          var preg = dataValue('properties.Pregnant')(
+            state
+          );
+          return age < 5 || preg == 'Yes' ? date : null;
+        }),
+        field('HAWI_Enrollment_Date__c', state => {
+          var date = dataValue('metadata.timeEnd')(state);
+          var status = dataValue(
+            'properties.hiv_status'
+          )(state);
+          return status == 'positive' ? date : null;
+        }),
+        field('Thrive_Thru_5_Registrant__c', state => {
+          var age = dataValue('properties.age')(state);
+          var preg = dataValue('form.Person.TT5.Mother_Information.Pregnant')(
+            state
+          );
+          return age < 5 || preg == 'Yes' ? 'Yes' : 'No';
+        }),//check mapping
+        field('HAWI_Registrant__c', state => {
+          var status = dataValue(
+            'properties.hiv_status'
+          )(state);
+          return status == 'positive' ? 'Yes' : 'No';
+        }),
+        
         //Immunization
         
         field('Child_missed_immunization_type__c',dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),//check
@@ -458,6 +496,17 @@ upsert(
           )(state);
           return ms ? state.milestoneTypeMap[ms] : undefined;
         }),
+        
+        //Death
+        field('Cause_of_Death__c', state => {
+          var death = dataValue(
+            'properties.cause_of_death_dead'
+          )(state);
+          return death ? death.toString().replace(/_/g, ' ') : death;
+        }),//check which case property to use - there are 2
+        field('Verbal_autopsy__c', dataValue('verbal_autopsy')),//needs case property
+        
+        //Closing
         field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
         field('Case_Closed_Date__c', state => {
           var closed = dataValue('form.case.update.closed')(state); 
