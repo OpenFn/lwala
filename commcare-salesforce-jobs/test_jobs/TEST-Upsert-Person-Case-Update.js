@@ -126,7 +126,7 @@ fn(state => {
 
 query(
   `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
-    'form.subcase_0.case.create.owner_id'
+    'properties.owner_id'
   )(state)}'`
 );
 
@@ -170,7 +170,7 @@ upsert(
         field('Client_Status__c', dataValue('properties.Client_Status')),
         field('Catchment__c', dataValue('catchmentNewId')),
         field('Area__c', dataValue('areaNewId')),
-        field('Household_Village__c', dataValue('form.village')),
+        field('Household_Village__c', dataValue('villageNewId')),
         field('Name', state => {
           var name1 = dataValue('properties.Person_Name')(state);//check
           var unborn = dataValue(
