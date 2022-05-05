@@ -124,6 +124,33 @@ fn(state => {
   };
 });
 
+query(
+  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
+    'properties.owner_id'
+  )(state)}'`
+);
+
+fn(state => ({
+  ...state,
+  data: {
+    ...state.data,
+    villageNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Id
+        : undefined,
+    areaNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Parent_Geographic_Area__c
+        : undefined,
+    catchmentNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? (state.references[0].records[0].Parent_Geographic_Area__r 
+          ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
+          : undefined)
+        : undefined,
+  },
+}));
+
 upsert(
       'Person__c',
       'CommCare_ID__c',
@@ -141,6 +168,9 @@ upsert(
         field('Telephone__c', dataValue('form.Status.updated_phone_number')),//need to add a case
         field('CommCare_HH_Code__c', dataValue('indices.parent.case_id')),
         field('Client_Status__c', dataValue('properties.Client_Status')),
+        field('Catchment__c', dataValue('catchmentNewId')),
+        field('Area__c', dataValue('areaNewId')),
+        field('Household_Village__c', dataValue('villageNewId')),
         field('Name', state => {
           var name1 = dataValue('properties.Person_Name')(state);//check
           var unborn = dataValue(
@@ -356,7 +386,7 @@ upsert(
           return reason ? state.reasonMapping[reason] : '';
         }),
         field('Pregnant__c', state => {
-          var preg = dataValue('propertiescoun.Pregnant')(state);
+          var preg = dataValue('properties.Pregnant')(state);
           return preg === 'Yes' ? true : false;
         }),
         field('Counselled_on_FP_Methods__c',dataValue('properties.CounselledFP_methods')),
@@ -412,8 +442,8 @@ upsert(
         
         field('Caretaker_action_after_muac_screening__c',dataValue('properties.mother_screened_muac_action')),
         field('Caretaker_muac_findings__c', dataValue('properties.mother_screened_child_muac_result')),
-        field('Caretaker_screened_for_muac_this__c',dataValue('properties,mother_screened_child_muac_result')),
-        field('Caretaker trained in muac?',dataValue('properties.mother_trained_muac')),
+        field('Caretaker_screened_for_muac_this__c', dataValue('properties.mother_screened_child_muac_result')),
+        field('Caretaker_trained_in_muac__c', dataValue('properties.mother_trained_muac')),
         field('Current_Weight__c',dataValue('properties.Current_Weight')),//Only on task update
         field('Current_Height__c',dataValue('properties.Current_Height')),//Only on Update Person
         field('Current_MUAC__c',dataValue('properties.MUAC')),//Only on Update Person
