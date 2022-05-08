@@ -125,27 +125,29 @@ fn(state => {
 });
 
 upsert(
-      'Person__c',
+      'Person_Visit__c',
       'CommCare_ID__c',
       fields(
-        field(
+        /*field(
           'deworming_medication__c',
           dataValue('form.TT5.Child_Information.Deworming')
         ),
-        field('Source__c', 1),
+        field('Source__c', 1),*/
         field('CommCare_ID__c', dataValue('form.case.@case_id')),
         relationship(
-          'Household__r',
+          'Person__r',
           'CommCare_Code__c',
-          dataValue('form.HH_ID')
+          dataValue("form.case['@case_id']")
         ),
-        field(
+        field('CommCare_ID_C',dataValue("form.case['@case_id']")),
+        /*field(
           'MCH_booklet__c',
           dataValue('form.TT5.Mother_Information.mch_booklet')
         ),
         field('Telephone__c', dataValue('form.Status.updated_phone_number')),
         field('CommCare_HH_Code__c', dataValue('form.HH_ID')),
-        field('Client_Status__c', dataValue('form.Status.Client_Status')),
+        field('Client_Status__c', dataValue('form.Status.Client_Status')),*/
+        
         field('Name', state => {
           var name1 = dataValue('form.Person_Name')(state);
           var unborn = dataValue(
@@ -161,12 +163,12 @@ upsert(
                 });
           return name1 !== null ? name2 : 'Unborn Child';
         }),
-        field(
+        /*field(
           'Gender__c',
           dataValue(
             'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Sex'
           )
-        ),
+        ),*/
         field('Child_Status__c', state => {
           var status = dataValue('form.case.update.child_status')(state);
           var rt = dataValue('form.RecordType')(state);
@@ -178,12 +180,12 @@ upsert(
           return status;
         }),
         //===================================================//
-        relationship('RecordType', 'Name', state => {
+        /*relationship('RecordType', 'Name', state => {
           var rt = dataValue('form.RecordType')(state);
           return rt === 'Unborn' || rt === ''
             ? 'Child'
             : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
-        }),
+        }),*/
         field(
           'Individual_birth_plan_counselling__c',
           dataValue('form.ANCs.pregnancy_danger_signs.individual_birth_plan')
@@ -215,18 +217,18 @@ upsert(
             : signs;
         }),
         field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),
-        field(
+        /*field(
           'Unique_Patient_Code__c',
           dataValue('form.HAWI.Unique_Patient_Code')
-        ),
+        ),*/
         field(
           'Active_in_Support_Group__c',
           dataValue('form.HAWI.Support_Group')
         ),
-        field(
+        /*field(
           'Preferred_Care_Facility__c',
           dataValue('form.HAWI.Preferred_Care_F.Preferred_Care_Facility')
-        ),
+        ),*/
         field('HAWI_Defaulter__c', state => {
           var hawi = dataValue('form.HAWI.Preferred_Care_F.default')(state);
           return hawi === 'Yes' ? true : false;
@@ -293,7 +295,7 @@ upsert(
             'form.ANCs.pregnancy_danger_signs.Delivery_Information.Breastfeeding_Delivery'
           )
         ),
-        field(
+        /*field(
           'Date_of_Birth__c',
           dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.DOB')
         ),
@@ -316,7 +318,7 @@ upsert(
         field(
           'Delivery_Facility_Other__c',
           dataValue('form.TT5.Child_Information.Delivery_Facility_Other')
-        ),
+        ),*/
         field(
           'Exclusive_Breastfeeding__c',
           dataValue(
@@ -427,12 +429,12 @@ upsert(
           )(state);
           return status ? state.nutritionMap[status] : undefined;
         }),
-        field(
+        /*field(
           'Child_missed_immunization_type__c',
           dataValue(
             'form.TT5.Child_Information.Immunizations.immunization_type'
           )
-        ),
+        ),*/
         field('Default_on_TB_treatment__c', state => {
           var choice = dataValue(
             'form.treatment_and_tracking.default_tb_treatment'
@@ -456,7 +458,7 @@ upsert(
           var choice2 = state.handleMultiSelect(state, choice);
           return choice2 ? choice2.replace(/_/g, ' ') : '';
         }),
-        field(
+        /*field(
           'Birth_Certificate__c',
           dataValue('form.Status.birth_certificate')
         ),
@@ -471,7 +473,7 @@ upsert(
           dataValue(
             'form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS'
           )
-        ),
+        ),*/
         field(
           'Childs_breath_per_minute__c',
           dataValue('form.psbi.breaths_per_minuite')
