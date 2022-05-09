@@ -137,8 +137,7 @@ upsert(
         relationship(
           'Person__r',
           'CommCare_Code__c',
-          dataValue("form.case['@case_id']")
-        ),
+          dataValue("form.case['@case_id']")),
         field('CommCare_ID_C',dataValue("form.case['@case_id']")),
         /*field(
           'MCH_booklet__c',
@@ -148,7 +147,7 @@ upsert(
         field('CommCare_HH_Code__c', dataValue('form.HH_ID')),
         field('Client_Status__c', dataValue('form.Status.Client_Status')),*/
         
-        field('Name', state => {
+        /*field('Name', state => {
           var name1 = dataValue('form.Person_Name')(state);
           var unborn = dataValue(
             'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name'
@@ -156,13 +155,13 @@ upsert(
           var name2 =
             name1 === undefined || name1 === '' || name1 === null
               ? unborn
-              : name1.replace(/\w\S*/g, function (txt) {
-                  return (
+              : name1.replace(/\w\S*//*g, function (txt) {/*
+                  /*return (
                     txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
                   );
                 });
           return name1 !== null ? name2 : 'Unborn Child';
-        }),
+        }),/*
         /*field(
           'Gender__c',
           dataValue(
@@ -221,10 +220,7 @@ upsert(
           'Unique_Patient_Code__c',
           dataValue('form.HAWI.Unique_Patient_Code')
         ),*/
-        field(
-          'Active_in_Support_Group__c',
-          dataValue('form.HAWI.Support_Group')
-        ),
+        field('Active_in_Support_Group__c',dataValue('form.HAWI.Support_Group')),
         /*field(
           'Preferred_Care_Facility__c',
           dataValue('form.HAWI.Preferred_Care_F.Preferred_Care_Facility')
@@ -233,24 +229,11 @@ upsert(
           var hawi = dataValue('form.HAWI.Preferred_Care_F.default')(state);
           return hawi === 'Yes' ? true : false;
         }),
-        field(
-          'Date_of_Default__c',
-          dataValue('form.HAWI.Preferred_Care_F.date_of_default')
-        ),
-        field(
-          'Persons_temperature__c',
-          dataValue('form.treatment_and_tracking.temperature')
-        ),
-        field(
-          'Days_since_illness_start__c',
-          dataValue('form.treatment_and_tracking.duration_of_sickness')
-        ),
-        field(
-          'Newborn_visited_48_hours_of_delivery__c',
-          dataValue(
-            'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'
-          )
-        ),
+        field('Date_of_Default__c',dataValue('form.HAWI.Preferred_Care_F.date_of_default')),
+        field('Persons_temperature__c',dataValue('form.treatment_and_tracking.temperature')),
+        field('Days_since_illness_start__c',dataValue('form.treatment_and_tracking.duration_of_sickness')),
+        field('Newborn_visited_48_hours_of_delivery__c',
+          dataValue('form.TT5.Child_Information.newborn_visited_48_hours_of_delivery')),
         field(
           'Newborn_visited_by_a_CHW_within_6_days__c',
           dataValue('form.TT5.Child_Information.visit_6_days_from_delivery')
@@ -259,14 +242,14 @@ upsert(
           'Current_Malaria_Status__c',
           dataValue('form.treatment_and_tracking.malaria_test_results')
         ),
-        field(
+        /*field(
           'Malaria_Facility__c',
           dataValue('form.treatment_and_tracking..malaria_referral_facility')
         ),
         field(
           'Fever_over_7days__c',
           dataValue('form.treatment_and_tracking.symptoms_check_fever')
-        ),
+        ),*/
         field(
           'Cough_over_14days__c',
           dataValue('form.treatment_and_tracking.symptoms_check_cough')
@@ -275,10 +258,10 @@ upsert(
           'Diarrhoea_over_14days__c',
           dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
         ),
-        field(
+        /*field(
           'Diarrhoea_less_than_14_days__c',
           dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')
-        ),
+        ),*/
         field(
           'TB_patients_therapy_observed__c',
           dataValue('form.treatment_and_tracking.observed_tb_therapy')
@@ -288,13 +271,11 @@ upsert(
           dataValue('form.treatment_and_tracking.wounds_or_injuries')
         ),
         field('Currently_on_ART_s__c', dataValue('form.HAWI.ART')),
-        field('ART_Regimen__c', dataValue('form.HAWI.ARVs')),
+        /*field('ART_Regimen__c', dataValue('form.HAWI.ARVs')),*/
         field(
           'Immediate_Breastfeeding__c',
           dataValue(
-            'form.ANCs.pregnancy_danger_signs.Delivery_Information.Breastfeeding_Delivery'
-          )
-        ),
+            'form.ANCs.pregnancy_danger_signs.Delivery_Information.Breastfeeding_Delivery')),
         /*field(
           'Date_of_Birth__c',
           dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.DOB')
@@ -323,8 +304,7 @@ upsert(
           'Exclusive_Breastfeeding__c',
           dataValue(
             'form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding'
-          )
-        ),
+          )),
         field(
           'Counselled_on_Exclusive_Breastfeeding__c',
           dataValue(
