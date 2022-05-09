@@ -23,7 +23,8 @@ upsert(
         : catchment;
     }), // check
     field('Area__c', state => {
-      var area = dataValue('properties.Area_Name')(state);
+     // var area = dataValue('properties.Area_Name')(state);
+       var area = dataValue('properties.area')(state);
       return area === '' || area === undefined ? 'a000Q00000Egmu4' : area;
     }), 
    // Commented out because it was causing a job error 
