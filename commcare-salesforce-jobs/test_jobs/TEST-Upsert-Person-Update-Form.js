@@ -255,7 +255,7 @@ upsert(
           dataValue('form.treatment_and_tracking.symptoms_check_cough')
         ),
         field(
-          'Diarrhoea_over_14days__c',
+          'Diarrhoea_over_1days__c',
           dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
         ),
         /*field(
