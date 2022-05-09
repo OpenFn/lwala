@@ -22,10 +22,11 @@ upsert(
         ? 'Unknown Location'
         : catchment;
     }), // check
-    /*field('Area__c', state => {
+    field('Area__c', state => {
       var area = dataValue('properties.Area_Name')(state);
       return area === '' || area === undefined ? 'a000Q00000Egmu4' : area;
-    }), Commented out because it was causing a job error */
+    }), 
+   // Commented out because it was causing a job error 
     field('Household_village__c', dataValue('properties.village')),//case property, but not in message
     //field('Village__c',dataValue('properties.village_name')), //lookup
     field('Deaths_in_the_last_6_months__c', state => {
