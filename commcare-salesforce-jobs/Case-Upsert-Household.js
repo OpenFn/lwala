@@ -1,3 +1,30 @@
+query(
+  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
+    'properties.owner_id'
+  )(state)}'`
+);
+
+fn(state => ({
+  ...state,
+  data: {
+    ...state.data,
+    villageNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Id
+        : undefined,
+    areaNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? state.references[0].records[0].Parent_Geographic_Area__c
+        : undefined,
+    catchmentNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? (state.references[0].records[0].Parent_Geographic_Area__r 
+          ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
+          : undefined)
+        : undefined,
+  },
+}));
+
 upsert(
   'Household__c',
   'CommCare_Code__c',
@@ -14,22 +41,24 @@ upsert(
         ? chw
         : undefined;
     }),
-    relationship('Catchment__r', 'Name', state => {
-      var catchment =
-        state.data.properties.catchement ||
-        state.data.properties.catchment_name;
-      return catchment === '' || catchment === undefined
-        ? 'Unknown Location'
-        : catchment;
-    }), // check
-    field('Area__c', state => {
-     // var area = dataValue('properties.Area_Name')(state);
-       var area = dataValue('properties.area')(state);
-      return area === '' || area === undefined ? 'a000Q00000Egmu4' : area;
-    }), 
-   // Commented out because it was causing a job error 
-    field('Household_village__c', dataValue('properties.village')),//case property, but not in message
-    //field('Village__c',dataValue('properties.village_name')), //lookup
+    field('Catchment__c', dataValue('catchmentNewId')),
+    field('Area__c', dataValue('areaNewId')),
+    field('Household_Village__c', dataValue('villageNewId')),
+  //   relationship('Catchment__r', 'Name', state => {
+  //     var catchment =
+  //       state.data.properties.catchement ||
+  //       state.data.properties.catchment_name;
+  //     return catchment === '' || catchment === undefined
+  //       ? 'Unknown Location'
+  //       : catchment;
+  //   }), // check
+  //   field('Area__c', state => {
+  //    // var area = dataValue('properties.Area_Name')(state);
+  //      var area = dataValue('properties.area')(state);
+  //     return area === '' || area === undefined ? 'a000Q00000Egmu4' : area;
+  //   }),  // Commented out because it was causing a job error 
+  //   field('Household_village__c', dataValue('properties.village')),//case property, but not in message
+  //   field('Village__c',dataValue('properties.village_name')), //lookup
     field('Deaths_in_the_last_6_months__c', state => {
       var death = dataValue(
         'properties.deaths_in_past_6_months'
