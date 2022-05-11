@@ -76,7 +76,7 @@ upsert(
     field('Clothe__c',dataValue('properties.Clothesline')),//not coming through
     field('WASH_Trained__c',dataValue('properties.WASH_Trained')),//not coming through
     field('Uses_ITNs__c',dataValue('properties.ITNs')),
-    field('Total_household_people__c',dataValue('properties.Total_Number_of_Members')), //not coming through
+    //field('Total_household_people__c',dataValue('properties.Total_Number_of_Members')), //not coming through
     field('Health_insurance__c', dataValue('properties.health_insurace_cover')),
     field('Health_insurance_active_status__c',dataValue('properties.healthinsurance_active')),
     field('Health_insurance_type__c', state => {
