@@ -33,7 +33,7 @@ upsert(
     field('MOH_household_code__c', dataValue('properties.moh_code')),
     field('CommCare_Code__c', dataValue('case_id')),
     field('Source__c', true),
-    field('Household_CHW__c', 'a030Q00000A0jeYQAR'),
+    field('Household_CHW__c', 'a030Q00000A0jeYQAR'), //sandbox hardcoded mapping
     //field('Household_CHW__c', dataValue('properties.sfid')), //TODO: Prod mapping to add back before go-live
     field('Catchment__c', dataValue('catchmentNewId')),
     field('Area__c', dataValue('areaNewId')),
