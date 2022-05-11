@@ -34,9 +34,9 @@ upsert(
     field('CommCare_Code__c', dataValue('case_id')),
     field('Source__c', true),
     field('Household_CHW__c', state => {
-      var chw = dataValue('properties.CHW_ID')(state);
-      return chw === 'a030Q00000A0jeY'
-        ? 'a030Q00000A0jeY'
+      var chw = dataValue('properties.sfid')(state);
+      return chw === 'a030Q00000A0jeYQAR'
+        ? 'a030Q00000A0jeYQAR'
         : chw
         ? chw
         : undefined;
