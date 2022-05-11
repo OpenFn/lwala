@@ -33,14 +33,8 @@ upsert(
     field('MOH_household_code__c', dataValue('properties.moh_code')),
     field('CommCare_Code__c', dataValue('case_id')),
     field('Source__c', true),
-    field('Household_CHW__c', state => {
-      var chw = dataValue('properties.sfid')(state);
-      return chw === 'a030Q00000A0jeYQAR'
-        ? 'a030Q00000A0jeYQAR'
-        : chw
-        ? chw
-        : undefined;
-    }),
+    field('Household_CHW__c', 'HARDCODE'),
+    //field('Household_CHW__c', dataValue('properties.sfid')), //TODO: Prod mapping to add back before go-live
     field('Catchment__c', dataValue('catchmentNewId')),
     field('Area__c', dataValue('areaNewId')),
     field('Household_Village__c', dataValue('villageNewId')),
