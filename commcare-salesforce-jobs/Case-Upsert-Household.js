@@ -33,7 +33,7 @@ upsert(
     field('MOH_household_code__c', dataValue('properties.moh_code')),
     field('CommCare_Code__c', dataValue('case_id') || dataValue('form.case.@case_id')),
     fied('CommCare_Code__c', state => {
-      var cc_code = dataValue('case_id')(state)
+    //  var cc_code = dataValue('case_id')(state)
       return cc_code === undefined ? dataValue('form.case.@case_id') : cc_code;
       }),
     field('Source__c', true),
