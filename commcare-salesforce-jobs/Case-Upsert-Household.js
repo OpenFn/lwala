@@ -102,40 +102,39 @@ upsert(
      field(
       'Active_in_Nutrition_Program__c',
       dataValue(
-        'form.nutrition_enrollment.enrolled_in_a_lwala_nutrition_program'
+        'properties.enrolled_in_a_lwala_nutrition_program'
       )
     ),
     field(
       'lwala_nutrition_program_enrollment_date__c',
       dataValue(
-        'properties.nutrition_enrollment.lwala_nutrition_program_enrollment_date'
+        'properties.lwala_nutrition_program_enrollment_date'
       )
     ),
     field(
       'Trained_in_gardening__c',
-      dataValue('properties.nutrition_enrollment.household_trained_on_gardening')
+      dataValue('properties.household_trained_on_gardening')
     ),
     field(
       'household_trained_on_gardening_date__c',
       dataValue(
-        'properties.nutrition_enrollment.when_was_the_household_trained_on_gardening'
+        'properties.when_was_the_household_trained_on_gardening'
       )
     ),
     field(
       'Seed_Input_Support__c',
-      dataValue(
-        'properties.nutrition_enrollment.household_provided_with_seed_input_support'
+      dataValue('properties.seed_input_support')
       )
     ),
     field(
       'household_provided_with_seed_input_suppo__c',
       dataValue(
-        'properties.nutrition_enrollment.when_was_the_household_provided_with_seed_input_support'
+        'properties.when_was_the_household_provided_with_seed_input_support'
       )
     ),
     field(
       'MIYCN_Trained__c',
-      dataValue('properties.nutrition_enrollment.household_trained_on_MIYCN')
+      dataValue('properties.household_trained_on_MIYCN')
     ),
     // not in message:
     // field(
