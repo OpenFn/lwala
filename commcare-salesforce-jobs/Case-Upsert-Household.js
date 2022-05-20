@@ -123,7 +123,7 @@ upsert(
     ),
     field(
       'Seed_Input_Support__c',
-      dataValue('properties.seed_input_support'
+      dataValue('properties.household_provided_with_seed_input_support'
       )
     ),
     field(
