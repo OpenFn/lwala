@@ -31,11 +31,7 @@ upsert(
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),//Need a case property
     field('MOH_household_code__c', dataValue('properties.moh_code')),
-   // field('CommCare_Code__c', dataValue('case_id')),
-    field('CommCare_Code__c', state => {
-      var cc_code = dataValue('case_id')(state)
-      return cc_code === undefined ? dataValue('form.case.@case_id') : cc_code;
-      }),
+   field('CommCare_Code__c', dataValue('case_id')),
     field('Source__c', true),
     field('Household_CHW__c', 'a030Q00000A0jeYQAR'), //sandbox hardcoded mapping
     //field('Household_CHW__c', dataValue('properties.sfid')), //TODO: Prod mapping to add back before go-live
