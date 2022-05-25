@@ -137,9 +137,9 @@ upsert(
     relationship(
       'Person__r',
       'CommCare_Code__c',
-      dataValue("form.case['@case_id']")
+      dataValue("form.case.@case_id")
     ),
-    field('CommCare_ID_C', dataValue("form.case['@case_id']")),
+    field('CommCare_ID_C', dataValue("form.case.@case_id")),
     /*field(
           'MCH_booklet__c',
           dataValue('form.TT5.Mother_Information.mch_booklet')
