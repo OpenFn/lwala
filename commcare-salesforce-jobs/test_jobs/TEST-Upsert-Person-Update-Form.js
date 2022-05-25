@@ -1,3 +1,9 @@
+query(
+  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
+    'form.subcase_0.case.create.owner_id'
+  )(state)}'`
+);
+
 fn(state => {
   state.cleanChoice = function (state, choice) {
     if (choice) {
@@ -6,6 +12,19 @@ fn(state => {
       return '';
     }
   };
+
+fn(state => ({
+  ...state,
+  data: {
+    ...state.data,
+    catchmentNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? (state.references[0].records[0].Parent_Geographic_Area__r 
+          ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
+          : undefined)
+        : undefined,
+  },
+}));
 
   state.handleMultiSelect = function (state, multiField) {
     return multiField
@@ -171,7 +190,7 @@ upsert(
             'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Sex'
           )
         ),*/
-    field('Catchment__c', 'a000Q00000EgmtkQAB'),
+    field('Catchment__c', catchmentNewId),
     field('Child_Status__c', state => {
       var status = dataValue('form.case.update.child_status')(state);
       var rt = dataValue('form.RecordType')(state);
