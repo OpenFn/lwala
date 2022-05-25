@@ -168,6 +168,7 @@ upsert(
           'CommCare_Code__c',
           dataValue('indices.parent.case_id')),
         field('Telephone__c', dataValue('form.Status.updated_phone_number')),//need to add a case
+        field('Consent_for_data_use__c',dataValue('properties.data_sharing_consent')),
         field('CommCare_HH_Code__c', dataValue('indices.parent.case_id')),
         field('Client_Status__c', dataValue('properties.Client_Status')),
         field('Catchment__c', dataValue('catchmentNewId')),
