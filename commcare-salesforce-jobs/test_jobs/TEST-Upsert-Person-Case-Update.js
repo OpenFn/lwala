@@ -259,7 +259,7 @@ upsert(
         }),
         //===================================================//
         relationship('RecordType', 'Name', state => {
-          var rt = dataValue('properties.RecordType')(state);
+          var rt = dataValue('properties.Record_Type')(state);
           return rt === 'Unborn' || rt === ''
             ? 'Child'
             : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
