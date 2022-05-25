@@ -133,7 +133,7 @@ upsert(
           dataValue('form.TT5.Child_Information.Deworming')
         ),
         field('Source__c', 1),*/
-    /field('CommCare_ID__c', dataValue('form.case.@case_id')),
+    //field('CommCare_ID__c', dataValue('form.case.@case_id')),
     field('CommCare_ID__c', dataValue('id')),
 
     relationship(
