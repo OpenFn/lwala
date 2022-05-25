@@ -151,6 +151,8 @@ fn(state => ({
   },
 }));
 
+console.log(dataValue('properties.disability'))
+
 upsert(
       'Person__c',
       'CommCare_ID__c',
