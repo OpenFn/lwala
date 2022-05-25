@@ -191,7 +191,7 @@ upsert(
         field('Gender__c',dataValue('properties.Gender')),
         field('Chronic_illness__c', state => {
           var choice = dataValue(
-            'properties.chronic_illness'
+            'properties.please_specify_which_chronic_illness_the_person_has'
           )(state);
           var choice2 = state.handleMultiSelect(state, choice);
           return choice2 ? choice2.replace(/_/g, ' ') : '';
