@@ -125,7 +125,7 @@ fn(state => {
 });
 
 upsert(
-  'Person_Visit__c',
+  'Person_visit__c',
   'CommCare_ID__c',
   fields(
     /*field(
