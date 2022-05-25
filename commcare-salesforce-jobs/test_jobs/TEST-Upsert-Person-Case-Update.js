@@ -206,7 +206,7 @@ upsert(
         }),
         field('Relation_to_the_head_of_the_household__c', state => {
           var relation = dataValue(
-            'indices.parent.relationship'
+            'properties.relation_to_hh'
           )(state);
           if (relation) {
             relation = relation.toString().replace(/_/g, ' ');
