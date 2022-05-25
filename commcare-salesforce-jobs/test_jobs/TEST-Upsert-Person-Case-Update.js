@@ -249,7 +249,7 @@ upsert(
         field('Birth_Certificate__c',dataValue('properties.birth_certificate')),
         field('Child_Status__c', state => {
           var status = dataValue('properties.Child_Status')(state);
-          var rt = dataValue('properties.RecordType')(state);//check that this is the right one
+          var rt = dataValue('properties.Record_Type')(state);//check that this is the right one
           if (status && rt === 'Unborn') {
             status = 'Unborn';
           } else if (status && rt === 'Born') {
