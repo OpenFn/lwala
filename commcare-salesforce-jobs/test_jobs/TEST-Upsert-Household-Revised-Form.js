@@ -24,9 +24,10 @@ fn(state => {
   return { ...state, supervisorMap, insuranceMap };
 });
 
-upsertIf(
-  state.data.metadata.username !== 'openfn.test' &&
-    state.data.metadata.username !== 'test.2022',
+// upsertIf(
+//   state.data.metadata.username !== 'openfn.test' &&
+//     state.data.metadata.username !== 'test.2022',
+upsert(
   'Visit__c',
   'CommCare_Visit_ID__c',
   fields(
