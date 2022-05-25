@@ -145,7 +145,7 @@ fn(state => ({
 
 upsert(
   'Person_visit__c',
-  'CommCare_Visit_ID__c',
+  'CommCare_ID__c',
   fields(
     /*field(
           'deworming_medication__c',
@@ -153,7 +153,7 @@ upsert(
         ),
         field('Source__c', 1),*/
     //field('CommCare_ID__c', dataValue('form.case.@case_id')),
-    field('CommCare_Visit_ID__c', dataValue('id')),
+    field('CommCare_ID__c', dataValue('id')),
 
     relationship(
       'Person__r',
