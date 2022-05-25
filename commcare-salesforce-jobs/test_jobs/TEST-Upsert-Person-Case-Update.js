@@ -285,7 +285,7 @@ upsert(
         field('Child_Danger_Signs__c', state => {
           var signs = dataValue(
             'properties.Other_Danger_Signs'
-          )(state);//needs a case property
+          )(state);
           return signs
             ? signs
                 .toLowerCase()
