@@ -171,6 +171,7 @@ upsert(
             'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Sex'
           )
         ),*/
+    field('Catchment__c', 'Central Kamagambo'),
     field('Child_Status__c', state => {
       var status = dataValue('form.case.update.child_status')(state);
       var rt = dataValue('form.RecordType')(state);
