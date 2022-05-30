@@ -9,26 +9,32 @@ fn(state => {
 
 each(
   '$.formIds[*]',
-  get(
-    'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/form/',
-    {
-      query: state => ({
-        limit: 2, // max limit
-        offset:
-          state.meta && state.meta.next
-            ? state.meta.limit + state.meta.offset
-            : 0,
-        xmlns: `http://openrosa.org/formdesigner/${state.data}`,
-        received_on_end: '2019-12-31',
-      }),
-    },
-    state => {
-      console.log('Metadata in CommCare response:');
-      console.log(state.data.meta);
+  fn(state => {
+    console.log('Requesting data for form:', state.data);
+    return get(
+      'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/form/',
+      {
+        query: {
+          limit: 2, // max limit
+          offset:
+            state.meta && state.meta.next
+              ? state.meta.limit + state.meta.offset
+              : 0,
+          xmlns: `http://openrosa.org/formdesigner/${state.data}`,
+          received_on_end: '2019-12-31',
+        },
+      },
+      nextState => {
+        console.log('Metadata in CommCare response:');
+        console.log(nextState.data.meta);
 
-      return { ...state, payloads: [...state.payloads, ...state.data.objects] };
-    }
-  )
+        return {
+          ...nextState,
+          payloads: [...nextState.payloads, ...nextState.data.objects],
+        };
+      }
+    )(state);
+  })
 );
 
 fn(state => {
