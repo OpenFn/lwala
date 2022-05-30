@@ -309,7 +309,7 @@ upsert(
         }),
         field('Date_of_Default__c',dataValue('properties.date_of_default')),
         field('Know_HIV_status__c', dataValue('properties.known_hiv_status')),
-        field('HIV_Status',dataValue('properties.hiv_status')),
+        field('HIV_Status__c',dataValue('properties.hiv_status')),
         /*field('HIV_Status__c', state => {
           var status = dataValue('properties.hiv_status')(state);
           return status === 'yes'
