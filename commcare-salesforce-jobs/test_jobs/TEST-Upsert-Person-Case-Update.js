@@ -445,7 +445,7 @@ upsert(
         
         field('Caretaker_action_after_muac_screening__c',dataValue('properties.mother_screened_muac_action')),
         field('Caretaker_muac_findings__c', dataValue('properties.mother_screened_child_muac_result')),
-        field('Caretaker_screened_for_muac_this__c', dataValue('properties.mother_screened_child_muac_result')),
+        field('Caretaker_screened_for_muac_this__c', dataValue('properties.mother_screened_child_muac')),
         field('Caretaker_trained_in_muac__c', dataValue('properties.mother_trained_muac')),
         field('Current_Weight__c',dataValue('properties.Current_Weight')),//Only on task update
         field('Current_Height__c',dataValue('properties.Current_Height')),//Only on Update Person
