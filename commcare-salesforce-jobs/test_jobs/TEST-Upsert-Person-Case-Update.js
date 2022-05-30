@@ -204,19 +204,19 @@ upsert(
           )(state);
           return level ? level.toString().replace(/_/g, ' ') : null;
         }),
-        // field('Relation_to_the_head_of_the_household__c', state => {
-        //   var relation = dataValue(
-        //     'properties.relation_to_hh'
-        //   )(state);
-        //   if (relation) {
-        //     relation = relation.toString().replace(/_/g, ' ');
-        //     var toTitleCase =
-        //       relation.charAt(0).toUpperCase() + relation.slice(1);
-        //     return toTitleCase;
-        //   }
+        field('Relation_to_the_head_of_the_household__c', state => {
+          var relation = dataValue(
+            'properties.relation_to_hh'
+          )(state);
+          if (relation) {
+            relation = relation.toString().replace(/_/g, ' ');
+            var toTitleCase =
+              relation.charAt(0).toUpperCase() + relation.slice(1);
+            return toTitleCase;
+          }
 
-        //   return null;
-        // }),
+          return null;
+        }),
         field('Disability__c', state => {
           var disability = dataValue(
             'properties.disability'
