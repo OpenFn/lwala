@@ -1,3 +1,4 @@
+// set up a base Url, formIds, and the initial queries to use
 fn(state => {
   const baseUrl =
     'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/form/';
@@ -8,52 +9,61 @@ fn(state => {
     '318B2FE0-F17F-4FC2-8EBE-1FF170F25B3F',
   ];
 
+  const limit = 500;
+  const receivedOnEnd = '2019-12-31';
+
   const queries = formIds.map(
     id =>
       `?xmlns=http://openrosa.org/formdesigner/${id}` +
-      `&received_on_end=2019-12-31` +
-      `&limit=300`
+      `&received_on_end=${receivedOnEnd}` +
+      `&limit=${limit}`
   );
 
   return { ...state, queries, baseUrl, payloads: [] };
 });
 
+// create a "recursiveGet" which will call itself if CommCare tells us there's
+// more data to fetch for the same form
+fn(state => {
+  const recursiveGet = url =>
+    get(url, {}, nextState => {
+      const { baseUrl, data, payloads } = nextState;
+      const { meta, objects } = data;
+      console.log('Metadata in CommCare response:', meta);
+
+      const finalState = { ...nextState, payloads: [...payloads, ...objects] };
+
+      if (meta.next) {
+        console.log('Next query detected, recursing...');
+        return recursiveGet(`${baseUrl}${meta.next}`)(finalState);
+      }
+      return finalState;
+    });
+
+  return { ...state, recursiveGet };
+});
+
+// for each initial query, fetch data recursively
 each(
   '$.queries[*]',
-  fn(state => {
-    const funky = (url, state) =>
-      get(url, {}, nextState => {
-        const { baseUrl, queries, data, payloads } = nextState;
-        const { meta, objects } = data;
-        console.log('Metadata in CommCare response:', meta);
-
-        const finalState = {
-          ...nextState,
-          payloads: [...payloads, ...objects],
-        };
-
-        if (meta.next) return funky(`${baseUrl}${meta.next}`, finalState);
-
-        return finalState;
-      })(state);
-
-    const url = `${state.baseUrl}${state.data}`;
-
-    return funky(url, state);
-  })
+  fn(state => state.recursiveGet(`${state.baseUrl}${state.data}`)(state))
 );
 
+// log the total number of payloads returned
 fn(state => {
   console.log('Count of payloads', state.payloads.length);
-  console.log('Count of queries', state.queries.length);
   return state;
 });
 
-// each(
-//   '$.messagePayloads[*]',
-//   post(
-//     'https://www.openfn.org/inbox/someuuid',
-//     { body: state => state.data },
-//     state => ({ ...state, data: {}, references: [] })
-//   )
+// send all of those payloads to OpenFn
+// post(
+//   'https://www.openfn.org/inbox/someuuid',
+//   {
+//     body: state => ({ commCareSubmissions: state.payloads }),
+//   },
+//   state => ({
+//     ...state,
+//     data: {},
+//     references: [],
+//   })
 // );
