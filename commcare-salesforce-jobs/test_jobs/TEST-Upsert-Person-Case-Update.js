@@ -397,6 +397,7 @@ upsert(
           var preg = dataValue('properties.Pregnant')(state);
           return preg === 'Yes' ? true : false;
         }),
+        field('Date_of_Delivery__c',dataValue('properties.delivery_date')),
         field('Counselled_on_FP_Methods__c',dataValue('properties.CounselledFP_methods')),
         field('Client_counselled_on__c', state => {
           var choices =
