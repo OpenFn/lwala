@@ -439,6 +439,7 @@ upsert(
           return state.cleanChoice(state, choice);
         }),
         field('mother_visited_48_hours_of_the_delivery__c',dataValue('properties.visit_mother_48')),
+        field('Visit_after_unskilled__c',dataValue('properties.visit_24hours_after_unskilled_delivery')),
         field('Mother_visit_counselling__c', state => {
           var choice = dataValue(
             'properties.did_you_consel_the_mother_on2'
