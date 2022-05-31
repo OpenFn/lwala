@@ -385,7 +385,7 @@ upsert(
         //Family Planning
         
         field('LMP__c',dataValue('properties.LMP')),
-        field('Family_Planning__c',dataValue('properties.Currently_on_family_planning')),
+        field('Family_Planning__c',dataValue('properties.family_planning')),
         field('Family_Planning_Method__c',dataValue('properties.family_planning_method')),
         field('Reasons_for_not_taking_FP_method__c', state => {
           var reason = dataValue(
