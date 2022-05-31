@@ -12,7 +12,7 @@ fn(state => {
     id =>
       `?xmlns=http://openrosa.org/formdesigner/${id}` +
       `&received_on_end=2019-12-31` +
-      `&limit=50`
+      `&limit=300`
   );
 
   return { ...state, queries, baseUrl, payloads: [] };
@@ -20,19 +20,27 @@ fn(state => {
 
 each(
   '$.queries[*]',
-  get(
-    state => `${state.baseUrl}${state.data}`,
-    {},
-    nextState => {
-      const { baseUrl, queries, data, payloads } = nextState;
-      const { meta, objects } = data;
-      console.log('Metadata in CommCare response:', meta);
+  fn(state => {
+    const funky = (url, state) =>
+      get(url, {}, nextState => {
+        const { baseUrl, queries, data, payloads } = nextState;
+        const { meta, objects } = data;
+        console.log('Metadata in CommCare response:', meta);
 
-      if (meta.next) queries.push(`${baseUrl}${meta.next}`);
+        const finalState = {
+          ...nextState,
+          payloads: [...payloads, ...objects],
+        };
 
-      return { ...nextState, payloads: [...payloads, ...objects] };
-    }
-  )
+        if (meta.next) return funky(`${baseUrl}${meta.next}`, finalState);
+
+        return finalState;
+      })(state);
+
+    const url = `${state.baseUrl}${state.data}`;
+
+    return funky(url, state);
+  })
 );
 
 fn(state => {
