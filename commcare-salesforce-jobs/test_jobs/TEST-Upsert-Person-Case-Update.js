@@ -458,7 +458,7 @@ upsert(
         field('of_Caretaker_MUAC_screenings__c', dataValue('properties.mother_nb_screening')),
         field('Current_Weight__c',dataValue('properties.Current_Weight')),//Only on task update
         field('Current_Height__c',dataValue('properties.current_height')),
-        field('Current_MUAC__c',dataValue('properties.muac')),
+        field('Current_MUAC__c',dataValue('properties.MUAC')),
         field('Current_Nutrition_Status__c', state => {
           var status = dataValue(
             'properties.Nutrition_Status'
