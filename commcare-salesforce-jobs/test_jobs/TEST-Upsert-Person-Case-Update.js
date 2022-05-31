@@ -501,6 +501,33 @@ upsert(
           return status == 'positive' ? 'Yes' : 'No';
         }),
         
+        //ANC
+         field('ANC_1__c', state => {
+        var date = dataValue('properties.ANC_1')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('ANC_2__c', state => {
+        var date = dataValue('properties.ANC_2')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('ANC_3__c', state => {
+        var date = dataValue('properties.ANC_3')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('ANC_4__c', state => {
+        var date = dataValue('properties.ANC_4')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('ANC_5__c', state => {
+        var date = dataValue('properties.ANC_5')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('Date_of_Birth__c', state => {
+        var date = dataValue('properties.DOB')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+        
+        
         //Immunization
         
         field('Child_missed_immunization_type__c',dataValue('form.TT5.Child_Information.Immunizations.immunization_type')),//check
