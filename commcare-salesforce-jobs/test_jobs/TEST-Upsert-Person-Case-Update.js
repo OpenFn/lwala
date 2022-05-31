@@ -190,8 +190,8 @@ upsert(
           return name1 !== null ? name2 : 'Unborn Child';
         }),
         field('Gender__c',dataValue('properties.Gender')),
-        relationship('Mother__r','CommCare_ID__c',dataValue('properties.mother_case_id')),
-        relationship('Primary_Caregiver_Lookup__r','CommCare_ID__c',dataValue('properties.caretaker_case_id')),
+        /*relationship('Mother__r','CommCare_ID__c',dataValue('properties.mother_case_id')),
+        relationship('Primary_Caregiver_Lookup__r','CommCare_ID__c',dataValue('properties.caretaker_case_id')),*/
         field('Chronic_illness__c', state => {
           var choice = dataValue(
             'properties.please_specify_which_chronic_illness_the_person_has'
