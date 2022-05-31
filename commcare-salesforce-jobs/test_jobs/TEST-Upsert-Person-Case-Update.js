@@ -324,6 +324,8 @@ upsert(
         field('Persons_temperature__c',dataValue('properties.temperature')),
         field('Days_since_illness_start__c',dataValue('properties.duration_of_sickness')),
         field('Current_Malaria_Status__c',dataValue('properties.malaria_test_results')),
+        field('Malaria_test__c',dataValue('properties.malaria.test')),
+        field('Last_Malaria_Home_Test__c',dataValue('properties.malaria_test_date')),
         /*field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
         field('Malaria_Facility__c',dataValue('form.treatment_and_tracking.malaria_referral_facility')),
         field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),//check*/
@@ -545,10 +547,10 @@ upsert(
         field('Verbal_autopsy__c', dataValue('properties.verbal_autopsy')),
         
         //Closing
-        field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+        field('Last_Modified_Date_CommCare__c',dataValue('date_modified')),
         field('Case_Closed_Date__c', state => {
-          var closed = dataValue('form.case.update.closed')(state); 
-          var date =  dataValue('server_modified_on')(state); 
+          var closed = dataValue('date_closed')(state); 
+          var date =  dataValue('date_modified')(state); 
           return closed && closed == true ? date : undefined; 
         })//need case property
       )); 
