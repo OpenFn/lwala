@@ -28,6 +28,8 @@ fn(state => {
     Verna_Health_Center: 'Verna Health Center',
     Kochola_Dispensary: 'Kochola Dispensary',
     Ongo_Health_Center: 'Ongo Health Center',
+    Royal_Medical_Center: 'Royal Medical Center',
+    Rosewood_Facility: 'Rosewood Facility',
     Other: 'Other',
   };
 
