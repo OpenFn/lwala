@@ -160,6 +160,8 @@ upsert(
       'CommCare_ID__c',
       dataValue("form.case.@case_id")
     ),
+    field('CommCare_Visit_ID__c',dataValue('instanceID')),
+    field('Date__c'),dataValue('form.Date')
   //field('CommCare_ID_c', dataValue("form.case.@case_id")),
     /*field(
           'MCH_booklet__c',
