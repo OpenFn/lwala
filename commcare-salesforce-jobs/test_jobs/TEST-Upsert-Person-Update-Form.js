@@ -412,14 +412,15 @@ upsert(
       return state.cleanChoice(state, choice);
     }),
     field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
-    field('HIV_Status__c', state => {
+    /*field('HIV_Status__c', state => {
       var status = dataValue('form.HAWI.known_hiv_status')(state);
       return status === 'yes'
         ? 'Known'
         : status === 'no'
         ? 'Unknown'
         : undefined;
-    }),
+    }),*/
+    field('HIV_Status__c', dataValue('form.HAWI.hiv_status')),
     field('Treatment_Distribution__c', state => {
       var choice = dataValue(
         'form.treatment_and_tracking.distribution.distributed_treatments'
