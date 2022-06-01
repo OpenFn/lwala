@@ -208,6 +208,7 @@ upsert(
             ? 'Child'
             : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
         }),*/
+    field('Use_mosquito_net__c',dataValue('form.question1.sleep_under_net')),
     field(
       'Individual_birth_plan_counselling__c',
       dataValue('form.ANCs.pregnancy_danger_signs.individual_birth_plan')
