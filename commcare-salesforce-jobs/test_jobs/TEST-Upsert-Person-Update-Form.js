@@ -579,6 +579,7 @@ upsert(
       'Antibiotic_provided_for_chest_indrawing__c',
       dataValue('form.psbi.antibiotic_chest_indrawing')
     ),
+    field('	Supervisor_Visit__c',dataValue('form.supervisor_visit')),
     //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('form.case.update.closed')(state);
