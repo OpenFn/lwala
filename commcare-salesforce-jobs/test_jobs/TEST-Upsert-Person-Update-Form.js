@@ -250,12 +250,12 @@ upsert(
           dataValue('form.HAWI.Preferred_Care_F.Preferred_Care_Facility')
         ),*/
     field('HAWI_Defaulter__c', state => {
-      var hawi = dataValue('form.HAWI.Preferred_Care_F.default')(state);
+      var hawi = dataValue('form.HAWI.default')(state);
       return hawi === 'Yes' ? true : false;
     }),
     field(
       'Date_of_Default__c',
-      dataValue('form.HAWI.Preferred_Care_F.date_of_default')
+      dataValue('form.HAWI.date_of_default')
     ),
     field(
       'Persons_temperature__c',
