@@ -161,7 +161,7 @@ upsert(
       dataValue("form.case.@case_id")
     ),
     field('CommCare_Visit_ID__c',dataValue('instanceID')),
-    field('Date__c'),dataValue('form.Date')),
+    field('Date__c',dataValue('form.Date')),
   //field('CommCare_ID_c', dataValue("form.case.@case_id")),
     /*field(
           'MCH_booklet__c',
@@ -582,7 +582,7 @@ upsert(
       'Antibiotic_provided_for_chest_indrawing__c',
       dataValue('form.psbi.antibiotic_chest_indrawing')
     ),
-    field('	Supervisor_Visit__c',dataValue('form.supervisor_visit')),
+    field('Supervisor_Visit__c',dataValue('form.supervisor_visit')),
     //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('form.case.update.closed')(state);
