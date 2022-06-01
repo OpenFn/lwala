@@ -421,12 +421,12 @@ upsert(
         : undefined;
     }),*/
     field('HIV_Status__c', dataValue('form.HAWI.hiv_status')),
-    field('Treatment_Distribution__c', state => {
+    /*field('Treatment_Distribution__c', state => {
       var choice = dataValue(
         'form.treatment_and_tracking.distribution.distributed_treatments'
       )(state);
       return state.cleanChoice(state, choice);
-    }),
+    }),// BAD PICKLIST VALUE */
     field(
       'Current_Weight__c',
       dataValue('form.TT5.Child_Information.Nutrition.current_weight')
