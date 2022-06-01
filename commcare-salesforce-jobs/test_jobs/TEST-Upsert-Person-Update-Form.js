@@ -277,6 +277,7 @@ upsert(
       'Current_Malaria_Status__c',
       dataValue('form.treatment_and_tracking.malaria_test_results')
     ),
+    field('Malaria_test__c',dataValue('form.treatment_and_tracking.malaria_test')),
     /*field(
           'Malaria_Facility__c',
           dataValue('form.treatment_and_tracking..malaria_referral_facility')
