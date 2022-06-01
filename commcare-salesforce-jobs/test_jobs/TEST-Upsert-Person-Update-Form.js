@@ -261,7 +261,7 @@ upsert(
     ),
     field(
       'Days_since_illness_start__c',
-      dataValue('form.treatment_and_tracking.duration_of_sickness')
+      dataValue('form.duration_of_sickness')
     ),
     field(
       'Newborn_visited_48_hours_of_delivery__c',
