@@ -542,7 +542,7 @@ upsert(
       return ms ? state.milestoneMap[ms] : undefined;
     }),
     field('Delayed_Milestone_Type__c', state => {
-      var ms = dataValue('form.TT5.ecd_milestones.Child_Information.which_delayed_milestone')(
+      var ms = dataValue('form.TT5.Child_Information.ecd_milestones.which_delayed_milestone')(
         state
       );
       return ms ? state.milestoneTypeMap[ms] : undefined;
