@@ -360,6 +360,7 @@ upsert(
       'Counselled_on_Exclusive_Breastfeeding__c',
       dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.counseling')
     ),
+    field('LMP__c',dataValue('form.TT5.Mother_Information.when_was_your_lmp')),
     field(
       'Family_Planning__c',
       dataValue('form.TT5.Mother_Information.family_planning')
