@@ -192,6 +192,12 @@ upsert(
         field('Gender__c',dataValue('properties.Gender')),
         /*relationship('Mother__r','CommCare_ID__c',dataValue('properties.mother_case_id')),
         relationship('Primary_Caregiver_Lookup__r','CommCare_ID__c',dataValue('properties.caretaker_case_id')),*/
+        relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
+          return caregiver = dataValue('properties.caretaker_case_id')(state);
+        }),
+        relationship('Mother', 'CommCare_ID__c', state => {
+          return mother = dataValue('properties.mother_case_id')(state);
+        }),
         field('Chronic_illness__c', state => {
           var choice = dataValue(
             'properties.please_specify_which_chronic_illness_the_person_has'
@@ -475,14 +481,14 @@ upsert(
         }),
         field('Enrollment_Date__c', state => {
           var age = dataValue('properties.age')(state);
-          var date = dataValue('metadata.timeEnd')(state);
+          var date = dataValue('server_date_modified')(state);
           var preg = dataValue('properties.Pregnant')(
             state
           );
           return age < 5 || preg == 'Yes' ? date : null;
         }),
         field('HAWI_Enrollment_Date__c', state => {
-          var date = dataValue('metadata.timeEnd')(state);
+          var date = dataValue('server_date_modified')(state);
           var status = dataValue(
             'properties.hiv_status'
           )(state);

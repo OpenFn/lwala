@@ -1,3 +1,22 @@
+query(
+  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
+    'form.owner_id'
+  )(state)}'`
+);
+
+fn(state => ({
+  ...state,
+  data: {
+    ...state.data,
+    catchmentNewId:
+      state.references[0].records && state.references[0].records.length !== 0
+        ? (state.references[0].records[0].Parent_Geographic_Area__r 
+          ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
+          : undefined)
+        : undefined,
+  },
+}));
+
 fn(state => {
   const deaths = state.data.form.household_deaths
     ? state.data.form.household_deaths.deaths
@@ -30,11 +49,13 @@ upsertIf(
   'Visit__c',
   'CommCare_Visit_ID__c',
   fields(
-    //field('CommCare_Username__c', dataValue('form.meta.username')),//
+    field('CommCare_Username__c', dataValue('form.meta.username')),//
     field('CommCare_Visit_ID__c', dataValue('id')),
     field('Household_CHW__c', 'a030Q00000A0jeY'),
-    field('Catchment__c', 'a000Q00000Egmtk'),
-    field('Household__c','a010Q00000BL6lT'),
+    // field('Catchment__c', dataValue('a000Q00000Egmtk')),
+    field('Catchment__c', dataValue('catchmentNewId')),
+    // field('Household__c','a010Q00000BL6lT'),
+    field('Household__c', dataValue('form.case.@case_id')),
     field('Date__c',dataValue('form.Date')),
     //field('MOH_household_code__c', state => {
     //  var moh = dataValue('form.Household_Information.moh_code')(state);
