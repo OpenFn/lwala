@@ -292,18 +292,18 @@ upsert(
     field('Malaria_test__c',dataValue('form.treatment_and_tracking.malaria_test')),
     /*field(
           'Malaria_Facility__c',
-          dataValue('form.treatment_and_tracking..malaria_referral_facility')
-        ),
-        field(
-          'Fever_over_7days__c',
-          dataValue('form.treatment_and_tracking.symptoms_check_fever')
+          dataValue('form.treatment_and_tracking.malaria_referral_facility')
         ),*/
     field(
-      'Cough_over_14days__c',
+          'Fever__c',
+          dataValue('form.treatment_and_tracking.symptoms_check_fever')
+        ),
+    field(
+      'Cough__c',
       dataValue('form.treatment_and_tracking.symptoms_check_cough')
     ),
     field(
-      'Diarrhoea_over_1days__c',
+      'Diarrhoea__c',
       dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
     ),
     /*field(
