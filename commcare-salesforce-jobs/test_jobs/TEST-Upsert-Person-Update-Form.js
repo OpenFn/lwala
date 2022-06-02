@@ -204,12 +204,21 @@ upsert(
       return status;
     }),
     //===================================================//
-    /*relationship('RecordType', 'Name', state => {
+    relationship('RecordType', 'Name', state => {
           var rt = dataValue('form.RecordType')(state);
-          return rt === 'Unborn' || rt === ''
-            ? 'Child'
-            : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
-        }),*/
+          if (rt === 'Unborn' || rt === 'Child') {
+            return 'Child Visit';
+          };
+          if (rt === 'Youth') {
+            return 'Youth Visit';
+          };
+          if (rt === 'Male Adult') {
+            return 'Adult Male Visit';
+          };
+          if (rt === 'Female Adult') {
+            return 'Adult Female Visit';
+          };
+        }),
     field('Use_mosquito_net__c',dataValue('form.question1.sleep_under_net')),
     field(
       'Individual_birth_plan_counselling__c',
