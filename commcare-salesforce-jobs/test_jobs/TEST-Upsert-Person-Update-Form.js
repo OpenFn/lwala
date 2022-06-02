@@ -512,7 +512,7 @@ upsert(
       dataValue('form.psbi.Child_chest_in_drawing_c')
     ),
     field(
-      'Did_you_counsel_caregiver_on__c',
+      'Caregiver_counseled_on_delayed_milestone__c',
       dataValue(
         'form.TT5.Child_Information.ecd_milestones.did_you_counsel_the_caregiver_on_delayed_milestones'
       )
