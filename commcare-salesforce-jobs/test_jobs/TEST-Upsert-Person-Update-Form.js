@@ -234,7 +234,7 @@ upsert(
       )(state);
       return signs ? state.pregDangerMap[signs] : undefined;
     }),
-    field('Child_Danger_Signs__c', state => {
+    field('Other_Danger_Signs__c', state => {
       var signs = dataValue(
         'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs'
       )(state);
