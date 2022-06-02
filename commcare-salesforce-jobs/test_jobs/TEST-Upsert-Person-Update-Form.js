@@ -514,35 +514,35 @@ upsert(
     field(
       'Did_you_counsel_caregiver_on__c',
       dataValue(
-        'form.TT5.Child_Information.did_you_counsel_the_caregiver_on_delayed_milestones'
+        'form.TT5.Child_Information.ecd_milestones.did_you_counsel_the_caregiver_on_delayed_milestones'
       )
     ),
     field(
       'Delayed_Milestone__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_a_delayed_milestone'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_a_delayed_milestone'
       )
     ),
     field(
       'Child_has_2_or_more_play_items__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_2_or_more_play_items_at_home'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_2_or_more_play_items_at_home'
       )
     ),
     field(
       'Child_has_3_or_more_picture_books__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_3_or_more_picture_books'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_3_or_more_picture_books'
       )
     ),
     field('Delayed_Milestones_Counselled_On__c', state => {
       var ms = dataValue(
-        'form.TT5.Child_Information.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
+        'form.TT5.Child_Information.ecd_milestones.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
       )(state);
       return ms ? state.milestoneMap[ms] : undefined;
     }),
     field('Delayed_Milestone_Type__c', state => {
-      var ms = dataValue('form.TT5.Child_Information.which_delayed_milestone')(
+      var ms = dataValue('form.TT5.ecd_milestones.Child_Information.which_delayed_milestone')(
         state
       );
       return ms ? state.milestoneTypeMap[ms] : undefined;
