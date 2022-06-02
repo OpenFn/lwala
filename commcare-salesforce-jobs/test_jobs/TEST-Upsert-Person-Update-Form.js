@@ -530,7 +530,7 @@ upsert(
       )
     ),
     field(
-      'Child_has_3_or_more_picture_books__c',
+      'Child_has_3_more_picture_books__c',
       dataValue(
         'form.TT5.Child_Information.ecd_milestones.does_the_child_has_3_or_more_picture_books'
       )
