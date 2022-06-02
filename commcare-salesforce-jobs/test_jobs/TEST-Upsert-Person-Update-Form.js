@@ -408,22 +408,22 @@ upsert(
         'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'
       )
     ),
-    field('Newborn_visit_counselling__c', state => {
+    /*field('Newborn_visit_counselling__c', state => {
       var choice = dataValue(
         'form.TT5.Child_Information.did_you_consel_the_mother_on2'
       )(state);
       return state.cleanChoice(state, choice);
-    }),
+    }),*/
     field(
       'mother_visited_48_hours_of_the_delivery__c',
       dataValue('form.TT5.Child_Information.visit_mother_48')
     ),
-    field('Mother_visit_counselling__c', state => {
+    /*field('Mother_visit_counselling__c', state => {
       var choice = dataValue(
         'form.TT5.Child_Information.did_you_consel_the_mother_on1'
       )(state);
       return state.cleanChoice(state, choice);
-    }),
+    }),*/
     field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
     /*field('HIV_Status__c', state => {
       var status = dataValue('form.HAWI.known_hiv_status')(state);
