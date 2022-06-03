@@ -175,7 +175,7 @@ upsert(
       'CommCare_ID__c',
       dataValue("form.case.@case_id")
     ),
-    field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
+    field('CommCare_Visit_ID__c',dataValue('instanceID')),
     field('Date__c',dataValue('form.Date')),
     field('Birth_Status__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status')),
   //field('CommCare_ID_c', dataValue("form.case.@case_id")),
