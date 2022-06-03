@@ -384,7 +384,7 @@ upsert(
       'Family_Planning_Method__c',
       dataValue('form.TT5.Mother_Information.family_planning_method')
     ),
-    field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
+    //field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
     field('Reasons_for_not_taking_FP_method__c', state => {
       var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(
         state
