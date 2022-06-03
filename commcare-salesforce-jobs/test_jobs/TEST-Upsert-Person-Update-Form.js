@@ -41,6 +41,21 @@ fn(state => ({
       : '';
   };
 
+  state.handleMultiSelectOriginal = function (state, multiField) {
+    return multiField
+      ? multiField
+          .replace(/ /gi, ';')
+          .toLowerCase()
+          .split(';')
+          .map(value => {
+            return (
+              value
+            );
+          })
+          .join(';')
+      : '';
+  };
+
   const pregDangerMap = {
     Vaginal_Bleeding: 'Vaginal Bleeding',
     Water_Breaks: 'Water Breaks before Time of Delivery',
@@ -139,7 +154,7 @@ fn(state => ({
     milestoneTypeMap,
     milestoneMap,
     nutritionMap,
-    pregDangerMap,
+    pregDangerMap
   };
 });
 
@@ -160,7 +175,7 @@ upsert(
       'CommCare_ID__c',
       dataValue("form.case.@case_id")
     ),
-    field('CommCare_Visit_ID__c',dataValue('instanceID')),
+    field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
     field('Date__c',dataValue('form.Date')),
     field('Birth_Status__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status')),
   //field('CommCare_ID_c', dataValue("form.case.@case_id")),
@@ -411,22 +426,22 @@ upsert(
         'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'
       )
     ),
-    /*field('Newborn_visit_counselling__c', state => {
+    field('Mother_visit_counselling__c', state => {
       var choice = dataValue(
         'form.TT5.Child_Information.did_you_consel_the_mother_on2'
       )(state);
-      return state.cleanChoice(state, choice);
-    }),*/
+      return state.handleMultiSelectOriginal(state, choice);
+    }),
     field(
       'mother_visited_48_hours_of_the_delivery__c',
       dataValue('form.TT5.Child_Information.visit_mother_48')
     ),
-    /*field('Mother_visit_counselling__c', state => {
+    field('Newborn_visit_counselling__c', state => {
       var choice = dataValue(
         'form.TT5.Child_Information.did_you_consel_the_mother_on1'
       )(state);
-      return state.cleanChoice(state, choice);
-    }),*/
+      return state.handleMultiSelectOriginal(state, choice);
+    }),
     field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
     /*field('HIV_Status__c', state => {
       var status = dataValue('form.HAWI.known_hiv_status')(state);
@@ -437,12 +452,12 @@ upsert(
         : undefined;
     }),*/
     field('HIV_Status__c', dataValue('form.HAWI.hiv_status')),
-    /*field('Treatment_Distribution__c', state => {
+    field('Treatment_Distribution__c', state => {
       var choice = dataValue(
         'form.treatment_and_tracking.distribution.distributed_treatments'
       )(state);
-      return state.cleanChoice(state, choice);
-    }),// BAD PICKLIST VALUE */
+      return state.handleMultiSelect(state, choice);
+    }),// BAD PICKLIST VALUE 
     field(
       'Current_Weight__c',
       dataValue('form.TT5.Child_Information.Nutrition.current_weight')
