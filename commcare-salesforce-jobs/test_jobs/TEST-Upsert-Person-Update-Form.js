@@ -491,7 +491,7 @@ upsert(
     field(
       'Received_pregnancy_test__c',
       dataValue(
-        'form.TT5.Mother_Information.pregnancy_test.did_you_adminster_preg_test'
+        'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'
       )
     ),
     field(
