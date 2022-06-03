@@ -389,9 +389,7 @@ upsert(
     ),
     //field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
     field('Reasons_for_not_taking_FP_method__c', state => {
-      var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(
-        state
-      );
+      var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
       return reason ? state.reasonMapping[reason] : '';
     }),
     field('Pregnant__c', state => {
