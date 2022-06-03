@@ -457,7 +457,7 @@ upsert(
         'form.treatment_and_tracking.distribution.distributed_treatments'
       )(state);
       return state.handleMultiSelect(state, choice);
-    }),// BAD PICKLIST VALUE 
+    }), 
     field(
       'Current_Weight__c',
       dataValue('form.TT5.Child_Information.Nutrition.current_weight')
