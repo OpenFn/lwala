@@ -428,7 +428,7 @@ upsert(
     ),
     field('Mother_visit_counselling__c', state => {
       var choice = dataValue(
-        'form.TT5.Child_Information.did_you_consel_the_mother_on2'
+        'form.TT5.Child_Information.did_you_consel_the_mother_on1'
       )(state);
       return state.handleMultiSelectOriginal(state, choice);
     }),
@@ -438,7 +438,7 @@ upsert(
     ),
     field('Newborn_visit_counselling__c', state => {
       var choice = dataValue(
-        'form.TT5.Child_Information.did_you_consel_the_mother_on1'
+        'form.TT5.Child_Information.did_you_consel_the_mother_on2'
       )(state);
       return state.handleMultiSelectOriginal(state, choice);
     }),
