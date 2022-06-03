@@ -112,6 +112,14 @@ fn(state => {
     normal: 'Normal',
   };
 
+  const fpMethodMap = {
+    male_condoms: "Male condoms",
+    female_condoms: "Female condoms",
+    pop: "POP",
+    coc: "COC",
+    emergency_pills: "Emergency pills"
+  };
+
   return {
     ...state,
     counselMap,
@@ -121,6 +129,7 @@ fn(state => {
     milestoneMap,
     nutritionMap,
     pregDangerMap,
+    fpMethodMap
   };
 });
 
@@ -195,7 +204,7 @@ upsert(
         relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
           return caregiver = dataValue('properties.caretaker_case_id')(state);
         }),
-        relationship('Mother', 'CommCare_ID__c', state => {
+        relationship('Mother__r', 'CommCare_ID__c', state => {
           return mother = dataValue('properties.mother_case_id')(state);
         }),
         field('Chronic_illness__c', state => {
@@ -393,7 +402,19 @@ upsert(
         field('LMP__c',dataValue('properties.LMP')),
         field('Family_Planning__c',dataValue('properties.family_planning')),
         field('Family_Planning_Method__c',dataValue('properties.family_planning_method')),
-        //field('FP_Method_Distributed__c',dataValue('properties.FP_commodity')),//causing picklist error
+        field('FP_Method_Distributed__c', state => {
+          var status = dataValue('properties.FP_commodity')(state);
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.fpMethodMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        }),
         field('Reasons_for_not_taking_FP_method__c', state => {
           var reason = dataValue(
             'properties.No_FPmethod_reason'
