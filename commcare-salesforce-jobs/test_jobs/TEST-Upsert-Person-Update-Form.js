@@ -491,12 +491,12 @@ upsert(
     field(
       'Received_pregnancy_test__c',
       dataValue(
-        'form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test'
+        'form.TT5.Mother_Information.pregnancy_test.did_you_adminster_preg_test'
       )
     ),
     field(
       'Pregnancy_test_result__c',
-      dataValue('form.TT5.Mother_Information.pregnancy_test_result')
+      dataValue('form.TT5.Mother_Information.pregancy_test.pregnancy_test_result')
     ),
     field('Chronic_illness__c', state => {
       var choice = dataValue(
