@@ -112,6 +112,14 @@ fn(state => {
     normal: 'Normal',
   };
 
+  const fpMethodMap = {
+    male_condoms: "Male condoms",
+    female_condoms: "Female condoms",
+    pop: "POP",
+    coc: "COC",
+    emergency_pills: "Emergency pills"
+  };
+
   return {
     ...state,
     counselMap,
@@ -121,6 +129,7 @@ fn(state => {
     milestoneMap,
     nutritionMap,
     pregDangerMap,
+    fpMethodMap
   };
 });
 
@@ -192,6 +201,12 @@ upsert(
         field('Gender__c',dataValue('properties.Gender')),
         /*relationship('Mother__r','CommCare_ID__c',dataValue('properties.mother_case_id')),
         relationship('Primary_Caregiver_Lookup__r','CommCare_ID__c',dataValue('properties.caretaker_case_id')),*/
+        relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
+          return caregiver = dataValue('properties.caretaker_case_id')(state);
+        }),
+        relationship('Mother__r', 'CommCare_ID__c', state => {
+          return mother = dataValue('properties.mother_case_id')(state);
+        }),
         field('Chronic_illness__c', state => {
           var choice = dataValue(
             'properties.please_specify_which_chronic_illness_the_person_has'
@@ -387,7 +402,19 @@ upsert(
         field('LMP__c',dataValue('properties.LMP')),
         field('Family_Planning__c',dataValue('properties.family_planning')),
         field('Family_Planning_Method__c',dataValue('properties.family_planning_method')),
-        //field('FP_Method_Distributed__c',dataValue('properties.FP_commodity')),//causing picklist error
+        field('FP_Method_Distributed__c', state => {
+          var status = dataValue('properties.FP_commodity')(state);
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.fpMethodMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        }),
         field('Reasons_for_not_taking_FP_method__c', state => {
           var reason = dataValue(
             'properties.No_FPmethod_reason'
@@ -475,14 +502,14 @@ upsert(
         }),
         field('Enrollment_Date__c', state => {
           var age = dataValue('properties.age')(state);
-          var date = dataValue('metadata.timeEnd')(state);
+          var date = dataValue('server_date_modified')(state);
           var preg = dataValue('properties.Pregnant')(
             state
           );
           return age < 5 || preg == 'Yes' ? date : null;
         }),
         field('HAWI_Enrollment_Date__c', state => {
-          var date = dataValue('metadata.timeEnd')(state);
+          var date = dataValue('server_date_modified')(state);
           var status = dataValue(
             'properties.hiv_status'
           )(state);
