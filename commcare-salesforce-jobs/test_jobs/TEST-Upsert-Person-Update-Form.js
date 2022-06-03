@@ -177,6 +177,7 @@ upsert(
     ),
     field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
     field('Date__c',dataValue('form.Date')),
+    field('Birth_Status__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status')),
   //field('CommCare_ID_c', dataValue("form.case.@case_id")),
     /*field(
           'MCH_booklet__c',
@@ -249,7 +250,7 @@ upsert(
       )(state);
       return signs ? state.pregDangerMap[signs] : undefined;
     }),
-    field('Child_Danger_Signs__c', state => {
+    field('Other_Danger_Signs__c', state => {
       var signs = dataValue(
         'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs'
       )(state);
@@ -306,18 +307,18 @@ upsert(
     field('Malaria_test__c',dataValue('form.treatment_and_tracking.malaria_test')),
     /*field(
           'Malaria_Facility__c',
-          dataValue('form.treatment_and_tracking..malaria_referral_facility')
-        ),
-        field(
-          'Fever_over_7days__c',
-          dataValue('form.treatment_and_tracking.symptoms_check_fever')
+          dataValue('form.treatment_and_tracking.malaria_referral_facility')
         ),*/
     field(
-      'Cough_over_14days__c',
+          'Fever__c',
+          dataValue('form.treatment_and_tracking.symptoms_check_fever')
+        ),
+    field(
+      'Cough__c',
       dataValue('form.treatment_and_tracking.symptoms_check_cough')
     ),
     field(
-      'Diarrhoea_over_1days__c',
+      'Diarrhoea__c',
       dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
     ),
     /*field(
@@ -374,6 +375,7 @@ upsert(
       'Counselled_on_Exclusive_Breastfeeding__c',
       dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.counseling')
     ),
+    field('LMP__c',dataValue('form.TT5.Mother_Information.when_was_your_lmp')),
     field(
       'Family_Planning__c',
       dataValue('form.TT5.Mother_Information.family_planning')
@@ -382,6 +384,7 @@ upsert(
       'Family_Planning_Method__c',
       dataValue('form.TT5.Mother_Information.family_planning_method')
     ),
+    field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
     field('Reasons_for_not_taking_FP_method__c', state => {
       var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(
         state
@@ -425,7 +428,7 @@ upsert(
     ),
     field('Mother_visit_counselling__c', state => {
       var choice = dataValue(
-        'form.TT5.Child_Information.did_you_consel_the_mother_on1'
+        'form.TT5.Child_Information.did_you_consel_the_mother_on2'
       )(state);
       return state.handleMultiSelectOriginal(state, choice);
     }),
@@ -435,7 +438,7 @@ upsert(
     ),
     field('Newborn_visit_counselling__c', state => {
       var choice = dataValue(
-        'form.TT5.Child_Information.did_you_consel_the_mother_on2'
+        'form.TT5.Child_Information.did_you_consel_the_mother_on1'
       )(state);
       return state.handleMultiSelectOriginal(state, choice);
     }),
@@ -527,37 +530,37 @@ upsert(
       dataValue('form.psbi.Child_chest_in_drawing_c')
     ),
     field(
-      'Did_you_counsel_caregiver_on__c',
+      'Caregiver_counseled_on_delayed_milestone__c',
       dataValue(
-        'form.TT5.Child_Information.did_you_counsel_the_caregiver_on_delayed_milestones'
+        'form.TT5.Child_Information.ecd_milestones.did_you_counsel_the_caregiver_on_delayed_milestones'
       )
     ),
     field(
       'Delayed_Milestone__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_a_delayed_milestone'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_a_delayed_milestone'
       )
     ),
     field(
       'Child_has_2_or_more_play_items__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_2_or_more_play_items_at_home'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_2_or_more_play_items_at_home'
       )
     ),
     field(
-      'Child_has_3_or_more_picture_books__c',
+      'Child_has_3_more_picture_books__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_3_or_more_picture_books'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_3_or_more_picture_books'
       )
     ),
     field('Delayed_Milestones_Counselled_On__c', state => {
       var ms = dataValue(
-        'form.TT5.Child_Information.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
+        'form.TT5.Child_Information.ecd_milestones.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
       )(state);
       return ms ? state.milestoneMap[ms] : undefined;
     }),
     field('Delayed_Milestone_Type__c', state => {
-      var ms = dataValue('form.TT5.Child_Information.which_delayed_milestone')(
+      var ms = dataValue('form.TT5.Child_Information.ecd_milestones.which_delayed_milestone')(
         state
       );
       return ms ? state.milestoneTypeMap[ms] : undefined;
