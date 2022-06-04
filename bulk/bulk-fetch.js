@@ -1,0 +1,71 @@
+// set up a base Url, formIds, and the initial queries to use
+fn(state => {
+  const baseUrl =
+    'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/form/';
+
+  const formIds = [
+    '457C806C-B47D-44F0-BE4B-7E88F7162D1D',
+    '320142AD-BC92-4470-951E-B3CA140BDC4A',
+    '318B2FE0-F17F-4FC2-8EBE-1FF170F25B3F',
+  ];
+
+  const limit = 500;
+  const receivedOnEnd = '2019-12-31';
+  const indexedOnStart = '2021-07-01'
+
+  const queries = formIds.map(
+    id =>
+      `?xmlns=http://openrosa.org/formdesigner/${id}` +
+      //`&received_on_end=${receivedOnEnd}` +
+      `&indexed_on_start=${indexedOnStart}` +
+      `&limit=${limit}`
+  );
+
+  return { ...state, queries, baseUrl, payloads: [] };
+});
+
+// create a "recursiveGet" which will call itself if CommCare tells us there's
+// more data to fetch for the same form
+fn(state => {
+  const recursiveGet = url =>
+    get(url, {}, nextState => {
+      const { baseUrl, data, payloads } = nextState;
+      const { meta, objects } = data;
+      console.log('Metadata in CommCare response:', meta);
+
+      const finalState = { ...nextState, payloads: [...payloads, ...objects] };
+
+      if (meta.next) {
+        console.log('Next query detected, recursing...');
+        return recursiveGet(`${baseUrl}${meta.next}`)(finalState);
+      }
+      return finalState;
+    });
+
+  return { ...state, recursiveGet };
+});
+
+// for each initial query, fetch data recursively
+each(
+  '$.queries[*]',
+  fn(state => state.recursiveGet(`${state.baseUrl}${state.data}`)(state))
+);
+
+// log the total number of payloads returned
+fn(state => {
+  console.log('Count of payloads', state.payloads.length);
+  return state;
+});
+
+// send all of those payloads to OpenFn
+// post(
+//   'https://www.openfn.org/inbox/someuuid',
+//   {
+//     body: state => ({ commCareSubmissions: state.payloads }),
+//   },
+//   state => ({
+//     ...state,
+//     data: {},
+//     references: [],
+//   })
+// );
