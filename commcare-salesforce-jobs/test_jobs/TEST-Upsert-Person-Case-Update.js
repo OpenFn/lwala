@@ -112,6 +112,14 @@ fn(state => {
     normal: 'Normal',
   };
 
+  const fpMethodMap = {
+    male_condoms: "Male condoms",
+    female_condoms: "Female condoms",
+    pop: "POP",
+    coc: "COC",
+    emergency_pills: "Emergency pills"
+  };
+
   return {
     ...state,
     counselMap,
@@ -121,6 +129,7 @@ fn(state => {
     milestoneMap,
     nutritionMap,
     pregDangerMap,
+    fpMethodMap
   };
 });
 
@@ -190,6 +199,14 @@ upsert(
           return name1 !== null ? name2 : 'Unborn Child';
         }),
         field('Gender__c',dataValue('properties.Gender')),
+        /*relationship('Mother__r','CommCare_ID__c',dataValue('properties.mother_case_id')),
+        relationship('Primary_Caregiver_Lookup__r','CommCare_ID__c',dataValue('properties.caretaker_case_id')),*/
+        relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
+          return caregiver = dataValue('properties.caretaker_case_id')(state);
+        }),
+        relationship('Mother__r', 'CommCare_ID__c', state => {
+          return mother = dataValue('properties.mother_case_id')(state);
+        }),
         field('Chronic_illness__c', state => {
           var choice = dataValue(
             'properties.please_specify_which_chronic_illness_the_person_has'
@@ -309,7 +326,7 @@ upsert(
         }),
         field('Date_of_Default__c',dataValue('properties.date_of_default')),
         field('Know_HIV_status__c', dataValue('properties.known_hiv_status')),
-        field('HIV_Status',dataValue('properties.hiv_status')),
+        field('HIV_Status__c',dataValue('properties.hiv_status')),
         /*field('HIV_Status__c', state => {
           var status = dataValue('properties.hiv_status')(state);
           return status === 'yes'
@@ -324,6 +341,8 @@ upsert(
         field('Persons_temperature__c',dataValue('properties.temperature')),
         field('Days_since_illness_start__c',dataValue('properties.duration_of_sickness')),
         field('Current_Malaria_Status__c',dataValue('properties.malaria_test_results')),
+        field('Malaria_test__c',dataValue('properties.malaria_test')),
+        field('Last_Malaria_Home_Test__c',dataValue('properties.malaria_test_date')),
         /*field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
         field('Malaria_Facility__c',dataValue('form.treatment_and_tracking.malaria_referral_facility')),
         field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),//check*/
@@ -381,8 +400,21 @@ upsert(
         //Family Planning
         
         field('LMP__c',dataValue('properties.LMP')),
-        field('Family_Planning__c',dataValue('properties.Currently_on_family_planning')),
+        field('Family_Planning__c',dataValue('properties.family_planning')),
         field('Family_Planning_Method__c',dataValue('properties.family_planning_method')),
+        field('FP_Method_Distributed__c', state => {
+          var status = dataValue('properties.FP_commodity')(state);
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.fpMethodMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        }),
         field('Reasons_for_not_taking_FP_method__c', state => {
           var reason = dataValue(
             'properties.No_FPmethod_reason'
@@ -393,6 +425,7 @@ upsert(
           var preg = dataValue('properties.Pregnant')(state);
           return preg === 'Yes' ? true : false;
         }),
+        field('Date_of_Delivery__c',dataValue('properties.delivery_date')),
         field('Counselled_on_FP_Methods__c',dataValue('properties.CounselledFP_methods')),
         field('Client_counselled_on__c', state => {
           var choices =
@@ -433,6 +466,7 @@ upsert(
           return state.cleanChoice(state, choice);
         }),
         field('mother_visited_48_hours_of_the_delivery__c',dataValue('properties.visit_mother_48')),
+        field('Visit_after_unskilled__c',dataValue('properties.visit_24hours_after_unskilled_delivery')),
         field('Mother_visit_counselling__c', state => {
           var choice = dataValue(
             'properties.did_you_consel_the_mother_on2'
@@ -450,8 +484,8 @@ upsert(
         field('Caretaker_trained_in_muac__c', dataValue('properties.mother_trained_muac')),
         field('of_Caretaker_MUAC_screenings__c', dataValue('properties.mother_nb_screening')),
         field('Current_Weight__c',dataValue('properties.Current_Weight')),//Only on task update
-        field('Current_Height__c',dataValue('properties.Current_Height')),//Only on Update Person
-        field('Current_MUAC__c',dataValue('properties.MUAC')),//Only on Update Person
+        field('Current_Height__c',dataValue('properties.current_height')),
+        field('Current_MUAC__c',dataValue('properties.MUAC')),
         field('Current_Nutrition_Status__c', state => {
           var status = dataValue(
             'properties.Nutrition_Status'
@@ -468,14 +502,14 @@ upsert(
         }),
         field('Enrollment_Date__c', state => {
           var age = dataValue('properties.age')(state);
-          var date = dataValue('metadata.timeEnd')(state);
+          var date = dataValue('server_date_modified')(state);
           var preg = dataValue('properties.Pregnant')(
             state
           );
           return age < 5 || preg == 'Yes' ? date : null;
         }),
         field('HAWI_Enrollment_Date__c', state => {
-          var date = dataValue('metadata.timeEnd')(state);
+          var date = dataValue('server_date_modified')(state);
           var status = dataValue(
             'properties.hiv_status'
           )(state);
@@ -494,6 +528,33 @@ upsert(
           )(state);
           return status == 'positive' ? 'Yes' : 'No';
         }),
+        
+        //ANC
+         field('ANC_1__c', state => {
+        var date = dataValue('properties.ANC_1')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('ANC_2__c', state => {
+        var date = dataValue('properties.ANC_2')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('ANC_3__c', state => {
+        var date = dataValue('properties.ANC_3')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('ANC_4__c', state => {
+        var date = dataValue('properties.ANC_4')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('ANC_5__c', state => {
+        var date = dataValue('properties.ANC_5')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+      field('Date_of_Birth__c', state => {
+        var date = dataValue('properties.DOB')(state);
+        return date && date !== '' ? date : undefined;
+      }),
+        
         
         //Immunization
         
@@ -545,10 +606,10 @@ upsert(
         field('Verbal_autopsy__c', dataValue('properties.verbal_autopsy')),
         
         //Closing
-        field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
+        field('Last_Modified_Date_CommCare__c',dataValue('date_modified')),
         field('Case_Closed_Date__c', state => {
-          var closed = dataValue('form.case.update.closed')(state); 
-          var date =  dataValue('server_modified_on')(state); 
+          var closed = dataValue('date_closed')(state); 
+          var date =  dataValue('date_modified')(state); 
           return closed && closed == true ? date : undefined; 
         })//need case property
       )); 

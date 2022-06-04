@@ -41,6 +41,21 @@ fn(state => ({
       : '';
   };
 
+  state.handleMultiSelectOriginal = function (state, multiField) {
+    return multiField
+      ? multiField
+          .replace(/ /gi, ';')
+          .toLowerCase()
+          .split(';')
+          .map(value => {
+            return (
+              value
+            );
+          })
+          .join(';')
+      : '';
+  };
+
   const pregDangerMap = {
     Vaginal_Bleeding: 'Vaginal Bleeding',
     Water_Breaks: 'Water Breaks before Time of Delivery',
@@ -139,7 +154,7 @@ fn(state => ({
     milestoneTypeMap,
     milestoneMap,
     nutritionMap,
-    pregDangerMap,
+    pregDangerMap
   };
 });
 
@@ -160,6 +175,9 @@ upsert(
       'CommCare_ID__c',
       dataValue("form.case.@case_id")
     ),
+    field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
+    field('Date__c',dataValue('form.Date')),
+    field('Birth_Status__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status')),
   //field('CommCare_ID_c', dataValue("form.case.@case_id")),
     /*field(
           'MCH_booklet__c',
@@ -202,18 +220,28 @@ upsert(
       return status;
     }),
     //===================================================//
-    /*relationship('RecordType', 'Name', state => {
+    relationship('RecordType', 'Name', state => {
           var rt = dataValue('form.RecordType')(state);
-          return rt === 'Unborn' || rt === ''
-            ? 'Child'
-            : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
-        }),*/
+          if (rt === 'Unborn' || rt === 'Child') {
+            return 'Child Visit';
+          };
+          if (rt === 'Youth') {
+            return 'Youth Visit';
+          };
+          if (rt === 'Male Adult') {
+            return 'Adult Male Visit';
+          };
+          if (rt === 'Female Adult') {
+            return 'Adult Female Visit';
+          };
+        }),
+    field('Use_mosquito_net__c',dataValue('form.question1.sleep_under_net')),
     field(
       'Individual_birth_plan_counselling__c',
       dataValue('form.ANCs.pregnancy_danger_signs.individual_birth_plan')
     ),
     field('Reason_for_not_taking_a_pregnancy_test__c', state => {
-      var reason = dataValue('form.TT5.Mother_Information.No_Preg_Test')(state);
+      var reason = dataValue('form.TT5.Mother_Information.pregnancy_test.No_Preg_Test')(state);
       return reason ? reason.toString().replace(/_/g, ' ') : undefined;
     }),
     field('Pregnancy_danger_signs__c', state => {
@@ -222,7 +250,7 @@ upsert(
       )(state);
       return signs ? state.pregDangerMap[signs] : undefined;
     }),
-    field('Child_Danger_Signs__c', state => {
+    field('Other_Danger_Signs__c', state => {
       var signs = dataValue(
         'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs'
       )(state);
@@ -237,6 +265,9 @@ upsert(
         : signs;
     }),
     field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),
+    field('Malaria_Home_Test__c', dataValue('form.treatment_and_tracking.malaria_test_date')),
+    field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.malaria_test_date')),
+    field('Persons_symptoms__c',dataValue('treatment_and_tracking/symptoms_check_other')),
     /*field(
           'Unique_Patient_Code__c',
           dataValue('form.HAWI.Unique_Patient_Code')
@@ -247,12 +278,12 @@ upsert(
           dataValue('form.HAWI.Preferred_Care_F.Preferred_Care_Facility')
         ),*/
     field('HAWI_Defaulter__c', state => {
-      var hawi = dataValue('form.HAWI.Preferred_Care_F.default')(state);
+      var hawi = dataValue('form.HAWI.default')(state);
       return hawi === 'Yes' ? true : false;
     }),
     field(
       'Date_of_Default__c',
-      dataValue('form.HAWI.Preferred_Care_F.date_of_default')
+      dataValue('form.HAWI.date_of_default')
     ),
     field(
       'Persons_temperature__c',
@@ -260,7 +291,7 @@ upsert(
     ),
     field(
       'Days_since_illness_start__c',
-      dataValue('form.treatment_and_tracking.duration_of_sickness')
+      dataValue('form.duration_of_sickness')
     ),
     field(
       'Newborn_visited_48_hours_of_delivery__c',
@@ -276,20 +307,21 @@ upsert(
       'Current_Malaria_Status__c',
       dataValue('form.treatment_and_tracking.malaria_test_results')
     ),
+    field('Malaria_test__c',dataValue('form.treatment_and_tracking.malaria_test')),
     /*field(
           'Malaria_Facility__c',
-          dataValue('form.treatment_and_tracking..malaria_referral_facility')
-        ),
-        field(
-          'Fever_over_7days__c',
-          dataValue('form.treatment_and_tracking.symptoms_check_fever')
+          dataValue('form.treatment_and_tracking.malaria_referral_facility')
         ),*/
     field(
-      'Cough_over_14days__c',
+          'Fever__c',
+          dataValue('form.treatment_and_tracking.symptoms_check_fever')
+        ),
+    field(
+      'Cough__c',
       dataValue('form.treatment_and_tracking.symptoms_check_cough')
     ),
     field(
-      'Diarrhoea_over_1days__c',
+      'Diarrhoea__c',
       dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
     ),
     /*field(
@@ -346,6 +378,7 @@ upsert(
       'Counselled_on_Exclusive_Breastfeeding__c',
       dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.counseling')
     ),
+    field('LMP__c',dataValue('form.TT5.Mother_Information.when_was_your_lmp')),
     field(
       'Family_Planning__c',
       dataValue('form.TT5.Mother_Information.family_planning')
@@ -354,10 +387,9 @@ upsert(
       'Family_Planning_Method__c',
       dataValue('form.TT5.Mother_Information.family_planning_method')
     ),
+    //field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
     field('Reasons_for_not_taking_FP_method__c', state => {
-      var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(
-        state
-      );
+      var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
       return reason ? state.reasonMapping[reason] : '';
     }),
     field('Pregnant__c', state => {
@@ -395,37 +427,38 @@ upsert(
         'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'
       )
     ),
-    field('Newborn_visit_counselling__c', state => {
+    field('Mother_visit_counselling__c', state => {
       var choice = dataValue(
         'form.TT5.Child_Information.did_you_consel_the_mother_on1'
       )(state);
-      return state.cleanChoice(state, choice);
+      return state.handleMultiSelectOriginal(state, choice);
     }),
     field(
       'mother_visited_48_hours_of_the_delivery__c',
       dataValue('form.TT5.Child_Information.visit_mother_48')
     ),
-    field('Mother_visit_counselling__c', state => {
+    field('Newborn_visit_counselling__c', state => {
       var choice = dataValue(
         'form.TT5.Child_Information.did_you_consel_the_mother_on2'
       )(state);
-      return state.cleanChoice(state, choice);
+      return state.handleMultiSelectOriginal(state, choice);
     }),
     field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
-    field('HIV_Status__c', state => {
+    /*field('HIV_Status__c', state => {
       var status = dataValue('form.HAWI.known_hiv_status')(state);
       return status === 'yes'
         ? 'Known'
         : status === 'no'
         ? 'Unknown'
         : undefined;
-    }),
+    }),*/
+    field('HIV_Status__c', dataValue('form.HAWI.hiv_status')),
     field('Treatment_Distribution__c', state => {
       var choice = dataValue(
         'form.treatment_and_tracking.distribution.distributed_treatments'
       )(state);
-      return state.cleanChoice(state, choice);
-    }),
+      return state.handleMultiSelect(state, choice);
+    }), 
     field(
       'Current_Weight__c',
       dataValue('form.TT5.Child_Information.Nutrition.current_weight')
@@ -459,12 +492,12 @@ upsert(
     field(
       'Received_pregnancy_test__c',
       dataValue(
-        'form.TT5.Mother_Information.did_you_adminsiter_a_pregnancy_test'
+        'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'
       )
     ),
     field(
       'Pregnancy_test_result__c',
-      dataValue('form.TT5.Mother_Information.pregnancy_test_result')
+      dataValue('form.TT5.Mother_Information.pregancy_test.pregnancy_test_result')
     ),
     field('Chronic_illness__c', state => {
       var choice = dataValue(
@@ -498,37 +531,37 @@ upsert(
       dataValue('form.psbi.Child_chest_in_drawing_c')
     ),
     field(
-      'Did_you_counsel_caregiver_on__c',
+      'Caregiver_counseled_on_delayed_milestone__c',
       dataValue(
-        'form.TT5.Child_Information.did_you_counsel_the_caregiver_on_delayed_milestones'
+        'form.TT5.Child_Information.ecd_milestones.did_you_counsel_the_caregiver_on_delayed_milestones'
       )
     ),
     field(
       'Delayed_Milestone__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_a_delayed_milestone'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_a_delayed_milestone'
       )
     ),
     field(
       'Child_has_2_or_more_play_items__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_2_or_more_play_items_at_home'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_2_or_more_play_items_at_home'
       )
     ),
     field(
-      'Child_has_3_or_more_picture_books__c',
+      'Child_has_3_more_picture_books__c',
       dataValue(
-        'form.TT5.Child_Information.does_the_child_has_3_or_more_picture_books'
+        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_3_or_more_picture_books'
       )
     ),
     field('Delayed_Milestones_Counselled_On__c', state => {
       var ms = dataValue(
-        'form.TT5.Child_Information.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
+        'form.TT5.Child_Information.ecd_milestones.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
       )(state);
       return ms ? state.milestoneMap[ms] : undefined;
     }),
     field('Delayed_Milestone_Type__c', state => {
-      var ms = dataValue('form.TT5.Child_Information.which_delayed_milestone')(
+      var ms = dataValue('form.TT5.Child_Information.ecd_milestones.which_delayed_milestone')(
         state
       );
       return ms ? state.milestoneTypeMap[ms] : undefined;
@@ -577,6 +610,7 @@ upsert(
       'Antibiotic_provided_for_chest_indrawing__c',
       dataValue('form.psbi.antibiotic_chest_indrawing')
     ),
+    field('Supervisor_Visit__c',dataValue('form.supervisor_visit')),
     //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('form.case.update.closed')(state);
