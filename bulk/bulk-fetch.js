@@ -11,7 +11,7 @@ fn(state => {
 
   const limit = 500;
   const receivedOnEnd = '2019-12-31';
-  const indexedOnStart = '2021-07-01'
+  const  indexedOnStart = '2022-06-01'
 
   const queries = formIds.map(
     id =>
@@ -57,15 +57,37 @@ fn(state => {
   return state;
 });
 
-// send all of those payloads to OpenFn
-// post(
-//   'https://www.openfn.org/inbox/someuuid',
-//   {
-//     body: state => ({ commCareSubmissions: state.payloads }),
-//   },
-//   state => ({
-//     ...state,
-//     data: {},
-//     references: [],
-//   })
-// );
+// send all of those payloads to OpenFn in batches
+
+fn(async state => {
+  const { payloads } = state;
+
+  const loop = Math.ceil(payloads.length / 500);
+
+  let countInbox = 0;
+
+  const postToInbox = async data => {
+    countInbox++;
+
+    console.log(`Sending batch ${countInbox} to inbox`);
+    await http.post({
+      url: 'https://www.openfn.org/inbox/09d5a477-8ff1-4381-aee3-6977a5815191',
+      data: data,
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity,
+    })(state);
+  };
+
+  console.log(`Sending ${loop} batches of submissions to inbox`);
+  for (let i = 0; i < loop; i++) {
+    const batch = state.payloads.slice(i * 500, (i + 1) * 500);
+
+    const data = {
+      tag: 'update_person_historical',
+      commCareSubmissions: batch,
+    };
+    await postToInbox(data);
+  }
+
+  return { ...state, references: [], data: {} };
+});
