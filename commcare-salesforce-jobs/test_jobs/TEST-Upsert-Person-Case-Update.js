@@ -495,7 +495,13 @@ upsert(
           )(state);//check
           return state.cleanChoice(state, choice);
         }),
-        field('Caretaker_trained_in_muac__c', dataValue('properties.mother_trained_muac')),
+        // field('Caretaker_trained_in_muac__c', dataValue('properties.mother_trained_muac')),
+        field('Caretaker_trained_in_muac__c', state => {
+          var choice = dataValue(
+            'properties.mother_trained_muac'
+          )(state);//check
+          return state.cleanChoice(state, choice);
+        }),
         field('of_Caretaker_MUAC_screenings__c', dataValue('properties.mother_nb_screening')),
         field('Current_Weight__c',dataValue('properties.Current_Weight')),//Only on task update
         field('Current_Height__c',dataValue('properties.current_height')),
