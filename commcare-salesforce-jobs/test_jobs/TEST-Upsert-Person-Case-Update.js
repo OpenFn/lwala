@@ -356,8 +356,20 @@ upsert(
         field('Heart_Rate_Pulse_Oximeter__c',dataValue('properties.heart_rate_pulse_oximeter')),
         field('Oxygen_Concentration_Pulse_Oximeter__c',dataValue('properties.oxygen_concentration')),
         field('Can_child_drink__c',dataValue('properties.can_child_drink')),
-        field('Antibiotic_provided_for_fast_breathing__c',dataValue('properties.antibiotic_fast_breathing')),
-        field('Antibiotic_provided_for_chest_indrawing__c',dataValue('properties.antibiotic_chest_indrawing')),
+        // field('Antibiotic_provided_for_fast_breathing__c',dataValue('properties.antibiotic_fast_breathing')),
+        field('Antibiotic_provided_for_fast_breathing__c', state => {
+          var choice = dataValue(
+            'properties.antibiotic_fast_breathing'
+          )(state);
+          return state.cleanChoice(state, choice);
+        }),
+        // field('Antibiotic_provided_for_chest_indrawing__c',dataValue('properties.antibiotic_chest_indrawing')),
+        field('Antibiotic_provided_for_chest_indrawing__c', state => {
+          var choice = dataValue(
+            'properties.antibiotic_chest_indrawing'
+          )(state);
+          return state.cleanChoice(state, choice);
+        }),
         /*field('Child_zinc__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),//check
         field('Child_ORS__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),//check
         field('Childs_breath_per_minute__c',dataValue('form.psbi.breaths_per_minuite')),//check
