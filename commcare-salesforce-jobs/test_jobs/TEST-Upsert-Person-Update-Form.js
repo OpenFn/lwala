@@ -389,10 +389,16 @@ upsert(
       dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.counseling')
     ),
     field('LMP__c',dataValue('form.TT5.Mother_Information.when_was_your_lmp')),
-    field(
-      'Family_Planning__c',
-      dataValue('form.TT5.Mother_Information.family_planning')
-    ),
+    // field(
+    //   'Family_Planning__c',
+    //   dataValue('form.TT5.Mother_Information.family_planning')
+    // ),
+     field('Family_Planning__c', state => {
+      var choice = dataValue(
+        'form.TT5.Mother_Information.family_planning'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     field(
       'Family_Planning_Method__c',
       dataValue('form.TT5.Mother_Information.family_planning_method')
