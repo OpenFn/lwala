@@ -277,7 +277,7 @@ upsert(
     field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),
     field('Malaria_Home_Test__c', dataValue('form.treatment_and_tracking.malaria_test_date')),
     field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.malaria_test_date')),
-    field('Persons_symptoms__c',dataValue('treatment_and_tracking/symptoms_check_other')),
+    field('Persons_symptoms__c',dataValue('form.treatment_and_tracking/symptoms_check_other')),
     /*field(
           'Unique_Patient_Code__c',
           dataValue('form.HAWI.Unique_Patient_Code')
