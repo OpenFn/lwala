@@ -417,10 +417,17 @@ upsert(
           return value ? value.join(';') : undefined;
         }),
         field('Reasons_for_not_taking_FP_method__c', state => {
-          var reason = dataValue(
-            'properties.No_FPmethod_reason'
-          )(state);
-          return reason ? state.reasonMapping[reason] : '';
+          var status = dataValue('properties.No_FPmethod_reason')(state);
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.reasonMapping[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
         }),
         field('Pregnant__c', state => {
           var preg = dataValue('properties.Pregnant')(state);
