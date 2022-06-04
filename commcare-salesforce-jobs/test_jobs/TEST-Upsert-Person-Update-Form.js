@@ -145,6 +145,15 @@ fn(state => ({
     moderate: 'Moderately Malnourished',
     normal: 'Normal',
   };
+  
+  const fpMethodMap = {
+    male_condoms: "Male condoms",
+    female_condoms: "Female condoms",
+    pop: "POP",
+    coc: "COC",
+    emergency_pills: "Emergency pills",
+    none: "None"
+  };
 
   return {
     ...state,
@@ -154,7 +163,8 @@ fn(state => ({
     milestoneTypeMap,
     milestoneMap,
     nutritionMap,
-    pregDangerMap
+    pregDangerMap,
+    fpMethodMap
   };
 });
 
@@ -388,6 +398,19 @@ upsert(
       dataValue('form.TT5.Mother_Information.family_planning_method')
     ),
     //field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
+     field('FP_Method_Distributed__c', state => {
+          var status = dataValue('treatment_and_tracking.distribution.distributed_treatments')(state);
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.fpMethodMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        }),
     field('Reasons_for_not_taking_FP_method__c', state => {
       var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
       return reason ? state.reasonMapping[reason] : '';
