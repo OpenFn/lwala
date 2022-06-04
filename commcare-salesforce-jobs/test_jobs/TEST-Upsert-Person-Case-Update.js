@@ -598,7 +598,13 @@ upsert(
         field('Deworming_24__c',dataValue('properties.Deworming_3')),
         
         //ECD
-        field('Did_you_counsel_caregiver_on__c',dataValue('properties.did_you_counsel_the_caregiver_on_delayed_milestones')),
+        // field('Did_you_counsel_caregiver_on__c',dataValue('properties.did_you_counsel_the_caregiver_on_delayed_milestones')),
+        field('Did_you_counsel_caregiver_on__c', state => {
+          var choice = dataValue(
+            'properties.did_you_counsel_the_caregiver_on_delayed_milestones'
+          )(state);
+          return state.cleanChoice(state, choice);
+        }),
         field('Delayed_Milestone__c',dataValue('properties.does_the_child_has_a_delayed_milestone')),
         field('Child_has_2_or_more_play_items__c',dataValue('properties.does_the_child_has_2_or_more_play_items_at_home')),
         field('Child_has_3_or_more_picture_books__c',dataValue('properties.does_the_child_has_3_or_more_picture_books')),
