@@ -399,7 +399,7 @@ upsert(
     ),
     //field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
      field('FP_Method_Distributed__c', state => {
-          var status = dataValue('treatment_and_tracking.distribution.distributed_treatments')(state);
+          var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
           var value =
             status && status !== ''
               ? status
