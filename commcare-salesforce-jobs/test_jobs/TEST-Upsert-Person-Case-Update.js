@@ -605,7 +605,13 @@ upsert(
           )(state);
           return state.cleanChoice(state, choice);
         }),
-        field('Delayed_Milestone__c',dataValue('properties.does_the_child_has_a_delayed_milestone')),
+        // field('Delayed_Milestone__c',dataValue('properties.does_the_child_has_a_delayed_milestone')),
+         field('Delayed_Milestone__c', state => {
+          var choice = dataValue(
+            'properties.does_the_child_has_a_delayed_milestone'
+          )(state);
+          return state.cleanChoice(state, choice);
+        }),
         field('Child_has_2_or_more_play_items__c',dataValue('properties.does_the_child_has_2_or_more_play_items_at_home')),
         field('Child_has_3_or_more_picture_books__c',dataValue('properties.does_the_child_has_3_or_more_picture_books')),
         field('Delayed_Milestones_Counselled_On__c', state => {
