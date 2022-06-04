@@ -71,7 +71,7 @@ fn(async state => {
 
     console.log(`Sending batch ${countInbox} to inbox`);
     await http.post({
-      url: 'https://www.openfn.org/inbox/09d5a477-8ff1-4381-aee3-6977a5815191',
+      url: 'https://www.openfn.org/inbox/inboxuuid',
       data: data,
       maxContentLength: Infinity,
       maxBodyLength: Infinity,
