@@ -117,7 +117,8 @@ fn(state => {
     female_condoms: "Female condoms",
     pop: "POP",
     coc: "COC",
-    emergency_pills: "Emergency pills"
+    emergency_pills: "Emergency pills",
+    none: "None"
   };
 
   return {
