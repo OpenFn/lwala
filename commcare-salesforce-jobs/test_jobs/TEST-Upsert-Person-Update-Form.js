@@ -317,23 +317,47 @@ upsert(
       'Current_Malaria_Status__c',
       dataValue('form.treatment_and_tracking.malaria_test_results')
     ),
-    field('Malaria_test__c',dataValue('form.treatment_and_tracking.malaria_test')),
+    // field('Malaria_test__c',dataValue('form.treatment_and_tracking.malaria_test')),
+    field('Malaria_test__c', state => {
+      var choice = dataValue(
+        'form.treatment_and_tracking.malaria_test'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     /*field(
           'Malaria_Facility__c',
           dataValue('form.treatment_and_tracking.malaria_referral_facility')
         ),*/
-    field(
-          'Fever__c',
-          dataValue('form.treatment_and_tracking.symptoms_check_fever')
-        ),
-    field(
-      'Cough__c',
-      dataValue('form.treatment_and_tracking.symptoms_check_cough')
-    ),
-    field(
-      'Diarrhoea__c',
-      dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
-    ),
+    // field(
+    //       'Fever__c',
+    //       dataValue('form.treatment_and_tracking.symptoms_check_fever')
+    //     ),
+    field('Fever__c', state => {
+      var choice = dataValue(
+        'form.treatment_and_tracking.symptoms_check_fever'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
+    // field(
+    //   'Cough__c',
+    //   dataValue('form.treatment_and_tracking.symptoms_check_cough')
+    // ),
+    field('Cough__c', state => {
+      var choice = dataValue(
+        'form.treatment_and_tracking.symptoms_check_cough'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
+    // field(
+    //   'Diarrhoea__c',
+    //   dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
+    // ),
+    field('Diarrhoea__c', state => {
+      var choice = dataValue(
+        'form.treatment_and_tracking.check_diarrhea'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     /*field(
           'Diarrhoea_less_than_14_days__c',
           dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')
