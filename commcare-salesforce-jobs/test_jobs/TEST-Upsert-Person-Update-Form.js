@@ -245,7 +245,13 @@ upsert(
             return 'Adult Female Visit';
           };
         }),
-    field('Use_mosquito_net__c',dataValue('form.question1.sleep_under_net')),
+    // field('Use_mosquito_net__c',dataValue('form.question1.sleep_under_net')),
+    field('Use_mosquito_net__c', state => {
+      var choice = dataValue(
+        'form.question1.sleep_under_net'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     field(
       'Individual_birth_plan_counselling__c',
       dataValue('form.ANCs.pregnancy_danger_signs.individual_birth_plan')
