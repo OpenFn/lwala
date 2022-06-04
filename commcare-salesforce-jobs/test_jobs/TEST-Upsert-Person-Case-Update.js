@@ -488,7 +488,13 @@ upsert(
         
         field('Caretaker_action_after_muac_screening__c',dataValue('properties.mother_screened_muac_action')),
         field('Caretaker_muac_findings__c', dataValue('properties.mother_screened_child_muac_result')),
-        field('Caretaker_screened_for_muac_this__c', dataValue('properties.mother_screened_child_muac')),
+        // field('Caretaker_screened_for_muac_this__c', dataValue('properties.mother_screened_child_muac')),
+        field('Caretaker_screened_for_muac_this__c', state => {
+          var choice = dataValue(
+            'properties.mother_screened_child_muac'
+          )(state);//check
+          return state.cleanChoice(state, choice);
+        }),
         field('Caretaker_trained_in_muac__c', dataValue('properties.mother_trained_muac')),
         field('of_Caretaker_MUAC_screenings__c', dataValue('properties.mother_nb_screening')),
         field('Current_Weight__c',dataValue('properties.Current_Weight')),//Only on task update
