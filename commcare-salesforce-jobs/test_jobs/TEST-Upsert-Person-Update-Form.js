@@ -419,10 +419,16 @@ upsert(
       var preg = dataValue('form.TT5.Mother_Information.Pregnant')(state);
       return preg === 'Yes' ? true : false;
     }),
-    field(
-      'Counselled_on_FP_Methods__c',
-      dataValue('form.TT5.Mother_Information.CounselledFP_methods')
-    ),
+    // field(
+    //   'Counselled_on_FP_Methods__c',
+    //   dataValue('form.TT5.Mother_Information.CounselledFP_methods')
+    // ),
+    field('Counselled_on_FP_Methods__c', state => {
+      var choice = dataValue(
+        'form.TT5.Mother_Information.CounselledFP_methods'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     field('Client_counselled_on__c', state => {
       var choices =
         dataValue('form.treatment_and_tracking.counseling.counsel_topic')(
