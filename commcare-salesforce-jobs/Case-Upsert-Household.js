@@ -37,7 +37,7 @@ upsert(
     //field('Household_CHW__c', dataValue('properties.sfid')), //TODO: Prod mapping to add back before go-live
     field('Catchment__c', dataValue('catchmentNewId')),
     field('Area__c', dataValue('areaNewId')),
-    field('Household_Village__c', dataValue('villageNewId')),
+    field('Household_Village__c', dataValue('property.village')),
   //   relationship('Catchment__r', 'Name', state => {
   //     var catchment =
   //       state.data.properties.catchement ||
