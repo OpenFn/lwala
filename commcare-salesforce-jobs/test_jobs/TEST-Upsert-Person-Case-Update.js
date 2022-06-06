@@ -7,6 +7,15 @@ fn(state => {
     }
   };
 
+  state.undefinedForEmpty = function (state, choice) {
+    if (choice === "") {
+     return undefined;
+    }
+    else {
+      return choice;
+    }
+  };
+
   state.handleMultiSelect = function (state, multiField) {
     return multiField
       ? multiField
@@ -265,7 +274,13 @@ upsert(
         }),//need case property
         
         field('Use_mosquito_net__c',dataValue('properties.sleep_under_net')),//need case property
-        field('Birth_Certificate__c',dataValue('properties.birth_certificate')),
+        // field('Birth_Certificate__c',dataValue('properties.birth_certificate')),
+        field('Birth_Certificate__c', state => {
+          var choice = dataValue(
+            'properties.birth_certificate'
+          )(state);
+          return state.undefinedForEmpty(state, choice);
+        }),
         field('Child_Status__c', state => {
           var status = dataValue('properties.Child_Status')(state);
           var rt = dataValue('properties.Record_Type')(state);//check that this is the right one
