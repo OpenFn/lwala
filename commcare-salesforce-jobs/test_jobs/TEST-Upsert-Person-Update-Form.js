@@ -257,7 +257,7 @@ upsert(
       dataValue('form.ANCs.pregnancy_danger_signs.individual_birth_plan')
     ),
     field('Reason_for_not_taking_a_pregnancy_test__c', state => {
-      var reason = dataValue('form.TT5.Mother_Information.pregnancy_test.No_Preg_Test')(state);
+      var reason = dataValue('form.TT5.Mother_Information.pregancy_test.No_Preg_Test')(state);
       return reason ? reason.toString().replace(/_/g, ' ') : undefined;
     }),
     field('Pregnancy_danger_signs__c', state => {
