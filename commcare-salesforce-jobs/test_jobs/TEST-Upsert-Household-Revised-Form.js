@@ -55,7 +55,11 @@ upsertIf(
     // field('Catchment__c', dataValue('a000Q00000Egmtk')),
     field('Catchment__c', dataValue('catchmentNewId')),
     // field('Household__c','a010Q00000BL6lT'),
-    field('Household__c', dataValue('form.case.@case_id')),
+    // field('Household__c', dataValue('form.case.@case_id')),
+    relationship(
+          'Household__r',
+          'CommCare_Code__c',
+          dataValue('form.case.@case_id')),
     field('Date__c',dataValue('form.Date')),
     //field('MOH_household_code__c', state => {
     //  var moh = dataValue('form.Household_Information.moh_code')(state);
