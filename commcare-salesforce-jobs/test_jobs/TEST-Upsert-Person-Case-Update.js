@@ -214,7 +214,7 @@ upsert(
         //}),
        // relationship('Mother__r', 'CommCare_ID__c', state => {
         //  return mother = dataValue('properties.mother_case_id')(state);
-        }),
+       // }),
         field('Chronic_illness__c', state => {
           var choice = dataValue(
             'properties.please_specify_which_chronic_illness_the_person_has'
