@@ -173,11 +173,9 @@ fn(state => ({
   },
 }));
 
-// upsert data to SF
-upsert(
-  'Person__c',
-  'CommCare_ID__c',
-  fields(
+// build sfRecord before upserting
+fn(state => {
+  const sfRecord = fields(
     /*  field(
           'deworming_medication__c',
           dataValue('form.TT5.Child_Information.Deworming')
@@ -708,5 +706,10 @@ upsert(
       var date = dataValue('date_modified')(state);
       return closed && closed == true ? date : undefined;
     }) //need case property
-  )
-);
+  );
+
+  return { ...state, sfRecord };
+});
+
+// upsert data to SF
+upsert('Person__c', 'CommCare_ID__c', state => state.sfRecord);
