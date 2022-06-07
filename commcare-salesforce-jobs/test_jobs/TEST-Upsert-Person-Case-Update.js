@@ -8,14 +8,6 @@ fn(state => {
     }
   };
 
-  state.undefinedForEmpty = function (state, choice) {
-    if (choice === '') {
-      return undefined;
-    } else {
-      return choice;
-    }
-  };
-
   state.handleMultiSelect = function (state, multiField) {
     return multiField
       ? multiField
@@ -175,7 +167,10 @@ fn(state => ({
 
 // build sfRecord before upserting
 fn(state => {
-  const sfRecord = fields(
+  // This mapping was initially constructed with fields(field(), ...) syntax. We
+  // preserve it here and use "expandReferences" but could also refactor this to
+  // use standard object syntax, as Salesforce looks for { k: v, ... }.
+  const originalMapping = fields(
     /*  field(
           'deworming_medication__c',
           dataValue('form.TT5.Child_Information.Deworming')
@@ -267,10 +262,7 @@ fn(state => {
 
     field('Use_mosquito_net__c', dataValue('properties.sleep_under_net')), //need case property
     // field('Birth_Certificate__c',dataValue('properties.birth_certificate')),
-    field('Birth_Certificate__c', state => {
-      var choice = dataValue('properties.birth_certificate')(state);
-      return state.undefinedForEmpty(state, choice);
-    }),
+    field('Birth_Certificate__c', dataValue('properties.birth_certificate')),
     field('Child_Status__c', state => {
       var status = dataValue('properties.Child_Status')(state);
       var rt = dataValue('properties.Record_Type')(state); //check that this is the right one
@@ -707,6 +699,15 @@ fn(state => {
       return closed && closed == true ? date : undefined;
     }) //need case property
   );
+
+  let sfRecord = expandReferences(originalMapping)(state);
+
+  Object.entries(sfRecord).forEach(([key, value]) => {
+    if (value === '') sfRecord[key] = undefined;
+  });
+
+  // TODO: @Rita, please remove this log once you're happy with the output.
+  console.log('The record, stripped of empty strings:', sfRecord);
 
   return { ...state, sfRecord };
 });
