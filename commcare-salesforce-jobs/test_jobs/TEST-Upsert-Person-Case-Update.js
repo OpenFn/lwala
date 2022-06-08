@@ -207,9 +207,11 @@ fn(state => {
     //relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
     //  return caregiver = dataValue('properties.caretaker_case_id')(state);
     //}),
-    // relationship('Mother__r', 'CommCare_ID__c', state => {
+    relationship('Mother__r', 'CommCare_ID__c', state => {
+      var mother = dataValue('properties.mother_case_id')(state);
     //  return mother = dataValue('properties.mother_case_id')(state);
-    // }),
+    return mother ? mother : 'undefined';
+    }),
     field('Chronic_illness__c', state => {
       var choice = dataValue(
         'properties.please_specify_which_chronic_illness_the_person_has'
