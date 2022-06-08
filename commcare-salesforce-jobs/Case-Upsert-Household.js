@@ -99,6 +99,7 @@ upsert(
         ? true
         : status;
     }),
+    relationship('Head_of_Household__c', 'CommCare_ID__c', dataValue('properties.head_of_household_case_id')),
      field('Inactive_Reason__c', state => {
       var reason = dataValue('properties.Reason_for_Inactive')(state);
       return reason ? reason.toString().replace(/_/g, ' ') : null;
