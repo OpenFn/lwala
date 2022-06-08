@@ -210,7 +210,7 @@ fn(state => {
     relationship('Mother__r', 'CommCare_ID__c', state => {
       var mother = dataValue('properties.mother_case_id')(state);
     //  return mother = dataValue('properties.mother_case_id')(state);
-    return mother ? mother : 'undefined';
+    return mother ? mother : '';
     }),
     field('Chronic_illness__c', state => {
       var choice = dataValue(
