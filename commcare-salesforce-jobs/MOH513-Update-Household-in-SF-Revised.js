@@ -226,9 +226,9 @@ upsertIf(
         state.data.form.supervisor_visit
           ? state.supervisorMap[state.data.form.supervisor_visit]
           : null
-      )
-    )
-  ),*/
+      ) */
+    ) 
+  ),
   //New logic to insert child Person records if person is marked as deceased in HH form
   each(
     merge(
