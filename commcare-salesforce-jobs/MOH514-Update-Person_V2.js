@@ -220,7 +220,7 @@ fn(state => {
                 .replace(/_/g, ' ')
             : signs;
         }),
-        field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),
+        field('Current_Malaria_Status__c', dataValue('form.treatment_and_tracking.malaria_test_results')),
         field(
           'Unique_Patient_Code__c',
           dataValue('form.HAWI.Unique_Patient_Code')
