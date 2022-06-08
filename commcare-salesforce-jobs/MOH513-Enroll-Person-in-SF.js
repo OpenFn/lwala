@@ -601,7 +601,7 @@ fn(state => {
           var date = dataValue('form.Date')(state);
           return hh + date;
         }),
-        field('Name', 'CHW Visit'),
+        //field('Name', 'CHW Visit'),
         field('Supervisor_Visit__c', state => {
           var visit = dataValue('form.supervisor_visit')(state);
           return visit
