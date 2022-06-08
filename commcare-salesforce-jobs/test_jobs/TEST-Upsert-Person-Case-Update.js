@@ -714,7 +714,7 @@ fn(state => {
 upsert('Person__c', 'CommCare_ID__c', state => state.sfRecord);
 
 upsertIf(
-  state.data.properties.caretaker_case_id !== undefined || state.data.properties.caretaker_case_id !== '', 
+  state.data.properties.caretaker_case_id !== undefined && state.data.properties.caretaker_case_id !== '', 
 'Person__c', 'CommCare_ID__c', 
     relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
     return caregiver = dataValue('properties.caretaker_case_id')(state);
