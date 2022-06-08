@@ -221,14 +221,14 @@ upsertIf(
           ? 'a0308000021zm8Z'
           : chw;
       }),
-      field('Name', 'CHW Visit'),
+      /*field('Name', 'CHW Visit'),
       field('Supervisor_Visit__c', state =>
         state.data.form.supervisor_visit
           ? state.supervisorMap[state.data.form.supervisor_visit]
           : null
       )
     )
-  ),
+  ),*/
   //New logic to insert child Person records if person is marked as deceased in HH form
   each(
     merge(
