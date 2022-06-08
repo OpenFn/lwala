@@ -715,8 +715,22 @@ upsert('Person__c', 'CommCare_ID__c', state => state.sfRecord);
 
 upsertIf(
   state.data.properties.caretaker_case_id !== undefined && state.data.properties.caretaker_case_id !== '', 
-'Person__c', 'CommCare_ID__c', 
-    relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
-    return caregiver = dataValue('properties.caretaker_case_id')(state);
-    }),
+    'Person__c', 'CommCare_ID__c', 
+    fields(
+      relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
+      return caregiver = dataValue('properties.caretaker_case_id')(state);
+      }),
+     field('CommCare_ID__c', dataValue('case_id')),
+    )
+);
+
+upsertIf(
+  state.data.properties.mother_case_id !== undefined && state.data.properties.mother_case_id !== '', 
+    'Person__c', 'CommCare_ID__c', 
+    fields(
+      relationship('Mother__r', 'CommCare_ID__c', state => {
+      return caregiver = dataValue('properties.mother_case_id')(state);
+      }),
+      field('CommCare_ID__c', dataValue('case_id')),
+    )
 );
