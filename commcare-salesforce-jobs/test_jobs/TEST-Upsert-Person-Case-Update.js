@@ -706,9 +706,6 @@ fn(state => {
     if (value === '') sfRecord[key] = undefined;
   });
 
-  // TODO: @Rita, please remove this log once you're happy with the output.
-  console.log('The record, stripped of empty strings:', sfRecord);
-
   return { ...state, sfRecord };
 });
 
