@@ -299,7 +299,7 @@ upsert(
       var choice = dataValue(
         'form.treatment_and_tracking.symptoms_check_other'
       )(state);
-       return choice ? state.symptomsMap[choice] : undefined;
+       return state.handleMultiSelect(state, choice);
     }), 
     /*field(
           'Unique_Patient_Code__c',
