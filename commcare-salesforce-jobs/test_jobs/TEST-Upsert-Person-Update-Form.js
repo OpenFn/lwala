@@ -154,6 +154,16 @@ fn(state => ({
     emergency_pills: "Emergency pills",
     none: "None"
   };
+  
+  const symptomsMap = {
+    convulsions : "Convulsions",
+    not_able_to_eatdrink : "Not able to drink or feed at all",
+    vomits_everything: "Vomits everything",
+    'chest_in-drawing': "Chest in - drawing",
+    unusually_sleepyunconscious: "Unusually sleepy or unconscious",
+    swelling_of_both_feet : "Swelling of both feet",
+    none: "None"
+  };
 
   return {
     ...state,
@@ -164,7 +174,8 @@ fn(state => ({
     milestoneMap,
     nutritionMap,
     pregDangerMap,
-    fpMethodMap
+    fpMethodMap,
+    symptomsMap
   };
 });
 
