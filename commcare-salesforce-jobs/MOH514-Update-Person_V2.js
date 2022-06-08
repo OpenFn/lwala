@@ -415,7 +415,7 @@ fn(state => {
         }),
         field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
         field('HIV_Status__c', state => {
-          var status = dataValue('form.HAWI.known_hiv_status')(state);
+          var status = dataValue('form.HAWI.hiv_status')(state);
           return status === 'yes'
             ? 'Known'
             : status === 'no'
