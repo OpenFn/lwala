@@ -265,7 +265,7 @@ fn(state => {
         ),
         field(
           'Malaria_Facility__c',
-          dataValue('form.treatment_and_tracking..malaria_referral_facility')
+          dataValue('form.treatment_and_tracking.malaria_referral_facility')
         ),
         //== QUESTION: TO update these mappings?? ========///
         // field(
