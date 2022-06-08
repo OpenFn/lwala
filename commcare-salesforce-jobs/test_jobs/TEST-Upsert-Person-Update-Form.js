@@ -155,6 +155,24 @@ fn(state => ({
     none: "None"
   };
 
+  const symptomsMap = {
+    convulsions: 'Convulsions',
+    not_able_to_eatdrink: 'Not able to drink or feed at all',
+    vomits_everything: 'Vomits everything',
+    'chest_in-drawing': 'Chest in - drawing',
+    unusually_sleepyunconscious: 'Unusually sleepy/unconscious',
+    swelling_of_both_feet: 'Swelling of both feet',
+    none: "None",
+  };
+
+  const supervisorMap ={
+    community_health_nurse: "Community_health_nurse",
+    chw_supervisor: "CHW_supervisor",
+    chewschas: "Chewschas",
+    other: "Other",
+    none: "None"
+  }
+
   return {
     ...state,
     counselMap,
@@ -165,6 +183,8 @@ fn(state => ({
     nutritionMap,
     pregDangerMap,
     fpMethodMap,
+    symptomsMap,
+    supervisorMap
   };
 });
 
@@ -283,13 +303,19 @@ upsert(
     field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),
     field('Malaria_Home_Test__c', dataValue('form.treatment_and_tracking.malaria_test_date')),
     field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.malaria_test_date')),
-   // field('Persons_symptoms__c',dataValue('form.treatment_and_tracking.symptoms_check_other')),
     field('Persons_symptoms__c', state => {
-      var choice = dataValue(
-        'form.treatment_and_tracking.symptoms_check_other'
-      )(state);
-       return state.handleMultiSelect(state, choice);
-    }), 
+      var check = dataValue('form.treatment_and_tracking.symptoms_check_other')(state);
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.symptomsMap[value] || value;
+              })
+          : undefined;
+      return value ? value.join(';') : undefined;
+    }),
     /*field(
           'Unique_Patient_Code__c',
           dataValue('form.HAWI.Unique_Patient_Code')
@@ -681,7 +707,20 @@ upsert(
       'Antibiotic_provided_for_chest_indrawing__c',
       dataValue('form.psbi.antibiotic_chest_indrawing')
     ),
-    field('Supervisor_Visit__c',dataValue('form.supervisor_visit')),
+    // field('Supervisor_Visit__c',dataValue('form.supervisor_visit')),
+    field('Supervisor_Visit__c', state => {
+      var check = dataValue('form.supervisor_visit')(state);
+      var value =
+        check && check !== ''
+          ? check
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.supervisorMap[value] || value;
+              })
+          : undefined;
+      return value ? value.join(';') : undefined;
+    }),
     //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('form.case.update.closed')(state);
