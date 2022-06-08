@@ -299,7 +299,7 @@ upsert(
       var choice = dataValue(
         'form.treatment_and_tracking.symptoms_check_other'
       )(state);
-      return state.handleMultiSelect(state, choice);
+       return choice ? state.symptomsMap[choice] : undefined;
     }), 
     /*field(
           'Unique_Patient_Code__c',
@@ -466,7 +466,7 @@ upsert(
         }),
     field('Reasons_for_not_taking_FP_method__c', state => {
       var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
-      return reason ? state.reasonMapping[reason] : '';
+      return reason ? state.reasonMapping[reason] : undefined;
     }),
     field('Pregnant__c', state => {
       var preg = dataValue('form.TT5.Mother_Information.Pregnant')(state);
