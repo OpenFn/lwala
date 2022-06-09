@@ -396,7 +396,6 @@ fn(state => {
     }), //check
 
     //Delivery
-    field('Date_of_Birth__c', dataValue('properties.DOB')),
     field(
       'Immediate_Breastfeeding__c',
       dataValue('properties.Breastfeeding_Delivery')
