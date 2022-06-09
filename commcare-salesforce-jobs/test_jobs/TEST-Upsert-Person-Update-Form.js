@@ -480,8 +480,19 @@ upsert(
           return value ? value.join(';') : undefined;
         }),
     field('Reasons_for_not_taking_FP_method__c', state => {
-      var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
-      return reason ? state.reasonMapping[reason] : undefined;
+      // var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
+      // return reason ? state.reasonMapping[reason] : undefined;
+      var status = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.reasonMapping[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
     }),
     field('Pregnant__c', state => {
       var preg = dataValue('form.TT5.Mother_Information.Pregnant')(state);
