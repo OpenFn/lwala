@@ -725,3 +725,12 @@ upsertIf(
       field('CommCare_ID__c', dataValue('case_id')),
     )
 );
+
+upsertIf(
+  state.data.properties.head_of_household_case_id  !== undefined  && state.data.properties.head_of_household_case_id !== '', 
+  'Household__c', 'CommCare_Code__c',
+  fields(
+    field('CommCare_Code__c', dataValue('indices.parent.case_id')),
+    relationship('Head_of_Household__r', 'CommCare_ID__c', dataValue('properties.head_of_household_case_id')),
+      )
+  )
