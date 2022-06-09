@@ -302,7 +302,7 @@ upsert(
     }),
     field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),
     field('Malaria_Home_Test__c', dataValue('form.treatment_and_tracking.malaria_test_date')),
-    field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.malaria_test_date')),
+    field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.home_treatment')),
     field('Persons_symptoms__c', state => {
       var check = dataValue('form.treatment_and_tracking.symptoms_check_other')(state);
       var value =
