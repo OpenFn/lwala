@@ -703,10 +703,15 @@ fn(state => {
 });
 
 // upsert data to SF
-upsert('Person__c', 'CommCare_ID__c', state => state.sfRecord);
+upsertIf(state.data.metadata.username !== 'openfn.test' &&
+    state.data.metadata.username !== 'test.2022' &&
+    state.data.form.test_user  !== 'Yes' ,
+  'Person__c', 'CommCare_ID__c', state => state.sfRecord);
 
-upsertIf(
-  state.data.properties.caretaker_case_id !== undefined && state.data.properties.caretaker_case_id !== '', 
+upsertIf(state.data.metadata.username !== 'openfn.test' &&
+    state.data.metadata.username !== 'test.2022' &&
+    state.data.form.test_user  !== 'Yes' &&
+    state.data.properties.caretaker_case_id !== undefined && state.data.properties.caretaker_case_id !== '', 
     'Person__c', 'CommCare_ID__c', 
     fields(
       relationship('Primary_Caregiver_Lookup__r', 'CommCare_ID__c', state => {
@@ -716,8 +721,10 @@ upsertIf(
     )
 );
 
-upsertIf(
-  state.data.properties.mother_case_id !== undefined && state.data.properties.mother_case_id !== '', 
+upsertIf(state.data.metadata.username !== 'openfn.test' &&
+    state.data.metadata.username !== 'test.2022' &&
+    state.data.form.test_user  !== 'Yes' &&
+    state.data.properties.mother_case_id !== undefined && state.data.properties.mother_case_id !== '', 
     'Person__c', 'CommCare_ID__c', 
     fields(
       relationship('Mother__r', 'CommCare_ID__c', state => {
