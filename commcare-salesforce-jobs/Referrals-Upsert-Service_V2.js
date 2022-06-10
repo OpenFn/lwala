@@ -246,7 +246,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
       var facility = dataValue('properties.Facility_Visited')(state);
       return facility ? state.facilityMap[facility] : undefined;
     }),
-    field('Client_Received_Services_at_Facility__c', state => {
+    field('Client_Received_Services_at_Facility__c2', state => {
       var serv = dataValue('properties.Facility_Visit')(state);
       return serv === 'Yes' || serv === 'yes' ? true : false;
     }),
