@@ -37,7 +37,8 @@ fn(state => {
   if (
     dataValue('form.Source')(state) == 1 &&
     dataValue('metadata.username')(state) !== 'test.2021' &&
-    dataValue('metadata.username')(state) !== 'openfn.test'
+    dataValue('metadata.username')(state) !== 'openfn.test' &&
+    dataValue('properties.test_user')(state)  !== 'Yes'
   ) {
     console.log('case id', state.data.form.subcase_0.case['@case_id']);
     console.log('case id', state.data.form.case['@case_id']);
