@@ -170,6 +170,7 @@ fn(state => {
     play_therapy: 'Play Therapy',
     assessment: 'Assessment',
     counselling: 'Counselling',
+    other: 'Other'
   };
 
   const clinicalMap = {
