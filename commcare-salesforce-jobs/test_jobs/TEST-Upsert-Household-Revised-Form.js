@@ -45,7 +45,8 @@ fn(state => {
 
 upsertIf(
   state.data.metadata.username !== 'openfn.test' &&
-    state.data.metadata.username !== 'test.2022',
+    state.data.metadata.username !== 'test.2022' &&
+    state.data.form.test_user  !== 'Yes' ,
   'Visit__c',
   'CommCare_Visit_ID__c',
   fields(
