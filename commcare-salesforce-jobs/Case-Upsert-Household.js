@@ -25,7 +25,9 @@ fn(state => ({
   },
 }));
 
-upsert(
+upsertIf(state.data.metadata.username !== 'openfn.test' &&
+    state.data.metadata.username !== 'test.2022' &&
+    state.data.form.test_user  !== 'Yes' ,
   'Household__c',
   'CommCare_Code__c',
   fields(
