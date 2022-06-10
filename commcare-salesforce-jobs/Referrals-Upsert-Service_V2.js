@@ -246,10 +246,7 @@ upsert('Service__c', 'Service_UID__c', state => ({
       var facility = dataValue('properties.Facility_Visited')(state);
       return facility ? state.facilityMap[facility] : undefined;
     }),
-    field('Client_Received_Services_at_Facility2__c', state => {
-      var serv = dataValue('properties.Facility_Visit')(state);
-      return serv === 'Yes' || serv === 'yes' ? true : false;
-    }),
+    field('Client_Received_Services_at_Facility2__c',dataValue('properties.Facility_Visit')),
     field('Clinical_Visit_Date__c', state => {
       var date = dataValue('properties.Facility_Date')(state);
       return date === '' || date === undefined ? undefined : date;
