@@ -127,7 +127,10 @@ fn(state => {
 
 // Evaluates client status and how to upsert Person records
 fn(state => {
-  if (dataValue('form.Status.Client_Status')(state) === 'Active') {
+  if (dataValue('form.Status.Client_Status')(state) === 'Active' &&
+    dataValue('metadata.username')(state) !== 'test.2021' &&
+    dataValue('metadata.username')(state) !== 'openfn.test' &&
+    dataValue('form.test_user')(state)  !== 'Yes')  {
     console.log('Upserting Person in SF...');
     return upsert(
       'Person__c',
