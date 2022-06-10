@@ -228,6 +228,7 @@ fn(state => {
 
       return null;
     }),
+    field('Gender__c',dataValue('properties.Gender')),
     field('Disability__c', state => {
       var disability = dataValue('properties.disability')(state);
       var toTitleCase =
