@@ -710,7 +710,7 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
 
 upsertIf(state.data.metadata.username !== 'openfn.test' &&
     state.data.metadata.username !== 'test.2022' &&
-    state.data.form.test_user  !== 'Yes' &&
+    state.data.properties.test_user  !== 'Yes' &&
     state.data.properties.caretaker_case_id !== undefined && state.data.properties.caretaker_case_id !== '', 
     'Person__c', 'CommCare_ID__c', 
     fields(
@@ -721,9 +721,9 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     )
 );
 
-upsertIf(state.data.metadata.username !== 'openfn.test' &&
-    state.data.metadata.username !== 'test.2022' &&
-    state.data.form.test_user  !== 'Yes' &&
+upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
+    state.data.properties.commcare_username !== 'test.2022' &&
+    state.data.properties.test_user  !== 'Yes' &&
     state.data.properties.mother_case_id !== undefined && state.data.properties.mother_case_id !== '', 
     'Person__c', 'CommCare_ID__c', 
     fields(
@@ -734,9 +734,9 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     )
 );
 
-upsertIf(state.data.metadata.username !== 'openfn.test' &&
-    state.data.metadata.username !== 'test.2022' &&
-    state.data.form.test_user  !== 'No' &&
+upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
+    state.data.properties.commcare_username !== 'test.2022' &&
+    state.data.properties.test_user  !== 'No' &&
   state.data.properties.head_of_household_case_id  !== undefined  && state.data.properties.head_of_household_case_id !== '', 
   'Household__c', 'CommCare_Code__c',
   fields(
