@@ -15,8 +15,8 @@ upsertIf(
   upsertIf(
     state.data.user_id !== 'a3c31c9be392427a97f8704262065661' &&
       state.data.user_id !== 'd1e19bd5a4754e4d94d9e31f735302e6' &&
-        state.data.properties.test_user  !== 'Yes'
-          ),
+        state.data.properties.test_user  !== 'Yes',
+          
     'Person__c',
     'CommCare_ID__c',
     fields(
