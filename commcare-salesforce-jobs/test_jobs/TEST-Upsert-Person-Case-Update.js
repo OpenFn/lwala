@@ -736,7 +736,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
 
 upsertIf(state.data.metadata.username !== 'openfn.test' &&
     state.data.metadata.username !== 'test.2022' &&
-    state.data.form.test_user  !== 'Yes' &&
+    state.data.form.test_user  !== 'No' &&
   state.data.properties.head_of_household_case_id  !== undefined  && state.data.properties.head_of_household_case_id !== '', 
   'Household__c', 'CommCare_Code__c',
   fields(
