@@ -705,7 +705,7 @@ fn(state => {
 // upsert data to SF
 upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
     state.data.properties.commcare_username !== 'test.2022' &&
-    state.data.form.test_user  !== 'Yes' ,
+    state.data.properties.test_user  !== 'Yes' ,
   'Person__c', 'CommCare_ID__c', state => state.sfRecord);
 
 upsertIf(state.data.metadata.username !== 'openfn.test' &&
