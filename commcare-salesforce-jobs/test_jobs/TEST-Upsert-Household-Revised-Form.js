@@ -84,8 +84,6 @@ upsertIf(
       'Household_CHW__r', 
       'CommCare_ID__c', 
       dataValue('form.sfid')),
-      )
-  ),
     field(
       'Completed_COVID_19_Phone_Screening__c',
       dataValue(
