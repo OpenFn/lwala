@@ -577,12 +577,26 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
         : undefined;
     }),*/
     field('HIV_Status__c', dataValue('form.HAWI.hiv_status')),
+    // field('Treatment_Distribution__c', state => {
+    //   var choice = dataValue(
+    //     'form.treatment_and_tracking.distribution.distributed_treatments'
+    //   )(state);
+    //   return state.handleMultiSelect(state, choice);
+    // }), 
     field('Treatment_Distribution__c', state => {
-      var choice = dataValue(
-        'form.treatment_and_tracking.distribution.distributed_treatments'
-      )(state);
-      return state.handleMultiSelect(state, choice);
-    }), 
+          //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
+          var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.treatmentDistributionMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        }),
     field(
       'Current_Weight__c',
       dataValue('form.TT5.Child_Information.Nutrition.current_weight')
