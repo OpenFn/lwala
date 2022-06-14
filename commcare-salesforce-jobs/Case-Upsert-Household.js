@@ -35,7 +35,7 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
     field('MOH_household_code__c', dataValue('properties.moh_code')),
    field('CommCare_Code__c', dataValue('case_id')),
     field('Source__c', true),
-    field('Household_CHW__c', 'a030Q00000A0jeYQAR'), //sandbox hardcoded mapping
+    //field('Household_CHW__c', 'a030Q00000A0jeYQAR'), //sandbox hardcoded mapping
     relationship(
       'Household_CHW__r',
       'CommCare_ID__c', 
