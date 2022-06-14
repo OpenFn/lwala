@@ -171,7 +171,19 @@ fn(state => ({
     chewschas: "Chewschas",
     other: "Other",
     none: "None"
-  }
+  };
+  
+  const treatmentDistributionMap = {
+    ors_205gltr_sachets: 'ORS (20.5h/ltr): Sachets',
+    acts_6s: 'ACTs (6s)',
+    acts_12s: 'ACTs (12s',
+    acts_18s: 'ACTs (18s)',
+    acts_24s: 'ACTs (24s)',
+    albendazole_abz_tabs: 'Albendazole (ABZ): Tabs',
+    paracetamol_tabs: 'Tetracycline Eye Ointment (TEO): 1%:tube',
+    tetracycline_eye_ointment_teo_1_tube: 'Tetracycline Eye Ointment (TEO): 1%:tube',
+    amoxycillin: 'Amoxycillin (125mg/5mls: Bottle',
+    none: 'None'
 
   return {
     ...state,
