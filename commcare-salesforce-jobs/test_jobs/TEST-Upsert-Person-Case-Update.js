@@ -544,7 +544,7 @@ fn(state => {
       'Caretaker_muac_findings__c',
       dataValue('properties.mother_screened_child_muac_result')
     ),
-    field('Food_groups_3_times_a_day__c',dataValue('properties.food_groups')
+    field('Food_groups_3_times_a_day__c',dataValue('properties.food_groups')),
     // field('Caretaker_screened_for_muac_this__c', dataValue('properties.mother_screened_child_muac')),
     field('Caretaker_screened_for_muac_this__c', state => {
       var choice = dataValue('properties.mother_screened_child_muac')(state); //check
