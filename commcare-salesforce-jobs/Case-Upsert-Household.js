@@ -31,7 +31,7 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
   'Household__c',
   'CommCare_Code__c',
   fields(
-    field('CommCare_Username__c', dataValue('form.meta.username')),//Need a case property
+    field('CommCare_Username__c', dataValue('properties.commcare_username')),
     field('MOH_household_code__c', dataValue('properties.moh_code')),
    field('CommCare_Code__c', dataValue('case_id')),
     field('Source__c', true),
