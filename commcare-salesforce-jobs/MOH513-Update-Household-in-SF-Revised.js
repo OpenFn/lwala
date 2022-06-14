@@ -26,7 +26,8 @@ alterState(state => {
 });
 upsertIf(
   state.data.metadata.username !== 'openfn.test' &&
-    state.data.metadata.username !== 'test.2021',
+    state.data.metadata.username !== 'test.2021' &&
+    state.data.form.test_user !== 'test_user',
   'Household__c',
   'CommCare_Code__c',
   fields(
@@ -221,13 +222,13 @@ upsertIf(
           ? 'a0308000021zm8Z'
           : chw;
       }),
-      field('Name', 'CHW Visit'),
+      /*field('Name', 'CHW Visit'),
       field('Supervisor_Visit__c', state =>
         state.data.form.supervisor_visit
           ? state.supervisorMap[state.data.form.supervisor_visit]
           : null
-      )
-    )
+      ) */
+    ) 
   ),
   //New logic to insert child Person records if person is marked as deceased in HH form
   each(

@@ -25,7 +25,9 @@ fn(state => ({
   },
 }));
 
-upsert(
+upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
+    state.data.properties.commcare_username !== 'test.2022' &&
+    state.data.properties.test_user  !== 'No' ,
   'Household__c',
   'CommCare_Code__c',
   fields(
@@ -37,6 +39,7 @@ upsert(
     //field('Household_CHW__c', dataValue('properties.sfid')), //TODO: Prod mapping to add back before go-live
     field('Catchment__c', dataValue('catchmentNewId')),
     field('Area__c', dataValue('areaNewId')),
+    field('Village__c', dataValue('villageNewId')),
     field('Household_Village__c', dataValue('properties.village')),
   //   relationship('Catchment__r', 'Name', state => {
   //     var catchment =
@@ -99,6 +102,7 @@ upsert(
         ? true
         : status;
     }),
+    // relationship('Head_of_Household__r', 'CommCare_ID__c', dataValue('properties.head_of_household_case_id')),
      field('Inactive_Reason__c', state => {
       var reason = dataValue('properties.Reason_for_Inactive')(state);
       return reason ? reason.toString().replace(/_/g, ' ') : null;

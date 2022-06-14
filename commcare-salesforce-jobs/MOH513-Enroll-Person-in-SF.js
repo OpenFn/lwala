@@ -37,7 +37,8 @@ fn(state => {
   if (
     dataValue('form.Source')(state) == 1 &&
     dataValue('metadata.username')(state) !== 'test.2021' &&
-    dataValue('metadata.username')(state) !== 'openfn.test'
+    dataValue('metadata.username')(state) !== 'openfn.test' &&
+    dataValue('form.test_user')(state)  !== 'Yes'
   ) {
     console.log('case id', state.data.form.subcase_0.case['@case_id']);
     console.log('case id', state.data.form.case['@case_id']);
@@ -601,7 +602,7 @@ fn(state => {
           var date = dataValue('form.Date')(state);
           return hh + date;
         }),
-        field('Name', 'CHW Visit'),
+        //field('Name', 'CHW Visit'),
         field('Supervisor_Visit__c', state => {
           var visit = dataValue('form.supervisor_visit')(state);
           return visit

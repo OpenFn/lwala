@@ -127,7 +127,10 @@ fn(state => {
 
 // Evaluates client status and how to upsert Person records
 fn(state => {
-  if (dataValue('form.Status.Client_Status')(state) === 'Active') {
+  if (dataValue('form.Status.Client_Status')(state) === 'Active' &&
+    dataValue('metadata.username')(state) !== 'test.2021' &&
+    dataValue('metadata.username')(state) !== 'openfn.test' &&
+    dataValue('form.test_user')(state)  !== 'Yes')  {
     console.log('Upserting Person in SF...');
     return upsert(
       'Person__c',
@@ -220,7 +223,7 @@ fn(state => {
                 .replace(/_/g, ' ')
             : signs;
         }),
-        field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),
+        field('Current_Malaria_Status__c', dataValue('form.treatment_and_tracking.malaria_test_results')),
         field(
           'Unique_Patient_Code__c',
           dataValue('form.HAWI.Unique_Patient_Code')
@@ -265,7 +268,7 @@ fn(state => {
         ),
         field(
           'Malaria_Facility__c',
-          dataValue('form.treatment_and_tracking..malaria_referral_facility')
+          dataValue('form.treatment_and_tracking.malaria_referral_facility')
         ),
         //== QUESTION: TO update these mappings?? ========///
         // field(
@@ -415,7 +418,7 @@ fn(state => {
         }),
         field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
         field('HIV_Status__c', state => {
-          var status = dataValue('form.HAWI.known_hiv_status')(state);
+          var status = dataValue('form.HAWI.hiv_status')(state);
           return status === 'yes'
             ? 'Known'
             : status === 'no'
