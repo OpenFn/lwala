@@ -110,7 +110,7 @@ fn(state => ({
     Other: 'Other',
   };
 
-  const reasonMapping = {
+  const reasonMap = {
     lack_of_access_to_fp_information: 'Lack of access to FP information',
     no_access_to_fp_services_hospitals:
       'Lack of hospitals or places where FP services can be accessed',
@@ -190,14 +190,15 @@ fn(state => ({
     ...state,
     counselMap,
     serviceMap,
-    reasonMapping,
+    reasonMap,
     milestoneTypeMap,
     milestoneMap,
     nutritionMap,
     pregDangerMap,
     fpMethodMap,
     symptomsMap,
-    supervisorMap
+    supervisorMap,
+    treatmentDistributionMap
   };
 });
 
@@ -497,7 +498,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
         }),
     field('Reasons_for_not_taking_FP_method__c', state => {
       // var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
-      // return reason ? state.reasonMapping[reason] : undefined;
+      // return reason ? state.reasonMap[reason] : undefined;
       var status = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
           var value =
             status && status !== ''
@@ -505,7 +506,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
                   .replace(/ /gi, ';')
                   .split(';')
                   .map(value => {
-                    return state.reasonMapping[value] || value;
+                    return state.reasonMap[value] || value;
                   })
               : undefined;
           return value ? value.join(';') : undefined;
