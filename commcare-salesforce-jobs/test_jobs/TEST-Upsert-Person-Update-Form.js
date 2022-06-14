@@ -184,6 +184,7 @@ fn(state => ({
     tetracycline_eye_ointment_teo_1_tube: 'Tetracycline Eye Ointment (TEO): 1%:tube',
     amoxycillin: 'Amoxycillin (125mg/5mls: Bottle',
     none: 'None'
+}
 
   return {
     ...state,
@@ -481,7 +482,8 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     ),
     //field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
      field('FP_Method_Distributed__c', state => {
-          var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
+          //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
+          var status = dataValue('form.TT5.Mother_Information.FP_commodity')(state);
           var value =
             status && status !== ''
               ? status
