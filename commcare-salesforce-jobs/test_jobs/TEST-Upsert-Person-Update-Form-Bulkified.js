@@ -1,3 +1,5 @@
+// import { jsonValue } from "../../../devtools/adaptors/language-common/src/Adaptor";
+
 query(
   `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
     'form.owner_id'
@@ -76,8 +78,8 @@ fn(state => {
 
   const transformChoiceGroups = (x, map) => {
     var choices =
-      x.form.treatment_and_tracking.counseling.counsel_topic
-      || x.form.counseling.counsel_topic
+      jsonValue(x, 'form.treatment_and_tracking.counseling.counsel_topic')
+      || jsonValue(x, 'form.counseling.counsel_topic')
     var choiceGroups = choices ? choices.split(' ') : null;
     var choicesMulti = choiceGroups
       ? choiceGroups
@@ -123,7 +125,7 @@ fn(state => {
   }
 
   const determineChildStatus = x => {
-    var status = x.form.case.update.child_status;
+    var status = jsonValue(x, 'form.case.update.child_status');
     var rt = x.form.RecordType;
     if (status && rt === 'Unborn') {
       status = 'Unborn';
@@ -210,7 +212,7 @@ fn(state => {
     Other: 'Other',
   };
 
-  const reasonMapping = {
+  const reasonMap = {
     lack_of_access_to_fp_information: 'Lack of access to FP information',
     no_access_to_fp_services_hospitals:
       'Lack of hospitals or places where FP services can be accessed',
@@ -255,87 +257,122 @@ fn(state => {
     none: "None"
   };
 
+  const supervisorMap = {
+    community_health_nurse: "Community_health_nurse",
+    chw_supervisor: "CHW_supervisor",
+    chewschas: "Chewschas",
+    other: "Other",
+    none: "None"
+  };
+
+  const symptomsMap = {
+    convulsions: 'Convulsions',
+    not_able_to_eatdrink: 'Not able to drink or feed at all',
+    vomits_everything: 'Vomits everything',
+    'chest_in-drawing': 'Chest in - drawing',
+    unusually_sleepyunconscious: 'Unusually sleepy/unconscious',
+    swelling_of_both_feet: 'Swelling of both feet',
+    none: "None",
+  };
+
+  const treatmentDistributionMap = {
+    ors_205gltr_sachets: 'ORS (20.5h/ltr): Sachets',
+    acts_6s: 'ACTs (6s)',
+    acts_12s: 'ACTs (12s',
+    acts_18s: 'ACTs (18s)',
+    acts_24s: 'ACTs (24s)',
+    albendazole_abz_tabs: 'Albendazole (ABZ): Tabs',
+    paracetamol_tabs: 'Tetracycline Eye Ointment (TEO): 1%:tube',
+    tetracycline_eye_ointment_teo_1_tube: 'Tetracycline Eye Ointment (TEO): 1%:tube',
+    amoxycillin: 'Amoxycillin (125mg/5mls: Bottle',
+    none: 'None'
+  }
+
   const visits = state.data.commCareSubmissions.map(x => {
     return {
       'Person__r.CommCare_ID__c': x.form.case['@case_id'],
       CommCare_Visit_ID__c: x.metadata.instanceID,
       CommCare_ID__c: x.id,
       Date__c: x.form.Date,
-      // Birth_Status__c: x.form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status,
+      Birth_Status__c: jsonValue(x, 'form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status'),
       // Child_Status__c: determineChildStatus(x),
+      Birth_Status__c: determineChildStatus(x),
       'RecordType.Name': determineRecordType(x),
-      // Use_mosquito_net__c: cleanChoice(x.form.question1.sleep_under_net),
-      // Individual_birth_plan_counselling__c: x.form.ANCs.pregnancy_danger_signs.individual_birth_plan,
-      // Reason_for_not_taking_a_pregnancy_test__c: transformChoice(x.form.TT5.Mother_Information.pregancy_test.No_Preg_Test),
-      // Pregnancy_danger_signs__c:lookupMap(x.form.ANCs.pregnancy_danger_signs.pregnancy_danger_signs, pregDangerMap),
-      // Other_Danger_Signs__c: transformSigns(x.form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs),
-      Current_Malaria_Status__c: x.form.Malaria_Status,
-      // Malaria_Home_Test__c: x.form.treatment_and_tracking.malaria_test_date,
-      // Malaria_Home_Treatment__c:x.form.treatment_and_tracking.malaria_test_date,
-      // Persons_symptoms__c:x.form.treatment_and_tracking.symptoms_check_other,
-      // Active_in_Support_Group__c :x.form.HAWI.Support_Group,
-      // HAWI_Defaulter__c: yesNoToBoolean(x.form.HAWI.default),
-      // Date_of_Default__c: x.form.HAWI.date_of_default,      
-      // Persons_temperature__c: x.form.treatment_and_tracking.temperature,
-      // Days_since_illness_start__c: x.form.duration_of_sickness,
-      // Newborn_visited_48_hours_of_delivery__c: x.form.TT5.Child_Information.newborn_visited_48_hours_of_delivery,
-      // Newborn_visited_by_a_CHW_within_6_days__c: x.form.TT5.Child_Information.visit_6_days_from_delivery,
-      // Current_Malaria_Status__c: form.treatment_and_tracking.malaria_test_results,
-      // Malaria_test__c: cleanChoice(x.form.treatment_and_tracking.malaria_test),
-      // Fever__c: cleanChoice(x.form.treatment_and_tracking.symptoms_check_fever),
-      // Cough__c: cleanChoice(x.form.treatment_and_tracking.symptoms_check_cough),
-      // Diarrhoea__c: cleanChoice(x.form.treatment_and_tracking.check_diarrhea),
-      // TB_patients_therapy_observed__c: x.form.treatment_and_tracking.observed_tb_therapy,
-      // Injuries_or_wounds__c: x.form.treatment_and_tracking.wounds_or_injuries,
-      // Currently_on_ART_s__c: x.form.HAWI.ART,
-      // Immediate_Breastfeeding__c: x.form.ANCs.pregnancy_danger_signs.Delivery_Information.Breastfeeding_Delivery,
-      // Exclusive_Breastfeeding__c: x.form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding,
-      // Counselled_on_Exclusive_Breastfeeding__c: x.form.TT5.Child_Information.Exclusive_Breastfeeding.counseling,
-      // LMP__c: x.form.TT5.Mother_Information.when_was_your_lmp,
-      // Family_Planning__c: cleanChoice(x.form.TT5.Mother_Information.family_planning),
-      // Family_Planning_Method__c: x.form.TT5.Mother_Information.family_planning_method,
-      FP_Method_Distributed__c: joinMap(x.form.treatment_and_tracking.distribution.distributed_treatments, fpMethodMap), // TODO: None throws an error?
-      Reasons_for_not_taking_FP_method__c: joinMap(x.form.TT5.Mother_Information.No_FPmethod_reason, reasonMapping),
-      Pregnant__c: yesNoToBoolean(x.form.TT5.Mother_Information.Pregnant),
-      Counselled_on_FP_Methods__c: cleanChoice(x.form.TT5.Mother_Information.CounselledFP_methods),
-      // Client_counselled_on__c: transformChoiceGroups(x, counselMap), // TODO: finish with JSONpath
-      Client_provided_with_FP__c: cleanChoice(x.form.TT5.Mother_Information['was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv']),
-      Newborn_visited_48_hours_of_delivery__c: x.form.TT5.Child_Information.newborn_visited_48_hours_of_delivery,
-      Mother_visit_counselling__c: handleMultiSelectOriginal(x.form.TT5.Child_Information.did_you_consel_the_mother_on1),
-      mother_visited_48_hours_of_the_delivery__c: x.form.TT5.Child_Information.visit_mother_48,
-      Newborn_visit_counselling__c: handleMultiSelectOriginal(x.form.TT5.Child_Information.did_you_consel_the_mother_on2),
-      Know_HIV_status__c: x.form.HAWI.known_hiv_status,
-      HIV_Status__c: x.form.HAWI.hiv_status,
-      Treatment_Distribution__c: handleMultiSelect(x.form.treatment_and_tracking.distribution.distributed_treatments),
-      Current_Weight__c: x.form.TT5.Child_Information.Nutrition.current_weigh,
-      Current_Height__c: x.form.TT5.Child_Information.Nutrition.current_height,
-      Current_MUAC__c: form.TT5.Child_Information.Nutrition.MUAC,
-      Current_Nutrition_Status__c: transformReason(x.form.TT5.Child_Information.Nutrition2.Nutrition_Status, nutritionMap),
-      Default_on_TB_treatment__c: cleanChoice(x.form.treatment_and_tracking.default_tb_treatment),
-      Received_pregnancy_test__c: x.form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test,
-      Pregnancy_test_result__c: x.form.TT5.Mother_Information.pregancy_test.pregnancy_test_result,
-      Chronic_illness__c: transformMultiselect(x.form.question1.please_specify_which_chronic_illness_the_person_has),
-      Childs_breath_per_minute__c: x.form.psbi.breaths_per_minuite,
-      Child_chest_in_drawing__c: x.form.psbi.Child_chest_in_drawing_c,
-      Caregiver_counseled_on_delayed_milestone__c: x.form.TT5.Child_Information.ecd_milestones.did_you_counsel_the_caregiver_on_delayed_milestones,
-      Delayed_Milestone__c: x.form.TT5.Child_Information.ecd_milestones.does_the_child_has_a_delayed_milestone,
-      Child_has_2_or_more_play_items__c: x.form.TT5.Child_Information.ecd_milestones.does_the_child_has_2_or_more_play_items_at_home,
-      Child_has_3_more_picture_books__c: x.form.TT5.Child_Information.ecd_milestones.does_the_child_has_3_or_more_picture_books,
-      Delayed_Milestones_Counselled_On__c: transformReason(x.form.TT5.Child_Information.ecd_milestones.which_delayed_milestone_area_did_you_counsel_the_caregiver_on, milestoneMap),
-      Delayed_Milestone_Type__c: transformReason(x.form.TT5.Child_Information.ecd_milestones.which_delayed_milestone, milestoneTypeMap),
-      Caretaker_trained_in_muac__c: x.form.TT5.Child_Information.caretaker_muac.mother_trained_muac,
-      Caretaker_screened_for_muac_this__c: x.form.TT5.Child_Information.caretaker_muac.mother_screened_child_muac,
-      Caretaker_muac_findings__c: x.form.TT5.Child_Information.caretaker_muac.mother_screened_child_muac_result,
-      Caretaker_action_after_muac_screening__c: x.form.TT5.Child_Information.caretaker_muac.mother_screened_muac_action,
-      of_Caretaker_MUAC_screenings__c: x.form.TT5.Child_Information.caretaker_muac.mother_nb_screening,
-      Pulse_Oximeter__c: x.form.psbi.pulse_oximeter_available,
-      Heart_Rate_Pulse_Oximeter__c: x.form.psbi.heart_rate_pulse_oximeter,
-      Oxygen_Concentration_Pulse_Oximeter__c: x.form.psbi.oxygen_concentration,
-      Can_child_drink__c: x.form.psbi.can_child_drink,
-      Antibiotic_provided_for_fast_breathing__c: x.form.psbi.antibiotic_fast_breathing,
-      Antibiotic_provided_for_chest_indrawing__c: x.form.psbi.antibiotic_chest_indrawing,
-      Supervisor_Visit__c: joinMap(x.form.supervisor_visit, supervisorMap),
-      Case_Closed_Date__c: getClosedDate(x)
+      Use_mosquito_net__c: cleanChoice(jsonValue(x, 'form.question1.sleep_under_net')),
+      Individual_birth_plan_counselling__c: jsonValue(x, 'form.ANCs.pregnancy_danger_signs.individual_birth_plan'),
+      Reason_for_not_taking_a_pregnancy_test__c: transformChoice(jsonValue(x, 'form.TT5.Mother_Information.pregancy_test.No_Preg_Test')),
+      Pregnancy_danger_signs__c: lookupMap(jsonValue(x, 'form.ANCs.pregnancy_danger_signs.pregnancy_danger_signs'), pregDangerMap),
+      Other_Danger_Signs__c: transformSigns(jsonValue(x, 'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs')),
+      Current_Malaria_Status__c: jsonValue(x, 'form.Malaria_Status'),
+      Malaria_Home_Test__c: jsonValue(x, 'form.treatment_and_tracking.malaria_test_date'),
+      Malaria_Home_Treatment__c: jsonValue(x, 'form.treatment_and_tracking.malaria_test_date'),
+      // Persons_symptoms__c: jsonValue(x, 'form.treatment_and_tracking.symptoms_check_other'),
+      Persons_symptoms__c: joinMap(jsonValue(x, 'form.treatment_and_tracking.symptoms_check_other'), symptomsMap),
+      Active_in_Support_Group__c: jsonValue(x, 'form.HAWI.Support_Group'),
+      HAWI_Defaulter__c: yesNoToBoolean(jsonValue(x, 'form.HAWI.default')),
+      Date_of_Default__c: jsonValue(x, 'form.HAWI.date_of_default'),
+      Persons_temperature__c: jsonValue(x, 'form.treatment_and_tracking.temperature'),
+      Days_since_illness_start__c: jsonValue(x, 'form.duration_of_sickness'),
+      Newborn_visited_48_hours_of_delivery__c: jsonValue(x, 'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'),
+      Newborn_visited_by_a_CHW_within_6_days__c: jsonValue(x, 'form.TT5.Child_Information.visit_6_days_from_delivery'),
+      Current_Malaria_Status__c: jsonValue(x, 'form.treatment_and_tracking.malaria_test_results'),
+      Malaria_test__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.malaria_test')),
+      Fever__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.symptoms_check_fever')),
+      Cough__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.symptoms_check_cough')),
+      Diarrhoea__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.check_diarrhea')),
+      TB_patients_therapy_observed__c: jsonValue(x, 'form.treatment_and_tracking.observed_tb_therapy'),
+      Injuries_or_wounds__c: jsonValue(x, 'form.treatment_and_tracking.wounds_or_injuries'),
+      Currently_on_ART_s__c: jsonValue(x, 'form.HAWI.ART'),
+      Immediate_Breastfeeding__c: jsonValue(x, 'form.ANCs.pregnancy_danger_signs.Delivery_Information.Breastfeeding_Delivery'),
+      Exclusive_Breastfeeding__c: jsonValue(x, 'form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding'),
+      Counselled_on_Exclusive_Breastfeeding__c: jsonValue(x, 'form.TT5.Child_Information.Exclusive_Breastfeeding.counseling'),
+      LMP__c: jsonValue(x, 'form.TT5.Mother_Information.when_was_your_lmp'),
+      Family_Planning__c: cleanChoice(jsonValue(x, 'form.TT5.Mother_Information.family_planning')),
+      Family_Planning_Method__c: jsonValue(x, 'form.TT5.Mother_Information.family_planning_method'),
+      // FP_Method_Distributed__c: joinMap(jsonValue(x, 'form.treatment_and_tracking.distribution.distributed_treatments'), fpMethodMap), 
+      FP_Method_Distributed__c: joinMap(jsonValue(x, 'form.TT5.Mother_InformationFP_commodity'), fpMethodMap),
+      Reasons_for_not_taking_FP_method__c: joinMap(jsonValue(x, 'form.TT5.Mother_Information.No_FPmethod_reason'), reasonMap),
+      Pregnant__c: yesNoToBoolean(jsonValue(x, 'form.TT5.Mother_Information.Pregnant')),
+      Counselled_on_FP_Methods__c: cleanChoice(jsonValue(x, 'form.TT5.Mother_Information.CounselledFP_methods')),
+      Client_counselled_on__c: transformChoiceGroups(x, counselMap),
+      Client_provided_with_FP__c: cleanChoice(jsonValue(x, 'form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv')),
+      Newborn_visited_48_hours_of_delivery__c: jsonValue(x, 'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'),
+      Mother_visit_counselling__c: handleMultiSelectOriginal(jsonValue(x, 'form.TT5.Child_Information.did_you_consel_the_mother_on1')),
+      mother_visited_48_hours_of_the_delivery__c: jsonValue(x, 'form.TT5.Child_Information.visit_mother_48'),
+      Newborn_visit_counselling__c: handleMultiSelectOriginal(jsonValue(x, 'form.TT5.Child_Information.did_you_consel_the_mother_on2')),
+      Know_HIV_status__c: jsonValue(x, 'form.HAWI.known_hiv_status'),
+      HIV_Status__c: jsonValue(x, 'form.HAWI.hiv_status'),
+      // Treatment_Distribution__c: handleMultiSelect(jsonValue(x, 'form.treatment_and_tracking.distribution.distributed_treatments')),
+      Treatment_Distribution__c: joinMap(jsonValue(x, 'form.treatment_and_tracking.distribution.distributed_treatments'), treatmentDistributionMap),
+      // Current_Weight__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition.current_weigh'), // Removed from SF?
+      Current_Height__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition.current_height'),
+      Current_MUAC__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition.MUAC'),
+      Current_Nutrition_Status__c: transformReason(jsonValue(x, 'form.TT5.Child_Information.Nutrition2.Nutrition_Status, nutritionMap')),
+      Default_on_TB_treatment__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.default_tb_treatment')),
+      Received_pregnancy_test__c: jsonValue(x, 'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'),
+      Pregnancy_test_result__c: jsonValue(x, 'form.TT5.Mother_Information.pregancy_test.pregnancy_test_result'),
+      Chronic_illness__c: transformMultiselect(jsonValue(x, 'form.question1.please_specify_which_chronic_illness_the_person_has')),
+      Childs_breath_per_minute__c: jsonValue(x, 'form.psbi.breaths_per_minuite'),
+      Child_chest_in_drawing__c: jsonValue(x, 'form.psbi.Child_chest_in_drawing_c'),
+      Caregiver_counseled_on_delayed_milestone__c: jsonValue(x, 'form.TT5.Child_Information.ecd_milestones.did_you_counsel_the_caregiver_on_delayed_milestones'),
+      Delayed_Milestone__c: jsonValue(x, 'form.TT5.Child_Information.ecd_milestones.does_the_child_has_a_delayed_milestone'),
+      Child_has_2_or_more_play_items__c: jsonValue(x, 'form.TT5.Child_Information.ecd_milestones.does_the_child_has_2_or_more_play_items_at_home'),
+      Child_has_3_more_picture_books__c: jsonValue(x, 'form.TT5.Child_Information.ecd_milestones.does_the_child_has_3_or_more_picture_books'),
+      Delayed_Milestones_Counselled_On__c: transformReason(jsonValue(x, 'form.TT5.Child_Information.ecd_milestones.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'), milestoneMap),
+      Delayed_Milestone_Type__c: transformReason(jsonValue(x, 'form.TT5.Child_Information.ecd_milestones.which_delayed_milestone'), milestoneTypeMap),
+      Caretaker_trained_in_muac__c: jsonValue(x, 'form.TT5.Child_Information.caretaker_muac.mother_trained_muac'),
+      Caretaker_screened_for_muac_this__c: jsonValue(x, 'form.TT5.Child_Information.caretaker_muac.mother_screened_child_muac'),
+      Caretaker_muac_findings__c: jsonValue(x, 'form.TT5.Child_Information.caretaker_muac.mother_screened_child_muac_result'),
+      Caretaker_action_after_muac_screening__c: jsonValue(x, 'form.TT5.Child_Information.caretaker_muac.mother_screened_muac_action'),
+      of_Caretaker_MUAC_screenings__c: jsonValue(x, 'form.TT5.Child_Information.caretaker_muac.mother_nb_screening'),
+      Pulse_Oximeter__c: jsonValue(x, 'form.psbi.pulse_oximeter_available'),
+      Heart_Rate_Pulse_Oximeter__c: jsonValue(x, 'form.psbi.heart_rate_pulse_oximeter'),
+      Oxygen_Concentration_Pulse_Oximeter__c: jsonValue(x, 'form.psbi.oxygen_concentration'),
+      Can_child_drink__c: jsonValue(x, 'form.psbi.can_child_drink'),
+      Antibiotic_provided_for_fast_breathing__c: jsonValue(x, 'form.psbi.antibiotic_fast_breathing'),
+      Antibiotic_provided_for_chest_indrawing__c: jsonValue(x, 'form.psbi.antibiotic_chest_indrawing'),
+      Supervisor_Visit__c: joinMap(jsonValue(x, 'form.supervisor_visit'), supervisorMap),
+      // Case_Closed_Date__c: getClosedDate(x) // Removed from SF?
     }
   }
   );
