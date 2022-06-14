@@ -726,7 +726,7 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
 
 upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
     state.data.properties.commcare_username !== 'test.2022' &&
-    state.data.properties.test_user  !== 'Yes' &&
+    state.data.properties.test_user  !== 'No' &&
     state.data.properties.mother_case_id !== undefined && state.data.properties.mother_case_id !== '', 
     'Person__c', 'CommCare_ID__c', 
     fields(
