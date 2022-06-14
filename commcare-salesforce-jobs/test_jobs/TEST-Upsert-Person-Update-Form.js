@@ -255,7 +255,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
           )
         ),*/
     field('Catchment__c', dataValue('catchmentNewId')),
-    field('Child_Status__c', state => {
+    field('Birth_Status__c', state => {
       var status = dataValue('form.case.update.child_status')(state);
       var rt = dataValue('form.RecordType')(state);
       if (status && rt === 'Unborn') {
