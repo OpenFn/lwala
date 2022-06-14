@@ -182,6 +182,10 @@ fn(state => {
       'CommCare_Code__c',
       dataValue('indices.parent.case_id')
     ),
+    relationship(
+      'Household_CHW__r',
+      'CommCare_ID__c', 
+      dataValue('properties.sfid')),
     field('commcare_location_id__c',dataValue('properties.commcare_location_id')),
     field('CommCare_Username__c',dataValue('properties.commcare_username')),
     field('Telephone__c', dataValue('properties.contact_phone_number')), //need to add a case
