@@ -52,7 +52,7 @@ upsertIf(
   fields(
     field('CommCare_Username__c', dataValue('form.meta.username')),//
     field('CommCare_Visit_ID__c', dataValue('id')),
-    field('Household_CHW__c', 'a030Q00000A0jeY'),
+    //field('Household_CHW__c', 'a030Q00000A0jeY'),
     // field('Catchment__c', dataValue('a000Q00000Egmtk')),
     field('Catchment__c', dataValue('catchmentNewId')),
     // field('Household__c','a010Q00000BL6lT'),
