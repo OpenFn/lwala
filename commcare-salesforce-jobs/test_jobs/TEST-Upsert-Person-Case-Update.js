@@ -188,7 +188,7 @@ fn(state => {
       dataValue('properties.sfid')),
     field('commcare_location_id__c',dataValue('properties.commcare_location_id')),
     field('CommCare_Username__c',dataValue('properties.commcare_username')),
-    field('Telephone__c', dataValue('properties.contact_phone_number')), //need to add a case
+    field('Telephone__c', dataValue('properties.contact_phone_number')), 
     field(
       'Consent_for_data_use__c',
       dataValue('properties.data_sharing_consent')
