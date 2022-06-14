@@ -610,6 +610,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       'Current_MUAC__c',
       dataValue('form.TT5.Child_Information.Nutrition.MUAC')
     ),
+    field('Food_groups_3_times_a_day__c',dataValue('form.TT5.Child_Information.Nutrition.food_groups')),
     field('Current_Nutrition_Status__c', state => {
       var status = dataValue(
         'form.TT5.Child_Information.Nutrition2.Nutrition_Status'
