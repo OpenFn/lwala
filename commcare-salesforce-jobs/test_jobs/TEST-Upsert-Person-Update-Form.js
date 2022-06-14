@@ -221,6 +221,10 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       'CommCare_ID__c',
       dataValue("form.case.@case_id")
     ),
+    relationship(
+      'Household_CHW__r', 
+      'CommCare_ID__c', 
+      dataValue('form.sfid')),
     field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
     field('Date__c',dataValue('form.Date')),
     field('Birth_Status__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status')),
