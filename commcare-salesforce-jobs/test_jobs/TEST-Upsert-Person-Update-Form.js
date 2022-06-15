@@ -572,7 +572,13 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       )(state);
       return state.handleMultiSelectOriginal(state, choice);
     }),
-    field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
+    // field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
+    field('Know_HIV_status__c', state => {
+      var choice = dataValue(
+        'form.HAWI.known_hiv_status'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     /*field('HIV_Status__c', state => {
       var status = dataValue('form.HAWI.known_hiv_status')(state);
       return status === 'yes'
