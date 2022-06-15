@@ -633,12 +633,18 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    field(
-      'Received_pregnancy_test__c',
-      dataValue(
+    // field(
+    //   'Received_pregnancy_test__c',
+    //   dataValue(
+    //     'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'
+    //   )
+    // ),
+    field('Received_pregnancy_test__c', state => {
+      var choice = dataValue(
         'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'
-      )
-    ),
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     field(
       'Pregnancy_test_result__c',
       dataValue('form.TT5.Mother_Information.pregancy_test.pregnancy_test_result')
