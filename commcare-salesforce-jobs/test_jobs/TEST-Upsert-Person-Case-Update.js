@@ -165,6 +165,22 @@ fn(state => ({
   },
 }));
 
+upsertIf(
+  state.data.properties.commcare_username !== 'openfn.test' &&
+    state.data.properties.commcare_username !== 'test.2022' &&
+    state.data.properties.test_user  !== 'No', 
+  'Household__c',
+  'CommCare_Code__c',
+  fields(
+    field('CommCare_Code__c', state => {
+      return (
+        dataValue('indices.parent.case_id')(state) ||
+        dataValue('properties.parent_id')(state)
+      );
+    })
+  )
+),
+
 // build sfRecord before upserting
 fn(state => {
   // This mapping was initially constructed with fields(field(), ...) syntax. We
