@@ -669,10 +669,16 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    field(
-      'Pregnancy_test_result__c',
-      dataValue('form.TT5.Mother_Information.pregancy_test.pregnancy_test_result')
-    ),
+    // field(
+    //   'Pregnancy_test_result__c',
+    //   dataValue('form.TT5.Mother_Information.pregancy_test.pregnancy_test_result')
+    // ),
+    field('Pregnancy_test_result__c', state => {
+      var choice = dataValue(
+        'form.TT5.Mother_Information.pregancy_test.pregnancy_test_result'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     field('Chronic_illness__c', state => {
       var choice = dataValue(
         'form.question1.please_specify_which_chronic_illness_the_person_has'
