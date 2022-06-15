@@ -259,16 +259,16 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
           )
         ),*/
     field('Catchment__c', dataValue('catchmentNewId')),
-    field('Birth_Status__c', state => {
-      var status = dataValue('form.case.update.child_status')(state);
-      var rt = dataValue('form.RecordType')(state);
-      if (status && rt === 'Unborn') {
-        status = 'Unborn';
-      } else if (status && rt === 'Born') {
-        status = 'Born';
-      }
-      return status;
-    }),
+    //field('Birth_Status__c', state => {
+    //  var status = dataValue('form.case.update.child_status')(state);
+    //  var rt = dataValue('form.RecordType')(state);
+    //  if (status && rt === 'Unborn') {
+    //    status = 'Unborn';
+    //  } else if (status && rt === 'Born') {
+    //    status = 'Born';
+    //  }
+    //  return status;
+    //}),
     //===================================================//
     relationship('RecordType', 'Name', state => {
           var rt = dataValue('form.RecordType')(state);
