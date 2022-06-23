@@ -278,7 +278,7 @@ fn(state => {
   const treatmentDistributionMap = {
     ors_205gltr_sachets: 'ORS (20.5h/ltr): Sachets',
     acts_6s: 'ACTs (6s)',
-    acts_12s: 'ACTs (12s',
+    acts_12s: 'ACTs (12s)',
     acts_18s: 'ACTs (18s)',
     acts_24s: 'ACTs (24s)',
     albendazole_abz_tabs: 'Albendazole (ABZ): Tabs',
