@@ -319,7 +319,7 @@ fn(state => {
           dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.DOB')
         ),
         field('Place_of_Delivery__c', state => {
-          var facility = dataValue('properties.Delivery_Type')(
+          var facility = dataValue('form.TT5.Child_Information.Delivery_Type')(
             state
           );
           return facility === 'Skilled'
