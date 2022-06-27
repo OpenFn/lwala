@@ -11,7 +11,7 @@ fn(state => {
 
   const limit = 500;
   const receivedOnEnd = '2019-12-31';
-  const  indexedOnStart = '2022-06-01'
+  const  indexedOnStart = '2022-06-20'
 
   const queries = formIds.map(
     id =>
