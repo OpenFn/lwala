@@ -444,6 +444,15 @@ alterState(state => {
             }
             return facility;
           }),
+          field('Place_of_Delivery__c', state => {
+            var facility = dataValue(
+              'TT5.Child_Information.Delivery_Information.Delivery_Type'
+            )(state);
+            if (facility !== undefined) {
+              return facility == 'Skilled' ? 'Facility' : 'Home';
+            }
+            return facility;
+          }),
           field('BCG__c', dataValue('TT5.Child_Information.Immunizations.BCG')),
           field(
             'OPV_0__c',
