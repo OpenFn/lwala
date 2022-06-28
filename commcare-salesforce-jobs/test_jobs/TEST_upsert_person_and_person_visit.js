@@ -1294,29 +1294,25 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     }),
     field('Default_on_TB_treatment__c', state => {
       var choice = dataValue(
-        'form.treatment_and_tracking.default_tb_treatment'
+       'properties.default_tb_treatment'
       )(state);
       return state.cleanChoice(state, choice);
     }),
     field('Received_pregnancy_test__c', state => {
       var choice = dataValue(
-        'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'
+        'properties.did_you_adminsiter_a_pregnancy_test'
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    // field(
-    //   'Pregnancy_test_result__c',
-    //   dataValue('form.TT5.Mother_Information.pregancy_test.pregnancy_test_result')
-    // ),
     field('Pregnancy_test_result__c', state => {
       var choice = dataValue(
-        'form.TT5.Mother_Information.pregancy_test.pregnancy_test_result'
+        'properties.pregnancy_test_result'
       )(state);
       return state.cleanChoice(state, choice);
     }),
     field('Chronic_illness__c', state => {
       var choice = dataValue(
-        'form.question1.please_specify_which_chronic_illness_the_person_has'
+        'properties.please_specify_which_chronic_illness_the_person_has'
       )(state);
       var choice2 = state.handleMultiSelect(state, choice);
       return choice2 ? choice2.replace(/_/g, ' ') : '';
@@ -1339,95 +1335,94 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
         ),*/
     field(
       'Childs_breath_per_minute__c',
-      dataValue('form.psbi.breaths_per_minuite')
+      dataValue('properties.breaths_per_minuite')
     ),
     field(
       'Child_chest_in_drawing__c',
-      dataValue('form.psbi.Child_chest_in_drawing_c')
+      dataValue('properties.Child_chest_in_drawing_c')
     ),
     field(
       'Caregiver_counseled_on_delayed_milestone__c',
       dataValue(
-        'form.TT5.Child_Information.ecd_milestones.did_you_counsel_the_caregiver_on_delayed_milestones'
+        'properties.did_you_counsel_the_caregiver_on_delayed_milestones'
       )
     ),
     field(
       'Delayed_Milestone__c',
       dataValue(
-        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_a_delayed_milestone'
+         'properties.does_the_child_has_a_delayed_milestone'
       )
     ),
     field(
       'Child_has_2_or_more_play_items__c',
       dataValue(
-        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_2_or_more_play_items_at_home'
+         'properties.does_the_child_has_2_or_more_play_items_at_home'
       )
     ),
     field(
       'Child_has_3_more_picture_books__c',
       dataValue(
-        'form.TT5.Child_Information.ecd_milestones.does_the_child_has_3_or_more_picture_books'
+        'properties.does_the_child_has_3_or_more_picture_books'
       )
     ),
     field('Delayed_Milestones_Counselled_On__c', state => {
       var ms = dataValue(
-        'form.TT5.Child_Information.ecd_milestones.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
+        'properties.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
       )(state);
       return ms ? state.milestoneMap[ms] : undefined;
     }),
     field('Delayed_Milestone_Type__c', state => {
-      var ms = dataValue('form.TT5.Child_Information.ecd_milestones.which_delayed_milestone')(
+      var ms = dataValue('properties.which_delayed_milestone')(
         state
       );
       return ms ? state.milestoneTypeMap[ms] : undefined;
     }),
     field(
       'Caretaker_trained_in_muac__c',
-      dataValue('form.TT5.Child_Information.caretaker_muac.mother_trained_muac')
+      dataValue('properties.mother_trained_muac')
     ),
     field(
       'Caretaker_screened_for_muac_this__c',
       dataValue(
-        'form.TT5.Child_Information.caretaker_muac.mother_screened_child_muac'
+       'properties.mother_screened_child_muac'
       )
     ),
     field(
       'Caretaker_muac_findings__c',
       dataValue(
-        'form.TT5.Child_Information.caretaker_muac.mother_screened_child_muac_result'
+        'properties.mother_screened_child_muac_result'
       )
     ),
     field(
       'Caretaker_action_after_muac_screening__c',
       dataValue(
-        'form.TT5.Child_Information.caretaker_muac.mother_screened_muac_action'
+        'properties.mother_screened_muac_action'
       )
     ),
     field(
       'of_Caretaker_MUAC_screenings__c',
-      dataValue('form.TT5.Child_Information.caretaker_muac.mother_nb_screening')
+      dataValue('properties.mother_nb_screening')
     ),
-    field('Pulse_Oximeter__c', dataValue('form.psbi.pulse_oximeter_available')),
+    field('Pulse_Oximeter__c', dataValue('properties.pulse_oximeter_available')),
     field(
       'Heart_Rate_Pulse_Oximeter__c',
-      dataValue('form.psbi.heart_rate_pulse_oximeter')
+      dataValue('properties.heart_rate_pulse_oximeter')
     ),
     field(
       'Oxygen_Concentration_Pulse_Oximeter__c',
-      dataValue('form.psbi.oxygen_concentration')
+      dataValue('properties.oxygen_concentration')
     ),
-    field('Can_child_drink__c', dataValue('form.psbi.can_child_drink')),
+    field('Can_child_drink__c', dataValue('properties.can_child_drink')),
     field(
       'Antibiotic_provided_for_fast_breathing__c',
-      dataValue('form.psbi.antibiotic_fast_breathing')
+      dataValue('properties.antibiotic_fast_breathing')
     ),
     field(
       'Antibiotic_provided_for_chest_indrawing__c',
-      dataValue('form.psbi.antibiotic_chest_indrawing')
+      dataValue('properties.antibiotic_chest_indrawing')
     ),
-    // field('Supervisor_Visit__c',dataValue('form.supervisor_visit')),
     field('Supervisor_Visit__c', state => {
-      var check = dataValue('form.supervisor_visit')(state);
+      var check = dataValue('properties.supervisor_visit')(state);
       var value =
         check && check !== ''
           ? check
@@ -1441,8 +1436,8 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     }),
     //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
-      var closed = dataValue('form.case.update.closed')(state);
-      var date = dataValue('server_modified_on')(state);
+      var closed = dataValue('date_closed')(state);
+      var date = dataValue('date_modified')(state);
       return closed && closed == true ? date : undefined;
     })
   )
