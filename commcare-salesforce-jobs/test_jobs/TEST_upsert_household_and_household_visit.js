@@ -215,7 +215,7 @@ upsertIf(
   'Visit__c',
   'CommCare_Visit_ID__c',
   fields(
-    field('CommCare_Username__c', dataValue('form.meta.username')),//
+    field('CommCare_Username__c', dataValue('properties.commcare_username')),//
     field('CommCare_Visit_ID__c', dataValue('id')),
     // field('Household_CHW__c', 'a030Q00000A0jeY'),
     // field('Catchment__c', dataValue('a000Q00000Egmtk')),
@@ -225,15 +225,15 @@ upsertIf(
     relationship(
           'Household__r',
           'CommCare_Code__c',
-          dataValue('form.case.@case_id')),
-    field('Date__c',dataValue('form.Date')),
+          dataValue('case_id')),
+    field('Date__c',dataValue('properties.Date')),
     //field('MOH_household_code__c', state => {
     //  var moh = dataValue('form.Household_Information.moh_code')(state);
     //  var mohLinked = dataValue('form.MOH_household_code_linked')(state);
     // return moh ? moh : mohLinked && mohLinked !== '' ? mohLinked : undefined;
    // }),
     field('Active_Household__c', state => {
-      var status = dataValue('form.Household_Status')(state);
+      var status = dataValue('properties.Household_Status')(state);
       return status && status === 'No'
         ? false
         : status === 'Yes'
@@ -249,30 +249,18 @@ upsertIf(
     //  'Household_CHW__r', 
     //  'CommCare_ID__c', 
     //  dataValue('form.sfid')),TO UPDATE IN PRODUCTION
-    field(
-      'Completed_COVID_19_Phone_Screening__c',
-      dataValue(
-        'form.did_you_complete_the_covid-19_phone_screening_for_this_household'
-      )
-    ),
-    field('Household_Visit_Type__c', state => {
-      var visit = dataValue(
-        'form.is_this_a_physical_home_visit_or_a_phone_call_visit'
-      )(state);
-      return visit ? visit.toString().replace(/_/g, ' ') : null;
-    }),
    // field('Household_village__c', dataValue('form.village')),//
     //New Nutrition Field (MOTG)
     field(
       'Active_in_Nutrition_Program__c',
       dataValue(
-        'form.nutrition_enrollment.enrolled_in_a_lwala_nutrition_program'
+        'properties.enrolled_in_a_lwala_nutrition_program'
       )
     ),
     field(
       'lwala_nutrition_program_enrollment_date__c',
       dataValue(
-        'form.nutrition_enrollment.lwala_nutrition_program_enrollment_date'
+        'properties.lwala_nutrition_program_enrollment_date'
       )
     ),
     field(
