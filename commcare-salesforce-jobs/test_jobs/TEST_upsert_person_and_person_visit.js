@@ -1078,15 +1078,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
           : undefined;
       return value ? value.join(';') : undefined;
     }),
-    /*field(
-          'Unique_Patient_Code__c',
-          dataValue('form.HAWI.Unique_Patient_Code')
-        ),*/
     field('Active_in_Support_Group__c', dataValue('properties.Active_in_Support_Group')),
-    /*field(
-          'Preferred_Care_Facility__c',
-          dataValue('form.HAWI.Preferred_Care_F.Preferred_Care_Facility')
-        ),*/
     field('properties.default', state => {
       var hawi = dataValue('form.HAWI.default')(state);
       return hawi === 'Yes' ? true : false;
@@ -1123,10 +1115,6 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    /*field(
-          'Malaria_Facility__c',
-          dataValue('form.treatment_and_tracking.malaria_referral_facility')
-        ),*/
     field('Fever__c', state => {
       var choice = dataValue(
         'properties.symptoms_check_fever'
@@ -1151,69 +1139,40 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     ),
     field(
       'Injuries_or_wounds__c',
-      dataValue('form.treatment_and_tracking.wounds_or_injuries')
+      dataValue('properties.wounds_or_injuries')
     ),
-    field('Currently_on_ART_s__c', dataValue('form.HAWI.ART')),
-    /*field('ART_Regimen__c', dataValue('form.HAWI.ARVs')),*/
+    field('Currently_on_ART_s__c', dataValue('properties.ART')),
+    field('ART_Regimen__c', dataValue('properties.ARVs')),
     field(
       'Immediate_Breastfeeding__c',
       dataValue(
-        'form.ANCs.pregnancy_danger_signs.Delivery_Information.Breastfeeding_Delivery'
+        'properties.Breastfeeding_Delivery'
       )
     ),
-    /*field(
-          'Date_of_Birth__c',
-          dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.DOB')
-        ),
-        field('Place_of_Delivery__c', state => {
-          var facility = dataValue('properties.Delivery_Type')(
-            state
-          );
-          return facility === 'Skilled'
-            ? 'Facility'
-            : facility === 'Unskilled'
-            ? 'Home'
-            : undefined;
-        }),
-        field('Delivery_Facility__c', state => {
-          var facility = dataValue(
-            'form.TT5.Child_Information.Delivery_Facility'
-          )(state);
-          return facility ? facility.toString().replace(/_/g, ' ') : null;
-        }),
-        field(
-          'Delivery_Facility_Other__c',
-          dataValue('form.TT5.Child_Information.Delivery_Facility_Other')
-        ),*/
     field(
       'Exclusive_Breastfeeding__c',
       dataValue(
-        'form.TT5.Child_Information.Exclusive_Breastfeeding.Exclusive_Breastfeeding'
+        'properties.Exclusive_Breastfeeding'
       )
     ),
     field(
       'Counselled_on_Exclusive_Breastfeeding__c',
-      dataValue('form.TT5.Child_Information.Exclusive_Breastfeeding.counseling')
+      dataValue('properties.counseling')
     ),
-    field('LMP__c',dataValue('form.TT5.Mother_Information.when_was_your_lmp')),
-    // field(
-    //   'Family_Planning__c',
-    //   dataValue('form.TT5.Mother_Information.family_planning')
-    // ),
+    field('LMP__c',dataValue('properties.LMP')),
      field('Family_Planning__c', state => {
       var choice = dataValue(
-        'form.TT5.Mother_Information.family_planning'
+        'properties.family_planning'
       )(state);
       return state.cleanChoice(state, choice);
     }),
     field(
       'Family_Planning_Method__c',
-      dataValue('form.TT5.Mother_Information.family_planning_method')
+      dataValue('properties.family_planning_method')
     ),
-    //field('FP_Method_Distributed__c',dataValue('form.treatment_and_tracking.distribution.distributed_treatments')),
      field('FP_Method_Distributed__c', state => {
           //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
-          var status = dataValue('form.TT5.Mother_Information.FP_commodity')(state);
+          var status = dataValue('properties.FP_commodity')(state);
           var value =
             status && status !== ''
               ? status
@@ -1228,7 +1187,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     field('Reasons_for_not_taking_FP_method__c', state => {
       // var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
       // return reason ? state.reasonMap[reason] : undefined;
-      var status = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
+      var status = dataValue('properties.No_FPmethod_reason')(state);
           var value =
             status && status !== ''
               ? status
@@ -1241,24 +1200,20 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
           return value ? value.join(';') : undefined;
     }),
     field('Pregnant__c', state => {
-      var preg = dataValue('form.TT5.Mother_Information.Pregnant')(state);
+      var preg = dataValue('properties.Pregnant')(state);
       return preg === 'Yes' ? true : false;
     }),
-    // field(
-    //   'Counselled_on_FP_Methods__c',
-    //   dataValue('form.TT5.Mother_Information.CounselledFP_methods')
-    // ),
     field('Counselled_on_FP_Methods__c', state => {
       var choice = dataValue(
-        'form.TT5.Mother_Information.CounselledFP_methods'
+       'properties.CounselledFP_methods'
       )(state);
       return state.cleanChoice(state, choice);
     }),
     field('Client_counselled_on__c', state => {
       var choices =
-        dataValue('form.treatment_and_tracking.counseling.counsel_topic')(
+        dataValue('properties.counsel_topic')(
           state
-        ) || dataValue('form.counseling.counsel_topic')(state);
+        ) || dataValue('properties.counsel_topic')(state);
       var choiceGroups = choices ? choices.split(' ') : null;
       var choicesMulti = choiceGroups
         ? choiceGroups
@@ -1271,57 +1226,42 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     }),
     field('Client_provided_with_FP__c', state => {
       var choice = dataValue(
-        'form.TT5.Mother_Information.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
+        'properties.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
       )(state);
       return state.cleanChoice(state, choice);
     }),
     field(
       'Newborn_visited_48_hours_of_delivery__c',
       dataValue(
-        'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'
+        'properties.newborn_visited_48_hours_of_delivery'
       )
     ),
     field('Mother_visit_counselling__c', state => {
       var choice = dataValue(
-        'form.TT5.Child_Information.did_you_consel_the_mother_on1'
+        'properties.did_you_consel_the_mother_on1'
       )(state);
       return state.handleMultiSelectOriginal(state, choice);
     }),
     field(
       'mother_visited_48_hours_of_the_delivery__c',
-      dataValue('form.TT5.Child_Information.visit_mother_48')
+      dataValue('properties.visit_mother_48')
     ),
     field('Newborn_visit_counselling__c', state => {
       var choice = dataValue(
-        'form.TT5.Child_Information.did_you_consel_the_mother_on2'
+        'properties.did_you_consel_the_mother_on2'
       )(state);
       return state.handleMultiSelectOriginal(state, choice);
     }),
-    // field('Know_HIV_status__c', dataValue('form.HAWI.known_hiv_status')),
     field('Know_HIV_status__c', state => {
       var choice = dataValue(
-        'form.HAWI.known_hiv_status'
+        'properties.known_hiv_status'
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    /*field('HIV_Status__c', state => {
-      var status = dataValue('form.HAWI.known_hiv_status')(state);
-      return status === 'yes'
-        ? 'Known'
-        : status === 'no'
-        ? 'Unknown'
-        : undefined;
-    }),*/
-    field('HIV_Status__c', dataValue('form.HAWI.hiv_status')),
-    // field('Treatment_Distribution__c', state => {
-    //   var choice = dataValue(
-    //     'form.treatment_and_tracking.distribution.distributed_treatments'
-    //   )(state);
-    //   return state.handleMultiSelect(state, choice);
-    // }), 
+    field('HIV_Status__c', dataValue('properties.hiv_status')),
     field('Treatment_Distribution__c', state => {
           //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
-          var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
+          var status = dataValue('properties.distributed_treatments')(state);
           var value =
             status && status !== ''
               ? status
@@ -1335,41 +1275,29 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
         }),
     field(
       'Current_Weight__c',
-      dataValue('form.TT5.Child_Information.Nutrition.current_weight')
+      dataValue('properties.Current_Weight')
     ),
     field(
       'Current_Height__c',
-      dataValue('form.TT5.Child_Information.Nutrition.current_height')
+      dataValue('properties.current_height')
     ),
     field(
       'Current_MUAC__c',
-      dataValue('form.TT5.Child_Information.Nutrition.MUAC')
+      dataValue('properties.MUAC')
     ),
-    field('Food_groups_3_times_a_day__c',dataValue('form.TT5.Child_Information.Nutrition.food_groups')),
+    field('Food_groups_3_times_a_day__c',dataValue('properties.food_groups')),
     field('Current_Nutrition_Status__c', state => {
       var status = dataValue(
-        'form.TT5.Child_Information.Nutrition2.Nutrition_Status'
+        'properties.Nutrition_Status'
       )(state);
       return status ? state.nutritionMap[status] : undefined;
     }),
-    /*field(
-          'Child_missed_immunization_type__c',
-          dataValue(
-            'form.TT5.Child_Information.Immunizations.immunization_type'
-          )
-        ),*/
     field('Default_on_TB_treatment__c', state => {
       var choice = dataValue(
         'form.treatment_and_tracking.default_tb_treatment'
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    // field(
-    //   'Received_pregnancy_test__c',
-    //   dataValue(
-    //     'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'
-    //   )
-    // ),
     field('Received_pregnancy_test__c', state => {
       var choice = dataValue(
         'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'
