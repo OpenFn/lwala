@@ -995,48 +995,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
     field('Date__c',dataValue('form.Date')),
     field('Birth_Status__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status')),
-  //field('CommCare_ID_c', dataValue("form.case.@case_id")),
-    /*field(
-          'MCH_booklet__c',
-          dataValue('form.TT5.Mother_Information.mch_booklet')
-        ),
-        field('Telephone__c', dataValue('form.Status.updated_phone_number')),
-        field('CommCare_HH_Code__c', dataValue('form.HH_ID')),
-        field('Client_Status__c', dataValue('form.Status.Client_Status')),*/
-
-    /*field('Name', state => {
-          var name1 = dataValue('form.Person_Name')(state);
-          var unborn = dataValue(
-            'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Name'
-          )(state);
-          var name2 =
-            name1 === undefined || name1 === '' || name1 === null
-              ? unborn
-              : name1.replace(/\w\S*/ /*g, function (txt) {/*
-                  /*return (
-                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                  );
-                });
-          return name1 !== null ? name2 : 'Unborn Child';
-        }),/*
-        /*field(
-          'Gender__c',
-          dataValue(
-            'form.ANCs.pregnancy_danger_signs.Delivery_Information.Person_Sex'
-          )
-        ),*/
     field('Catchment__c', dataValue('catchmentNewId')),
-    //field('Birth_Status__c', state => {
-    //  var status = dataValue('form.case.update.child_status')(state);
-    //  var rt = dataValue('form.RecordType')(state);
-    //  if (status && rt === 'Unborn') {
-    //    status = 'Unborn';
-    //  } else if (status && rt === 'Born') {
-    //    status = 'Born';
-    //  }
-    //  return status;
-    //}),
-    //===================================================//
     relationship('RecordType', 'Name', state => {
           var rt = dataValue('form.RecordType')(state);
           if (rt === 'Unborn' || rt === 'Child') {
@@ -1052,16 +1011,15 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
             return 'Adult Female Visit';
           };
         }),
-    // field('Use_mosquito_net__c',dataValue('form.question1.sleep_under_net')),
     field('Use_mosquito_net__c', state => {
       var choice = dataValue(
-        'form.question1.sleep_under_net'
+        'properties.sleep_under_net'
       )(state);
       return state.cleanChoice(state, choice);
     }),
     field(
       'Individual_birth_plan_counselling__c',
-      dataValue('form.ANCs.pregnancy_danger_signs.individual_birth_plan')
+      dataValue('properties.individual_birth_plan')
     ),
     field('Reason_for_not_taking_a_pregnancy_test__c', state => {
       var reason = dataValue('form.TT5.Mother_Information.pregancy_test.No_Preg_Test')(state);
@@ -1069,13 +1027,13 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     }),
     field('Pregnancy_danger_signs__c', state => {
       var signs = dataValue(
-        'form.ANCs.pregnancy_danger_signs.pregnancy_danger_signs'
+        'properties.No_Preg_Test'
       )(state);
       return signs ? state.pregDangerMap[signs] : undefined;
     }),
     field('Other_Danger_Signs__c', state => {
       var signs = dataValue(
-        'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs'
+        'properties.Other_Danger_Signs'
       )(state);
       return signs
         ? signs
@@ -1087,10 +1045,9 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
             .replace(/_/g, ' ')
         : signs;
     }),
-    // field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),
      field('Current_Malaria_Status__c', state => {
       var choice = dataValue(
-        'form.Malaria_Status'
+        'properties.malaria_test_results'
       )(state);
       return state.cleanChoice(state, choice);
     }),
@@ -1104,12 +1061,12 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     // field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.home_treatment')),
     field('Malaria_Home_Treatment__c', state => {
       var choice = dataValue(
-        'form.treatment_and_tracking.home_treatment'
+        'properties.malaria_test_date'
       )(state);
       return state.cleanChoice(state, choice);
     }),
     field('Persons_symptoms__c', state => {
-      var check = dataValue('form.treatment_and_tracking.symptoms_check_other')(state);
+      var check = dataValue('properties.symptoms_check_other')(state);
       var value =
         check && check !== ''
           ? check
@@ -1125,45 +1082,44 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
           'Unique_Patient_Code__c',
           dataValue('form.HAWI.Unique_Patient_Code')
         ),*/
-    field('Active_in_Support_Group__c', dataValue('form.HAWI.Support_Group')),
+    field('Active_in_Support_Group__c', dataValue('properties.Active_in_Support_Group')),
     /*field(
           'Preferred_Care_Facility__c',
           dataValue('form.HAWI.Preferred_Care_F.Preferred_Care_Facility')
         ),*/
-    field('HAWI_Defaulter__c', state => {
+    field('properties.default', state => {
       var hawi = dataValue('form.HAWI.default')(state);
       return hawi === 'Yes' ? true : false;
     }),
     field(
       'Date_of_Default__c',
-      dataValue('form.HAWI.date_of_default')
+      dataValue('properties.date_of_default')
     ),
     field(
       'Persons_temperature__c',
-      dataValue('form.treatment_and_tracking.temperature')
+      dataValue('properties.temperature')
     ),
     field(
       'Days_since_illness_start__c',
-      dataValue('form.duration_of_sickness')
+      dataValue('properties.duration_of_sickness')
     ),
     field(
       'Newborn_visited_48_hours_of_delivery__c',
       dataValue(
-        'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'
+        'properties.newborn_visited_48_hours_of_delivery'
       )
     ),
     field(
       'Newborn_visited_by_a_CHW_within_6_days__c',
-      dataValue('form.TT5.Child_Information.visit_6_days_from_delivery')
+      dataValue('properties.visit_6_days_from_delivery')
     ),
     field(
       'Current_Malaria_Status__c',
-      dataValue('form.treatment_and_tracking.malaria_test_results')
+      dataValue('properties.malaria_test_results')
     ),
-    // field('Malaria_test__c',dataValue('form.treatment_and_tracking.malaria_test')),
     field('Malaria_test__c', state => {
       var choice = dataValue(
-        'form.treatment_and_tracking.malaria_test'
+        'properties.malaria_test'
       )(state);
       return state.cleanChoice(state, choice);
     }),
@@ -1171,43 +1127,27 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
           'Malaria_Facility__c',
           dataValue('form.treatment_and_tracking.malaria_referral_facility')
         ),*/
-    // field(
-    //       'Fever__c',
-    //       dataValue('form.treatment_and_tracking.symptoms_check_fever')
-    //     ),
     field('Fever__c', state => {
       var choice = dataValue(
-        'form.treatment_and_tracking.symptoms_check_fever'
+        'properties.symptoms_check_fever'
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    // field(
-    //   'Cough__c',
-    //   dataValue('form.treatment_and_tracking.symptoms_check_cough')
-    // ),
     field('Cough__c', state => {
       var choice = dataValue(
-        'form.treatment_and_tracking.symptoms_check_cough'
+        'properties.symptoms_check_cough'
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    // field(
-    //   'Diarrhoea__c',
-    //   dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')
-    // ),
     field('Diarrhoea__c', state => {
       var choice = dataValue(
-        'form.treatment_and_tracking.check_diarrhea'
+       'properties.symptoms_check_diarrhea'
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    /*field(
-          'Diarrhoea_less_than_14_days__c',
-          dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')
-        ),*/
     field(
       'TB_patients_therapy_observed__c',
-      dataValue('form.treatment_and_tracking.observed_tb_therapy')
+      dataValue('properties.observed_tb_therapy')
     ),
     field(
       'Injuries_or_wounds__c',
