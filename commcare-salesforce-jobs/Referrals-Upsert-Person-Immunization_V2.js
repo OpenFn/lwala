@@ -91,7 +91,7 @@ upsertIf(
         'Immediate_Breastfeeding__c',
         dataValue('properties.Breastfeeding_Delivery')
       ),
-      field('Place_of_Delivery__c', dataValue('properties.Skilled_Unskilled')),
+      field('Place_of_Delivery__c', dataValue('properties.Delivery_Type')),
       field('Child_Status__c', dataValue('properties.Child_Status')),
       field('Gender__c', dataValue('properties.Gender')),
       field('HIV_Status__c', dataValue('properties.hiv_status')), //MOTG
