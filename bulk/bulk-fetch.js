@@ -9,9 +9,9 @@ fn(state => {
     '318B2FE0-F17F-4FC2-8EBE-1FF170F25B3F',
   ];
 
-  const limit = 500;
+  const limit = 1000;
   const receivedOnEnd = '2019-12-31';
-  const  indexedOnStart = '2022-06-20'
+  const indexedOnStart = '2022-06-01'
 
   const queries = formIds.map(
     id =>
@@ -54,7 +54,7 @@ each(
 // log the total number of payloads returned
 fn(state => {
   console.log('Count of payloads', state.payloads.length);
-  return state;
+  return { ...state, payloads: [], references: [], data: {} };
 });
 
 // send all of those payloads to OpenFn in batches
