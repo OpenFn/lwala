@@ -975,13 +975,13 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     /*relationship(
       'Household_CHW__r', 
       'CommCare_ID__c', 
-      dataValue('form.sfid')),*/
+      dataValue('properties.sfid')),*/
     field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
     field('Date__c',dataValue('properties.Date')),
     field('Birth_Status__c',dataValue('properties.child_status')),
     field('Catchment__c', dataValue('catchmentNewId')),
-    relationship('RecordType', 'Name', state => {
-          var rt = dataValue('form.RecordType')(state);
+    relationship('Record_Type', 'Name', state => {
+          var rt = dataValue('properties.Record_Type')(state);
           if (rt === 'Unborn' || rt === 'Child') {
             return 'Child Visit';
           };
@@ -1035,13 +1035,13 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       )(state);
       return state.cleanChoice(state, choice);
     }),
-    field('Malaria_Home_Test__c', dataValue('form.treatment_and_tracking.malaria_test_date')),
-    field('Current_Malaria_Status__c', state => {
+    field('Malaria_Home_Test__c', dataValue('properties.malaria_test_date')),
+    /*field('Current_Malaria_Status__c', state => {
       var choice = dataValue(
-        'form.Malaria_Status'
+        'properties.Malaria_Status'
       )(state);
       return state.cleanChoice(state, choice);
-    }),
+    }),*/
     // field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.home_treatment')),
     field('Malaria_Home_Treatment__c', state => {
       var choice = dataValue(
@@ -1063,8 +1063,8 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       return value ? value.join(';') : undefined;
     }),
     field('Active_in_Support_Group__c', dataValue('properties.Active_in_Support_Group')),
-    field('properties.default', state => {
-      var hawi = dataValue('form.HAWI.default')(state);
+    field('HAWI_Defaulter__c', state => {
+      var hawi = dataValue('properties.default')(state);
       return hawi === 'Yes' ? true : false;
     }),
     field(
