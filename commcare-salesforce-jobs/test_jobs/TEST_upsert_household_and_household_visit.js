@@ -265,24 +265,24 @@ upsertIf(
     ),
     field(
       'Trained_in_gardening__c',
-      dataValue('form.nutrition_enrollment.household_trained_on_gardening')
+      dataValue('properties.household_trained_on_gardening')
     ),
     field(
       'household_trained_on_gardening_date__c',
       dataValue(
-        'form.nutrition_enrollment.when_was_the_household_trained_on_gardening'
+        'properties.when_was_the_household_trained_on_gardening'
       )
     ),
     field(
       'Seed_Input_Support__c',
       dataValue(
-        'form.nutrition_enrollment.household_provided_with_seed_input_support'
+        'properties.household_provided_with_seed_input_support'
       )
     ),
     field(
       'household_provided_with_seed_input_suppo__c',
       dataValue(
-        'form.nutrition_enrollment.when_was_the_household_provided_with_seed_input_support'
+        'properties.when_was_the_household_provided_with_seed_input_support'
       )
     ),
     field(
@@ -291,73 +291,63 @@ upsertIf(
     ),
     field(
       'Kitchen_Garden__c',
-      dataValue('form.nutrition_enrollment.household_has_kitchen_garden')
+      dataValue('properties.household_trained_on_MIYCN')
     ),
 
     field(
       'Access_to_safe_water__c',
-      dataValue('form.Household_Information.Safe_Water')
+      dataValue('properties.Safe_Water')
     ),
     field(
       'Treats_Drinking_Water__c',
-      dataValue('form.Household_Information.Treats_Drinking_Water')
+      dataValue('properties.Treats_Drinking_Water')
     ),
     field(
       'Tippy_Tap__c',
-      dataValue('form.Household_Information.Active_Handwashing_Station')
+      dataValue('properties.Active_Handwashing_Station')
     ),
     field(
       'Pit_Latrine__c',
-      dataValue('form.Household_Information.Functional_Latrine')
+      dataValue('properties.Functional_Latrine')
     ),
     field(
       'Rubbish_Pit__c',
-      dataValue('form.Household_Information.Rubbish_Pit')
+      dataValue('properties.Rubbish_Pit')
     ),
     field(
       'Drying_Rack__c',
-      dataValue('form.Household_Information.Drying_Rack')
+      dataValue('properties.Drying_Rack')
     ),
     field(
       'Kitchen_Garden__c',
-      dataValue('form.Household_Information.Kitchen_Garden')
+      dataValue('properties.Kitchen_Garden')
     ),
     field(
       'Cookstove__c',
-      dataValue('form.Household_Information.Improved_Cooking_Method')
+      dataValue('properties.Improved_Cooking_Method')
     ),
-    field('Clothe__c', dataValue('form.Household_Information.Clothesline')),
+    field('Clothe__c', dataValue('properties.Clothesline')),
     field(
       'WASH_Trained__c',
-      dataValue('form.Household_Information.WASH_Trained')
+      dataValue('properties.WASH_Trained')
     ),
     field(
       'Has_muac_tape__c',
-      dataValue('form.Household_Information.family_muac_tape_available')
+      dataValue('properties.family_muac_tape_available')
     ),
-    field('Uses_ITNs__c', dataValue('form.Household_Information.ITNs')),
-    field('Deaths_in_the_last_6_months__c', state => {
-      var deaths = dataValue('form.household_deaths.deaths_in_past_6_months')(
-        state
-      );
-      return deaths && deaths > 0 ? 'Yes' : 'No';
-    }),
-    //field(
-    //  'Total_household_people__c',
-    //  dataValue('form.Total_Number_of_Members')
-   // ),
+    field('Uses_ITNs__c', dataValue('properties.ITNs')),
     field('Supervisor_Visit__c', state =>
-      state.data.form.supervisor_visit
+      state.data.properties.supervisor_visit
         ? state.supervisorMap[state.data.form.supervisor_visit]
         : null
     ),
-    field('Health_insurance__c', dataValue('form.health_insurace_cover')),
+    field('Health_insurance__c', dataValue('properties.health_insurace_cover')),
     field(
       'Health_insurance_active_status__c',
-      dataValue('form.healthinsurance_active')
+      dataValue('properties.healthinsurance_active')
     ),
     field('Health_insurance_type__c', state => {
-      var status = dataValue('form.health_insurance')(state);
+      var status = dataValue('properties.health_insurance')(state);
       var value =
         status && status !== ''
           ? status
@@ -371,11 +361,11 @@ upsertIf(
     }),
     field(
       'Other_Health_Insurance__c',
-      dataValue('form.if_other_please_specify')
+      dataValue('properties.if_other_please_specify')
     ),
     //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
     field('Case_Closed_Date__c', state => {
-      var closed = dataValue('form.case.update.closed')(state);
+      var closed = dataValue('date_closed')(state);
       var date = dataValue('server_modified_on')(state);
       return closed && closed == true ? date : undefined;
     })
