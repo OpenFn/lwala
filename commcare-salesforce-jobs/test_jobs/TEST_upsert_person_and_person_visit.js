@@ -187,10 +187,6 @@ fn(state => {
   // preserve it here and use "expandReferences" but could also refactor this to
   // use standard object syntax, as Salesforce looks for { k: v, ... }.
   const originalMapping = fields(
-    /*  field(
-          'deworming_medication__c',
-          dataValue('form.TT5.Child_Information.Deworming')
-        ),depracated field*/
     field('Source__c', 1),
     field('CommCare_ID__c', dataValue('case_id')),
     relationship(
@@ -367,12 +363,7 @@ fn(state => {
       'Last_Malaria_Home_Test__c',
       dataValue('properties.malaria_test_date')
     ),
-    /*field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
-        field('Malaria_Facility__c',dataValue('form.treatment_and_tracking.malaria_referral_facility')),
-        field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),//check*/
     field('Cough_over_14days__c', dataValue('properties.symptoms_check_cough')),
-    /*field('Diarrhoea_over_14days__c',dataValue('form.treatment_and_tracking.symptoms_check_diarrhea')),//check
-        field('Diarrhoea_less_than_14_days__c',dataValue('form.treatment_and_tracking.mild_symptoms_check_diarrhea')),//check*/
     field(
       'TB_patients_therapy_observed__c',
       dataValue('properties.observed_tb_therapy')
@@ -402,9 +393,7 @@ fn(state => {
       return state.cleanChoice(state, choice);
     }),
     /*field('Child_zinc__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc')),//check
-        field('Child_ORS__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),//check
-        field('Childs_breath_per_minute__c',dataValue('form.psbi.breaths_per_minuite')),//check
-        field('Child_chest_in_drawing__c',dataValue('form.psbi.Child_chest_in_drawing_c')),//check*/
+        field('Child_ORS__c',dataValue('form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS')),//check*/
     field('Default_on_TB_treatment__c', state => {
       var choice = dataValue('properties.default_tb_treatment')(state); //check
       return state.cleanChoice(state, choice);
@@ -635,7 +624,7 @@ fn(state => {
 
     field(
       'Child_missed_immunization_type__c',
-      dataValue('form.TT5.Child_Information.Immunizations.immunization_type')
+      dataValue('properties.immunization_type')
     ), //check
     field('BCG__c', dataValue('properties.BCG')),
     field('OPV_0__c', dataValue('properties.OPV_0')),
@@ -767,7 +756,7 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
   //UPSERT PERSON VISIT
   query(
   `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
-    'form.owner_id'
+    'properties.owner_id'
   )(state)}'`
 );
 
@@ -971,30 +960,25 @@ fn(state => ({
 
 upsertIf(state.data.metadata.username !== 'openfn.test' &&
     state.data.metadata.username !== 'test.2022' &&
-    state.data.form.test_user  !== 'No' ,
+    state.data.properties.test_user  !== 'No' ,
   'Person_visit__c',
   'CommCare_ID__c',
   fields(
-    /*field(
-          'deworming_medication__c',
-          dataValue('form.TT5.Child_Information.Deworming')
-        ),
-        field('Source__c', 1),*/
     //field('CommCare_ID__c', dataValue('form.case.@case_id')),
     field('CommCare_ID__c', dataValue('id')),
 
     relationship(
       'Person__r',
       'CommCare_ID__c',
-      dataValue("form.case.@case_id")
+      dataValue('indices.parent.case_id')
     ),
     /*relationship(
       'Household_CHW__r', 
       'CommCare_ID__c', 
       dataValue('form.sfid')),*/
     field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
-    field('Date__c',dataValue('form.Date')),
-    field('Birth_Status__c',dataValue('form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status')),
+    field('Date__c',dataValue('properties.Date')),
+    field('Birth_Status__c',dataValue('properties.child_status')),
     field('Catchment__c', dataValue('catchmentNewId')),
     relationship('RecordType', 'Name', state => {
           var rt = dataValue('form.RecordType')(state);
@@ -1022,7 +1006,7 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       dataValue('properties.individual_birth_plan')
     ),
     field('Reason_for_not_taking_a_pregnancy_test__c', state => {
-      var reason = dataValue('form.TT5.Mother_Information.pregancy_test.No_Preg_Test')(state);
+      var reason = dataValue('properties.No_Preg_Test')(state);
       return reason ? reason.toString().replace(/_/g, ' ') : undefined;
     }),
     field('Pregnancy_danger_signs__c', state => {
