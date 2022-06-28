@@ -165,7 +165,7 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
 //Household Visit
 query(
   `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
-    'form.owner_id'
+    'properties.owner_id'
   )(state)}'`
 );
 
@@ -182,13 +182,13 @@ fn(state => ({
   },
 }));
 
-fn(state => {
+/*fn(state => {
   const deaths = state.data.form.household_deaths
     ? state.data.form.household_deaths.deaths
     : '';
   if (deaths !== '' && !Array.isArray(deaths)) {
     state.data.form.household_deaths.deaths = [deaths];
-  }
+  }*/
 
   const supervisorMap = {
     community_health_nurse: 'Community Health Nurse',
@@ -211,7 +211,7 @@ fn(state => {
 upsertIf(
   state.data.metadata.username !== 'openfn.test' &&
     state.data.metadata.username !== 'test.2022' &&
-    state.data.form.test_user  !== 'No' ,
+    state.data.properties.test_user  !== 'No' ,
   'Visit__c',
   'CommCare_Visit_ID__c',
   fields(
@@ -287,11 +287,11 @@ upsertIf(
     ),
     field(
       'MIYCN_Trained__c',
-      dataValue('form.nutrition_enrollment.household_trained_on_MIYCN')
+      dataValue('properties.household_trained_on_MIYCN')
     ),
     field(
       'Kitchen_Garden__c',
-      dataValue('properties.household_trained_on_MIYCN')
+      dataValue('properties.Kitchen_Garden')
     ),
 
     field(
@@ -338,7 +338,7 @@ upsertIf(
     field('Uses_ITNs__c', dataValue('properties.ITNs')),
     field('Supervisor_Visit__c', state =>
       state.data.properties.supervisor_visit
-        ? state.supervisorMap[state.data.form.supervisor_visit]
+        ? state.supervisorMap[state.data.properties.supervisor_visit]
         : null
     ),
     field('Health_insurance__c', dataValue('properties.health_insurace_cover')),
