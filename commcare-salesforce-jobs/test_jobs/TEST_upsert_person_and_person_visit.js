@@ -166,7 +166,7 @@ fn(state => ({
 }));
 
 upsertIf(
-  state.data.properties.commcare_username !== 'openfn.test' &&
+  // state.data.properties.commcare_username !== 'openfn.test' &&
     state.data.properties.commcare_username !== 'test.2022' &&
     state.data.properties.test_user  !== 'No', 
   'Household__c',
@@ -711,12 +711,14 @@ fn(state => {
 });
 
 // upsert data to SF
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
+upsertIf(
+  // state.data.properties.commcare_username !== 'openfn.test' &&
     state.data.properties.commcare_username !== 'test.2022' &&
     state.data.properties.test_user  !== 'No' ,
   'Person__c', 'CommCare_ID__c', state => state.sfRecord);
 
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
+upsertIf(
+  // state.data.properties.commcare_username !== 'openfn.test' &&
     state.data.properties.commcare_username !== 'test.2022' &&
     state.data.properties.test_user  !== 'No' &&
     state.data.properties.caretaker_case_id !== undefined && state.data.properties.caretaker_case_id !== '', 
@@ -729,7 +731,8 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
     )
 );
 
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
+upsertIf(
+  // state.data.properties.commcare_username !== 'openfn.test' &&
     state.data.properties.commcare_username !== 'test.2022' &&
     state.data.properties.test_user  !== 'No' &&
     state.data.properties.mother_case_id !== undefined && state.data.properties.mother_case_id !== '', 
@@ -742,7 +745,8 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
     )
 );
 
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
+upsertIf(
+  // state.data.properties.commcare_username !== 'openfn.test' &&
     state.data.properties.commcare_username !== 'test.2022' &&
     state.data.properties.test_user  !== 'No' &&
   state.data.properties.head_of_household_case_id  !== undefined  && state.data.properties.head_of_household_case_id !== '', 
@@ -958,7 +962,8 @@ fn(state => ({
   };
 });
 
-upsertIf(state.data.properties.username !== 'openfn.test' &&
+upsertIf(
+  // state.data.properties.username !== 'openfn.test' &&
     state.data.properties.username !== 'test.2022' &&
     state.data.properties.test_user  !== 'No' ,
   'Person_visit__c',
