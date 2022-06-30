@@ -25,7 +25,7 @@ fn(state => ({
   },
 }));
 
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
+upsertIf(
     state.data.properties.commcare_username !== 'test.2021' &&
     state.data.properties.test_user  !== 'Yes' ,
   'Household__c',
