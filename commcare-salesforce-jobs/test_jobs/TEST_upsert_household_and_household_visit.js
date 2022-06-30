@@ -232,7 +232,7 @@ upsertIf(
           'CommCare_Code__c',
           dataValue('case_id')),
     field('Date__c',dataValue('properties.Date')),
-    field('Form_Submitted__c', dataValue('last_form_submitted_for_this_record')),
+    field('Form_Submitted__c', dataValue('properties.last_form_submitted_for_this_record')),
 
     //field('MOH_household_code__c', state => {
     //  var moh = dataValue('form.Household_Information.moh_code')(state);
