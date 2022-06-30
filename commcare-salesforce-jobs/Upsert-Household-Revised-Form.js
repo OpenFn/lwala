@@ -80,10 +80,14 @@ upsertIf(
     //  return reason ? reason.toString().replace(/_/g, ' ') : null;
     //}),
     //field('Source__c', 1),//
-    //relationship(
-    //  'Household_CHW__r', 
-    //  'CommCare_ID__c', 
-    //  dataValue('form.sfid')),TO UPDATE IN PRODUCTION
+    field('Household_CHW__c', state => {
+      var chw = dataValue('properties.CHW_ID')(state);
+      return chw === 'a030800001zQrk'
+        ? 'a030800001zQrk5'
+        : chw
+        ? chw
+        : undefined;
+    }), //TO UPDATE IN PRODUCTION
     field(
       'Completed_COVID_19_Phone_Screening__c',
       dataValue(
