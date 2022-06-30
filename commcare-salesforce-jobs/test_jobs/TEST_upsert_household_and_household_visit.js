@@ -182,8 +182,8 @@ fn(state => ({
   },
 }));
 
-/*fn(state => {
-  const deaths = state.data.form.household_deaths
+fn(state => {
+/*  const deaths = state.data.form.household_deaths
     ? state.data.form.household_deaths.deaths
     : '';
   if (deaths !== '' && !Array.isArray(deaths)) {
