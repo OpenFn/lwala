@@ -206,7 +206,6 @@ fn(state => {
   };
 
   return { ...state, supervisorMap, insuranceMap };
-  console.log(dataValue('case_id') + dataValue('properties.last_form_submitted_date_and_time'))
 });
 
 upsertIf(
@@ -221,7 +220,7 @@ upsertIf(
     field('CommCare_Visit_ID__c', state => {
       var case_id = dataValue('case_id')(state);
       var submitted = dataValue('properties.last_form_submitted_date_and_time')(state);
-      return case_id + submitted;
+      return case_id + '_' +  submitted;
     }),
     // field('Household_CHW__c', 'a030Q00000A0jeY'),
     // field('Catchment__c', dataValue('a000Q00000Egmtk')),
