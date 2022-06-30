@@ -1065,12 +1065,7 @@ upsertIf(
       return state.cleanChoice(state, choice);
     }),*/
     // field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.home_treatment')),
-    field('Malaria_Home_Treatment__c', state => {
-      var choice = dataValue(
-        'properties.malaria_test_date'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
+    field('Malaria_Home_Treatment__c', dataValue('properties.malaria_test_date'),
     field('Persons_symptoms__c', state => {
       var check = dataValue('properties.symptoms_check_other')(state);
       var value =
