@@ -983,7 +983,7 @@ upsertIf(state.data.properties.username !== 'openfn.test' &&
       dataValue('properties.sfid')),*/
     field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
     field('Date__c',dataValue('properties.Date')),
-    field('Form_Submitted__c', dataValue('last_form_submitted_for_this_record')),
+    field('Form_Submitted__c', dataValue('properties.last_form_submitted_for_this_record')),
     field('Birth_Status__c',dataValue('properties.child_status')),
     field('Catchment__c', dataValue('catchmentNewId')),
     relationship('RecordType', 'Name', state => {
