@@ -363,12 +363,10 @@ fn(state => {
       'Last_Malaria_Home_Test__c',
       dataValue('properties.malaria_test_date')
     ),
-    // field('Last_Malaria_Home_Treatment__c', state => {
-    //   var choice = dataValue(
-    //     'properties.malaria_test_date'
-    //   )(state);
-    //   return state.cleanChoice(state, choice);
-    // }),
+     field(
+      'Last_Malaria_Home_Treatment__c',
+      dataValue('properties.malaria_test_date')
+    ),
     field('Cough_over_14days__c', dataValue('properties.symptoms_check_cough')),
     field(
       'TB_patients_therapy_observed__c',
