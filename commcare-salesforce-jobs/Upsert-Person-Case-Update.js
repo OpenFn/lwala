@@ -721,14 +721,14 @@ fn(state => {
 });
 
 // upsert data to SF
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
-    state.data.properties.commcare_username !== 'test.2022' &&
-    state.data.properties.test_user  !== 'No' ,
+upsertIf(
+    state.data.properties.commcare_username !== 'test.2021' &&
+    state.data.properties.test_user  !== 'Yes' ,
   'Person__c', 'CommCare_ID__c', state => state.sfRecord);
 
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
-    state.data.properties.commcare_username !== 'test.2022' &&
-    state.data.properties.test_user  !== 'No' &&
+upsertIf(
+    state.data.properties.commcare_username !== 'test.2021' &&
+    state.data.properties.test_user  !== 'Yes' &&
     state.data.properties.caretaker_case_id !== undefined && state.data.properties.caretaker_case_id !== '', 
     'Person__c', 'CommCare_ID__c', 
     fields(
@@ -739,9 +739,9 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
     )
 );
 
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
-    state.data.properties.commcare_username !== 'test.2022' &&
-    state.data.properties.test_user  !== 'No' &&
+upsertIf(
+    state.data.properties.commcare_username !== 'test.2021' &&
+    state.data.properties.test_user  !== 'Yes' &&
     state.data.properties.mother_case_id !== undefined && state.data.properties.mother_case_id !== '', 
     'Person__c', 'CommCare_ID__c', 
     fields(
@@ -752,9 +752,9 @@ upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
     )
 );
 
-upsertIf(state.data.properties.commcare_username !== 'openfn.test' &&
-    state.data.properties.commcare_username !== 'test.2022' &&
-    state.data.properties.test_user  !== 'No' &&
+upsertIf(
+    state.data.properties.commcare_username !== 'test.2021' &&
+    state.data.properties.test_user  !== 'Yes' &&
   state.data.properties.head_of_household_case_id  !== undefined  && state.data.properties.head_of_household_case_id !== '', 
   'Household__c', 'CommCare_Code__c',
   fields(
