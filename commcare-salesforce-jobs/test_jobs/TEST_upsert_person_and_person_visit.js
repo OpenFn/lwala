@@ -992,7 +992,12 @@ upsertIf(
       'Household_CHW__r', 
       'CommCare_ID__c', 
       dataValue('properties.sfid')),*/
-    field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
+    // field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
+     field('CommCare_Visit_ID__c', state => {
+      var case_id = dataValue('case_id')(state);
+      var submitted = dataValue('properties.last_form_submitted_date_and_time')(state);
+      return case_id + '_' +  submitted;
+    }),
     field('Date__c',dataValue('properties.Date')),
     field('Form_Submitted__c', dataValue('properties.last_form_submitted_for_this_record')),
     field('Birth_Status__c',dataValue('properties.child_status')),
