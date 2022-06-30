@@ -965,7 +965,12 @@ upsertIf(state.data.properties.username !== 'openfn.test' &&
   'CommCare_ID__c',
   fields(
     //field('CommCare_ID__c', dataValue('form.case.@case_id')),
-    field('CommCare_ID__c', dataValue('id')),
+    // field('CommCare_ID__c', dataValue('id')),
+    field('CommCare_ID__c', state => {
+      var case_id = dataValue('case_id')(state);
+      var submitted = dataValue('properties.last_form_submitted_date_and_time')(state);
+      return case_id + '_' +  submitted;
+    }),
 
     relationship(
       'Person__r',
