@@ -975,7 +975,7 @@ upsertIf(state.data.properties.username !== 'openfn.test' &&
     relationship(
       'Person__r',
       'CommCare_ID__c',
-      dataValue('indices.parent.case_id')
+      dataValue('indices.parent.case_id')  //this is a HH case ID
     ),
     /*relationship(
       'Household_CHW__r', 
