@@ -958,8 +958,8 @@ fn(state => ({
   };
 });
 
-upsertIf(state.data.metadata.username !== 'openfn.test' &&
-    state.data.metadata.username !== 'test.2022' &&
+upsertIf(state.data.properties.username !== 'openfn.test' &&
+    state.data.properties.username !== 'test.2022' &&
     state.data.properties.test_user  !== 'No' ,
   'Person_visit__c',
   'CommCare_ID__c',
