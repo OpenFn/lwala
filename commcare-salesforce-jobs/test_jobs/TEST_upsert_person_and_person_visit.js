@@ -363,7 +363,7 @@ fn(state => {
       'Last_Malaria_Home_Test__c',
       dataValue('properties.malaria_test_date')
     ),
-    field('Malaria_Home_Treatment__c', state => {
+    field('Last_Malaria_Home_Treatment__c', state => {
       var choice = dataValue(
         'properties.malaria_test_date'
       )(state);
