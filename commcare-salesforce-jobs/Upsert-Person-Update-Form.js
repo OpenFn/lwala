@@ -328,12 +328,6 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       return state.cleanChoice(state, choice);
     }),
     field('Malaria_Home_Test__c', dataValue('form.treatment_and_tracking.malaria_test_date')),
-    field('Current_Malaria_Status__c', state => {
-      var choice = dataValue(
-        'form.Malaria_Status'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
     // field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.home_treatment')),
     field('Malaria_Home_Treatment__c', state => {
       var choice = dataValue(
@@ -388,10 +382,6 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
     field(
       'Newborn_visited_by_a_CHW_within_6_days__c',
       dataValue('form.TT5.Child_Information.visit_6_days_from_delivery')
-    ),
-    field(
-      'Current_Malaria_Status__c',
-      dataValue('form.treatment_and_tracking.malaria_test_results')
     ),
     // field('Malaria_test__c',dataValue('form.treatment_and_tracking.malaria_test')),
     field('Malaria_test__c', state => {
