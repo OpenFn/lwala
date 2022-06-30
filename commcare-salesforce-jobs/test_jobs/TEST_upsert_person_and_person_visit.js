@@ -999,7 +999,7 @@ upsertIf(
       return case_id + '_' +  submitted;
     }),
     field('Date__c',dataValue('properties.Date')),
-    field('Form_Submitted__c', dataValue('properties.last_form_opened_date_and_time')),
+    field('Form_Submitted__c', dataValue('properties.last_form_opened_name')),
     field('Birth_Status__c',dataValue('properties.child_status')),
     field('Catchment__c', dataValue('catchmentNewId')),
     relationship('RecordType', 'Name', state => {
