@@ -979,7 +979,7 @@ upsertIf(
     // field('CommCare_ID__c', dataValue('id')),
     field('CommCare_ID__c', state => {
       var case_id = dataValue('case_id')(state);
-      var submitted = dataValue('properties.last_form_submitted_date_and_time')(state);
+      var submitted = dataValue('properties.last_form_opened_date_and_time')(state);
       return case_id + '_' +  submitted;
     }),
 
@@ -995,11 +995,11 @@ upsertIf(
     // field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
      field('CommCare_Visit_ID__c', state => {
       var case_id = dataValue('case_id')(state);
-      var submitted = dataValue('properties.last_form_submitted_date_and_time')(state);
+      var submitted = dataValue('properties.last_form_opened_date_and_time')(state);
       return case_id + '_' +  submitted;
     }),
     field('Date__c',dataValue('properties.Date')),
-    field('Form_Submitted__c', dataValue('properties.last_form_submitted_for_this_record')),
+    field('Form_Submitted__c', dataValue('properties.last_form_opened_date_and_time')),
     field('Birth_Status__c',dataValue('properties.child_status')),
     field('Catchment__c', dataValue('catchmentNewId')),
     relationship('RecordType', 'Name', state => {
