@@ -366,6 +366,12 @@ fn(state => {
       'Last_Malaria_Home_Test__c',
       dataValue('properties.malaria_test_date')
     ),
+    field('Last_Malaria_Home_Treatment__c', state => {
+      var choice = dataValue(
+        'properties.malaria_test_date'
+      )(state);
+      return state.cleanChoice(state, choice);
+    }),
     /*field('Current_Malaria_Status__c', dataValue('form.Malaria_Status')),//check
         field('Malaria_Facility__c',dataValue('form.treatment_and_tracking.malaria_referral_facility')),
         field('Fever_over_7days__c',dataValue('form.treatment_and_tracking.symptoms_check_fever')),//check*/
