@@ -380,7 +380,8 @@ upsertIf(
     field('CommCare_Form_Opened__c', state=> {
       var form_opened = dataValue('properties.last_form_opened_date_and_time')(state);
       var date  = new Date(form_opened)(state);
-      return date.toISOString();
+      var iso = date.toISOString()(state);
+      return iso;
     }),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('date_closed')(state);
