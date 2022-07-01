@@ -27,8 +27,8 @@ fn(state => ({
 
 upsertIf(
   // state.data.properties.commcare_username !== 'openfn.test' &&
-    state.data.properties.commcare_username !== 'test.2022' &&
-    state.data.properties.test_user  !== 'No' ,
+    state.data.properties.commcare_username !== 'test.2021' &&
+    state.data.properties.test_user  !== 'Yes' ,
   'Household__c',
   'CommCare_Code__c',
   fields(
@@ -211,8 +211,8 @@ fn(state => {
 
 upsertIf(
   // state.data.properties.username !== 'openfn.test' &&
-    state.data.properties.username !== 'test.2022' &&
-    state.data.properties.test_user  !== 'No' ,
+    state.data.properties.username !== 'test.2021' &&
+    state.data.properties.test_user  !== 'Yes' ,
   'Visit__c',
   'CommCare_Visit_ID__c',
   fields(
