@@ -328,13 +328,9 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
       return state.cleanChoice(state, choice);
     }),
     field('Malaria_Home_Test__c', dataValue('form.treatment_and_tracking.malaria_test_date')),
+    field('Malaria_Home_Treatment__c', dataValue('properties.malaria_test_date')),
     // field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.home_treatment')),
-    field('Malaria_Home_Treatment__c', state => {
-      var choice = dataValue(
-        'form.treatment_and_tracking.home_treatment'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
+   
     field('Persons_symptoms__c', state => {
       var check = dataValue('form.treatment_and_tracking.symptoms_check_other')(state);
       var value =
