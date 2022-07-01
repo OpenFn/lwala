@@ -379,7 +379,7 @@ upsertIf(
     //field('CommCare_Form_Opened__c',dataValue('properties.last_form_opened_date_and_time')),
     field('CommCare_Form_Opened__c', state=> {
       // var form_opened = dataValue()(state);
-      var date  = new Date('state.data.properties.last_form_opened_date_and_time')(state);
+      var date  = new Date('state.data.properties.last_form_opened_date_and_time');
       // var iso = date.toISOString()(state);
       return date;
     }),
