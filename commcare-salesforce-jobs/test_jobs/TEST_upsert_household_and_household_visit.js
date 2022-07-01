@@ -379,8 +379,12 @@ upsertIf(
     //field('CommCare_Form_Opened__c',dataValue('properties.last_form_opened_date_and_time')),
     field('CommCare_Form_Opened__c', state=> {
       // var form_opened = dataValue()(state);
-      var date  = new Date('state.data.properties.last_form_opened_date_and_time');
-      var iso = date.toISOString();
+      var form_opened = dataValue('properties.last_form_opened_date_and_time')(state);
+      var value1 = form_opened.slice(0,10);
+      var value2 = form_opened.slice(10);
+      formattedValue = [value1, value2].join(' ');
+      var date  = new Date(formattedValue);
+      var iso = formattedValue.toISOString();
       return iso;
     }),
     field('Case_Closed_Date__c', state => {
