@@ -214,6 +214,7 @@ fn(state => {
 });
 
 console.log(new Date(dataValue('properties.last_form_opened_date_and_time')));
+console.log(dataValue('properties.last_form_opened_date_and_time'))
 
 upsertIf(
   // state.data.properties.username !== 'openfn.test' &&
