@@ -37,10 +37,14 @@ upsertIf(
    field('CommCare_Code__c', dataValue('case_id')),
     field('Source__c', true),
     //field('Household_CHW__c', 'a030Q00000A0jeYQAR'), //sandbox hardcoded mapping
-    //relationship(
-    //  'Household_CHW__r',
-    //  'CommCare_ID__c', 
-    //  dataValue('properties.sfid')),
+ field('Household_CHW__c', state => {
+      var chw = dataValue('properties.CHW_ID')(state);
+      return chw === 'a030800001zQrk'
+        ? 'a030800001zQrk5'
+        : chw
+        ? chw
+        : undefined;
+    }),
    //TODO: Prod mapping to add back before go-live
     field('Catchment__c', dataValue('catchmentNewId')),
     field('Area__c', dataValue('areaNewId')),
