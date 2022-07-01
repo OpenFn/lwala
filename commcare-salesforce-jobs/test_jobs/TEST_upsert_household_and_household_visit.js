@@ -376,7 +376,6 @@ upsertIf(
       dataValue('properties.if_other_please_specify')
     ),
     //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
-    //field('CommCare_Form_Opened__c',dataValue('properties.last_form_opened_date_and_time')),
     field('CommCare_Form_Opened__c', state=> {
       var form_opened = dataValue('properties.last_form_opened_date_and_time')(state);
       var value1 = form_opened.slice(0,10);
