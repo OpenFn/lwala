@@ -381,7 +381,7 @@ upsertIf(
       // var form_opened = dataValue()(state);
       var date  = new Date('state.data.properties.last_form_opened_date_and_time');
       var iso = date.toISOString();
-      return date;
+      return iso;
     }),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('date_closed')(state);
