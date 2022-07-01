@@ -382,7 +382,7 @@ upsertIf(
       var form_opened = dataValue('properties.last_form_opened_date_and_time')(state);
       var value1 = form_opened.slice(0,10);
       var value2 = form_opened.slice(10);
-      formattedValue = [value1, value2].join(' ');
+      formattedValue = [value1, value2.substring(1)].join(' ');
       var date  = new Date(formattedValue);
       var iso = date.toISOString();
       return iso;
