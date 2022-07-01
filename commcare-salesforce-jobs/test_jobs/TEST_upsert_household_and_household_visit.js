@@ -383,9 +383,9 @@ upsertIf(
       var value1 = form_opened.slice(0,10);
       var value2 = form_opened.slice(10);
       formattedValue = [value1, value2.substring(1)].join(' ');
-      var date  = new Date(formattedValue);
-      var iso = date.toISOString();
-      return iso;
+      var date  = new Date(formattedValue).toISOString;
+      // var iso = date.toISOString();
+      return date;
     }),
     field('Case_Closed_Date__c', state => {
       var closed = dataValue('date_closed')(state);
