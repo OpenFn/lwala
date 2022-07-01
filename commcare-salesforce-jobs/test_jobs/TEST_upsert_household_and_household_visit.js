@@ -213,9 +213,6 @@ fn(state => {
   return { ...state, supervisorMap, insuranceMap };
 });
 
-console.log(new Date(dataValue('properties.last_form_opened_date_and_time')));
-console.log(dataValue('properties.last_form_opened_date_and_time'))
-
 upsertIf(
   // state.data.properties.username !== 'openfn.test' &&
     state.data.properties.username !== 'test.2021' &&
@@ -382,7 +379,7 @@ upsertIf(
     //field('CommCare_Form_Opened__c',dataValue('properties.last_form_opened_date_and_time')),
     field('CommCare_Form_Opened__c', state=> {
       var form_opened = dataValue('properties.last_form_opened_date_and_time')(state);
-      var date  = new Date(form_opened)(state)
+      var date  = new Date(form_opened)(state);
       return date.toISOString();
     }),
     field('Case_Closed_Date__c', state => {
