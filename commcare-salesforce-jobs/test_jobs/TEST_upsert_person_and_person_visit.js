@@ -984,7 +984,7 @@ upsertIf(
     relationship(
       'Person__r',
       'CommCare_ID__c',
-      dataValue('case_id')  //this is a HH case ID
+      dataValue('case_id')
     ),
     /*relationship(
       'Household_CHW__r', 
