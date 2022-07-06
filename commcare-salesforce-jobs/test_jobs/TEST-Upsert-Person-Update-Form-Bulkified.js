@@ -1,8 +1,13 @@
-query(
-  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
-    'form.owner_id'
-  )(state)}'`
-);
+fn(state => {
+  const ownerIdList = state.data.commCareSubmissions.map(x =>
+    "'" + x.form.owner_id + "'"
+  );
+  console.log('owner ids: ', ownerIdList)
+
+  return query(
+    `SELECT CommCare_User_ID__c, Id, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c in (${ownerIdList})`
+  )(state);
+});
 
 fn(state => {
 
@@ -35,6 +40,24 @@ fn(state => {
         .join(';')
       : '';
   };
+
+  const locationsByUserId = state.references[0].records.reduce((acc, loc) => {
+    const {
+      CommCare_User_ID__c,
+      Id,
+      Parent_Geographic_Area__c,
+      Parent_Geographic_Area__r,
+    } = loc;
+
+    return {
+      ...acc,
+      [CommCare_User_ID__c]: {
+        sfId: Id,
+        area: Parent_Geographic_Area__c,
+        catchment: Parent_Geographic_Area__r.Parent_Geographic_Area__c,
+      },
+    };
+  }, {})
 
   const transformMultiselect = choice => {
     var choice2 = handleMultiSelect(choice);
@@ -101,10 +124,6 @@ fn(state => {
     return choice ? choice.toString().replace(/_/g, ' ') : undefined;
   }
 
-  const handleMissing = (x, path) => {
-    `x.${path}` ? `x.${path}` : undefined;
-  }
-
   const determineRecordType = x => {
     var rt = x.form.RecordType
 
@@ -122,39 +141,30 @@ fn(state => {
     };
   }
 
-  const determineChildStatus = x => {
-    var status = jsonValue(x, 'form.case.update.child_status');
-    var rt = x.form.RecordType;
-    if (status && rt === 'Unborn') {
-      status = 'Unborn';
-    } else if (status && rt === 'Born') {
-      status = 'Born';
-    }
-    return status;
-  }
-
   const getClosedDate = x => {
     var closed = x.form.case.update.closed
     var date = x.server_modified_on
     return closed && closed == true ? date : undefined;
-  }
+  };
 
-  fn(state => ({
-    ...state,
-    data: {
-      ...state.data,
-      catchmentNewId:
-        state.references[0].records && state.references[0].records.length !== 0
-          ? (state.references[0].records[0].Parent_Geographic_Area__r
-            ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
-            : undefined)
-          : undefined,
-    },
-  }));
+  // fn(state => ({
+  //   ...state,
+  //   data: {
+  //     ...state.data,
+  //     catchmentNewId:
+  //       state.references[0].records && state.references[0].records.length !== 0
+  //         ? (state.references[0].records[0].Parent_Geographic_Area__r
+  //           ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
+  //           : undefined)
+  //         : undefined,
+  //   },
+  // }
+  // )
+  // );
 
   const lookupMap = (item, map) => {
     return item ? map[item] : undefined;
-  }
+  };
 
   const pregDangerMap = {
     Vaginal_Bleeding: 'Vaginal Bleeding',
@@ -293,13 +303,14 @@ fn(state => {
       CommCare_ID__c: x.id,
       Date__c: x.form.Date,
       Birth_Status__c: jsonValue(x, 'form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status'),
+      Catchment__c: locationsByUserId[x.form.owner_id].catchment,
       'RecordType.Name': determineRecordType(x),
       Use_mosquito_net__c: cleanChoice(jsonValue(x, 'form.question1.sleep_under_net')),
       Individual_birth_plan_counselling__c: jsonValue(x, 'form.ANCs.pregnancy_danger_signs.individual_birth_plan'),
       Reason_for_not_taking_a_pregnancy_test__c: transformChoice(jsonValue(x, 'form.TT5.Mother_Information.pregancy_test.No_Preg_Test')),
       Pregnancy_danger_signs__c: lookupMap(jsonValue(x, 'form.ANCs.pregnancy_danger_signs.pregnancy_danger_signs'), pregDangerMap),
       Other_Danger_Signs__c: transformSigns(jsonValue(x, 'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs')),
-      Current_Malaria_Status__c: jsonValue(x, 'form.Malaria_Status'),
+      Current_Malaria_Status__c: cleanChoice(jsonValue(x, 'form.Malaria_Status')),
       Malaria_Home_Test__c: jsonValue(x, 'form.treatment_and_tracking.malaria_test_date'),
       Malaria_Home_Treatment__c: jsonValue(x, 'form.treatment_and_tracking.malaria_test_date'),
       Persons_symptoms__c: joinMap(jsonValue(x, 'form.treatment_and_tracking.symptoms_check_other'), symptomsMap),
@@ -310,7 +321,6 @@ fn(state => {
       Days_since_illness_start__c: jsonValue(x, 'form.duration_of_sickness'),
       Newborn_visited_48_hours_of_delivery__c: jsonValue(x, 'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'),
       Newborn_visited_by_a_CHW_within_6_days__c: jsonValue(x, 'form.TT5.Child_Information.visit_6_days_from_delivery'),
-      Current_Malaria_Status__c: jsonValue(x, 'form.treatment_and_tracking.malaria_test_results'),
       Malaria_test__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.malaria_test')),
       Fever__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.symptoms_check_fever')),
       Cough__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.symptoms_check_cough')),
