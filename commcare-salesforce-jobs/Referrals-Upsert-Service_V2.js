@@ -224,7 +224,9 @@ fn(state => {
 });
 
 // NOTE: We finally upsert to the Service__c object in Salesforce
-upsert('Service__c', 'Service_UID__c', state => ({
+psertIf(
+    state.data.properties.owner_id !== '8e725928e3ce43d19b390dd604097069' &&
+'Service__c', 'Service_UID__c', state => ({
   ...fields(...state.relationships),
   ...fields(
     field('Service_UID__c', dataValue('case_id')),
