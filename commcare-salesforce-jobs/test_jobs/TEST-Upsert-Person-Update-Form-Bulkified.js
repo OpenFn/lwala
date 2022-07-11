@@ -335,7 +335,7 @@ fn(state => {
       Treatment_Distribution__c: joinMap(jsonValue(x, 'form.treatment_and_tracking.distribution.distributed_treatments'), treatmentDistributionMap),
       Current_Height__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition.current_height'),
       Current_MUAC__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition.MUAC'),
-      Current_Nutrition_Status__c: transformReason(jsonValue(x, 'form.TT5.Child_Information.Nutrition2.Nutrition_Status, nutritionMap')),
+      Current_Nutrition_Status__c: transformReason(jsonValue(x, 'form.TT5.Child_Information.Nutrition2.Nutrition_Status'), nutritionMap),
       Default_on_TB_treatment__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.default_tb_treatment')),
       Received_pregnancy_test__c: jsonValue(x, 'form.TT5.Mother_Information.pregancy_test.did_you_adminsiter_a_pregnancy_test'),
       Pregnancy_test_result__c: jsonValue(x, 'form.TT5.Mother_Information.pregancy_test.pregnancy_test_result'),
