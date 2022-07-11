@@ -290,7 +290,7 @@ fn(state => {
       Date__c: x.form.Date,
       Birth_Status__c: jsonValue(x, 'form.ANCs.pregnancy_danger_signs.Delivery_Information.child_status'),
       // Catchment__c: locationsByUserId[x.form.owner_id].catchment,
-      'Catchment_c.Name': jsonValue(x, 'form.location_info.catchment_name'),
+      Catchment_c: jsonValue(x, 'form.location_info.catchment_name'),
       'RecordType.Name': determineRecordType(x),
       Use_mosquito_net__c: cleanChoice(jsonValue(x, 'form.question1.sleep_under_net')),
       Individual_birth_plan_counselling__c: jsonValue(x, 'form.ANCs.pregnancy_danger_signs.individual_birth_plan'),
