@@ -91,6 +91,7 @@ upsertIf(
         'Immediate_Breastfeeding__c',
         dataValue('properties.Breastfeeding_Delivery')
       ),
+      field('Client_Status__c',dataValue('properties.Client_Status')),
       field('Place_of_Delivery__c', dataValue('properties.Delivery_Type')),
       field('Child_Status__c', dataValue('properties.Child_Status')),
       field('Gender__c', dataValue('properties.Gender')),
