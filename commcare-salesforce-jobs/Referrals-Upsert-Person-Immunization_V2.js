@@ -92,7 +92,16 @@ upsertIf(
         dataValue('properties.Breastfeeding_Delivery')
       ),
       field('Client_Status__c',dataValue('properties.Client_Status')),
-      field('Place_of_Delivery__c', dataValue('properties.Delivery_Type')),
+      field('Place_of_Delivery__c', state => {
+          var facility = dataValue('properties.Delivery_Type')(
+            state
+          );
+          return facility === 'Skilled'
+            ? 'Facility'
+            : facility === 'Unskilled'
+            ? 'Home'
+            : undefined;
+        }),
       field('Child_Status__c', dataValue('properties.Child_Status')),
       field('Gender__c', dataValue('properties.Gender')),
       field('HIV_Status__c', dataValue('properties.hiv_status')), //MOTG
