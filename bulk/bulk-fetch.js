@@ -63,7 +63,7 @@ fn(state => {
 fn(async state => {
   const { configuration, payloads } = state;
 
-  const loop = Math.ceil(payloads.length / 500);
+  const loop = Math.ceil(payloads.length / 250);
 
   let countInbox = 0;
 
@@ -81,7 +81,7 @@ fn(async state => {
 
   console.log(`Sending ${loop} batches of submissions to inbox`);
   for (let i = 0; i < loop; i++) {
-    const batch = state.payloads.slice(i * 500, (i + 1) * 500);
+    const batch = state.payloads.slice(i * 250, (i + 1) * 250);
 
     const data = {
       tag: 'update_person_historical',
