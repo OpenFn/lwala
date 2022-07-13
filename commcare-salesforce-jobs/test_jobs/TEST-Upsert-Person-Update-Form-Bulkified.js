@@ -1,3 +1,4 @@
+/*
 fn(state => {
   const ownerIdList = state.data.commCareSubmissions.map(x =>
     "'" + x.form.owner_id + "'"
@@ -8,6 +9,7 @@ fn(state => {
     `SELECT CommCare_User_ID__c, Id, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c in (${ownerIdList})`
   )(state);
 });
+*/
 
 fn(state => {
 
@@ -41,23 +43,23 @@ fn(state => {
       : '';
   };
 
-  const locationsByUserId = state.references[0].records.reduce((acc, loc) => {
-    const {
-      CommCare_User_ID__c,
-      Id,
-      Parent_Geographic_Area__c,
-      Parent_Geographic_Area__r,
-    } = loc;
+  // const locationsByUserId = state.references[0].records.reduce((acc, loc) => {
+  //   const {
+  //     CommCare_User_ID__c,
+  //     Id,
+  //     Parent_Geographic_Area__c,
+  //     Parent_Geographic_Area__r,
+  //   } = loc;
 
-    return {
-      ...acc,
-      [CommCare_User_ID__c]: {
-        sfId: Id,
-        area: Parent_Geographic_Area__c,
-        catchment: Parent_Geographic_Area__r.Parent_Geographic_Area__c,
-      },
-    };
-  }, {})
+  //   return {
+  //     ...acc,
+  //     [CommCare_User_ID__c]: {
+  //       sfId: Id,
+  //       area: Parent_Geographic_Area__c,
+  //       catchment: Parent_Geographic_Area__r.Parent_Geographic_Area__c,
+  //     },
+  //   };
+  // }, {})
 
   const transformMultiselect = choice => {
     var choice2 = handleMultiSelect(choice);
