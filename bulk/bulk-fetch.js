@@ -54,7 +54,7 @@ each(
 // log the total number of payloads returned
 fn(state => {
   console.log('Count of payloads', state.payloads.length);
-  return { ...state, payloads: [], references: [], data: {} };
+  return { ...state, references: [], data: {} };
 });
 
 // send all of those payloads to OpenFn in batches
