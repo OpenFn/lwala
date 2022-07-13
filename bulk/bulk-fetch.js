@@ -90,5 +90,5 @@ fn(async state => {
     await postToInbox(data);
   }
 
-  return { ...state, references: [], data: {} };
+  return { ...state, payloads: [], references: [], data: {} };
 });
