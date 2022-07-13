@@ -59,7 +59,7 @@ fn(state => {
 
 // send all of those payloads to OpenFn in batches
 
-/*
+
 fn(async state => {
   const { configuration, payloads } = state;
 
@@ -92,4 +92,3 @@ fn(async state => {
 
   return { ...state, references: [], data: {} };
 });
-*/
