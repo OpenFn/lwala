@@ -10,13 +10,13 @@ fn(state => {
   ];
 
   const limit = 1000;
-  const receivedOnEnd = '2019-12-31';
-  const indexedOnStart = '2022-06-21'
+  const receivedOnEnd = '2021-07-31';
+  const indexedOnStart = '2021-07-01'
 
   const queries = formIds.map(
     id =>
       `?xmlns=http://openrosa.org/formdesigner/${id}` +
-      //`&received_on_end=${receivedOnEnd}` +
+      `&received_on_end=${receivedOnEnd}` +
       `&indexed_on_start=${indexedOnStart}` +
       `&limit=${limit}`
   );
