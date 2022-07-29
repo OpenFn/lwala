@@ -22,7 +22,7 @@ CHWs register households, patients, and visits, and use CommCare as a tool for o
 _These forms were introduced to support MOH partnership requirements, but are only live in some areas... to be rolled out widely in July 2021_
 1. 513_Enroll_Person_in_SF__V1 ([`MOH513-Enroll-Person-in-SF.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Enroll-Person-in-SF.js))
 2. 513_Enroll_Household_in_SF__V1 ([`MOH513-Enroll-Household-in-SF.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Enroll-Household-in-SF.js))
-3. [NEW] 514_Update_Person_in_SF__V2 ([`MOH514-Update-Person_V2.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH514-Update-Person_V2.js))
+3. [NEW] 514_Update_Person_in_SF__V2 ([`MOH514-Update-Person_V2.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH514-Update-Person_V2.js)) (To be retired after Bulk Historical Resync)
 4. Update Houshold ([`MOH513-Update-Household-in-SF-Revised.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/MOH513-Update-Household-in-SF-Revised.js))
 5. [NEW] Referrals_Update_Person_Immunizations_V2 ([Referrals-Upsert-Person-Immunization_V2.js](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Referrals-Upsert-Person-Immunization_V2.js))
 6. [NEW] Referrals_Upsert_Service_in_SF_V2
