@@ -74,6 +74,10 @@ fn(state => {
     return reason ? map[reason] : undefined;
   }
 
+  const checkAlternativePath = (path1, path2) => {
+    return path1 == undefined ? path2 : path1
+  }
+
   const joinMap = (status, map) => {
     var value =
       status && status !== ''
@@ -266,7 +270,7 @@ fn(state => {
     not_able_to_eatdrink: 'Not able to drink or feed at all',
     vomits_everything: 'Vomits everything',
     'chest_in-drawing': 'Chest in - drawing',
-    unusually_sleepyunconscious: 'Unusually sleepy/unconscious',
+    unusually_sleepyunconscious: 'Unusually sleepy or unconscious',
     swelling_of_both_feet: 'Swelling of both feet',
     none: "None",
   };
@@ -307,7 +311,7 @@ fn(state => {
       HAWI_Defaulter__c: yesNoToBoolean(jsonValue(x, 'form.HAWI.default')),
       Date_of_Default__c: jsonValue(x, 'form.HAWI.date_of_default'),
       Persons_temperature__c: jsonValue(x, 'form.treatment_and_tracking.temperature'),
-      Days_since_illness_start__c: jsonValue(x, 'form.duration_of_sickness'),
+      Days_since_illness_start__c: checkAlternativePath(jsonValue(x, 'form.duration_of_sickness'), jsonValue(x, 'form.treatment_and_tracking.duration_of_sickness')),
       Newborn_visited_48_hours_of_delivery__c: jsonValue(x, 'form.TT5.Child_Information.newborn_visited_48_hours_of_delivery'),
       Newborn_visited_by_a_CHW_within_6_days__c: jsonValue(x, 'form.TT5.Child_Information.visit_6_days_from_delivery'),
       Malaria_test__c: cleanChoice(jsonValue(x, 'form.treatment_and_tracking.malaria_test')),
@@ -333,8 +337,8 @@ fn(state => {
       Mother_visit_counselling__c: handleMultiSelectOriginal(jsonValue(x, 'form.TT5.Child_Information.did_you_consel_the_mother_on1')),
       mother_visited_48_hours_of_the_delivery__c: jsonValue(x, 'form.TT5.Child_Information.visit_mother_48'),
       Newborn_visit_counselling__c: handleMultiSelectOriginal(jsonValue(x, 'form.TT5.Child_Information.did_you_consel_the_mother_on2')),
-      Know_HIV_status__c: jsonValue(x, 'form.HAWI.known_hiv_status'),
-      HIV_Status__c: jsonValue(x, 'form.HAWI.hiv_status'),
+      Know_HIV_status__c: checkAlternativePath(jsonValue(x, 'form.known_hiv_status'), jsonValue(x, 'form.HAWI.known_hiv_status')),
+      HIV_Status__c: checkAlternativePath( jsonValue(x, 'form.hiv_status'),jsonValue(x, 'form.HAWI.hiv_status')),
       Treatment_Distribution__c: joinMap(jsonValue(x, 'form.treatment_and_tracking.distribution.distributed_treatments'), treatmentDistributionMap),
       Current_Height__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition.current_height'),
       Current_MUAC__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition.MUAC'),
