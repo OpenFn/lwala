@@ -16,8 +16,8 @@ fn(state => {
   const queries = formIds.map(
     id =>
       `?xmlns=http://openrosa.org/formdesigner/${id}` +
-      `&received_on_end=${receivedOnEnd}` +
       `&indexed_on_start=${indexedOnStart}` +
+      `&received_on_end=${receivedOnEnd}` +
       `&limit=${limit}`
   );
 
