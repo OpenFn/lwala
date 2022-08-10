@@ -6,7 +6,7 @@ Lwala uses OpenFn to integrate its Salesforce database and CommCare CHW mobile a
 Lwala's OpenFn project*
 
 ## Data Flows
-OpenFn jobs are used to automate the following data flows between CommCare and Salesforce. This integration is event-driven (triggered whenever a record is created/ updated). 
+OpenFn jobs are used to automate the following data flows between CommCare and Salesforce. This integration is event-driven (triggered whenever a record is created/ updated). [This diagram](https://lucid.app/lucidchart/e3411bda-1f0e-492f-b35d-6baf2dd3972a/edit?view_items=laxJTiq3D_aN&invitationId=inv_269ce3a1-612b-49b8-ab06-4805e3e483de#) provides an overview of how data flows from CommCare forms to Salesforce objects through OpenFn jobs.
 
 ### Reference Tables
 There are some reference data tables that need to be consistent across the CommCare and Salesforce applications to ensure successful integration: 
