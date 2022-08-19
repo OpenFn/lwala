@@ -61,6 +61,8 @@ fn(state => {
   //   };
   // }, {})
 
+
+
   const transformMultiselect = choice => {
     var choice2 = handleMultiSelect(choice);
     return choice2 ? choice2.replace(/_/g, ' ') : '';
@@ -286,9 +288,11 @@ fn(state => {
     tetracycline_eye_ointment_teo_1_tube: 'Tetracycline Eye Ointment (TEO): 1%:tube',
     amoxycillin: 'Amoxycillin (125mg/5mls: Bottle',
     none: 'None'
-  }
+  };
 
-  const visits = state.data.commCareSubmissions.map(x => {
+  const testusers = ['test.2021', 'test.location', 'test.michel', 'test.nkamagambo', 'anthony.maina', 'anthony', 'beth.test', 'chw_test_sd', 'erinsuptest', 'erintest', 'julia.test', 'lwala', 'lwalachw', 'omondi.george', 'openfn', 'pamela.test', 'paul.odero', 'philip.herman', 'sup_test_sd', 'test_user', 'test.chw', 'tonnie.maina'];
+
+  const visits = state.data.commCareSubmissions.filter(x => {return (!testusers.includes(x.metadata.username))}).map(x => {
     return {
       'Person__r.CommCare_ID__c': x.form.case['@case_id'],
       CommCare_Visit_ID__c: x.metadata.instanceID,
