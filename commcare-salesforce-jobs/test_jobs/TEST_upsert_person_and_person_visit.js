@@ -238,7 +238,7 @@ upsertIf(
     field('Birth_Status__c',dataValue('properties.child_status')),
     field('Catchment__c', dataValue('catchmentNewId')),
     relationship('RecordType', 'Name', state => {
-          var rt = dataValue('properties.Record_Type')(state);
+          var rt = dataValue('properties.RecordType')(state);
           if (rt === 'Unborn' || rt === 'Child') {
             return 'Child Visit';
           };
