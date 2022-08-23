@@ -637,6 +637,11 @@ upsertIf(state.data.metadata.username !== 'openfn.test' &&
             'form.TT5.Child_Information.Immunizations.immunization_type'
           )
         ),*/
+  field('Nutrition_Case_Managed__c',dataValue('properties.nutrition_case_managed')), 
+  field('Why_was_nutrition_case_not_managed__c',dataValue('properties.nutrition_case_not_managed_why')),
+  field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_not_given')),
+  field('Community_Nutrition_Treatment__c',dataValue('nutrition_treatment_moderate')),
+  field('Why_was_nutrition_treatment_not_given__c',dataValue('nutrition_treatment_not_given')),
     field('Default_on_TB_treatment__c', state => {
       var choice = dataValue(
         'form.treatment_and_tracking.default_tb_treatment'
