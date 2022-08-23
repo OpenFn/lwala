@@ -522,6 +522,11 @@ upsertIf(
       dataValue('properties.MUAC')
     ),
     field('Food_groups_3_times_a_day__c',dataValue('properties.food_groups')),
+      field('Nutrition_Case_Managed__c',dataValue('properties.nutrition_case_managed')), 
+  field('Why_was_nutrition_case_not_managed__c',dataValue('properties.nutrition_case_not_managed_why')),
+  field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_not_given')),
+  field('Community_Nutrition_Treatment__c',dataValue('nutrition_treatment_moderate')),
+  field('Why_was_nutrition_treatment_not_given__c',dataValue('nutrition_treatment_not_given')),
     field('Current_Nutrition_Status__c', state => {
       var status = dataValue(
         'properties.Nutrition_Status'
