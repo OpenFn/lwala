@@ -527,7 +527,9 @@ upsertIf(
       var choice = dataValue(
         'properties.nutrition_danger_signs'
         )(state);
-        return state.handleMultiSelect(state, choice);
+        var choice2 = state.handleMultiSelect(state, choice);
+        return choice2 ? choice2.replace(/_/g, ' ') : '';
+
     }),
   field('Why_was_nutrition_case_not_managed__c',dataValue('properties.nutrition_case_not_managed_why')),
   field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_severe')),
