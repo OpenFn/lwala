@@ -530,9 +530,9 @@ upsertIf(
         return state.handleMultiSelect(state, choice);
     }),
   field('Why_was_nutrition_case_not_managed__c',dataValue('properties.nutrition_case_not_managed_why')),
-  field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_not_given')),
-  field('Community_Nutrition_Treatment__c',dataValue('nutrition_treatment_moderate')),
-  field('Why_was_nutrition_treatment_not_given__c',dataValue('nutrition_treatment_not_given')),
+  field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_severe')),
+  field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_moderate')),
+  field('Why_was_nutrition_treatment_not_given__c',dataValue('properties.nutrition_treatment_not_given')),
     field('Current_Nutrition_Status__c', state => {
       var status = dataValue(
         'properties.Nutrition_Status'
