@@ -481,7 +481,7 @@ upsertIf(
     field(
       'mother_visited_48_hours_of_the_delivery__c',
       dataValue('properties.visit_mother_48')
-    ),
+    ),m
     field('Newborn_visit_counselling__c', state => {
       var choice = dataValue(
         'properties.did_you_consel_the_mother_on2'
@@ -522,7 +522,13 @@ upsertIf(
       dataValue('properties.MUAC')
     ),
     field('Food_groups_3_times_a_day__c',dataValue('properties.food_groups')),
-      field('Nutrition_Case_Managed__c',dataValue('properties.nutrition_case_managed')), 
+    field('Nutrition_Case_Managed__c',dataValue('properties.nutrition_case_managed')),
+    field('Nutrition_Danger_Signs__c',state => {
+      var choice = dataValue(
+        'properties.nutrition_danger_signs'
+        )(state);
+        return state.handleMultiSelect(state, choice);
+    }),
   field('Why_was_nutrition_case_not_managed__c',dataValue('properties.nutrition_case_not_managed_why')),
   field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_not_given')),
   field('Community_Nutrition_Treatment__c',dataValue('nutrition_treatment_moderate')),
