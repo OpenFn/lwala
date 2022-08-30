@@ -29,11 +29,11 @@ _These forms were introduced to support MOH partnership requirements, but are on
 7.[Q3 2022] Create Distribution & Referral in SF ([`Create-Distribution-Referral-in-SF.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Create-Distribution-Referral-in-SF.js))
 8. [Q3 2022]Update_HH_Name_in_CommCare ([`Update-HH-Name.js`](https://github.com/OpenFn/lwala/blob/master/salesforce-commcare-jobs/Update-HH-Name.js))
 9.[Q3 2022] Upsert Household & Household Visit ([`upsert_household_and_household_visit.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/upsert_household_and_household_visit.js))
-10. Upsert Person ([`Upsert-Person-Case-Update.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Upsert-Person-Case-Update.js))
+10. [Q3 2022] Upsert Person ([`Upsert-Person-Case-Update.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/Upsert-Person-Case-Update.js))
 
 #### Testing
 1. [TEST] Bulk Upsert Person Visit
-2. [Q3 2022]Upsert Person & Person Visit ([`TEST_upsert_person_and_person_visit.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/test_jobs/TEST_upsert_person_and_person_visit.js))
+2. [ToAct]Upsert Person Visit ([`TEST_upsert_person_and_person_visit.js`](https://github.com/OpenFn/lwala/blob/master/commcare-salesforce-jobs/test_jobs/TEST_upsert_person_and_person_visit.js))
 
 
 ### Deprecated Forms & Archived Jobs
