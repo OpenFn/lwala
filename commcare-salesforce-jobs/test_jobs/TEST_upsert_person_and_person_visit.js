@@ -212,11 +212,12 @@ upsertIf(
   fields(
     //field('CommCare_ID__c', dataValue('form.case.@case_id')),
     // field('CommCare_ID__c', dataValue('id')),
-    field('CommCare_ID__c', state => {
-      var case_id = dataValue('case_id')(state);
-      var submitted = dataValue('properties.last_form_opened_date_and_time')(state);
-      return case_id + '_' +  submitted;
-    }),
+    //field('CommCare_ID__c', state => {
+    //  var case_id = dataValue('case_id')(state);
+    //  var submitted = dataValue('properties.last_form_opened_date_and_time')(state);
+    //  return case_id + '_' +  submitted;
+    //}),
+    field('CommCare_ID__c',dataValue('case_id')),
 
     relationship(
       'Person__r',
