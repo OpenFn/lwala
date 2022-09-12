@@ -205,8 +205,8 @@ fn(state => ({
 
 upsertIf(
   // state.data.properties.username !== 'openfn.test' &&
-    state.data.properties.username !== 'test.2022' &&
-    state.data.properties.test_user  !== 'No' ,
+    state.data.properties.username !== 'test.2021' &&
+    state.data.properties.test_user  !== 'Yes' ,
   'Person_visit__c',
   'CommCare_ID__c',
   fields(
