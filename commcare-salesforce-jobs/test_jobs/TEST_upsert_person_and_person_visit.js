@@ -379,12 +379,12 @@ upsertIf(
       dataValue('properties.wounds_or_injuries')
     ),
     field('Currently_on_ART_s__c', dataValue('properties.ART')),
-    field('ART_Regimen__c', state => {
+    /*field('ART_Regimen__c', state => {
       var choice = dataValue(
        'properties.ARVs'
       )(state);
       return state.cleanChoice(state, choice);
-    }),
+    }),*/
     field(
       'Immediate_Breastfeeding__c',
       dataValue(
