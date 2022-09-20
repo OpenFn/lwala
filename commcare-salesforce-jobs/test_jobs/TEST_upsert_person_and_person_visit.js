@@ -401,7 +401,7 @@ upsertIf(
       'Counselled_on_Exclusive_Breastfeeding__c',
       dataValue('properties.counseling')
     ),
-    field('LMP__c',dataValue('properties.LMP')),
+    field('LMP__c',dataValue('properties.when_was_your_lmp')),
      field('Family_Planning__c', state => {
       var choice = dataValue(
         'properties.family_planning'
