@@ -371,6 +371,11 @@ fn(state => {
       Antibiotic_provided_for_fast_breathing__c: jsonValue(x, 'form.psbi.antibiotic_fast_breathing'),
       Antibiotic_provided_for_chest_indrawing__c: jsonValue(x, 'form.psbi.antibiotic_chest_indrawing'),
       Supervisor_Visit__c: joinMap(jsonValue(x, 'form.supervisor_visit'), supervisorMap),
+      Nutrition_Case_Managed__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_case_managed'),
+      Nutrition_Danger_Signs__c: handleMultiSelectOriginal(jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_danger_signs')),
+      Why_was_nutrition_case_not_managed__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_case_not_managed_why'),
+      Community_Nutrition_Treatment__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_treatment_severe'),
+      Why_was_nutrition_treatment_not_given__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_treatment_not_given')
       // Case_Closed_Date__c: getClosedDate(x) // Removed from SF?
     }
   }
