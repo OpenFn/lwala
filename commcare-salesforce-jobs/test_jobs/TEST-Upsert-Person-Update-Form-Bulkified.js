@@ -375,7 +375,8 @@ fn(state => {
       Nutrition_Danger_Signs__c: handleMultiSelectOriginal(jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_danger_signs')),
       Why_was_nutrition_case_not_managed__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_case_not_managed_why'),
       Community_Nutrition_Treatment__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_treatment_severe'),
-      Why_was_nutrition_treatment_not_given__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_treatment_not_given')
+      Why_was_nutrition_treatment_not_given__c: jsonValue(x, 'form.TT5.Child_Information.Nutrition2.nutrition_treatment_not_given'),
+      Bulk_Upload__c: true
       // Case_Closed_Date__c: getClosedDate(x) // Removed from SF?
     }
   }
