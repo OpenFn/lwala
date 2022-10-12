@@ -110,3 +110,4 @@ upsert(
       return state.handleMultiSelect(state, choice);
     }),
   )
+);  
