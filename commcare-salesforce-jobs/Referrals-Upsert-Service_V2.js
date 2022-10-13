@@ -242,6 +242,7 @@ upsertIf(
       var status = dataValue('closed')(state);
       return status === false ? true : false;
     }),
+    field('Case_Closed_Date__c',dataValue('date_closed')),
     field('Age_Time_of_Service__c', dataValue('properties.age')),
     field('Source__c', dataValue('properties.Source') === '1'),
     field('Clinical_facility__c', state => {
