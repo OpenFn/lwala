@@ -10,8 +10,8 @@ fn(state => {
   ];
 
   const limit = 1000;
-  const indexedOnStart = '2022-07-15';
-  const receivedOnEnd = '2022-07-30';
+  const indexedOnStart = '2022-07-01';
+  const receivedOnEnd = '2022-07-14';
 
   const queries = formIds.map(
     id =>
