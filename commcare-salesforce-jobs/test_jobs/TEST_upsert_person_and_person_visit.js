@@ -688,11 +688,11 @@ upsertIf(
           : undefined;
       return value ? value.join(';') : undefined;
     }),
-    //field('Last_Modified_Date_CommCare__c', dataValue('server_modified_on')),
-    field('Case_Closed_Date__c', state => {
-      var closed = dataValue('date_closed')(state);
-      var date = dataValue('date_modified')(state);
-      return closed && closed == true ? date : undefined;
-    })
+    field('Visit_Closed_Date__c', dataValue('date_closed')),
+    //field('Case_Closed_Date__c', state => {
+    //  var closed = dataValue('date_closed')(state);
+    //  var date = dataValue('date_modified')(state);
+    //  return closed && closed == true ? date : undefined;
+   // })
   )
 );
