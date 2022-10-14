@@ -306,7 +306,7 @@ fn(state => {
       Individual_birth_plan_counselling__c: jsonValue(x, 'form.ANCs.pregnancy_danger_signs.individual_birth_plan'),
       Reason_for_not_taking_a_pregnancy_test__c: transformChoice(jsonValue(x, 'form.TT5.Mother_Information.pregancy_test.No_Preg_Test')),
       Pregnancy_danger_signs__c: lookupMap(jsonValue(x, 'form.ANCs.pregnancy_danger_signs.pregnancy_danger_signs'), pregDangerMap),
-      Other_Danger_Signs__c: transformSigns(jsonValue(x, 'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs')),
+      Child_Danger_Signs__c: transformSigns(jsonValue(x, 'form.TT5.Child_Information.Danger_Signs.Other_Danger_Signs')),
       Current_Malaria_Status__c: cleanChoice(jsonValue(x, 'form.Malaria_Status')),
       Malaria_Home_Test__c: jsonValue(x, 'form.treatment_and_tracking.malaria_test_date'),
       Malaria_Home_Treatment__c: jsonValue(x, 'form.treatment_and_tracking.malaria_test_date'),
