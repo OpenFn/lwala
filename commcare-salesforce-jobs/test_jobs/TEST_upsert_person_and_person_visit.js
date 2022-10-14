@@ -273,7 +273,7 @@ upsertIf(
       )(state);
       return signs ? state.pregDangerMap[signs] : undefined;
     }),
-    field('Other_Danger_Signs__c', state => {
+    field('Child_Danger_Signs__c', state => {
       var signs = dataValue(
         'properties.Other_Danger_Signs'
       )(state);
