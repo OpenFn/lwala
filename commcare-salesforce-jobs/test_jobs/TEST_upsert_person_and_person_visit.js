@@ -185,6 +185,27 @@ fn(state => ({
     tetracycline_eye_ointment_teo_1_tube: 'Tetracycline Eye Ointment (TEO): 1%:tube',
     amoxycillin: 'Amoxycillin (125mg/5mls: Bottle',
     none: 'None'
+};
+
+const childDangerSignsMap = {
+    none: 'None',
+    Poor_Breastfeeding: 'Poor Breastfeeding',
+    not_able_to_feed_since_birth_or_stopped_feeding_well: 'Not able to feed since birth, or stopped feeding well',
+    not_able_to_breastfeed: 'Not able to breastfeed',
+    Fever: 'Fever',
+    very_low_temperature: 'Very low temperature (35.4 C or less)',
+    shivering: 'Shivering',
+    Fast_Breathing: 'Fast Breathing',
+    Very_Sleepy: 'Very Sleepy',
+    Convulsions_and_Fits: 'Convulsions and Fits',
+    only_moves_when_stimulated_or_does_not_move_even_on_stimulation: 'Only moves when stimulated, or does not move even on stimulation',
+    yellow_solebaby_body_turning_yellow_especially_eyes_palms_soles: 'Yellow sole(Baby body turning yellow especially eyes, palms,soles)',
+    bleeding_from_the_umbilical_stump: 'Bleeding from the umbilical stump',
+    signs_of_local_infection_umbilicus_is_red_or_draining_pus_skin_boils_or_eye: 'Signs of local infection: umbilicus is red or draining pus, skin boils, or eyes draining pus',
+    weight_chart_using_color_coded_scales_if_red_or_yellowweight_below_25kg_or_: 'Weight chart using color coded scales if RED or YELLOW(Weight below 2.5kg or born less than 36 weeks of age)',
+    unable_to_cry: 'Unable to cry',
+    cyanosis: 'Cyanosis',
+    bulging_fontanelle: 'Bulging fontanelle'
 }
 
   return {
