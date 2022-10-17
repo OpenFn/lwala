@@ -298,15 +298,7 @@ upsertIf(
       var signs = dataValue(
         'properties.Other_Danger_Signs'
       )(state);
-      return signs
-        ? signs
-            .toLowerCase()
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(';')
-            .toString()
-            .replace(/_/g, ' ')
-        : signs;
+      return signs ? state.childDangerSignsMap[signs] : undefined
     }),
      field('Current_Malaria_Status__c', state => {
       var choice = dataValue(
