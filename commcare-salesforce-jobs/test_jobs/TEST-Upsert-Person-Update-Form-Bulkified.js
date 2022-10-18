@@ -1,16 +1,3 @@
-/*
-fn(state => {
-  const ownerIdList = state.data.commCareSubmissions.map(x =>
-    "'" + x.form.owner_id + "'"
-  );
-  console.log('owner ids: ', ownerIdList)
-
-  return query(
-    `SELECT CommCare_User_ID__c, Id, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c in (${ownerIdList})`
-  )(state);
-});
-*/
-
 fn(state => {
 
   const handleMultiSelect = multiField => {
