@@ -220,7 +220,8 @@ const childDangerSignsMap = {
     fpMethodMap,
     symptomsMap,
     supervisorMap,
-    treatmentDistributionMap
+    treatmentDistributionMap,
+    childDangerSignsMap
   };
 });
 
