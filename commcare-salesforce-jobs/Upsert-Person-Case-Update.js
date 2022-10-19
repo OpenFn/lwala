@@ -714,11 +714,12 @@ fn(state => {
 
     //Closing
     field('Last_Modified_Date_CommCare__c', dataValue('date_modified')),
-    field('Case_Closed_Date__c', state => {
-      var closed = dataValue('date_closed')(state);
-      var date = dataValue('date_modified')(state);
-      return closed && closed == true ? date : undefined;
-    }) //need case property
+    field('Case_Closed_Date__c',dataValue('date_closed')),
+    //field('Case_Closed_Date__c', state => {
+    //  var closed = dataValue('date_closed')(state);
+    //  var date = dataValue('date_modified')(state);
+    //  return closed && closed == true ? date : undefined;
+    //}) //need case property
   );
 
   let sfRecord = expandReferences(originalMapping)(state);
