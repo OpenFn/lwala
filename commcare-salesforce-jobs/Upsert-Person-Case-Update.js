@@ -436,10 +436,10 @@ fn(state => {
       var facility = dataValue('properties.Delivery_Facility')(state);
       return facility ? facility.toString().replace(/_/g, ' ') : null;
     }),
-    field('Delivery_Facility__c', state => {
-      var facility = dataValue('properties.Birth_Facility')(state);
-      return facility ? facility.toString().replace(/_/g, ' ') : null;
-    }),
+    //field('Delivery_Facility__c', state => {
+    //  var facility = dataValue('properties.Birth_Facility')(state);
+    //  return facility ? facility.toString().replace(/_/g, ' ') : null;
+    //}),
     field(
       'Delivery_Facility_Other__c',
       dataValue('properties.Delivery_Facility_Other')
