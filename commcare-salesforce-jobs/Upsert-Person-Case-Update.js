@@ -7,6 +7,17 @@ fn(state => {
       return '';
     }
   };
+  
+  //HMN 26/10/2022 Function to check which value should be used to set delivery facility
+  fn(state => {
+  state.checkDeliveryFacilityValue = function (state, deliveryParameter) {
+    if (deliveryParameter) {
+      return deliveryParameter.
+    } else {
+      return false;
+    }
+  };
+//HMN
 
   state.handleMultiSelect = function (state, multiField) {
     return multiField
@@ -432,13 +443,23 @@ fn(state => {
         ? 'Home'
         : undefined;
     }),
+    //HMN 26/10/2022 Changes on Delivery Facility/
+    //field('Delivery_Facility__c', state => {
+    //  var facility = dataValue('properties.Delivery_Facility')(state);
+   // }),
     field('Delivery_Facility__c', state => {
-      var facility = dataValue('properties.Delivery_Facility')(state);
-      return facility ? facility.toString().replace(/_/g, ' ') : null;
-    }),
-    field('Delivery_Facility__c', state => {
-      var facility = dataValue('properties.Birth_Facility')(state);
-      return facility ? facility.toString().replace(/_/g, ' ') : null;
+      var birthFacility = dataValue('properties.Birth_Facility')(state);
+      var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
+      var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
+      var faciliy_val = 
+        : birthFacilty && birthFacilty !== ''
+          ? birthFacilty
+        : deliveryFacility && deliveryFacility !== ''
+          ? deliveryFacility
+        : facilityOfBirth && facilityOfBirth !== ''
+          ? facilityOfBirth;
+      return faciliy_val.toString().replace(/_/g, ' '):null;
+    
     }),
     field(
       'Delivery_Facility_Other__c',
