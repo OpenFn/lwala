@@ -8,16 +8,6 @@ fn(state => {
     }
   };
   
-  //HMN 26/10/2022 Function to check which value should be used to set delivery facility
-  fn(state => {
-  state.checkDeliveryFacilityValue = function (state, deliveryParameter) {
-    if (deliveryParameter) {
-      return deliveryParameter.
-    } else {
-      return false;
-    }
-  };
-//HMN
 
   state.handleMultiSelect = function (state, multiField) {
     return multiField
@@ -452,14 +442,15 @@ fn(state => {
       var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
       var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
       var faciliy_val = 
-        : birthFacilty && birthFacilty !== ''
+        birthFacilty && birthFacilty !== ''
           ? birthFacilty
         : deliveryFacility && deliveryFacility !== ''
           ? deliveryFacility
         : facilityOfBirth && facilityOfBirth !== ''
-          ? facilityOfBirth;
-      return faciliy_val.toString().replace(/_/g, ' '):null;
-    
+          ? facilityOfBirth
+        :null;
+    return faciliy_val.toString().replace(/_/g, ' ');
+    //HMN
     }),
     field(
       'Delivery_Facility_Other__c',
