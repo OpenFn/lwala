@@ -442,7 +442,7 @@ fn(state => {
       var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
       var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
       var faciliy_val = 
-        birthFacilty && birthFacilty !== ''
+        typeof birthFacilty!='undefined' && birthFacilty !== ''
           ? birthFacilty
         : deliveryFacility && deliveryFacility !== ''
           ? deliveryFacility
