@@ -438,16 +438,13 @@ fn(state => {
     //  var facility = dataValue('properties.Delivery_Facility')(state);
    // }),
     field('Delivery_Facility__c', state => {
-      var birthFacility = dataValue('properties.Birth_Facility')(state);
+      var birthFacility ='';// dataValue('properties.Birth_Facility')(state);
       var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
       var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
       var faciliy_val = 
-        birthFacilty !== undefined || birthFacilty !== '' || birthFacilty !== null
-          ? birthFacilty
-        : deliveryFacility && deliveryFacility !== ''
-          ? deliveryFacility
-        : facilityOfBirth && facilityOfBirth !== ''
-          ? facilityOfBirth
+        birthFacility !== undefined || birthFacility !== '' || birthFacility !== null ? birthFacility
+        : deliveryFacility && deliveryFacility !== '' ? deliveryFacility
+        : facilityOfBirth && facilityOfBirth !== '' ? facilityOfBirth
         :null;
     return faciliy_val.toString().replace(/_/g, ' ');
     //HMN
