@@ -443,7 +443,7 @@ fn(state => {
       }catch(e){
         var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
       }
-      var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
+      //var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
       var faciliy_val = 
         birthFacility !== undefined || birthFacility !== '' || birthFacility !== null ? birthFacility
         : deliveryFacility && deliveryFacility !== '' ? deliveryFacility
