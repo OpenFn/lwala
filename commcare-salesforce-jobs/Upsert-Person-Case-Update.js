@@ -441,7 +441,7 @@ fn(state => {
       var birthFacility =dataValue('properties.Birth_Facility')(state);
       var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
       var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
-     console.log(properties.Birth_Facility);
+     console.log(state.properties.Birth_Facility);
       var faciliy_val = 
         facilityOfBirth !== undefined || facilityOfBirth !== '' || facilityOfBirth !== null 
         ? facilityOfBirth
