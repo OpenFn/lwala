@@ -438,7 +438,8 @@ fn(state => {
     //  var facility = dataValue('properties.Delivery_Facility')(state);
    // }),
     field('Delivery_Facility__c', state => {
-      var birthFacility ='';// dataValue('properties.Birth_Facility')(state);
+      typeof 'properties.Birth_Facility';
+      var birthFacility =dataValue('properties.Birth_Facility')(state);
       var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
       var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
       var faciliy_val = 
