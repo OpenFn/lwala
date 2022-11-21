@@ -446,7 +446,7 @@ fn(state => {
         : deliveryFacility && deliveryFacility !== '' ? deliveryFacility
         : facilityOfBirth && facilityOfBirth !== '' ? facilityOfBirth
         :null;
-    return faciliy_val.toString().replace(/_/g, ' ');
+    return faciliy_val;//.toString().replace(/_/g, ' ');
     //HMN
     }),
     field(
