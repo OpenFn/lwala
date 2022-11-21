@@ -443,8 +443,8 @@ fn(state => {
       var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
       var faciliy_val = 
         birthFacility !== undefined || birthFacility !== '' || birthFacility !== null ? birthFacility
-        : deliveryFacility && deliveryFacility !== '' ? deliveryFacility
-        : facilityOfBirth && facilityOfBirth !== '' ? facilityOfBirth
+        : deliveryFacility !== undefined || deliveryFacility !== '' || deliveryFacility !== null ? deliveryFacility
+        : facilityOfBirth !== undefined || facilityOfBirth !== '' || facilityOfBirth !== null ? facilityOfBirth
         :null;
     return faciliy_val;//.toString().replace(/_/g, ' ');
     //HMN
