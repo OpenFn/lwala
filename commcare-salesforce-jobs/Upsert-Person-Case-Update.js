@@ -451,7 +451,7 @@ fn(state => {
         ? deliveryFacility
         :"";
       console.log(faciliy_val)
-    return faciliy_val;//.toString().replace(/_/g, ' ');
+    return faciliy_val.toString().replace(/_/g, ' ');
     //HMN
     }),
     field(
