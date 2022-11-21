@@ -438,12 +438,9 @@ fn(state => {
     //  var facility = dataValue('properties.Delivery_Facility')(state);
    // }),
     field('Delivery_Facility__c', state => {
-      try {
-        var birthFacility =dataValue('properties.Birth_Facility')(state);
-      }catch(e){
-        var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
-      }
-      //var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
+      var birthFacility =dataValue('properties.Birth_Facility')(state);
+      var deliveryFacility = dataValue('properties.Delivery_Facility')(state);
+      var facilityOfBirth = dataValue ('properties.Facility_of_Birth')(state);
       var faciliy_val = 
         birthFacility !== undefined || birthFacility !== '' || birthFacility !== null ? birthFacility
         : deliveryFacility && deliveryFacility !== '' ? deliveryFacility
