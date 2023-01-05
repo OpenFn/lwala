@@ -260,6 +260,8 @@ upsertIf(
     field('Form_Submitted__c', dataValue('properties.last_form_opened_name')),
     field('Birth_Status__c',dataValue('properties.child_status')),
     field('Catchment__c', dataValue('catchmentNewId')),
+    /*
+    //HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
     relationship('RecordType', 'Name', state => {
           var rt = dataValue('properties.RecordType')(state);
           if (rt === 'Unborn' || rt === 'Child') {
@@ -274,7 +276,7 @@ upsertIf(
           if (rt === 'Female Adult') {
             return 'Adult Female Visit';
           };
-        }),
+        }),*/
     field('Use_mosquito_net__c', state => {
       var choice = dataValue(
         'properties.sleep_under_net'
@@ -702,7 +704,11 @@ upsertIf(
           : undefined;
       return value ? value.join(';') : undefined;
     }),
+    /*
+    //HMN- 05012023 - Removed field('Visit_Closed_Date__c', dataValue('date_closed')),
+    //Because I could not find it in Salesforce. It was causing errors on staging
     field('Visit_Closed_Date__c', dataValue('date_closed')),
+    */
     //field('Case_Closed_Date__c', state => {
     //  var closed = dataValue('date_closed')(state);
     //  var date = dataValue('date_modified')(state);
