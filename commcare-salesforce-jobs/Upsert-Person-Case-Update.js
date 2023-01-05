@@ -286,12 +286,12 @@ fn(state => {
       return status;
     }),
     //===================================================//
-    relationship('RecordType', 'Name', state => {
+    /* relationship('RecordType', 'Name', state => {
       var rt = dataValue('properties.Record_Type')(state);
       return rt === 'Unborn' || rt === ''
         ? 'Child'
         : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
-    }),
+    }),*/
 
     //TT5 Mother Information
 
