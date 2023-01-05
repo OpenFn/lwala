@@ -702,7 +702,7 @@ upsertIf(
           : undefined;
       return value ? value.join(';') : undefined;
     }),
-    field('Visit_Closed_Date__c', dataValue('date_closed')),
+   // field('Visit_Closed_Date__c', dataValue('date_closed')),
     //field('Case_Closed_Date__c', state => {
     //  var closed = dataValue('date_closed')(state);
     //  var date = dataValue('date_modified')(state);
