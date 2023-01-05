@@ -260,7 +260,7 @@ upsertIf(
     field('Form_Submitted__c', dataValue('properties.last_form_opened_name')),
     field('Birth_Status__c',dataValue('properties.child_status')),
     field('Catchment__c', dataValue('catchmentNewId')),
-    relationship('RecordType', 'Name', state => {
+    /*relationship('RecordType', 'Name', state => {
           var rt = dataValue('properties.RecordType')(state);
           if (rt === 'Unborn' || rt === 'Child') {
             return 'Child Visit';
@@ -274,7 +274,7 @@ upsertIf(
           if (rt === 'Female Adult') {
             return 'Adult Female Visit';
           };
-        }),
+        }),*/
     field('Use_mosquito_net__c', state => {
       var choice = dataValue(
         'properties.sleep_under_net'
