@@ -557,10 +557,15 @@ fn(state => {
       'mother_visited_48_hours_of_the_delivery__c',
       dataValue('properties.visit_mother_48')
     ),
+    /*
+    //HMN -06012023- The object Visit_after_unskilled__c seems to be missing in sfRecord
+    //Investigation issue https://lwala.atlassian.net/browse/LWAL-716 raised
+    //Meanwhile this is being removed to allow re-processing
     field(
       'Visit_after_unskilled__c',
       dataValue('properties.visit_24hours_after_unskilled_delivery')
     ),
+    */
     field('Mother_visit_counselling__c', state => {
       var choice = dataValue('properties.did_you_consel_the_mother_on2')(state);
       return state.cleanChoice(state, choice);
