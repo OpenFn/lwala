@@ -117,7 +117,8 @@ upsert(
 );  
 
 upsertIf(
-  state.data.form.prologue.hh_code !== '',
+  state.data.form.prologue.hh_code !== '' &&
+  state.data.form.prologue.hh_code !== null,
   'Supervision_Forms__c',
   'CommCare_Form_ID__c',
   relationship('Household_Code__r', 
