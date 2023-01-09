@@ -35,10 +35,6 @@ upsert(
       'CommCare_User_ID__c',
       dataValue('form.prologue.chw_village')
     ),
-    // relationship('Household_Code__r', 
-    // 'Name',
-    // dataValue('form.prologue.hh_code')
-    // ),
     field('Form_Date__c',dataValue('form.Date')),
     field('Fertile_Women_in_Household__c',dataValue('form.WRA_check')),
     field('CHW_Asked_About_Family_Planning__c',dataValue('form.women_of_reproductive_age.fp_check')),
