@@ -18,10 +18,10 @@ upsert(
   fields(
     field('CommCare_Form_ID__c', dataValue('id')),
     relationship('RecordType', 'Name', 'Household Spotcheck Form'),
-      relationship('Household_Code__r', 
-    'Name',
-    dataValue('form.prologue.hh_code')
-    ),
+    //  relationship('Household_Code__r', 
+    //'Name',
+    //dataValue('form.prologue.hh_code')
+   // ),
     field('Supervisor_Name__c', dataValue('form.prologue.spot_checker_sfid')),
     field('CHW_Name__c', dataValue('form.prologue.chw_sfid')),
       relationship(
@@ -110,4 +110,15 @@ upsert(
       return state.handleMultiSelect(state, choice);
     }),
   )
-);  
+); 
+
+upsertIf(
+  state.data.form.prologue.hh_code !== '' &&
+  state.data.form.prologue.hh_code !== null,
+  'Supervision_Forms__c',
+  'CommCare_Form_ID__c',
+  relationship('Household_Code__r', 
+    'Name',
+    dataValue('form.prologue.hh_code')
+    )
+  );
