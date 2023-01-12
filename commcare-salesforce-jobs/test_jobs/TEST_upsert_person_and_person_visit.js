@@ -153,7 +153,17 @@ fn(state => ({
     pop: "POP",
     coc: "COC",
     emergency_pills: "Emergency pills",
-    none: "None"
+    none: "None",
+    //HMN -12/01/2023- 
+    //adding normalization for the family_planning_method to Family_Planning_Method__c
+    iucd: "IUCD",
+    condoms: "Condoms",
+    depo:"Depo",
+    implant: "Implant",
+    injection: "Injection",
+    pills: "Pills",
+    traditional: "Traditional",
+    
   };
 
   const symptomsMap = {
@@ -422,10 +432,28 @@ upsertIf(
       )(state);
       return state.cleanChoice(state, choice);
     }),
+    //HMN 12/01/2023 Failures on picklist within Salesforce
+    /*
     field(
       'Family_Planning_Method__c',
       dataValue('properties.family_planning_method')
-    ),
+    ),*/
+      field('Family_Planning_Method__c', state => {
+        //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
+        var status = dataValue('properties.family_planning_method')(state);
+        var value =
+        status && status !== ''
+          ? status
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                  return state.fpMethodMap[value] || value;
+              })
+            : undefined;
+          return value ? value.join(';') : undefined;
+        }),
+    
+    //HMN
      field('FP_Method_Distributed__c', state => {
           //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
           var status = dataValue('properties.FP_commodity')(state);
