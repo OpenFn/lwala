@@ -4,6 +4,16 @@ query(
   )(state)}'`
 );
 
+fn(state => { console.log("query1 done"); return state; });
+fn(state => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('4 second cooldown finished.');
+      resolve(state);
+    }, 4000);
+  });
+});
+
 fn(state => ({
   ...state,
   data: {
@@ -167,12 +177,24 @@ upsertIf(
     )
 );
 
+fn(state => { console.log("upsertIf1 done"); return state; });
+fn(state => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('4 second cooldown finished.');
+      resolve(state);
+    }, 4000);
+  });
+});
+
 //Household Visit
 query(
   `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
     'properties.owner_id'
   )(state)}'`
 );
+
+fn(state => { console.log("query2 done"); return state; });
 
 fn(state => ({
   ...state,
@@ -390,4 +412,6 @@ upsertIf(
     })
   )
 );
+
+fn(state => { console.log("upsertIf2 done"); return state; });
 
