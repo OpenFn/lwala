@@ -195,6 +195,14 @@ query(
 );
 
 fn(state => { console.log("query2 done"); return state; });
+fn(state => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('4 second cooldown finished.');
+      resolve(state);
+    }, 4000);
+  });
+});
 
 fn(state => ({
   ...state,
@@ -414,4 +422,12 @@ upsertIf(
 );
 
 fn(state => { console.log("upsertIf2 done"); return state; });
+fn(state => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('Final 4 second cooldown finished.');
+      resolve(state);
+    }, 4000);
+  });
+});
 
