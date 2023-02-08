@@ -225,6 +225,8 @@ fn(state => {
 
 // NOTE: We finally upsert to the Service__c object in Salesforce
 upsertIf(
+    state.data.properties.commcare_username !== 'test.2021' &&
+    state.data.properties.test_user  !== 'Yes', 
     state.data.properties.owner_id !== '8e725928e3ce43d19b390dd604097069',
 'Service__c', 'Service_UID__c', state => ({
   ...fields(...state.relationships),
