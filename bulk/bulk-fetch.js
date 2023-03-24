@@ -62,35 +62,35 @@ fn(state => {
 // send all of those payloads to OpenFn in batches
 
 
-// fn(async state => {
-//   const { configuration, payloads } = state;
+fn(async state => {
+  const { configuration, payloads } = state;
 
-//   const loop = Math.ceil(payloads.length / 250);
+  const loop = Math.ceil(payloads.length / 250);
 
-//   let countInbox = 0;
+  let countInbox = 0;
 
-//   const postToInbox = async data => {
-//     countInbox++;
+  const postToInbox = async data => {
+    countInbox++;
 
-//     console.log(`Sending batch ${countInbox} to inbox`);
-//     await http.post({
-//       url: configuration.openfnInboxUrl,
-//       data: data,
-//       maxContentLength: Infinity,
-//       maxBodyLength: Infinity,
-//     })(state);
-//   };
+    console.log(`Sending batch ${countInbox} to inbox`);
+    await http.post({
+      url: configuration.openfnInboxUrl,
+      data: data,
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity,
+    })(state);
+  };
 
-//   console.log(`Sending ${loop} batches of submissions to inbox`);
-//   for (let i = 0; i < loop; i++) {
-//     const batch = state.payloads.slice(i * 250, (i + 1) * 250);
+  console.log(`Sending ${loop} batches of submissions to inbox`);
+  for (let i = 0; i < loop; i++) {
+    const batch = state.payloads.slice(i * 250, (i + 1) * 250);
 
-//     const data = {
-//       tag: 'update_person_historical',
-//       commCareSubmissions: batch,
-//     };
-//     await postToInbox(data);
-//   }
+    const data = {
+      tag: 'update_person_historical',
+      commCareSubmissions: batch,
+    };
+    await postToInbox(data);
+  }
 
-//   return { ...state, payloads: [], references: [], data: {} };
-// });
+  return { ...state, payloads: [], references: [], data: {} };
+});
