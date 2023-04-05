@@ -18,8 +18,8 @@ fn(state => {
   const queries = caseTypes.map(
     t =>
       `?type=${t}` +
-      `?indexed_on_start=${indexedOnStart}` +
-      `&received_on_end=${receivedOnEnd}` +
+      // `?indexed_on_start=${indexedOnStart}` +
+      // `&received_on_end=${receivedOnEnd}` +
       `&limit=${limit}`
   );
 
