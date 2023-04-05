@@ -26,7 +26,7 @@ fn(state => {
 get(state.baseUrl, {
    query: '?type=Household&indexed_on_start=2023-01-01&limit=10',
    headers: {'content-type': 'application/json'},
-   authentication: {username: state.configuration.username, password: state.configuration.username }
+   authentication: {username: state.configuration.username, password: state.configuration.password }
  })
 
 // create a "recursiveGet" which will call itself if CommCare tells us there's
