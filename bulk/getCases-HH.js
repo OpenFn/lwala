@@ -2,7 +2,9 @@ fn(state => {
   const baseUrl =
     'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/case/';
 
-  const caseTypes = ['Household'];
+  const caseTypes = [
+    'Household',
+  ];
 
   const limit = 1000;
   const indexedOnStart = '2023-03-23';
