@@ -4,9 +4,6 @@ fn(state => {
 
   const caseTypes = [
     'Household',
-    'Person',
-    'visite',
-    'Case',
   ];
 
   const limit = 1000;
