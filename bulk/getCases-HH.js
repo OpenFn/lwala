@@ -1,9 +1,12 @@
-get(state.baseUrl, {
-   query: '?type=Household&indexed_on_start=2023-01-01&limit=10',
-   headers: {'content-type': 'application/json'},
-   authentication: {username: state.configuration.username, password: state.configuration.password }
- });
- 
+get(state.configuration.baseUrl, {
+  query: '?type=Household&indexed_on_start=2023-01-01&limit=10',
+  headers: { 'content-type': 'application/json' },
+  authentication: {
+    username: state.configuration.username,
+    password: state.configuration.password,
+  },
+});
+
 // fn(state => {
 //   const baseUrl =
 //     'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/case/';
@@ -28,8 +31,6 @@ get(state.baseUrl, {
 
 //   return { ...state, queries, baseUrl, payloads: [] };
 // });
-
-
 
 // create a "recursiveGet" which will call itself if CommCare tells us there's
 // more data to fetch for the same form
