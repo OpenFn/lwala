@@ -195,9 +195,6 @@ fn(state => {
         CommCare_Username__c: h.properties.commcare_username,
         CommCare_Visit_ID__c: visitIdC,
         Catchment__c: catchmentNewId(h.properties.owner_id),
-        // TODO: Research what is 👇
-        // relationship('Household__r', 'CommCare_Code__c', h.case_id),
-        // and is it the same as 👇
         'Household__r.CommCare_Code__c': h.case_id,
         Date__c: h.properties.Date,
         Form_Submitted__c: h.properties.last_form_opened_name,
@@ -221,7 +218,6 @@ fn(state => {
         Pit_Latrine__c: h.properties.Functional_Latrine,
         Rubbish_Pit__c: h.properties.Rubbish_Pit,
         Drying_Rack__c: h.properties.Drying_Rack,
-        // Kitchen_Garden__c: h.properties.Kitchen_Garden,
         Cookstove__c: h.properties.Improved_Cooking_Method,
         Clothe__c: h.properties.Clothesline,
         WASH_Trained__c: h.properties.WASH_Trained,
