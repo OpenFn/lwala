@@ -198,7 +198,7 @@ fn(state => {
         // TODO: Research what is 👇
         // relationship('Household__r', 'CommCare_Code__c', h.case_id),
         // and is it the same as 👇
-        Household__r: { CommCare_Code__c: h.case_id },
+        'Household__r.CommCare_Code__c': h.case_id,
         Date__c: h.properties.Date,
         Form_Submitted__c: h.properties.last_form_opened_name,
         Active_Household__c: Active_Household__c,
