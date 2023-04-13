@@ -6,17 +6,15 @@ fn(state => {
 });
 
 fn(state => {
-  return query(`SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment
-  FROM Location__c
-  WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
-    "','"
-  )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Parent_Geographic_Area__c`)(
-    state
-  );
+  return query(
+    `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c catchment WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
+      "','"
+    )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
+  )(state);
 });
 
 fn(state => {
-  console.log('query1 done');
+  console.log('Done querying ✅');
 
   return state;
 });
@@ -32,7 +30,7 @@ fn(state => {
 
 fn(state => {
   console.log(
-    'Filtering out unwanted users and applying mapping for households'
+    'Filtering out unwanted users and applying mapping for households and housevisits'
   );
 
   const [reference] = state.references;
@@ -51,6 +49,21 @@ fn(state => {
     reference.records.filter(
       record => record.CommCare_User_ID__c === owner_id
     )[0].catchment;
+
+  const supervisorMap = {
+    community_health_nurse: 'Community Health Nurse',
+    chw_supervisor: 'CHW Supervisor',
+    chewschas: 'CHEWs/CHAs',
+    other: 'Other',
+    none: 'None',
+  };
+
+  const insuranceMap = {
+    nhif: 'NHIF',
+    Linda_mama: 'Linda mama',
+    other_please_specify_if_active: 'Other',
+    none: 'None',
+  };
 
   const households = state.data.objects
     .filter(
@@ -140,81 +153,6 @@ fn(state => {
       };
     });
 
-  console.log('Bulk upserting households...');
-  return { ...state, households };
-});
-
-bulk(
-  'Household__c',
-  'upsert',
-  {
-    extIdField: 'CommCare_Code__c',
-    failOnError: true,
-    allowNoOp: true,
-  },
-  state => state.households
-);
-
-// TODO: Mtuchi
-// The remaining transformation
-// https://docs.google.com/spreadsheets/d/1Zy7boC8o_F8eqlPwTEpYkIHA9CifZzasWDuzdMRHvdw/edit#gid=1007251733
-
-//Household Visit
-//QUESTION: Do we need to query SF again? Or can we do 1 query at the start of the job? It looks redundant
-fn(state => {
-  return query(
-    `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c catchment WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
-      "','"
-    )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
-  )(state);
-});
-
-fn(state => {
-  console.log('query2 done');
-  // console.log(JSON.stringify(state.references, null, 2));
-  return state;
-});
-fn(state => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log('4 second cooldown finished.');
-      resolve(state);
-    }, 4000);
-  });
-});
-
-fn(state => {
-  const [reference] = state.references;
-
-  const catchmentNewId = owner_id =>
-    reference.records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].catchment;
-
-  const supervisorMap = {
-    community_health_nurse: 'Community Health Nurse',
-    chw_supervisor: 'CHW Supervisor',
-    chewschas: 'CHEWs/CHAs',
-    other: 'Other',
-    none: 'None',
-  };
-
-  const insuranceMap = {
-    nhif: 'NHIF',
-    Linda_mama: 'Linda mama',
-    other_please_specify_if_active: 'Other',
-    none: 'None',
-  };
-
-  return { ...state, supervisorMap, insuranceMap, catchmentNewId };
-});
-
-fn(state => {
-  console.log(
-    'Filtering out unwanted users and applying mapping for housevisits'
-  );
-  const { supervisorMap, insuranceMap, catchmentNewId } = state;
-
   const housevisits = state.data.objects
     .filter(
       h =>
@@ -227,10 +165,9 @@ fn(state => {
       const visitIdC =
         h.case_id + '_' + h.properties.last_form_opened_date_and_time;
 
-      const householdC = () => {
-        let status = h.properties.Household_Status;
-        return status === 'No' ? false : status === 'Yes' ? true : status;
-      };
+      const hVstatus = h.properties.Household_Status;
+      const Active_Household__c =
+        hVstatus === 'No' ? false : hVstatus === 'Yes' ? true : hVstatus;
 
       const insuranceTypeC = () => {
         let status = h.properties.health_insurance;
@@ -247,20 +184,12 @@ fn(state => {
       };
 
       const openedC = () => {
-        let form_opened = h.properties.last_form_opened_date_and_time;
-        let value1 = form_opened.split('-').slice(0, 2).join('-');
-        let value2 = form_opened.split('-').slice(2).join('-');
-        let formattedValue = [value1, value2].join(' ');
+        const form_opened = h.properties.last_form_opened_date_and_time;
+        const value1 = form_opened.split('-').slice(0, 2).join('-');
+        const value2 = form_opened.split('-').slice(2).join('-');
+        const formattedValue = [value1, value2].join(' ');
         return new Date(formattedValue).toISOString();
       };
-
-      // let closed = h.date_closed;
-      // TODO: Confirm that server_modified_on has been changed to server_date_modified
-      // let date = h.server_date_modified;
-      const caseClosedDate =
-        h.date_closed && h.date_closed == true
-          ? h.server_modified_on
-          : undefined;
 
       return {
         CommCare_Username__c: h.properties.commcare_username,
@@ -269,10 +198,10 @@ fn(state => {
         // TODO: Research what is 👇
         // relationship('Household__r', 'CommCare_Code__c', h.case_id),
         // and is it the same as 👇
-        // CommCare_Code__c: h.case_id,
+        Household__c: { CommCare_Code__c: h.case_id },
         Date__c: h.properties.Date,
         Form_Submitted__c: h.properties.last_form_opened_name,
-        Active_Household__c: householdC(),
+        Active_Household__c: Active_Household__c,
         Active_in_Nutrition_Program__c:
           h.properties.enrolled_in_a_lwala_nutrition_program,
         lwala_nutrition_program_enrollment_date__c:
@@ -307,14 +236,42 @@ fn(state => {
 
         Other_Health_Insurance__c: h.properties.if_other_please_specify,
         CommCare_Form_Opened__c: openedC(),
-        Case_Closed_Date__c: caseClosedDate,
+        // TODO: @Aleksa to find out if Case_Closed_Date__c still exist
+        // Case_Closed_Date__c: h.date_closed && h.date_closed == true
+        //     ? h.server_modified_on
+        //     : undefined;,
       };
     });
 
-  console.log('Bulk upserting housevisits...');
-  console.log(JSON.stringify(housevisits, null, 2));
+  return { ...state, households, housevisits };
+});
 
-  return { ...state, housevisits };
+bulk(
+  'Household__c',
+  'upsert',
+  {
+    extIdField: 'CommCare_Code__c',
+    failOnError: true,
+    allowNoOp: true,
+  },
+  state => {
+    console.log('Bulk upserting households...');
+    return state.households;
+  }
+);
+
+fn(state => {
+  console.log('house holds bulk upsert done');
+  return state;
+});
+
+fn(state => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('4 second cooldown finished.');
+      resolve(state);
+    }, 4000);
+  });
 });
 
 bulk(
@@ -325,7 +282,10 @@ bulk(
     failOnError: true,
     allowNoOp: true,
   },
-  state => state.housevisits
+  state => {
+    console.log('Bulk upserting housevisits...');
+    return state.housevisits;
+  }
 );
 
 fn(state => {
