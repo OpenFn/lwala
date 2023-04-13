@@ -4,14 +4,11 @@ fn(state => {
 
   return query(`SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment
   FROM Location__c
-  WHERE CommCare_User_ID__c IN ('${uniq_owner_ids.join("','")}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Parent_Geographic_Area__c`)(state);
-
-  // return query(`SELECT CommCare_User_ID__c, Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c
-  // FROM Location__c
-  // WHERE CommCare_User_ID__c IN ('${uniq_owner_ids.join("','")}')
-  // GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Parent_Geographic_Area__c
-  // `)(state);
-  // return { ...state, uniq_owner_ids };
+  WHERE CommCare_User_ID__c IN ('${uniq_owner_ids.join(
+    "','"
+  )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Parent_Geographic_Area__c`)(
+    state
+  );
 });
 
 fn(state => {
@@ -29,34 +26,69 @@ fn(state => {
   });
 });
 
-fn(state => ({
-  ...state,
-  data: {
-    ...state.data,
-    villageNewId: state.references[0].records && state.references[0].records.length !== 0 ? state.references[0].records[0].Id : undefined,
-    areaNewId: state.references[0].records && state.references[0].records.length !== 0 ? state.references[0].records[0].Parent_Geographic_Area__c : undefined,
-    catchmentNewId: state.references[0].records && state.references[0].records.length !== 0 ? (state.references[0].records[0].Parent_Geographic_Area__r ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c : undefined) : undefined,
-  },
-}));
+fn(state => {
+  // console.log('Reference', JSON.stringify(state.references, null, 2));
+
+  const [reference] = state.references;
+
+  const villageNewId = owner_id =>
+    reference.records.filter(
+      record => record.CommCare_User_ID__c === owner_id
+    )[0].village;
+
+  const areaNewId = owner_id =>
+    reference.records.filter(
+      record => record.CommCare_User_ID__c === owner_id
+    )[0].area;
+
+  const catchmentNewId = owner_id =>
+    reference.records.filter(
+      record => record.CommCare_User_ID__c === owner_id
+    )[0].catchment;
+
+  return { ...state, villageNewId, areaNewId, catchmentNewId };
+});
 
 fn(state => {
   console.log('Filtering out unwanted households and applying mapping');
 
+  const { areaNewId, villageNewId, catchmentNewId } = state;
+
   const households = state.data.objects
-    .filter(h => h.properties.commcare_username !== 'openfn.test' && h.properties.commcare_username !== 'test.2021' && h.properties.test_user !== 'Yes')
+    .filter(
+      h =>
+        h.properties.commcare_username !== 'openfn.test' &&
+        h.properties.commcare_username !== 'test.2021' &&
+        h.properties.test_user !== 'Yes'
+    )
     .map(h => {
       // Special calculations ==================================================
       const insuranceStatus = h.properties.health_insurance;
-      const Health_insurance_type__c = insuranceStatus && insuranceStatus === 'other_please_specify_if_active' ? 'Other' : insuranceStatus === 'nhif' ? 'NHIF' : insuranceStatus === 'Linda_mama' || 'linda_mama' ? 'Linda mama' : insuranceStatus;
+      const Health_insurance_type__c =
+        insuranceStatus && insuranceStatus === 'other_please_specify_if_active'
+          ? 'Other'
+          : insuranceStatus === 'nhif'
+          ? 'NHIF'
+          : insuranceStatus === 'Linda_mama' || 'linda_mama'
+          ? 'Linda mama'
+          : insuranceStatus;
 
       const hhStatus = h.properties.Household_Status;
-      const Active_Household__c = hhStatus && hhStatus === 'No' ? false : hhStatus === 'Yes' ? true : hhStatus;
+      const Active_Household__c =
+        hhStatus && hhStatus === 'No'
+          ? false
+          : hhStatus === 'Yes'
+          ? true
+          : hhStatus;
 
       const reason = h.properties.Reason_for_Inactive;
-      const Inactive_Reason__c = reason ? reason.toString().replace(/_/g, ' ') : null;
+      const Inactive_Reason__c = reason
+        ? reason.toString().replace(/_/g, ' ')
+        : null;
 
       const chw = h.properties.CHW_ID;
-      const Household_CHW__c = chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
+      const Household_CHW__c =
+        chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
       // =======================================================================
 
       return {
@@ -68,11 +100,12 @@ fn(state => {
         // Household_CHW__c, // Uncomment me to go live!
         Household_CHW__c: 'a03G5000003bGIbIAM', // Comment me OUT to go live!
         // =====================================================================
-        Catchment__c: h.catchmentNewId,
-        Area__c: h.areaNewId,
-        Village__c: h.villageNewId,
+        Catchment__c: catchmentNewId(h.properties.owner_id),
+        Area__c: areaNewId(h.properties.owner_id),
+        Village__c: villageNewId(h.properties.owner_id),
         Household_Village__c: h.properties.village,
-        Deaths_in_the_last_6_months__c: h.properties.deaths_in_past_6_months > 0 ? 'Yes' : 'No',
+        Deaths_in_the_last_6_months__c:
+          h.properties.deaths_in_past_6_months > 0 ? 'Yes' : 'No',
         Access_to_safe_water__c: h.properties.Safe_Water,
         Treats_Drinking_Water__c: h.properties.Treats_Drinking_Water,
         Tippy_Tap__c: h.properties.Active_Handwashing_Station,
@@ -94,12 +127,17 @@ fn(state => {
         Last_Modified_Date_CommCare__c: h.server_date_modified, //Need a case property,
         Active_Household__c,
         Inactive_Reason__c,
-        Active_in_Nutrition_Program__c: h.properties.enrolled_in_a_lwala_nutrition_program,
-        lwala_nutrition_program_enrollment_date__c: h.properties.lwala_nutrition_program_enrollment_date,
+        Active_in_Nutrition_Program__c:
+          h.properties.enrolled_in_a_lwala_nutrition_program,
+        lwala_nutrition_program_enrollment_date__c:
+          h.properties.lwala_nutrition_program_enrollment_date,
         Trained_in_gardening__c: h.properties.household_trained_on_gardening,
-        household_trained_on_gardening_date__c: h.properties.when_was_the_household_trained_on_gardening,
-        Seed_Input_Support__c: h.properties.household_provided_with_seed_input_support,
-        household_provided_with_seed_input_suppo__c: h.properties.when_was_the_household_provided_with_seed_input_support,
+        household_trained_on_gardening_date__c:
+          h.properties.when_was_the_household_trained_on_gardening,
+        Seed_Input_Support__c:
+          h.properties.household_provided_with_seed_input_support,
+        household_provided_with_seed_input_suppo__c:
+          h.properties.when_was_the_household_provided_with_seed_input_support,
         MIYCN_Trained__c: h.properties.household_trained_on_MIYC,
       };
     });
