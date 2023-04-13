@@ -1,0 +1,121 @@
+{
+    "configuration": {},
+    "data": {
+        "objects": [
+            {
+                "case_id": "35d7038b-25cd-4224-b0b6-7e85ef6a7ddd",
+                "closed": true,
+                "closed_by": "8e764ca878e440149be533c5eea5a777",
+                "date_closed": "2022-12-22T08:28:40.664000Z",
+                "date_modified": "2022-12-21T08:28:40.664000Z",
+                "domain": "lwala-community-alliance",
+                "id": "35d7038b-25cd-4224-b0b6-7e85ef6a7ddd",
+                "indexed_on": "2023-01-01T11:17:32.930702",
+                "indices": {
+                    "parent": {
+                        "case_id": "18e1c16a-cf8e-4fb5-891d-238b14227888",
+                        "case_type": "Person",
+                        "relationship": "child"
+                    }
+                },
+                "opened_by": "8e764ca878e440149be533c5eea5a777",
+                "properties": {
+                    "CHW_ID": "a030800001zQs87",
+                    "Case_Type": "Service",
+                    "Clinician_Notes": "",
+                    "Follow-Up_By_Date": "",
+                    "Follow-Up_Required": "No",
+                    "Household_CHW": "a030800001zQs87",
+                    "Household_Code": "05c81dd0-3081-4c53-807b-a88e6cf12c46",
+                    "Nutrition_Status": "normal",
+                    "Person_Name": "John Doe",
+                    "Purpose_of_Referral": "Malnutrition",
+                    "Reason_for_Service": "Nutrition Screening",
+                    "Referral_Date": "2022-12-22",
+                    "Referral_Status": "Closed",
+                    "Source": "1",
+                    "Type_of_Service": "Malnutrition",
+                    "age": "44.6",
+                    "app_release": "Q2-2022",
+                    "case_name": "John Doe",
+                    "case_type": "Case",
+                    "date_opened": "2022-12-22T08:28:40.664000Z",
+                    "external_id": null,
+                    "height": "78",
+                    "last_form_opened_date": "2022-12-22",
+                    "last_form_opened_date_and_time": "2022-12-22-11:23:29",
+                    "last_form_opened_name": "Update Person MOH (New Visit)",
+                    "muac": "13",
+                    "owner_id": "c8387835367244f289d61e11e9df6079",
+                    "referred_facility": "",
+                    "referred_facility_other": "",
+                    "test_user": ""
+                },
+                "resource_uri": "",
+                "server_date_modified": "2023-01-01T11:15:53.758194Z",
+                "server_date_opened": "2023-01-01T11:15:53.758194Z",
+                "user_id": "8e764ca878e440149be533c5eea5a7e9",
+                "xform_ids": [
+                    "b12bc8d4-924f-4df4-9251-3fd65d88a9fb"
+                ]
+            },
+            {
+                "case_id": "239ccbbe-b8d5-491f-ad48-f44c1004b000",
+                "closed": false,
+                "closed_by": null,
+                "date_closed": null,
+                "date_modified": "2023-01-08T09:04:08.195000Z",
+                "domain": "lwala-community-alliance",
+                "id": "239ccbbe-b8d5-491f-ad48-f44c1004b000",
+                "indexed_on": "2023-01-08T09:06:25.028707",
+                "indices": {
+                    "parent": {
+                        "case_id": "dc1c2df4-0d82-4330-9b00-6a70c99e0333",
+                        "case_type": "Person",
+                        "relationship": "child"
+                    }
+                },
+                "opened_by": "8f990510cdcc42e2b5e7286dff104555",
+                "properties": {
+                    "CHW_ID": "a031p00001mqy9m",
+                    "Case_Type": "Follow-Up",
+                    "Clinician_Notes": "",
+                    "Follow-Up_By_Date": "",
+                    "Follow-Up_Required": "",
+                    "Household_CHW": "a031p00001mqy9m",
+                    "Household_Code": "9b70dbe1-d74e-4ce8-bfe8-1f728042f28b",
+                    "Person_Name": "Anna Dube",
+                    "Purpose_of_Referral": "",
+                    "Reason_for_Service": "",
+                    "Referral_Date": "",
+                    "Referral_Status": "Open",
+                    "Source": "1",
+                    "Type_of_Service": "",
+                    "age": "38.33",
+                    "app_release": "Q2-2022",
+                    "case_name": "Anna Dube",
+                    "case_type": "Case",
+                    "date_opened": "2023-01-08T09:04:08.195000Z",
+                    "distributed_treatments": "acts_6s",
+                    "duration_of_sickness": "3",
+                    "external_id": null,
+                    "last_form_opened_date": "2023-01-08",
+                    "last_form_opened_date_and_time": "2023-01-08-11:55:25",
+                    "last_form_opened_name": "Update Person MOH (New Visit)",
+                    "owner_id": "42dd35c113494dee9839804832a5b985",
+                    "referred_facility": "",
+                    "referred_facility_other": "",
+                    "temperature": "38.6",
+                    "test_user": ""
+                },
+                "resource_uri": "",
+                "server_date_modified": "2023-01-08T09:06:24.653336Z",
+                "server_date_opened": "2023-01-08T09:06:24.653336Z",
+                "user_id": "8f990510cdcc42e2b5e7286dff10555",
+                "xform_ids": [
+                    "c8477129-068f-4026-b8d8-479100d324cf"
+                ]
+            }
+        ]
+    }
+}
