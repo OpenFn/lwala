@@ -2,9 +2,13 @@ fn(state => {
   const owner_ids = state.data.objects.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
+  return { ...state, uniq_owner_ids };
+});
+
+fn(state => {
   return query(`SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment
   FROM Location__c
-  WHERE CommCare_User_ID__c IN ('${uniq_owner_ids.join(
+  WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
     "','"
   )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Parent_Geographic_Area__c`)(
     state
@@ -27,7 +31,9 @@ fn(state => {
 });
 
 fn(state => {
-  // console.log('Reference', JSON.stringify(state.references, null, 2));
+  console.log(
+    'Filtering out unwanted users and applying mapping for households'
+  );
 
   const [reference] = state.references;
 
@@ -45,14 +51,6 @@ fn(state => {
     reference.records.filter(
       record => record.CommCare_User_ID__c === owner_id
     )[0].catchment;
-
-  return { ...state, villageNewId, areaNewId, catchmentNewId };
-});
-
-fn(state => {
-  console.log('Filtering out unwanted households and applying mapping');
-
-  const { areaNewId, villageNewId, catchmentNewId } = state;
 
   const households = state.data.objects
     .filter(
@@ -161,191 +159,185 @@ bulk(
 // The remaining transformation
 // https://docs.google.com/spreadsheets/d/1Zy7boC8o_F8eqlPwTEpYkIHA9CifZzasWDuzdMRHvdw/edit#gid=1007251733
 
-// //Household Visit
-// //QUESTION: Do we need to query SF again? Or can we do 1 query at the start of the job? It looks redundant
-// query(
-//   `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
-//     'properties.owner_id'
-//   )(state)}'`
-// );
+//Household Visit
+//QUESTION: Do we need to query SF again? Or can we do 1 query at the start of the job? It looks redundant
+fn(state => {
+  return query(
+    `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c catchment WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
+      "','"
+    )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
+  )(state);
+});
 
-// fn(state => {
-//   console.log('query2 done');
-//   return state;
-// });
-// fn(state => {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       console.log('4 second cooldown finished.');
-//       resolve(state);
-//     }, 4000);
-//   });
-// });
+fn(state => {
+  console.log('query2 done');
+  // console.log(JSON.stringify(state.references, null, 2));
+  return state;
+});
+fn(state => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('4 second cooldown finished.');
+      resolve(state);
+    }, 4000);
+  });
+});
 
-// fn(state => ({
-//   ...state,
-//   data: {
-//     ...state.data,
-//     catchmentNewId:
-//       state.references[0].records && state.references[0].records.length !== 0
-//         ? state.references[0].records[0].Parent_Geographic_Area__r
-//           ? state.references[0].records[0].Parent_Geographic_Area__r
-//               .Parent_Geographic_Area__c
-//           : undefined
-//         : undefined,
-//   },
-// }));
+fn(state => {
+  const [reference] = state.references;
 
-// fn(state => {
-//   const supervisorMap = {
-//     community_health_nurse: 'Community Health Nurse',
-//     chw_supervisor: 'CHW Supervisor',
-//     chewschas: 'CHEWs/CHAs',
-//     other: 'Other',
-//     none: 'None',
-//   };
+  const catchmentNewId = owner_id =>
+    reference.records.filter(
+      record => record.CommCare_User_ID__c === owner_id
+    )[0].catchment;
 
-//   const insuranceMap = {
-//     nhif: 'NHIF',
-//     Linda_mama: 'Linda mama',
-//     other_please_specify_if_active: 'Other',
-//     none: 'None',
-//   };
+  const supervisorMap = {
+    community_health_nurse: 'Community Health Nurse',
+    chw_supervisor: 'CHW Supervisor',
+    chewschas: 'CHEWs/CHAs',
+    other: 'Other',
+    none: 'None',
+  };
 
-//   return { ...state, supervisorMap, insuranceMap };
-// });
+  const insuranceMap = {
+    nhif: 'NHIF',
+    Linda_mama: 'Linda mama',
+    other_please_specify_if_active: 'Other',
+    none: 'None',
+  };
 
-// upsertIf(
-//   state.data.properties.username !== 'openfn.test' &&
-//     state.data.properties.username !== 'test.2021' &&
-//     state.data.properties.test_user !== 'Yes',
-//   'Visit__c',
-//   'CommCare_Visit_ID__c',
-//   fields(
-//     field('CommCare_Username__c', dataValue('properties.commcare_username')), //
-//     field('CommCare_Visit_ID__c', state => {
-//       var case_id = dataValue('case_id')(state);
-//       var submitted = dataValue('properties.last_form_opened_date_and_time')(
-//         state
-//       );
-//       return case_id + '_' + submitted;
-//     }),
+  return { ...state, supervisorMap, insuranceMap, catchmentNewId };
+});
 
-//     field('Catchment__c', dataValue('catchmentNewId')),
-//     relationship('Household__r', 'CommCare_Code__c', dataValue('case_id')),
-//     field('Date__c', dataValue('properties.Date')),
-//     field('Form_Submitted__c', dataValue('properties.last_form_opened_name')),
-//     field('Active_Household__c', state => {
-//       var status = dataValue('properties.Household_Status')(state);
-//       return status && status === 'No'
-//         ? false
-//         : status === 'Yes'
-//         ? true
-//         : status;
-//     }),
-//     field(
-//       'Active_in_Nutrition_Program__c',
-//       dataValue('properties.enrolled_in_a_lwala_nutrition_program')
-//     ),
-//     field(
-//       'lwala_nutrition_program_enrollment_date__c',
-//       dataValue('properties.lwala_nutrition_program_enrollment_date')
-//     ),
-//     field(
-//       'Trained_in_gardening__c',
-//       dataValue('properties.household_trained_on_gardening')
-//     ),
-//     field(
-//       'household_trained_on_gardening_date__c',
-//       dataValue('properties.when_was_the_household_trained_on_gardening')
-//     ),
-//     field(
-//       'Seed_Input_Support__c',
-//       dataValue('properties.household_provided_with_seed_input_support')
-//     ),
-//     field(
-//       'household_provided_with_seed_input_suppo__c',
-//       dataValue(
-//         'properties.when_was_the_household_provided_with_seed_input_support'
-//       )
-//     ),
-//     field(
-//       'MIYCN_Trained__c',
-//       dataValue('properties.household_trained_on_MIYCN')
-//     ),
-//     field('Kitchen_Garden__c', dataValue('properties.Kitchen_Garden')),
+fn(state => {
+  console.log(
+    'Filtering out unwanted users and applying mapping for housevisits'
+  );
+  const { supervisorMap, insuranceMap, catchmentNewId } = state;
 
-//     field('Access_to_safe_water__c', dataValue('properties.Safe_Water')),
-//     field(
-//       'Treats_Drinking_Water__c',
-//       dataValue('properties.Treats_Drinking_Water')
-//     ),
-//     field('Tippy_Tap__c', dataValue('properties.Active_Handwashing_Station')),
-//     field('Pit_Latrine__c', dataValue('properties.Functional_Latrine')),
-//     field('Rubbish_Pit__c', dataValue('properties.Rubbish_Pit')),
-//     field('Drying_Rack__c', dataValue('properties.Drying_Rack')),
-//     field('Kitchen_Garden__c', dataValue('properties.Kitchen_Garden')),
-//     field('Cookstove__c', dataValue('properties.Improved_Cooking_Method')),
-//     field('Clothe__c', dataValue('properties.Clothesline')),
-//     field('WASH_Trained__c', dataValue('properties.WASH_Trained')),
-//     field(
-//       'Has_muac_tape__c',
-//       dataValue('properties.family_muac_tape_available')
-//     ),
-//     field('Uses_ITNs__c', dataValue('properties.ITNs')),
-//     field('Supervisor_Visit__c', state =>
-//       state.data.properties.supervisor_visit
-//         ? state.supervisorMap[state.data.properties.supervisor_visit]
-//         : null
-//     ),
-//     field('Health_insurance__c', dataValue('properties.health_insurace_cover')),
-//     field(
-//       'Health_insurance_active_status__c',
-//       dataValue('properties.healthinsurance_active')
-//     ),
-//     field('Health_insurance_type__c', state => {
-//       var status = dataValue('properties.health_insurance')(state);
-//       var value =
-//         status && status !== ''
-//           ? status
-//               .replace(/ /gi, ';')
-//               .split(';')
-//               .map(value => {
-//                 return state.insuranceMap[value] || value;
-//               })
-//           : undefined;
-//       return value ? value.join(';') : undefined;
-//     }),
-//     field(
-//       'Other_Health_Insurance__c',
-//       dataValue('properties.if_other_please_specify')
-//     ),
-//     field('CommCare_Form_Opened__c', state => {
-//       var form_opened = dataValue('properties.last_form_opened_date_and_time')(
-//         state
-//       );
-//       var value1 = form_opened.split('-').slice(0, 2).join('-');
-//       var value2 = form_opened.split('-').slice(2).join('-');
-//       var formattedValue = [value1, value2].join(' ');
-//       return new Date(formattedValue).toISOString();
-//     }),
-//     field('Case_Closed_Date__c', state => {
-//       var closed = dataValue('date_closed')(state);
-//       var date = dataValue('server_modified_on')(state);
-//       return closed && closed == true ? date : undefined;
-//     })
-//   )
-// );
+  const housevisits = state.data.objects
+    .filter(
+      h =>
+        h.properties.commcare_username !== 'openfn.test' &&
+        h.properties.commcare_username !== 'test.2021' &&
+        h.properties.test_user !== 'Yes'
+    )
+    .map(h => {
+      // Special calculations ==================================================
+      const visitIdC =
+        h.case_id + '_' + h.properties.last_form_opened_date_and_time;
 
-// fn(state => {
-//   console.log('upsertIf2 done');
-//   return state;
-// });
-// fn(state => {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       console.log('Final 4 second cooldown finished.');
-//       resolve(state);
-//     }, 4000);
-//   });
-// });
+      const householdC = () => {
+        let status = h.properties.Household_Status;
+        return status === 'No' ? false : status === 'Yes' ? true : status;
+      };
+
+      const insuranceTypeC = () => {
+        let status = h.properties.health_insurance;
+        let value =
+          status && status !== ''
+            ? status
+                .replace(/ /gi, ';')
+                .split(';')
+                .map(value => {
+                  return insuranceMap[value] || value;
+                })
+            : undefined;
+        return value ? value.join(';') : undefined;
+      };
+
+      const openedC = () => {
+        let form_opened = h.properties.last_form_opened_date_and_time;
+        let value1 = form_opened.split('-').slice(0, 2).join('-');
+        let value2 = form_opened.split('-').slice(2).join('-');
+        let formattedValue = [value1, value2].join(' ');
+        return new Date(formattedValue).toISOString();
+      };
+
+      // let closed = h.date_closed;
+      // TODO: Confirm that server_modified_on has been changed to server_date_modified
+      // let date = h.server_date_modified;
+      const caseClosedDate__c =
+        h.date_closed && h.date_closed == true
+          ? h.server_date_modified
+          : undefined;
+
+      return {
+        CommCare_Username__c: h.properties.commcare_username,
+        CommCare_Visit_ID__c: visitIdC,
+        Catchment__c: catchmentNewId(h.properties.owner_id),
+        // TODO: Research what is 👇
+        // relationship('Household__r', 'CommCare_Code__c', h.case_id),
+        // and is it the same as 👇
+        // CommCare_Code__c: h.case_id,
+        Date__c: h.properties.Date,
+        Form_Submitted__c: h.properties.last_form_opened_name,
+        Active_Household__c: householdC(),
+        Active_in_Nutrition_Program__c:
+          h.properties.enrolled_in_a_lwala_nutrition_program,
+        lwala_nutrition_program_enrollment_date__c:
+          h.properties.lwala_nutrition_program_enrollment_date,
+        Trained_in_gardening__c: h.properties.household_trained_on_gardening,
+        household_trained_on_gardening_date__c:
+          h.properties.when_was_the_household_trained_on_gardening,
+        Seed_Input_Support__c:
+          h.properties.household_provided_with_seed_input_support,
+        household_provided_with_seed_input_suppo__c:
+          h.properties.when_was_the_household_provided_with_seed_input_support,
+        MIYCN_Trained__c: h.properties.household_trained_on_MIYCN,
+        Kitchen_Garden__c: h.properties.Kitchen_Garden,
+        Access_to_safe_water__c: h.properties.Safe_Water,
+        Treats_Drinking_Water__c: h.properties.Treats_Drinking_Water,
+        Tippy_Tap__c: h.properties.Active_Handwashing_Station,
+        Pit_Latrine__c: h.properties.Functional_Latrine,
+        Rubbish_Pit__c: h.properties.Rubbish_Pit,
+        Drying_Rack__c: h.properties.Drying_Rack,
+        // Kitchen_Garden__c: h.properties.Kitchen_Garden,
+        Cookstove__c: h.properties.Improved_Cooking_Method,
+        Clothe__c: h.properties.Clothesline,
+        WASH_Trained__c: h.properties.WASH_Trained,
+        Has_muac_tape__c: h.properties.family_muac_tape_available,
+        Uses_ITNs__c: h.properties.ITNs,
+        Supervisor_Visit__c: h.properties.supervisor_visit
+          ? supervisorMap[h.properties.supervisor_visit]
+          : null,
+        Health_insurance__c: h.properties.health_insurace_cover,
+        Health_insurance_active_status__c: h.properties.healthinsurance_active,
+        Health_insurance_type__c: insuranceTypeC(),
+
+        Other_Health_Insurance__c: h.properties.if_other_please_specify,
+        CommCare_Form_Opened__c: openedC(),
+        Case_Closed_Date__c: caseClosedDate__c,
+      };
+    });
+
+  console.log('Bulk upserting housevisits...');
+  // console.log(JSON.stringify(housevisits, null, 2));
+
+  return { ...state, housevisits };
+});
+
+bulk(
+  'Visit__c',
+  'upsert',
+  {
+    extIdField: 'CommCare_Visit_ID__c',
+    failOnError: true,
+    allowNoOp: true,
+  },
+  state => state.housevisits
+);
+
+fn(state => {
+  console.log('house visits bulk upsert done');
+  return state;
+});
+
+fn(state => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('Final 4 second cooldown finished.');
+      resolve(state);
+    }, 4000);
+  });
+});
