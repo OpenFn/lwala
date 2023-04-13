@@ -257,9 +257,9 @@ fn(state => {
       // let closed = h.date_closed;
       // TODO: Confirm that server_modified_on has been changed to server_date_modified
       // let date = h.server_date_modified;
-      const caseClosedDate__c =
+      const caseClosedDate =
         h.date_closed && h.date_closed == true
-          ? h.server_date_modified
+          ? h.server_modified_on
           : undefined;
 
       return {
@@ -307,12 +307,12 @@ fn(state => {
 
         Other_Health_Insurance__c: h.properties.if_other_please_specify,
         CommCare_Form_Opened__c: openedC(),
-        Case_Closed_Date__c: caseClosedDate__c,
+        Case_Closed_Date__c: caseClosedDate,
       };
     });
 
   console.log('Bulk upserting housevisits...');
-  // console.log(JSON.stringify(housevisits, null, 2));
+  console.log(JSON.stringify(housevisits, null, 2));
 
   return { ...state, housevisits };
 });
