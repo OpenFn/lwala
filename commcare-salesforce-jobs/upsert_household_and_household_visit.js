@@ -261,14 +261,15 @@ fn(state => {
   return state;
 });
 
-fn(state => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log('4 second cooldown finished.');
-      resolve(state);
-    }, 4000);
-  });
-});
+// Uncomment this block to add cooldown
+// fn(state => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       console.log('4 second cooldown finished.');
+//       resolve(state);
+//     }, 4000);
+//   });
+// });
 
 bulk(
   'Visit__c',
@@ -289,11 +290,12 @@ fn(state => {
   return state;
 });
 
-fn(state => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log('Final 4 second cooldown finished.');
-      resolve(state);
-    }, 4000);
-  });
-});
+// Uncomment this block to add cooldown
+// fn(state => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       console.log('Final 4 second cooldown finished.');
+//       resolve(state);
+//     }, 4000);
+//   });
+// });
