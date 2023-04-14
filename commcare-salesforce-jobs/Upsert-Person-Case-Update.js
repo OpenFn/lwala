@@ -685,7 +685,408 @@ upsertIf(
       if (value === '') sfRecord[key] = undefined;
     });
 
-    return { ...state, sfRecord };
+    const sfRecordMapping = state.data.objects.map(p => {
+      return {
+        Source__c: 1,
+        CommCare_ID__c: p.case_id,
+        // relationship(
+        //   'Household__r',
+        //   'CommCare_Code__c',
+        //   p.indices.parent.case_id
+        // ),
+        'Household__r.CommCare_Code__c': p.indices.parent.case_id,
+        commcare_location_id__c: p.properties.commcare_location_id,
+        CommCare_Username__c: p.properties.commcare_username,
+        Telephone__c: p.properties.contact_phone_number,
+        
+        Consent_for_data_use__c: p.properties.data_sharing_consent,
+        CommCare_HH_Code__c: p.indices.parent.case_id,
+        Client_Status__c: p.properties.Client_Status,
+        Catchment__c: p.catchmentNewId,
+        Area__c: p.areaNewId,
+        Household_Village__c: p.villageNewId,
+        Name: state => {
+          var name1 = p.properties.Person_Name; //check
+          var unborn = p.properties.name; //check
+          var name2 =
+            name1 === undefined || name1 === '' || name1 === null
+              ? unborn
+              : name1.replace(/\w\S*/g, function (txt) {
+                  return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                });
+          return name1 !== null ? name2 : 'Unborn Child';
+        },
+        Chronic_illness__c: state => {
+          var choice = p.properties.please_specify_which_chronic_illness_the_person_has;
+          var choice2 = state.handleMultiSelect(state, choice);
+          return choice2 ? choice2.replace(/_/g, ' ') : '';
+        },
+       
+       Currently_enrolled_in_school__c: p.properties.enrolled_in_school,
+        Education_Level__c: state => {
+          var level = p.properties.Education_Level;
+          return level ? level.toString().replace(/_/g, ' ') : null;
+        },
+        Relation_to_the_head_of_the_household__c: state => {
+          var relation = p.properties.relation_to_hh;
+          if (relation) {
+            relation = relation.toString().replace(/_/g, ' ');
+            var toTitleCase = relation.charAt(0).toUpperCase() + relation.slice(1);
+            return toTitleCase;
+          }
+    
+          return null;
+        },
+        Gender__c: p.properties.Gender,
+        Disability__c: state => {
+          var disability = p.properties.disability;
+          var toTitleCase =
+            disability !== undefined
+              ? disability
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
+              : null;
+          return toTitleCase;
+        },
+        Other_disability__c: state => {
+          var disability = p.properties.other_disability;
+          var toTitleCase =
+            disability !== undefined
+              ? disability
+                  .toLowerCase()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(';')
+              : null;
+          return toTitleCase;
+        },
+        Use_mosquito_net__c: p.properties.sleep_under_net,
+        // Birth_Certificate__c,p.properties.birth_certificate,
+        Birth_Certificate__c: p.properties.birth_certificate,
+        Child_Status__c: state => {
+          var status = p.properties.Child_Status;
+          var rt = p.properties.Record_Type; //check that this is the right one
+          if (status && rt === 'Unborn') {
+            status = 'Unborn';
+          } else if (status && rt === 'Born') {
+            status = 'Born';
+          }
+          return status;
+        },
+        //===================================================//
+        // relationship('RecordType', 'Name', state => {
+        //   var rt = p.properties.Record_Type;
+        //   return rt === 'Unborn' || rt === ''
+        //     ? 'Child'
+        //     : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
+        // }),
+        //TT5 Mother Information  =====================//
+        MCH_booklet__c: p.properties.mch_booklet,
+        Reason_for_not_taking_a_pregnancy_test__c: state => {
+          var reason = p.properties.No_Preg_Test;
+          return reason ? reason.toString().replace(/_/g, ' ') : undefined;
+        },
+        Pregnancy_danger_signs__c: state => {
+          var signs = p.properties.pregnancy_danger_signs;
+          return signs ? state.pregDangerMap[signs] : undefined;
+        },
+        Individual_birth_plan_counselling__c: p.properties.individual_birth_plan,
+        Child_Danger_Signs__c: state => {
+          var signs = p.properties.Other_Danger_Signs;
+          return signs
+            ? signs
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(';')
+                .toString()
+                .replace(/_/g, ' ')
+            : signs;
+        },
+        //HAWI =====================//
+        
+        Unique_Patient_Code__c:p.properties.Unique_Patient_Code,
+        Active_in_Support_Group__c: p.properties.Active_in_Support_Group,
+        Preferred_Care_Facility__c: p.properties.Preferred_Care_Facility,
+        Currently_on_ART_s__c: p.properties.ART,
+        ART_Regimen__c: p.properties.ARVs,
+        HAWI_Defaulter__c: state => {
+          var hawi = p.properties.default;
+          return hawi === 'Yes' ? true : false;
+        },
+        Date_of_Default__c: p.properties.date_of_default,
+        Know_HIV_status__c: p.properties.known_hiv_status,
+        HIV_Status__c: p.properties.hiv_status,
+        //Illness ========================//
+        Persons_temperature__c: p.properties.temperature,
+        Days_since_illness_start__c: p.properties.duration_of_sickness,
+        Current_Malaria_Status__c: p.properties.malaria_test_results,
+        Malaria_test__c: p.properties.malaria_test,
+        Last_Malaria_Home_Test__c: p.properties.malaria_test_date,
+        Last_Malaria_Home_Treatment__c: state => {
+          var choice = p.properties.malaria_test_date;
+          return state.cleanChoice(state, choice);
+        },
+        Cough_over_14days__c: p.properties.symptoms_check_cough,
+        TB_patients_therapy_observed__c: p.properties.observed_tb_therapy,
+        Injuries_or_wounds__c: p.properties.wounds_or_injuries,
+        Pulse_Oximeter__c: p.properties.pulse_oximeter_available,
+        Heart_Rate_Pulse_Oximeter__c: p.properties.heart_rate_pulse_oximeter,
+        Oxygen_Concentration_Pulse_Oximeter__c: p.properties.oxygen_concentration,
+        Can_child_drink__c: p.properties.can_child_drink,
+        Antibiotic_provided_for_fast_breathing__c: state => {
+          var choice = p.properties.antibiotic_fast_breathing;
+          return state.cleanChoice(state, choice);
+        },
+        Antibiotic_provided_for_chest_indrawing__c: state => {
+          var choice = p.properties.antibiotic_chest_indrawing;
+          return state.cleanChoice(state, choice);
+        },
+        Default_on_TB_treatment__c: state => {
+          var choice = p.properties.default_tb_treatment; //check
+          return state.cleanChoice(state, choice);
+        },
+        Treatment_Distribution__c: state => {
+          var choice = p.properties.distributed_treatments;
+          return state.cleanChoice(state, choice);
+        },
+        //Delivery  =====================//
+        Immediate_Breastfeeding__c:p.properties.Breastfeeding_Delivery,
+        Place_of_Delivery__c: state => {
+          var facility = p.properties.Delivery_Type;
+          return facility === 'Skilled'
+            ? 'Facility'
+            : facility === 'Unskilled'
+            ? 'Home'
+            : undefined;
+        },
+        Delivery_Facility__c: state => {
+          var facility = p.properties.Delivery_Facility;
+          return facility ? facility.toString().replace(/_/g, ' ') : null;
+        },
+        Delivery_Facility_Other__c: p.properties.Delivery_Facility_Other,
+        //Family Planning  =====================//
+        LMP__c: p.properties.LMP,
+        Family_Planning__c: p.properties.family_planning,
+        Family_Planning_Method__c: p.properties.family_planning_method,
+        FP_Method_Distributed__c: state => {
+          var status = p.properties.FP_commodity;
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.fpMethodMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        },
+        Reasons_for_not_taking_FP_method__c: state => {
+          var status = p.properties.No_FPmethod_reason;
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return state.reasonMapping[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        },
+        Pregnant__c: state => {
+          var preg = p.properties.Pregnant;
+          return preg === 'Yes' ? true : false;
+        },
+        Date_of_Delivery__c: p.properties.delivery_date,
+        Counselled_on_FP_Methods__c:
+          p.properties.CounselledFP_methods,
+        Client_counselled_on__c: state => {
+          var choices = p.properties.counsel_topic;
+          var choiceGroups = choices ? choices.split(' ') : null;
+          var choicesMulti = choiceGroups
+            ? choiceGroups
+                .map(cg => {
+                  return state.counselMap[cg];
+                })
+                .join(';')
+            : choiceGroups;
+          return choicesMulti;
+        },
+        Client_provided_with_FP__c: state => {
+          var choice = p.properties.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv;
+          return state.cleanChoice(state, choice);
+        },
+        Received_pregnancy_test__c:
+          p.properties.did_you_adminsiter_a_pregnancy_test,
+        Pregnancy_test_result__c:
+          p.properties.pregnancy_test_result,
+        Gravida__c: p.properties.Gravida,
+        Parity__c: p.properties.Parity,
+        //TT5 Child Information  =====================//
+       Exclusive_Breastfeeding__c:
+          p.properties.Exclusive_Breastfeeding,
+        Counselled_on_Exclusive_Breastfeeding__c:
+          p.properties.counseling,
+       Newborn_visited_48_hours_of_delivery__c:
+          p.properties.newborn_visited_48_hours_of_delivery,
+        Newborn_visit_counselling__c: state => {
+          var choice = p.properties.did_you_consel_the_mother_on1;
+          return state.cleanChoice(state, choice);
+        },
+       mother_visited_48_hours_of_the_delivery__c:
+          p.properties.visit_mother_48,
+        Mother_visit_counselling__c: state => {
+          var choice = p.properties.did_you_consel_the_mother_on2;
+          return state.cleanChoice(state, choice);
+        },
+        Newborn_visited_by_a_CHW_within_6_days__c:
+          p.properties.visit_6_days_from_delivery,
+        //Nutrition  =====================//
+        Caretaker_action_after_muac_screening__c:
+          p.properties.mother_screened_muac_action,
+        Caretaker_muac_findings__c:
+          p.properties.mother_screened_child_muac_result,
+        Food_groups_3_times_a_day__c: p.properties.food_groups,
+        Caretaker_screened_for_muac_this__c: state => {
+          var choice = p.properties.mother_screened_child_muac;
+          return state.cleanChoice(state, choice);
+        },
+        Caretaker_trained_in_muac__c: state => {
+          var choice = p.properties.mother_trained_muac;
+          return state.cleanChoice(state, choice);
+        },
+        of_Caretaker_MUAC_screenings__c:
+          p.properties.mother_nb_screening,
+        Current_Weight__c: p.properties.Current_Weight, //Only on task update
+        Current_Height__c: p.properties.current_height,
+        Current_MUAC__c: p.properties.MUAC,
+        Current_Nutrition_Status__c: state => {
+          var status = p.properties.Nutrition_Status;
+          return status ? state.nutritionMap[status] : undefined;
+        },
+        //TT5 & HAWI  =====================//
+        TT5_Mother_Registrant__c: state => {
+          var preg = p.properties.Pregnant;
+          return preg == 'Yes' ? 'Yes' : null;
+        },
+        Enrollment_Date__c: state => {
+          var age = p.properties.age;
+          var date = p.server_date_modified;
+          var preg = p.properties.Pregnant;
+          return age < 5 || preg == 'Yes' ? date : null;
+        },
+        HAWI_Enrollment_Date__c: state => {
+          var date = p.server_date_modified;
+          var status = p.properties.hiv_status;
+          return status == 'positive' ? date : null;
+        },
+        Thrive_Thru_5_Registrant__c: state => {
+          var age = p.properties.age;
+          var preg = p.properties.Pregnant;
+          return age < 5 || preg == 'Yes' ? 'Yes' : 'No';
+        },
+        HAWI_Registrant__c: state => {
+          var status = p.properties.hiv_status;
+          return status == 'positive' ? 'Yes' : 'No';
+        },
+        //ANC  =====================//
+        ANC_1__c: state => {
+          var date = p.properties.ANC_1;
+          return date && date !== '' ? date : undefined;
+        },
+        ANC_2__c: state => {
+          var date = p.properties.ANC_2;
+          return date && date !== '' ? date : undefined;
+        },
+        ANC_3__c: state => {
+          var date = p.properties.ANC_3;
+          return date && date !== '' ? date : undefined;
+        },
+        ANC_4__cL: state => {
+          var date = p.properties.ANC_4;
+          return date && date !== '' ? date : undefined;
+        },
+        ANC_5__c: state => {
+          var date = p.properties.ANC_5;
+          return date && date !== '' ? date : undefined;
+        },
+        Date_of_Birth__c: state => {
+          var date = p.properties.DOB;
+          return date && date !== '' ? date : undefined;
+        },
+        //Immunization  =====================//
+        Child_missed_immunization_type__c:
+          p.form.TT5.Child_Information.Immunizations.immunization_type,
+        BCG__c: p.properties.BCG,
+        OPV_0__c: p.properties.OPV_0,
+        Measles_6__c: p.properties.Measles_6,
+        Measles_9__c: p.properties.Measles_9,
+        Measles_18__c: p.properties.Measles_18,
+        OPV_1__c: p.properties.OPV_PCV_Penta_1,
+        OPV_2__c: p.properties.OPV_PCV_Penta_2,
+        OPV_3__c: p.properties.OPV_PCV_Penta_3,
+        Rotavirus_1__c: p.properties.rotavirus_1,
+        Rotavirus_2__c: p.properties.rotavirus_2,
+        IPV__c: p.properties.IPV,
+        Vitamin_A_12__c: p.properties.Vitamine_A,
+        Vitamin_A_18__c: p.properties.Vitamine_A_2,
+        Vitamin_A_24__c: p.properties.Vitamine_A_3,
+        Deworming_12__c: p.properties.Deworming_1,
+        Deworming_18__c: p.properties.Deworming_2,
+        Deworming_24__c: p.properties.Deworming_3,
+        //ECD  =====================//
+        Did_you_counsel_caregiver_on__c:  state => {
+          var choice = dataValue(
+            'properties.did_you_counsel_the_caregiver_on_delayed_milestones'
+          )(state);
+          return state.cleanChoice(state, choice);
+        },
+        Delayed_Milestone__c:  state => {
+          var choice = dataValue(
+            'properties.does_the_child_has_a_delayed_milestone'
+          )(state);
+          return state.cleanChoice(state, choice);
+        },
+        Child_has_2_or_more_play_items__c:  state => {
+          var choice = dataValue(
+            'properties.does_the_child_has_2_or_more_play_items_at_home'
+          )(state);
+          return state.cleanChoice(state, choice);
+        },
+        Child_has_3_or_more_picture_books__c:  state => {
+          var choice = dataValue(
+            'properties.does_the_child_has_3_or_more_picture_books'
+          )(state);
+          return state.cleanChoice(state, choice);
+        },
+        Delayed_Milestones_Counselled_On__c:  state => {
+          var ms = dataValue(
+            'properties.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
+          )(state);
+          return ms ? state.milestoneMap[ms] : undefined;
+        },
+        Delayed_Milestone_Type__c:  state => {
+          var ms = p.properties.which_delayed_milestone;
+          return ms ? state.milestoneTypeMap[ms] : undefined;
+        },
+        //Death  =====================//
+        Date_of_Death__c: p.properties.Date_of_Death,
+        Cause_of_Death__c:  state => {
+          var death = p.properties.cause_of_death_dead;
+          return death ? death.toString().replace(/_/g, ' ') : death;
+        },
+        Verbal_autopsy__c: p.properties.verbal_autopsy,
+        //Closing  =====================//
+        Last_Modified_Date_CommCare__c: p.date_modified,
+        Case_Closed_Date__c: p.date_closed,
+      }
+    })
+
+    return { ...state, sfRecord, sfRecordMapping };
   });
 
 // upsert data to SF
