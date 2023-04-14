@@ -1,12 +1,30 @@
-//UPSERT PERSON VISIT
-  query(
-  `SELECT Id, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
-    'properties.owner_id'
-  )(state)}'`
-);
+fn(state => {
+  const owner_ids = state.data.objects.map(data => data.properties.owner_id);
+  const uniq_owner_ids = [...new Set(owner_ids)];
+
+  return { ...state, uniq_owner_ids };
+});
 
 fn(state => {
-  state.cleanChoice = function (state, choice) {
+  return query(
+    `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
+      "','"
+    )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
+  )(state);
+});
+
+fn(state => {
+  const [reference] = state.references;
+
+  // console.log(JSON.stringify(reference, null, 2));
+  const fetchReference = (owner_id, arg) => {
+    const result = reference.records.filter(
+      record => record.CommCare_User_ID__c === owner_id
+    );
+
+    result.length > 0 ? result[0][arg] : undefined;
+  };
+  const cleanChoice = choice => {
     if (choice) {
       return choice.charAt(0).toUpperCase() + choice.slice(1).replace('_', ' ');
     } else {
@@ -14,20 +32,7 @@ fn(state => {
     }
   };
 
-fn(state => ({
-  ...state,
-  data: {
-    ...state.data,
-    catchmentNewId:
-      state.references[0].records && state.references[0].records.length !== 0
-        ? (state.references[0].records[0].Parent_Geographic_Area__r 
-          ? state.references[0].records[0].Parent_Geographic_Area__r.Parent_Geographic_Area__c
-          : undefined)
-        : undefined,
-  },
-}));
-
-  state.handleMultiSelect = function (state, multiField) {
+  const handleMultiSelect = multiField => {
     return multiField
       ? multiField
           .replace(/ /gi, ';')
@@ -42,16 +47,14 @@ fn(state => ({
       : '';
   };
 
-  state.handleMultiSelectOriginal = function (state, multiField) {
+  const handleMultiSelectOriginal = multiField => {
     return multiField
       ? multiField
           .replace(/ /gi, ';')
           .toLowerCase()
           .split(';')
           .map(value => {
-            return (
-              value
-            );
+            return value;
           })
           .join(';')
       : '';
@@ -146,23 +149,23 @@ fn(state => ({
     moderate: 'Moderately Malnourished',
     normal: 'Normal',
   };
-  
+
   const fpMethodMap = {
-    male_condoms: "Male condoms",
-    female_condoms: "Female condoms",
-    pop: "POP",
-    coc: "COC",
-    emergency_pills: "Emergency pills",
-    none: "None",
-    //HMN -12/01/2023- 
+    male_condoms: 'Male condoms',
+    female_condoms: 'Female condoms',
+    pop: 'POP',
+    coc: 'COC',
+    emergency_pills: 'Emergency pills',
+    none: 'None',
+    //HMN -12/01/2023-
     //adding normalization for the family_planning_method to Family_Planning_Method__c
-    iucd: "IUCD",
-    condoms: "Condoms",
-    depo:"Depo",
-    implant: "Implant",
-    injection: "Injection",
-    pills: "Pills",
-    traditional: "Traditional"
+    iucd: 'IUCD',
+    condoms: 'Condoms',
+    depo: 'Depo',
+    implant: 'Implant',
+    injection: 'Injection',
+    pills: 'Pills',
+    traditional: 'Traditional',
   };
 
   const symptomsMap = {
@@ -172,17 +175,17 @@ fn(state => ({
     'chest_in-drawing': 'Chest in - drawing',
     unusually_sleepyunconscious: 'Unusually sleepy or unconscious',
     swelling_of_both_feet: 'Swelling of both feet',
-    none: "None",
+    none: 'None',
   };
 
-  const supervisorMap ={
-    community_health_nurse: "Community_health_nurse",
-    chw_supervisor: "CHW_supervisor",
-    chewschas: "Chewschas",
-    other: "Other",
-    none: "None"
+  const supervisorMap = {
+    community_health_nurse: 'Community_health_nurse',
+    chw_supervisor: 'CHW_supervisor',
+    chewschas: 'Chewschas',
+    other: 'Other',
+    none: 'None',
   };
-  
+
   const treatmentDistributionMap = {
     ors_205gltr_sachets: 'ORS (20.5h/ltr): Sachets',
     acts_6s: 'ACTs (6s)',
@@ -191,15 +194,17 @@ fn(state => ({
     acts_24s: 'ACTs (24s)',
     albendazole_abz_tabs: 'Albendazole (ABZ): Tabs',
     paracetamol_tabs: 'Tetracycline Eye Ointment (TEO): 1%:tube',
-    tetracycline_eye_ointment_teo_1_tube: 'Tetracycline Eye Ointment (TEO): 1%:tube',
+    tetracycline_eye_ointment_teo_1_tube:
+      'Tetracycline Eye Ointment (TEO): 1%:tube',
     amoxycillin: 'Amoxycillin (125mg/5mls: Bottle',
-    none: 'None'
-};
+    none: 'None',
+  };
 
-const childDangerSignsMap = {
+  const childDangerSignsMap = {
     none: 'None',
     Poor_Breastfeeding: 'Poor Breastfeeding',
-    not_able_to_feed_since_birth_or_stopped_feeding_well: 'Not able to feed since birth, or stopped feeding well',
+    not_able_to_feed_since_birth_or_stopped_feeding_well:
+      'Not able to feed since birth, or stopped feeding well',
     not_able_to_breastfeed: 'Not able to breastfeed',
     Fever: 'Fever',
     very_low_temperature: 'Very low temperature (35.4 C or less)',
@@ -207,15 +212,19 @@ const childDangerSignsMap = {
     Fast_Breathing: 'Fast Breathing',
     Very_Sleepy: 'Very Sleepy',
     Convulsions_and_Fits: 'Convulsions and Fits',
-    only_moves_when_stimulated_or_does_not_move_even_on_stimulation: 'Only moves when stimulated, or does not move even on stimulation',
-    yellow_solebaby_body_turning_yellow_especially_eyes_palms_soles: 'Yellow sole(Baby body turning yellow especially eyes, palms,soles)',
+    only_moves_when_stimulated_or_does_not_move_even_on_stimulation:
+      'Only moves when stimulated, or does not move even on stimulation',
+    yellow_solebaby_body_turning_yellow_especially_eyes_palms_soles:
+      'Yellow sole(Baby body turning yellow especially eyes, palms,soles)',
     bleeding_from_the_umbilical_stump: 'Bleeding from the umbilical stump',
-    signs_of_local_infection_umbilicus_is_red_or_draining_pus_skin_boils_or_eye: 'Signs of local infection: umbilicus is red or draining pus, skin boils, or eyes draining pus',
-    weight_chart_using_color_coded_scales_if_red_or_yellowweight_below_25kg_or_: 'Weight chart using color coded scales if RED or YELLOW(Weight below 2.5kg or born less than 36 weeks of age)',
+    signs_of_local_infection_umbilicus_is_red_or_draining_pus_skin_boils_or_eye:
+      'Signs of local infection: umbilicus is red or draining pus, skin boils, or eyes draining pus',
+    weight_chart_using_color_coded_scales_if_red_or_yellowweight_below_25kg_or_:
+      'Weight chart using color coded scales if RED or YELLOW(Weight below 2.5kg or born less than 36 weeks of age)',
     unable_to_cry: 'Unable to cry',
     cyanosis: 'Cyanosis',
-    bulging_fontanelle: 'Bulging fontanelle'
-}
+    bulging_fontanelle: 'Bulging fontanelle',
+  };
 
   return {
     ...state,
@@ -230,514 +239,412 @@ const childDangerSignsMap = {
     symptomsMap,
     supervisorMap,
     treatmentDistributionMap,
-    childDangerSignsMap
+    childDangerSignsMap,
+    fetchReference,
+    cleanChoice,
+    handleMultiSelect,
+    handleMultiSelectOriginal,
   };
 });
 
-upsertIf(
-  // state.data.properties.username !== 'openfn.test' &&
-    state.data.properties.username !== 'test.2021' &&
-    state.data.properties.test_user  !== 'Yes' ,
-  'Person_visit__c',
-  'CommCare_ID__c',
-  fields(
-    //field('CommCare_ID__c', dataValue('form.case.@case_id')),
-    // field('CommCare_ID__c', dataValue('id')),
-    //field('CommCare_ID__c', state => {
-    //  var case_id = dataValue('case_id')(state);
-    //  var submitted = dataValue('properties.last_form_opened_date_and_time')(state);
-    //  return case_id + '_' +  submitted;
-    //}),
-    field('CommCare_ID__c',dataValue('case_id')),
+fn(state => {
+  const {
+    counselMap,
+    serviceMap,
+    reasonMap,
+    milestoneTypeMap,
+    milestoneMap,
+    nutritionMap,
+    pregDangerMap,
+    fpMethodMap,
+    symptomsMap,
+    supervisorMap,
+    treatmentDistributionMap,
+    childDangerSignsMap,
+    fetchReference,
+    cleanChoice,
+    handleMultiSelect,
+    handleMultiSelectOriginal,
+  } = state;
 
-    relationship(
-      'Person__r',
-      'CommCare_ID__c',
-      dataValue('indices.parent.case_id')
-    ),
-    /*relationship(
-      'Household_CHW__r', 
-      'CommCare_ID__c', 
-      dataValue('properties.sfid')),*/
-    // field('CommCare_Visit_ID__c',dataValue('metadata.instanceID')),
-     field('CommCare_Visit_ID__c', state => {
-      var case_id = dataValue('case_id')(state);
-      var submitted = dataValue('properties.last_form_opened_date_and_time')(state);
-      return case_id + '_' +  submitted;
-    }),
-    field('Date__c',dataValue('properties.Date')),
-    field('Form_Submitted__c', dataValue('properties.last_form_opened_name')),
-    field('Birth_Status__c',dataValue('properties.child_status')),
-    field('Catchment__c', dataValue('catchmentNewId')),
-    /*
-    //HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
-    relationship('RecordType', 'Name', state => {
-          var rt = dataValue('properties.RecordType')(state);
-          if (rt === 'Unborn' || rt === 'Child') {
-            return 'Child Visit';
-          };
-          if (rt === 'Youth') {
-            return 'Youth Visit';
-          };
-          if (rt === 'Male Adult') {
-            return 'Adult Male Visit';
-          };
-          if (rt === 'Female Adult') {
-            return 'Adult Female Visit';
-          };
-        }),*/
-    field('Use_mosquito_net__c', state => {
-      var choice = dataValue(
-        'properties.sleep_under_net'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field(
-      'Individual_birth_plan_counselling__c',
-      dataValue('properties.individual_birth_plan')
-    ),
-    field('Reason_for_not_taking_a_pregnancy_test__c', state => {
-      var reason = dataValue('properties.No_Preg_Test')(state);
-      return reason ? reason.toString().replace(/_/g, ' ') : undefined;
-    }),
-    field('Pregnancy_danger_signs__c', state => {
-      var signs = dataValue(
-        'properties.No_Preg_Test'
-      )(state);
-      return signs ? state.pregDangerMap[signs] : undefined;
-    }),
-    field('Child_Danger_Signs__c', state => {
-      var signs = dataValue(
-        'properties.Other_Danger_Signs'
-      )(state);
-      return signs ? state.childDangerSignsMap[signs] : undefined
-    }),
-     field('Current_Malaria_Status__c', state => {
-      var choice = dataValue(
-        'properties.malaria_test_results'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('Malaria_Home_Test__c', dataValue('properties.malaria_test_date')),
-    /*field('Current_Malaria_Status__c', state => {
-      var choice = dataValue(
-        'properties.Malaria_Status'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),*/
-    // field('Malaria_Home_Treatment__c',dataValue('form.treatment_and_tracking.home_treatment')),
-    field('Malaria_Home_Treatment__c', dataValue('properties.malaria_test_date')),
-    field('Persons_symptoms__c', state => {
-      var check = dataValue('properties.symptoms_check_other')(state);
-      var value =
-        check && check !== ''
-          ? check
-              .replace(/ /gi, ';')
-              .split(';')
-              .map(value => {
-                return state.symptomsMap[value] || value;
-              })
-          : undefined;
-      return value ? value.join(';') : undefined;
-    }),
-    field('Active_in_Support_Group__c', dataValue('properties.Active_in_Support_Group')),
-    field('HAWI_Defaulter__c', state => {
-      var hawi = dataValue('properties.default')(state);
-      return hawi === 'Yes' ? true : false;
-    }),
-    field(
-      'Date_of_Default__c',
-      dataValue('properties.date_of_default')
-    ),
-    field(
-      'Persons_temperature__c',
-      dataValue('properties.temperature')
-    ),
-    field(
-      'Days_since_illness_start__c',
-      dataValue('properties.duration_of_sickness')
-    ),
-    field(
-      'Newborn_visited_48_hours_of_delivery__c',
-      dataValue(
-        'properties.newborn_visited_48_hours_of_delivery'
-      )
-    ),
-    field(
-      'Newborn_visited_by_a_CHW_within_6_days__c',
-      dataValue('properties.visit_6_days_from_delivery')
-    ),
-    field(
-      'Current_Malaria_Status__c',
-      dataValue('properties.malaria_test_results')
-    ),
-    field('Malaria_test__c', state => {
-      var choice = dataValue(
-        'properties.malaria_test'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('Fever__c', state => {
-      var choice = dataValue(
-        'properties.symptoms_check_fever'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('Cough__c', state => {
-      var choice = dataValue(
-        'properties.symptoms_check_cough'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('Diarrhoea__c', state => {
-      var choice = dataValue(
-       'properties.symptoms_check_diarrhea'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field(
-      'TB_patients_therapy_observed__c',
-      dataValue('properties.observed_tb_therapy')
-    ),
-    field(
-      'Injuries_or_wounds__c',
-      dataValue('properties.wounds_or_injuries')
-    ),
-    field('Currently_on_ART_s__c', dataValue('properties.ART')),
-    /*field('ART_Regimen__c', state => {
-      var choice = dataValue(
-       'properties.ARVs'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),*/
-    field(
-      'Immediate_Breastfeeding__c',
-      dataValue(
-        'properties.Breastfeeding_Delivery'
-      )
-    ),
-    field(
-      'Exclusive_Breastfeeding__c',
-      dataValue(
-        'properties.Exclusive_Breastfeeding'
-      )
-    ),
-    field(
-      'Counselled_on_Exclusive_Breastfeeding__c',
-      dataValue('properties.counseling')
-    ),
-    field('LMP__c',dataValue('properties.when_was_your_lmp')),
-     field('Family_Planning__c', state => {
-      var choice = dataValue(
-        'properties.family_planning'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
+  const personVisitMapping = state.data.objects
+    .filter(
+      p =>
+        // p.properties.username !== 'test.2021' &&
+        p.properties.test_user !== 'Yes'
+    )
+    .map(p => {
+      return {
+        //CommCare_ID__c: p.form.case.@case_id,
+        // CommCare_ID__c: p.id,
+        //CommCare_ID__c: () => {
+        //  var case_id = p.case_id;
+        //  var submitted = p.properties.last_form_opened_date_and_time;
+        //  return case_id + '_' +  submitted;
+        //},
+        CommCare_ID__c: p.case_id,
+
+        // relationship(
+        //   'Person__r',
+        //   'CommCare_ID__c',
+        //   p.indices.parent.case_id')
+        // ),
+        'Person__r.CommCare_ID__c': p.indices.parent.case_id,
+        /*relationship(
+        'Household_CHW__r', 
+        'CommCare_ID__c', 
+        p.properties.sfid,*/
+        // CommCare_Visit_ID__c: p.metadata.instanceID,
+        CommCare_Visit_ID__c: () => {
+          var case_id = p.case_id;
+          var submitted = p.properties.last_form_opened_date_and_time;
+          return case_id + '_' + submitted;
+        },
+        Date__c: p.properties.Date,
+        // Form_Submitted__c: p.properties.last_form_opened_name,
+        // Birth_Status__c: p.properties.child_status,
+        Catchment__c: fetchReference(p.properties.owner_id, 'catchment'),
+        /*
+      //HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
+      relationship('RecordType', 'Name: () => {
+            var rt = p.properties.RecordType;
+            if (rt === 'Unborn' || rt === 'Child') {
+              return 'Child Visit';
+            };
+            if (rt === 'Youth') {
+              return 'Youth Visit';
+            };
+            if (rt === 'Male Adult') {
+              return 'Adult Male Visit';
+            };
+            if (rt === 'Female Adult') {
+              return 'Adult Female Visit';
+            };
+          },*/
+        Use_mosquito_net__c: () => {
+          var choice = p.properties.sleep_under_net;
+          return cleanChoice(choice);
+        },
+        // Individual_birth_plan_counselling__c:
+        //   p.properties.individual_birth_plan,
+        // Reason_for_not_taking_a_pregnancy_test__c: () => {
+        //   var reason = p.properties.No_Preg_Test;
+        //   return reason ? reason.toString().replace(/_/g, ' ') : undefined;
+        // },
+        // Pregnancy_danger_signs__c: () => {
+        //   var signs = p.properties.No_Preg_Test;
+        //   return signs ? pregDangerMap[signs] : undefined;
+        // },
+        Child_Danger_Signs__c: () => {
+          var signs = p.properties.Other_Danger_Signs;
+          return signs ? childDangerSignsMap[signs] : undefined;
+        },
+        Current_Malaria_Status__c: () => {
+          var choice = p.properties.malaria_test_results;
+          return cleanChoice(choice);
+        },
+        // Malaria_Home_Test__c: p.properties.malaria_test_date,
+        /*Current_Malaria_Status__c: () => {
+        var choice = p.properties.Malaria_Status;
+        return cleanChoice(choice);
+      },*/
+        // Malaria_Home_Treatment__c: p.form.treatment_and_tracking.home_treatment,
+        // Malaria_Home_Treatment__c: p.properties.malaria_test_date,
+        // Persons_symptoms__c: () => {
+        //   var check = p.properties.symptoms_check_other;
+        //   var value =
+        //     check && check !== ''
+        //       ? check
+        //           .replace(/ /gi, ';')
+        //           .split(';')
+        //           .map(value => {
+        //             return symptomsMap[value] || value;
+        //           })
+        //       : undefined;
+        //   return value ? value.join(';') : undefined;
+        // },
+        // Active_in_Support_Group__c: p.properties.Active_in_Support_Group,
+        // HAWI_Defaulter__c: () => {
+        //   var hawi = p.properties.default;
+        //   return hawi === 'Yes' ? true : false;
+        // },
+        // Date_of_Default__c: p.properties.date_of_default,
+        // Persons_temperature__c: p.properties.temperature,
+        Days_since_illness_start__c: p.properties.duration_of_sickness,
+        Newborn_visited_48_hours_of_delivery__c:
+          p.properties.newborn_visited_48_hours_of_delivery,
+        // Newborn_visited_by_a_CHW_within_6_days__c:
+        //   p.properties.visit_6_days_from_delivery,
+        Current_Malaria_Status__c: p.properties.malaria_test_results,
+        // Malaria_test__c: () => {
+        //   var choice = p.properties.malaria_test;
+        //   return cleanChoice(choice);
+        // },
+        // Fever__c: () => {
+        //   var choice = p.properties.symptoms_check_fever;
+        //   return cleanChoice(choice);
+        // },
+        // Cough__c: () => {
+        //   var choice = p.properties.symptoms_check_cough;
+        //   return cleanChoice(choice);
+        // },
+        Diarrhoea__c: () => {
+          var choice = p.properties.symptoms_check_diarrhea;
+          return cleanChoice(choice);
+        },
+        TB_patients_therapy_observed__c: p.properties.observed_tb_therapy,
+        Injuries_or_wounds__c: p.properties.wounds_or_injuries,
+        Currently_on_ART_s__c: p.properties.ART,
+        /*ART_Regimen__c: () => {
+        var choice = dataValue(
+         'properties.ARVs;
+        return cleanChoice(choice);
+      },*/
+        Immediate_Breastfeeding__c: p.properties.Breastfeeding_Delivery,
+        Exclusive_Breastfeeding__c: p.properties.Exclusive_Breastfeeding,
+        Counselled_on_Exclusive_Breastfeeding__c: p.properties.counseling,
+        LMP__c: p.properties.when_was_your_lmp,
+        Family_Planning__c: () => {
+          var choice = p.properties.family_planning;
+          return cleanChoice(choice);
+        },
         //HMN 12/01/2023 Failures on picklist within Salesforce
-    /*
-    field(
-      'Family_Planning_Method__c',
-      dataValue('properties.family_planning_method')
-    ),*/
-    field('Family_Planning_Method__c', state => {
-        //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
-        var status = dataValue('properties.family_planning_method')(state);
-        var value =
-        status && status !== ''
-          ? status
-              .replace(/ /gi, ';')
-              .split(';')
-              .map(value => {
-                  return state.fpMethodMap[value] || value;
-              })
-            : undefined;
-          return value ? value.join(';') : undefined;
-        }),
-     field('FP_Method_Distributed__c', state => {
-          //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
-          var status = dataValue('properties.FP_commodity')(state);
+        /*
+      Family_Planning_Method__c: p.properties.family_planning_method,*/
+        Family_Planning_Method__c: () => {
+          //var status = p.form.treatment_and_tracking.distribution.distributed_treatments;
+          var status = p.properties.family_planning_method;
           var value =
             status && status !== ''
               ? status
                   .replace(/ /gi, ';')
                   .split(';')
                   .map(value => {
-                    return state.fpMethodMap[value] || value;
+                    return fpMethodMap[value] || value;
                   })
               : undefined;
           return value ? value.join(';') : undefined;
-        }),
-    field('Reasons_for_not_taking_FP_method__c', state => {
-      // var reason = dataValue('form.TT5.Mother_Information.No_FPmethod_reason')(state);
-      // return reason ? state.reasonMap[reason] : undefined;
-      var status = dataValue('properties.No_FPmethod_reason')(state);
+        },
+        FP_Method_Distributed__c: () => {
+          //var status = p.form.treatment_and_tracking.distribution.distributed_treatments;
+          var status = p.properties.FP_commodity;
           var value =
             status && status !== ''
               ? status
                   .replace(/ /gi, ';')
                   .split(';')
                   .map(value => {
-                    return state.reasonMap[value] || value;
+                    return fpMethodMap[value] || value;
                   })
               : undefined;
           return value ? value.join(';') : undefined;
-    }),
-    field('Pregnant__c', state => {
-      var preg = dataValue('properties.Pregnant')(state);
-      return preg === 'Yes' ? true : false;
-    }),
-    field('Counselled_on_FP_Methods__c', state => {
-      var choice = dataValue(
-       'properties.CounselledFP_methods'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('Client_counselled_on__c', state => {
-      var choices =
-        dataValue('properties.counsel_topic')(
-          state
-        ) || dataValue('properties.counsel_topic')(state);
-      var choiceGroups = choices ? choices.split(' ') : null;
-      var choicesMulti = choiceGroups
-        ? choiceGroups
-            .map(cg => {
-              return state.counselMap[cg];
-            })
-            .join(';')
-        : choiceGroups;
-      return choicesMulti;
-    }),
-    field('Client_provided_with_FP__c', state => {
-      var choice = dataValue(
-        'properties.was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field(
-      'Newborn_visited_48_hours_of_delivery__c',
-      dataValue(
-        'properties.newborn_visited_48_hours_of_delivery'
-      )
-    ),
-    field('Mother_visit_counselling__c', state => {
-      var choice = dataValue(
-        'properties.did_you_consel_the_mother_on1'
-      )(state);
-      return state.handleMultiSelectOriginal(state, choice);
-    }),
-    field(
-      'mother_visited_48_hours_of_the_delivery__c',
-      dataValue('properties.visit_mother_48')
-    ),
-    field('Newborn_visit_counselling__c', state => {
-      var choice = dataValue(
-        'properties.did_you_consel_the_mother_on2'
-      )(state);
-      return state.handleMultiSelectOriginal(state, choice);
-    }),
-    field('Know_HIV_status__c', state => {
-      var choice = dataValue(
-        'properties.known_hiv_status'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('HIV_Status__c', dataValue('properties.hiv_status')),
-    field('Treatment_Distribution__c', state => {
-          //var status = dataValue('form.treatment_and_tracking.distribution.distributed_treatments')(state);
-          var status = dataValue('properties.distributed_treatments')(state);
+        },
+        Reasons_for_not_taking_FP_method__c: () => {
+          // var reason = p.form.TT5.Mother_Information.No_FPmethod_reason;
+          // return reason ? reasonMap[reason] : undefined;
+          var status = p.properties.No_FPmethod_reason;
           var value =
             status && status !== ''
               ? status
                   .replace(/ /gi, ';')
                   .split(';')
                   .map(value => {
-                    return state.treatmentDistributionMap[value] || value;
+                    return reasonMap[value] || value;
                   })
               : undefined;
           return value ? value.join(';') : undefined;
-        }),
-    field(
-      'Current_Weight__c',
-      dataValue('properties.Current_Weight')
-    ),
-    field(
-      'Current_Height__c',
-      dataValue('properties.current_height')
-    ),
-    field(
-      'Current_MUAC__c',
-      dataValue('properties.MUAC')
-    ),
-    field('Food_groups_3_times_a_day__c',dataValue('properties.food_groups')),
-    field('Nutrition_Case_Managed__c',dataValue('properties.nutrition_case_managed')),
-    field('Nutrition_Danger_Signs__c',state => {
-      var choice = dataValue(
-        'properties.nutrition_danger_signs'
-        )(state);
-        return state.handleMultiSelectOriginal(state, choice);
-        
-    }),
-  field('Why_was_nutrition_case_not_managed__c',dataValue('properties.nutrition_case_not_managed_why')),
-  field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_severe')),
-  field('Community_Nutrition_Treatment__c',dataValue('properties.nutrition_treatment_moderate')),
-  field('Why_was_nutrition_treatment_not_given__c',dataValue('properties.nutrition_treatment_not_given')),
-    field('Current_Nutrition_Status__c', state => {
-      var status = dataValue(
-        'properties.Nutrition_Status'
-      )(state);
-      return status ? state.nutritionMap[status] : undefined;
-    }),
-    field('Default_on_TB_treatment__c', state => {
-      var choice = dataValue(
-       'properties.default_tb_treatment'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('Received_pregnancy_test__c', state => {
-      var choice = dataValue(
-        'properties.did_you_adminsiter_a_pregnancy_test'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('Pregnancy_test_result__c', state => {
-      var choice = dataValue(
-        'properties.pregnancy_test_result'
-      )(state);
-      return state.cleanChoice(state, choice);
-    }),
-    field('Chronic_illness__c', state => {
-      var choice = dataValue(
-        'properties.please_specify_which_chronic_illness_the_person_has'
-      )(state);
-      var choice2 = state.handleMultiSelect(state, choice);
-      return choice2 ? choice2.replace(/_/g, ' ') : '';
-    }),
-    /*field(
-          'Birth_Certificate__c',
-          dataValue('form.Status.birth_certificate')
-        ),
-        field(
-          'Child_zinc__c',
-          dataValue(
-            'form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc'
-          )
-        ),
-        field(
-          'Child_ORS__c',
-          dataValue(
-            'form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS'
-          )
-        ),*/
-    field(
-      'Childs_breath_per_minute__c',
-      dataValue('properties.breaths_per_minuite')
-    ),
-    field(
-      'Child_chest_in_drawing__c',
-      dataValue('properties.Child_chest_in_drawing_c')
-    ),
-    field(
-      'Caregiver_counseled_on_delayed_milestone__c',
-      dataValue(
-        'properties.did_you_counsel_the_caregiver_on_delayed_milestones'
-      )
-    ),
-    field(
-      'Delayed_Milestone__c',
-      dataValue(
-         'properties.does_the_child_has_a_delayed_milestone'
-      )
-    ),
-    field(
-      'Child_has_2_or_more_play_items__c',
-      dataValue(
-         'properties.does_the_child_has_2_or_more_play_items_at_home'
-      )
-    ),
-    field(
-      'Child_has_3_more_picture_books__c',
-      dataValue(
-        'properties.does_the_child_has_3_or_more_picture_books'
-      )
-    ),
-    field('Delayed_Milestones_Counselled_On__c', state => {
-      var ms = dataValue(
-        'properties.which_delayed_milestone_area_did_you_counsel_the_caregiver_on'
-      )(state);
-      return ms ? state.milestoneMap[ms] : undefined;
-    }),
-    field('Delayed_Milestone_Type__c', state => {
-      var ms = dataValue('properties.which_delayed_milestone')(
-        state
-      );
-      return ms ? state.milestoneTypeMap[ms] : undefined;
-    }),
-    field(
-      'Caretaker_trained_in_muac__c',
-      dataValue('properties.mother_trained_muac')
-    ),
-    field(
-      'Caretaker_screened_for_muac_this__c',
-      dataValue(
-       'properties.mother_screened_child_muac'
-      )
-    ),
-    field(
-      'Caretaker_muac_findings__c',
-      dataValue(
-        'properties.mother_screened_child_muac_result'
-      )
-    ),
-    field(
-      'Caretaker_action_after_muac_screening__c',
-      dataValue(
-        'properties.mother_screened_muac_action'
-      )
-    ),
-    field(
-      'of_Caretaker_MUAC_screenings__c',
-      dataValue('properties.mother_nb_screening')
-    ),
-    field('Pulse_Oximeter__c', dataValue('properties.pulse_oximeter_available')),
-    field(
-      'Heart_Rate_Pulse_Oximeter__c',
-      dataValue('properties.heart_rate_pulse_oximeter')
-    ),
-    field(
-      'Oxygen_Concentration_Pulse_Oximeter__c',
-      dataValue('properties.oxygen_concentration')
-    ),
-    field('Can_child_drink__c', dataValue('properties.can_child_drink')),
-    field(
-      'Antibiotic_provided_for_fast_breathing__c',
-      dataValue('properties.antibiotic_fast_breathing')
-    ),
-    field(
-      'Antibiotic_provided_for_chest_indrawing__c',
-      dataValue('properties.antibiotic_chest_indrawing')
-    ),
-    field('Supervisor_Visit__c', state => {
-      var check = dataValue('properties.supervisor_visit')(state);
-      var value =
-        check && check !== ''
-          ? check
-              .replace(/ /gi, ';')
-              .split(';')
-              .map(value => {
-                return state.supervisorMap[value] || value;
-              })
-          : undefined;
-      return value ? value.join(';') : undefined;
-    }),
-    /*
-    //HMN- 05012023 - Removed field('Visit_Closed_Date__c', dataValue('date_closed')),
-    //Because I could not find it in Salesforce. It was causing errors on staging
-    field('Visit_Closed_Date__c', dataValue('date_closed')),
-    */
-    //field('Case_Closed_Date__c', state => {
-    //  var closed = dataValue('date_closed')(state);
-    //  var date = dataValue('date_modified')(state);
-    //  return closed && closed == true ? date : undefined;
-   // })
-  )
-);
+        },
+        Pregnant__c: () => {
+          var preg = p.properties.Pregnant;
+          return preg === 'Yes' ? true : false;
+        },
+        Counselled_on_FP_Methods__c: () => {
+          var choice = p.properties.CounselledFP_methods;
+          return cleanChoice(choice);
+        },
+        Client_counselled_on__c: () => {
+          var choices =
+            p.properties.counsel_topic || p.properties.counsel_topic;
+          var choiceGroups = choices ? choices.split(' ') : null;
+          var choicesMulti = choiceGroups
+            ? choiceGroups
+                .map(cg => {
+                  return counselMap[cg];
+                })
+                .join(';')
+            : choiceGroups;
+          return choicesMulti;
+        },
+        Client_provided_with_FP__c: () => {
+          var choice =
+            p.properties[
+              'was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
+            ];
+          return cleanChoice(choice);
+        },
+        Newborn_visited_48_hours_of_delivery__c:
+          p.properties.newborn_visited_48_hours_of_delivery,
+        Mother_visit_counselling__c: () => {
+          var choice = p.properties.did_you_consel_the_mother_on1;
+          return handleMultiSelectOriginal(choice);
+        },
+        mother_visited_48_hours_of_the_delivery__c:
+          p.properties.visit_mother_48,
+        Newborn_visit_counselling__c: () => {
+          var choice = p.properties.did_you_consel_the_mother_on2;
+          return handleMultiSelectOriginal(choice);
+        },
+        Know_HIV_status__c: () => {
+          var choice = p.properties.known_hiv_status;
+          return cleanChoice(choice);
+        },
+        HIV_Status__c: p.properties.hiv_status,
+        Treatment_Distribution__c: () => {
+          //var status = p.form.treatment_and_tracking.distribution.distributed_treatments;
+          var status = p.properties.distributed_treatments;
+          var value =
+            status && status !== ''
+              ? status
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return treatmentDistributionMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        },
+        Current_Weight__c: p.properties.Current_Weight,
+        Current_Height__c: p.properties.current_height,
+        Current_MUAC__c: p.properties.MUAC,
+        Food_groups_3_times_a_day__c: p.properties.food_groups,
+        Nutrition_Case_Managed__c: p.properties.nutrition_case_managed,
+        Nutrition_Danger_Signs__c: () => {
+          var choice = p.properties.nutrition_danger_signs;
+          return handleMultiSelectOriginal(choice);
+        },
+        Why_was_nutrition_case_not_managed__c:
+          p.properties.nutrition_case_not_managed_why,
+        Community_Nutrition_Treatment__c:
+          p.properties.nutrition_treatment_severe,
+        Community_Nutrition_Treatment__c:
+          p.properties.nutrition_treatment_moderate,
+        Why_was_nutrition_treatment_not_given__c:
+          p.properties.nutrition_treatment_not_given,
+        Current_Nutrition_Status__c: () => {
+          var status = p.properties.Nutrition_Status;
+          return status ? nutritionMap[status] : undefined;
+        },
+        Default_on_TB_treatment__c: () => {
+          var choice = p.properties.default_tb_treatment;
+          return cleanChoice(choice);
+        },
+        Received_pregnancy_test__c: () => {
+          var choice = p.properties.did_you_adminsiter_a_pregnancy_test;
+          return cleanChoice(choice);
+        },
+        Pregnancy_test_result__c: () => {
+          var choice = p.properties.pregnancy_test_result;
+          return cleanChoice(choice);
+        },
+        Chronic_illness__c: () => {
+          var choice =
+            p.properties.please_specify_which_chronic_illness_the_person_has;
+          var choice2 = handleMultiSelect(choice);
+          return choice2 ? choice2.replace(/_/g, ' ') : '';
+        },
+        /*field(
+            'Birth_Certificate__c',
+            p.form.Status.birth_certificate')
+          ),
+          field(
+            'Child_zinc__c',
+            dataValue(
+              'form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc'
+            )
+          ),
+          field(
+            'Child_ORS__c',
+            dataValue(
+              'form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS'
+            )
+          ),*/
+        Childs_breath_per_minute__c: p.properties.breaths_per_minuite,
+        Child_chest_in_drawing__c: p.properties.Child_chest_in_drawing_c,
+        Caregiver_counseled_on_delayed_milestone__c:
+          p.properties.did_you_counsel_the_caregiver_on_delayed_milestones,
+        Delayed_Milestone__c:
+          p.properties.does_the_child_has_a_delayed_milestone,
+        Child_has_2_or_more_play_items__c:
+          p.properties.does_the_child_has_2_or_more_play_items_at_home,
+        Child_has_3_more_picture_books__c:
+          p.properties.does_the_child_has_3_or_more_picture_books,
+        Delayed_Milestones_Counselled_On__c: () => {
+          var ms =
+            p.properties
+              .which_delayed_milestone_area_did_you_counsel_the_caregiver_on;
+          return ms ? milestoneMap[ms] : undefined;
+        },
+        Delayed_Milestone_Type__c: () => {
+          var ms = p.properties.which_delayed_milestone;
+          return ms ? milestoneTypeMap[ms] : undefined;
+        },
+        Caretaker_trained_in_muac__c: p.properties.mother_trained_muac,
+        Caretaker_screened_for_muac_this__c:
+          p.properties.mother_screened_child_muac,
+        Caretaker_muac_findings__c:
+          p.properties.mother_screened_child_muac_result,
+        Caretaker_action_after_muac_screening__c:
+          p.properties.mother_screened_muac_action,
+        of_Caretaker_MUAC_screenings__c: p.properties.mother_nb_screening,
+        Pulse_Oximeter__c: p.properties.pulse_oximeter_available,
+        Heart_Rate_Pulse_Oximeter__c: p.properties.heart_rate_pulse_oximeter,
+        Oxygen_Concentration_Pulse_Oximeter__c:
+          p.properties.oxygen_concentration,
+        Can_child_drink__c: p.properties.can_child_drink,
+        Antibiotic_provided_for_fast_breathing__c:
+          p.properties.antibiotic_fast_breathing,
+        Antibiotic_provided_for_chest_indrawing__c:
+          p.properties.antibiotic_chest_indrawing,
+        Supervisor_Visit__c: () => {
+          var check = p.properties.supervisor_visit;
+          var value =
+            check && check !== ''
+              ? check
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return supervisorMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        },
+        /*
+      //HMN- 05012023 - Removed Visit_Closed_Date__c: p.date_closed,
+      //Because I could not find it in Salesforce. It was causing errors on staging
+      Visit_Closed_Date__c: p.date_closed,
+      */
+        //Case_Closed_Date__c:  () => {
+        //  var closed = p.date_closed;
+        //  var date = p.date_modified;
+        //  return closed && closed == true ? date : undefined;
+        // })
+      };
+    });
+
+  console.log(JSON.stringify(personVisitMapping, null, 2));
+  return { ...state, personVisitMapping };
+});
+
+// bulk(
+//   'Person_visit__c',
+//   'upsert',
+//   {
+//     extIdField: 'CommCare_ID__c',
+//     failOnError: true,
+//     allowNoOp: true,
+//   },
+//   state => {
+//     console.log('Bulk upserting person visit...');
+//     return state.personVisitMapping;
+//   }
+// );
