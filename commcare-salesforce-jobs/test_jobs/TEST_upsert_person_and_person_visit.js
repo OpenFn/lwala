@@ -270,7 +270,7 @@ fn(state => {
   const personVisitMapping = state.data.objects
     .filter(
       p =>
-        // p.properties.username !== 'test.2021' &&
+        p.properties.username !== 'test.2021' &&
         p.properties.test_user !== 'Yes'
     )
     .map(p => {
@@ -301,8 +301,8 @@ fn(state => {
           return case_id + '_' + submitted;
         },
         Date__c: p.properties.Date,
-        // Form_Submitted__c: p.properties.last_form_opened_name,
-        // Birth_Status__c: p.properties.child_status,
+        Form_Submitted__c: p.properties.last_form_opened_name,
+        Birth_Status__c: p.properties.child_status,
         Catchment__c: fetchReference(p.properties.owner_id, 'catchment'),
         /*
       //HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
@@ -325,16 +325,16 @@ fn(state => {
           var choice = p.properties.sleep_under_net;
           return cleanChoice(choice);
         },
-        // Individual_birth_plan_counselling__c:
-        //   p.properties.individual_birth_plan,
-        // Reason_for_not_taking_a_pregnancy_test__c: () => {
-        //   var reason = p.properties.No_Preg_Test;
-        //   return reason ? reason.toString().replace(/_/g, ' ') : undefined;
-        // },
-        // Pregnancy_danger_signs__c: () => {
-        //   var signs = p.properties.No_Preg_Test;
-        //   return signs ? pregDangerMap[signs] : undefined;
-        // },
+        Individual_birth_plan_counselling__c:
+          p.properties.individual_birth_plan,
+        Reason_for_not_taking_a_pregnancy_test__c: () => {
+          var reason = p.properties.No_Preg_Test;
+          return reason ? reason.toString().replace(/_/g, ' ') : undefined;
+        },
+        Pregnancy_danger_signs__c: () => {
+          var signs = p.properties.No_Preg_Test;
+          return signs ? pregDangerMap[signs] : undefined;
+        },
         Child_Danger_Signs__c: () => {
           var signs = p.properties.Other_Danger_Signs;
           return signs ? childDangerSignsMap[signs] : undefined;
@@ -343,51 +343,51 @@ fn(state => {
           var choice = p.properties.malaria_test_results;
           return cleanChoice(choice);
         },
-        // Malaria_Home_Test__c: p.properties.malaria_test_date,
+        Malaria_Home_Test__c: p.properties.malaria_test_date,
         /*Current_Malaria_Status__c: () => {
         var choice = p.properties.Malaria_Status;
         return cleanChoice(choice);
       },*/
         // Malaria_Home_Treatment__c: p.form.treatment_and_tracking.home_treatment,
-        // Malaria_Home_Treatment__c: p.properties.malaria_test_date,
-        // Persons_symptoms__c: () => {
-        //   var check = p.properties.symptoms_check_other;
-        //   var value =
-        //     check && check !== ''
-        //       ? check
-        //           .replace(/ /gi, ';')
-        //           .split(';')
-        //           .map(value => {
-        //             return symptomsMap[value] || value;
-        //           })
-        //       : undefined;
-        //   return value ? value.join(';') : undefined;
-        // },
-        // Active_in_Support_Group__c: p.properties.Active_in_Support_Group,
-        // HAWI_Defaulter__c: () => {
-        //   var hawi = p.properties.default;
-        //   return hawi === 'Yes' ? true : false;
-        // },
-        // Date_of_Default__c: p.properties.date_of_default,
-        // Persons_temperature__c: p.properties.temperature,
+        Malaria_Home_Treatment__c: p.properties.malaria_test_date,
+        Persons_symptoms__c: () => {
+          var check = p.properties.symptoms_check_other;
+          var value =
+            check && check !== ''
+              ? check
+                  .replace(/ /gi, ';')
+                  .split(';')
+                  .map(value => {
+                    return symptomsMap[value] || value;
+                  })
+              : undefined;
+          return value ? value.join(';') : undefined;
+        },
+        Active_in_Support_Group__c: p.properties.Active_in_Support_Group,
+        HAWI_Defaulter__c: () => {
+          var hawi = p.properties.default;
+          return hawi === 'Yes' ? true : false;
+        },
+        Date_of_Default__c: p.properties.date_of_default,
+        Persons_temperature__c: p.properties.temperature,
         Days_since_illness_start__c: p.properties.duration_of_sickness,
         Newborn_visited_48_hours_of_delivery__c:
           p.properties.newborn_visited_48_hours_of_delivery,
-        // Newborn_visited_by_a_CHW_within_6_days__c:
-        //   p.properties.visit_6_days_from_delivery,
+        Newborn_visited_by_a_CHW_within_6_days__c:
+          p.properties.visit_6_days_from_delivery,
         Current_Malaria_Status__c: p.properties.malaria_test_results,
-        // Malaria_test__c: () => {
-        //   var choice = p.properties.malaria_test;
-        //   return cleanChoice(choice);
-        // },
-        // Fever__c: () => {
-        //   var choice = p.properties.symptoms_check_fever;
-        //   return cleanChoice(choice);
-        // },
-        // Cough__c: () => {
-        //   var choice = p.properties.symptoms_check_cough;
-        //   return cleanChoice(choice);
-        // },
+        Malaria_test__c: () => {
+          var choice = p.properties.malaria_test;
+          return cleanChoice(choice);
+        },
+        Fever__c: () => {
+          var choice = p.properties.symptoms_check_fever;
+          return cleanChoice(choice);
+        },
+        Cough__c: () => {
+          var choice = p.properties.symptoms_check_cough;
+          return cleanChoice(choice);
+        },
         Diarrhoea__c: () => {
           var choice = p.properties.symptoms_check_diarrhea;
           return cleanChoice(choice);
@@ -631,20 +631,27 @@ fn(state => {
       };
     });
 
-  console.log(JSON.stringify(personVisitMapping, null, 2));
+  personVisitMapping.forEach(person => {
+    Object.entries(person).forEach(([key, value]) => {
+      if (value === '') person[key] = undefined;
+    });
+  });
+
+  // console.log(JSON.stringify(personVisitMapping, null, 2));
+
   return { ...state, personVisitMapping };
 });
 
-// bulk(
-//   'Person_visit__c',
-//   'upsert',
-//   {
-//     extIdField: 'CommCare_ID__c',
-//     failOnError: true,
-//     allowNoOp: true,
-//   },
-//   state => {
-//     console.log('Bulk upserting person visit...');
-//     return state.personVisitMapping;
-//   }
-// );
+bulk(
+  'Person_visit__c',
+  'upsert',
+  {
+    extIdField: 'CommCare_ID__c',
+    failOnError: true,
+    allowNoOp: true,
+  },
+  state => {
+    console.log('Bulk upserting person visit...');
+    return state.personVisitMapping;
+  }
+);
