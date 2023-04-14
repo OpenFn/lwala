@@ -8,13 +8,32 @@ fn(state => {
 // get data from SF
 fn(state => {
   return query(
-    `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c catchment WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
+    `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
       "','"
     )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
   )(state);
 });
 
 fn(state => {
+  const [reference] = state.references;
+
+  // console.log(JSON.stringify(reference.records, null, 2));
+
+  const villageNewId = owner_id =>
+    reference.records.filter(
+      record => record.CommCare_User_ID__c === owner_id
+    )[0].village;
+
+  const areaNewId = owner_id =>
+    reference.records.filter(
+      record => record.CommCare_User_ID__c === owner_id
+    )[0].area;
+
+  const catchmentNewId = owner_id =>
+    reference.records.filter(
+      record => record.CommCare_User_ID__c === owner_id
+    )[0].catchment;
+
   const cleanChoice = choice => {
     if (choice) {
       return choice.charAt(0).toUpperCase() + choice.slice(1).replace('_', ' ');
@@ -147,106 +166,21 @@ fn(state => {
     nutritionMap,
     pregDangerMap,
     fpMethodMap,
+    areaNewId,
     cleanChoice,
+    villageNewId,
+    catchmentNewId,
     handleMultiSelect,
   };
 });
 
-// get data from SF
-// query(
-//   `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c FROM Location__c WHERE CommCare_User_ID__c = '${dataValue(
-//     'properties.owner_id'
-//   )(state)}'`
-// );
-
-// build IDs from queried SF data
-// fn(state => ({
-//   ...state,
-//   data: {
-//     ...state.data,
-//     villageNewId:
-//       state.references[0].records && state.references[0].records.length !== 0
-//         ? state.references[0].records[0].Id
-//         : undefined,
-//     areaNewId:
-//       state.references[0].records && state.references[0].records.length !== 0
-//         ? state.references[0].records[0].Parent_Geographic_Area__c
-//         : undefined,
-//     catchmentNewId:
-//       state.references[0].records && state.references[0].records.length !== 0
-//         ? state.references[0].records[0].Parent_Geographic_Area__r
-//           ? state.references[0].records[0].Parent_Geographic_Area__r
-//               .Parent_Geographic_Area__c
-//           : undefined
-//         : undefined,
-//   },
-// }));
-
-fn(state => {
-  const householdMapping = state.data.objects
-    .filter(
-      p =>
-        p.properties.commcare_username !== 'test.2021' &&
-        p.properties.test_user !== 'Yes'
-    )
-    .map(p => {
-      return {
-        CommCare_Code__c: p.indices.parent.case_id || p.properties.parent_id,
-      };
-    });
-
-  return { ...state, householdMapping };
-});
-// upsertIf(
-//   state.data.properties.commcare_username !== 'test.2021' &&
-//     state.data.properties.test_user !== 'Yes',
-//   'Household__c',
-//   'CommCare_Code__c',
-//   fields(
-//     field('CommCare_Code__c', state => {
-//       return (
-//         dataValue('indices.parent.case_id')(state) ||
-//         dataValue('properties.parent_id')(state)
-//       );
-//     })
-//   )
-// ),
-bulk(
-  'Household__c',
-  'upsert',
-  {
-    extIdField: 'CommCare_Code__c',
-    failOnError: true,
-    allowNoOp: true,
-  },
-  state => {
-    console.log('Bulk upserting...');
-    return state.householdMapping;
-  }
-);
-
 // build sfRecord before upserting
 fn(state => {
-  const [reference] = state.references;
-
-  const villageNewId = owner_id =>
-    reference.records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].village;
-
-  const areaNewId = owner_id =>
-    reference.records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].area;
-
-  const catchmentNewId = owner_id =>
-    reference.records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].catchment;
-
   const {
+    areaNewId,
     counselMap,
-    serviceMap,
+    villageNewId,
+    catchmentNewId,
     reasonMapping,
     milestoneTypeMap,
     milestoneMap,
@@ -256,6 +190,24 @@ fn(state => {
     cleanChoice,
     handleMultiSelect,
   } = state;
+
+  const householdMapping = [
+    ...new Map(
+      state.data.objects
+        .filter(
+          p =>
+            p.properties.commcare_username !== 'test.2021' &&
+            p.properties.test_user !== 'Yes'
+        )
+        .map(p => {
+          return {
+            CommCare_Code__c:
+              p.indices.parent.case_id || p.properties.parent_id,
+          };
+        })
+        .map(h => [h.CommCare_Code__c, h])
+    ).values(),
+  ];
 
   const headOfHouseholdMapping = state.data.objects
     .filter(
@@ -314,6 +266,10 @@ fn(state => {
         p.properties.test_user !== 'Yes'
     )
     .map(p => {
+      /*  field(
+          'deworming_medication__c',
+          dataValue('form.TT5.Child_Information.Deworming')
+        ),depracated field*/
       return {
         Source__c: 1,
         CommCare_ID__c: p.case_id,
@@ -325,9 +281,9 @@ fn(state => {
         Consent_for_data_use__c: p.properties.data_sharing_consent,
         CommCare_HH_Code__c: p.indices.parent.case_id,
         Client_Status__c: p.properties.Client_Status,
-        Catchment__c: catchmentNewId(p.owner_id),
-        Area__c: areaNewId(p.owner_id),
-        Household_Village__c: villageNewId(p.owner_id),
+        Catchment__c: catchmentNewId(p.properties.owner_id),
+        Area__c: areaNewId(p.properties.owner_id),
+        Household_Village__c: villageNewId(p.properties.owner_id),
         Name: () => {
           var name1 = p.properties.Person_Name; //check
           var unborn = p.properties.name; //check
@@ -646,8 +602,8 @@ fn(state => {
           return date && date !== '' ? date : undefined;
         },
         //Immunization  =====================//
-        Child_missed_immunization_type__c:
-          p.form.TT5.Child_Information.Immunizations.immunization_type,
+        // Child_missed_immunization_type__c:
+        //   p.form.TT5.Child_Information.Immunizations.immunization_type,
         BCG__c: p.properties.BCG,
         OPV_0__c: p.properties.OPV_0,
         Measles_6__c: p.properties.Measles_6,
@@ -707,14 +663,51 @@ fn(state => {
       };
     });
 
+  sfRecordMapping.forEach(rec => {
+    Object.entries(rec).forEach(([key, value]) => {
+      if (value === '') rec[key] = undefined;
+    });
+  });
+
+  // console.log(JSON.stringify(sfRecordMapping, null, 2));
   return {
     ...state,
+    motherMapping,
     sfRecordMapping,
     caregiverMapping,
-    motherMapping,
+    householdMapping,
     headOfHouseholdMapping,
   };
 });
+
+// upsertIf(
+//   state.data.properties.commcare_username !== 'test.2021' &&
+//     state.data.properties.test_user !== 'Yes',
+//   'Household__c',
+//   'CommCare_Code__c',
+//   fields(
+//     field('CommCare_Code__c', state => {
+//       return (
+//         dataValue('indices.parent.case_id')(state) ||
+//         dataValue('properties.parent_id')(state)
+//       );
+//     })
+//   )
+// ),
+
+bulk(
+  'Household__c',
+  'upsert',
+  {
+    extIdField: 'CommCare_Code__c',
+    failOnError: true,
+    allowNoOp: true,
+  },
+  state => {
+    console.log('Bulk upserting...');
+    return state.householdMapping;
+  }
+);
 
 // upsert data to SF
 // upsertIf(
