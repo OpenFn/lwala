@@ -20,15 +20,6 @@ fn(state => {
 });
 
 fn(state => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log('4 second cooldown finished.');
-      resolve(state);
-    }, 4000);
-  });
-});
-
-fn(state => {
   console.log(
     'Filtering out unwanted users and applying mapping for households and housevisits'
   );
