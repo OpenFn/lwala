@@ -237,8 +237,110 @@ fn(state => {
   const serviceMapping = state.data.objects
     .filter(r => r.properties.owner_id !== '8e725928e3ce43d19b390dd604097069')
     .map(r => {
+      // pregnancyDangerSigns
+      const pCheck = r.properties.pregnancy_danger_signs;
+      const pValue =
+        pCheck && pCheck !== ''
+          ? pCheck
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.pregDangerMap[value] || value;
+              })
+          : undefined;
+      const pregnancyDangerSigns = pValue ? pValue.join(';') : undefined;
+
+      // childDangerSigns
+      const cCheck = r.properties.Other_Danger_Signs;
+      const cValue =
+        cCheck && cCheck !== ''
+          ? cCheck
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.childSignMap[value] || value;
+              })
+          : undefined;
+      const childDangerSigns = cValue ? cValue.join(';') : undefined;
+
+      // delayedMilestone
+      const dCheck = r.properties.which_delayed_milestone;
+      const dValue =
+        dCheck && dCheck !== ''
+          ? dCheck
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.milestoneTypeMap[value] || value;
+              })
+          : undefined;
+      const delayedMilestone = dValue ? dValue.join(';') : undefined;
+
+      // seriousSymptoms
+      const sCheck = r.properties.symptoms_check_other;
+      const sValue =
+        sCheck && sCheck !== ''
+          ? sCheck
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.symptomsMap[value] || value;
+              })
+          : undefined;
+      const seriousSymptoms = sValue ? sValue.join(';') : undefined;
+
+      // otherReferralReason
+      const otCheck = r.properties.Other_Referral_Reasons;
+      const otValue =
+        otCheck && otCheck !== ''
+          ? otCheck
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.otherReferralMap[value] || value;
+              })
+          : undefined;
+      const otherReferralReason = otValue ? otValue.join(';') : undefined;
+
+      // homeBasedCareRendered
+      const homeCheck = r.properties.Home_Based_Care_Provided;
+      const homeValue =
+        homeCheck && homeCheck !== ''
+          ? homeCheck
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.homeCareMap[value] || value;
+              })
+          : undefined;
+      const homeBasedCareRendered = homeValue ? homeValue.join(';') : undefined;
+
+      // ecdClinicalService
+      const ecdCheck = r.properties.ECD_Clinical_Service;
+      const ecdValue =
+        ecdCheck && ecdCheck !== ''
+          ? ecdCheck
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return state.ecdMap[value] || value;
+              })
+          : undefined;
+      const ecdClinicalService = ecdValue ? ecdValue.join(';') : undefined;
+
       return {
-        ...state.relationships,
+        'Person__r.CommCare_ID__c':
+          r.indices.parent.case_type === 'Person'
+            ? r.indices.parent.case_id
+            : r.indices.parent.case_type === 'Case'
+            ? state.ccId
+            : undefined,
+        'Parent_Service__r.Service_UID__c':
+          r.indices.parent.case_type === 'Case'
+            ? r.indices.parent.case_id
+            : undefined,
+        // 'Person__r.CommCare_ID__c':
+        //   r.indices.parent.case_type === 'Case' ? state.ccId : undefined,
         Service_UID__c: r.case_id,
         CommCare_Code__c: r.case_id,
         RecordTypeID: '01224000000YAuK',
@@ -248,22 +350,19 @@ fn(state => {
         //   'CommCare_ID__c',
         //   r.properties.CHW_ID')
         // ),
-        Open_Case__c: () => {
-          var status = r.closed;
-          return status === false ? true : false;
-        },
+        Open_Case__c: r.closed === false ? true : false,
         Case_Closed_Date__c: r.date_closed,
         Age_Time_of_Service__c: r.properties.age,
         Source__c: r.properties.Source === '1',
-        Clinical_facility__c: () => {
-          var facility = r.properties.Facility_Visited;
-          return facility ? state.facilityMap[facility] : undefined;
-        },
+        Clinical_facility__c: r.properties.Facility_Visited
+          ? state.facilityMap[r.properties.Facility_Visited]
+          : undefined,
         Client_Received_Services_at_Facility2__c: r.properties.Facility_Visit,
-        Clinical_Visit_Date__c: () => {
-          var date = r.properties.Facility_Date;
-          return date === '' || date === undefined ? undefined : date;
-        },
+        Clinical_Visit_Date__c:
+          r.properties.Facility_Date === '' ||
+          r.properties.Facility_Date === undefined
+            ? undefined
+            : r.properties.Facility_Date,
         CHW_Followed_Up_with_the_Client__c: r['properties.Follow-Up'],
         Follow_Up_Date__c: r['properties.Follow-Up_Date'],
         Person_Complied_w_Referral_in_24_hrs__c:
@@ -276,19 +375,19 @@ fn(state => {
           r.properties.distribute_treatment, //CHW.Follow-Up.distribute_treatment
         Person_had_an_adverse_drug_reaction__c:
           r.properties.adverse_drug_reaction,
-        Defaulted__c: () => {
-          var date = r.properties.date_of_default;
-          return date && date !== '' ? true : false;
-        },
+        Defaulted__c:
+          r.properties.date_of_default && r.properties.date_of_default !== ''
+            ? true
+            : false,
         Date_of_Default__c: r.properties.date_of_default,
         Client_s_Symptoms_Improved__c: r.properties.Client_Improved,
         Case_Type__c: r.properties.Case_Type,
-        Follow_Up_By_Date__c: () => {
-          var date = r.properties.Follow - Up_By_Date;
-          return date && date !== '' ? date : undefined;
-        },
-        Date__c: () =>
-          new Date(state.data.properties.date_opened).toISOString(),
+        Follow_Up_By_Date__c:
+          r.properties['Follow-Up_By_Date'] &&
+          r.properties['Follow-Up_By_Date'] !== ''
+            ? r.properties['Follow-Up_By_Date']
+            : undefined,
+        Date__c: new Date(r.properties.date_opened).toISOString(),
         Reason_for_Service__c: r.properties.Reason_for_Service,
         Type_of_Service__c: r.properties.Type_of_Service,
         Malaria_Status__c: r.properties.Malaria_Status,
@@ -301,113 +400,26 @@ fn(state => {
         MUAC__c: r.properties.muac,
         Nutrition_Status__c: r.properties.Nutrition_Status,
         //===== NEW MAPPINGS - JAN 14 ===========================//
-        Pregnancy_Danger_Signs__c: () => {
-          var check = r.properties.pregnancy_danger_signs;
-          var value =
-            check && check !== ''
-              ? check
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return state.pregDangerMap[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
-        Child_Danger_Signs__c: () => {
-          var check = r.properties.Other_Danger_Signs;
-          var value =
-            check && check !== ''
-              ? check
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return state.childSignMap[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
-        Delayed_Milestone__c: () => {
-          var check = r.properties.which_delayed_milestone;
-          var value =
-            check && check !== ''
-              ? check
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return state.milestoneTypeMap[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
-        Serious_Symptoms__c: () => {
-          var check = r.properties.symptoms_check_other;
-          var value =
-            check && check !== ''
-              ? check
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return state.symptomsMap[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
-        Other_Referral_Reasons__c: () => {
-          var check = r.properties.Other_Referral_Reasons;
-          var value =
-            check && check !== ''
-              ? check
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return state.otherReferralMap[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
-        Home_Based_Care_Rendered__c: () => {
-          var check = r.properties.Home_Based_Care_Provided;
-          var value =
-            check && check !== ''
-              ? check
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return state.homeCareMap[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
-        PSBI_Visit__c: () => {
-          var number = r.properties.psbi_task;
-          return number && number !== '' ? `Day ${number}` : undefined; //sample output: 'Day 3'
-        },
-        Clinical_Services__c: () => {
-          var check = r.properties.TT5_Clinical_Service;
-          return check ? state.clinicalMap[check] : check;
-        },
-        Referred_Facility__c: () => {
-          var check = r.properties.referred_facility;
-          return check ? state.facilityMap[check] : check;
-        },
-        HAWI_Clinical_Services__c: () => {
-          var check = r.properties.HAWI_Clinical_Service;
-          return check ? state.serviceMap[check] : check;
-        },
-        ECD_Clinical_Services__c: () => {
-          var check = r.properties.ECD_Clinical_Service;
-          var value =
-            check && check !== ''
-              ? check
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return state.ecdMap[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
+        Pregnancy_Danger_Signs__c: pregnancyDangerSigns,
+        Child_Danger_Signs__c: childDangerSigns,
+        Delayed_Milestone__c: delayedMilestone,
+        Serious_Symptoms__c: seriousSymptoms,
+        Other_Referral_Reasons__c: otherReferralReason,
+        Home_Based_Care_Rendered__c: homeBasedCareRendered,
+        PSBI_Visit__c:
+          r.properties.psbi_task && r.properties.psbi_task !== ''
+            ? `Day ${r.properties.psbi_task}`
+            : undefined,
+        Clinical_Services__c: r.properties.TT5_Clinical_Service
+          ? state.clinicalMap[r.properties.TT5_Clinical_Service]
+          : r.properties.TT5_Clinical_Service,
+        Referred_Facility__c: r.properties.referred_facility
+          ? state.facilityMap[r.properties.referred_facility]
+          : r.properties.referred_facility,
+        HAWI_Clinical_Services__c: r.properties.HAWI_Clinical_Service
+          ? state.serviceMap[r.properties.HAWI_Clinical_Service]
+          : r.properties.HAWI_Clinical_Service,
+        ECD_Clinical_Services__c: ecdClinicalService,
       };
     });
 
@@ -427,218 +439,3 @@ bulk(
     return state.serviceMapping;
   }
 );
-
-// upsertIf(
-//   state.data.properties.owner_id !== '8e725928e3ce43d19b390dd604097069',
-//   'Service__c',
-//   'Service_UID__c',
-//   state => ({
-//     ...fields(...state.relationships),
-//     ...fields(
-//       field('Service_UID__c', dataValue('case_id')),
-//       field('CommCare_Code__c', dataValue('case_id')),
-//       field('RecordTypeID', '01224000000YAuK'),
-//       //field('Household_CHW__c', 'a030Q000008XyXV'), //Sandbox MOTG test CHW
-//       // relationship( //ADD BACK BEFORE PROD DEPLOYMENT; removed for sandbox testing
-//       //   'Household_CHW__r',
-//       //   'CommCare_ID__c',
-//       //   dataValue('properties.CHW_ID')
-//       // ),
-//       field('Open_Case__c', state => {
-//         var status = dataValue('closed')(state);
-//         return status === false ? true : false;
-//       }),
-//       field('Case_Closed_Date__c', dataValue('date_closed')),
-//       field('Age_Time_of_Service__c', dataValue('properties.age')),
-//       field('Source__c', dataValue('properties.Source') === '1'),
-//       field('Clinical_facility__c', state => {
-//         var facility = dataValue('properties.Facility_Visited')(state);
-//         return facility ? state.facilityMap[facility] : undefined;
-//       }),
-//       field(
-//         'Client_Received_Services_at_Facility2__c',
-//         dataValue('properties.Facility_Visit')
-//       ),
-//       field('Clinical_Visit_Date__c', state => {
-//         var date = dataValue('properties.Facility_Date')(state);
-//         return date === '' || date === undefined ? undefined : date;
-//       }),
-//       field(
-//         'CHW_Followed_Up_with_the_Client__c',
-//         dataValue('properties.Follow-Up')
-//       ),
-//       field('Follow_Up_Date__c', dataValue('properties.Follow-Up_Date')),
-//       field(
-//         'Person_Complied_w_Referral_in_24_hrs__c',
-//         dataValue('properties.referral_compliance')
-//       ),
-//       field('Skillled_Delivery__c', dataValue('properties.skilled_delivery')),
-//       field(
-//         'Child_received_immunizations__c',
-//         dataValue('properties.immunization')
-//       ),
-//       field(
-//         'Received_a_diagnosis_for_PSBI__c',
-//         dataValue('properties.psbi_diagnosis') //CHW.Follow-Up.PSBI.psbi_diagnosis
-//       ),
-//       field(
-//         'Received_antibiotics_per_protocol__c',
-//         dataValue('properties.antibiotic_8days') //CHW.Follow-Up.PSBI.antibiotic_8day
-//       ),
-//       field(
-//         'Distributed_Treatment_on_Last_Visit__c',
-//         dataValue('properties.distribute_treatment') //CHW.Follow-Up.distribute_treatment
-//       ),
-//       field(
-//         'Person_had_an_adverse_drug_reaction__c',
-//         dataValue('properties.adverse_drug_reaction')
-//       ),
-//       field('Defaulted__c', state => {
-//         var date = dataValue('properties.date_of_default')(state);
-//         return date && date !== '' ? true : false;
-//       }),
-//       field('Date_of_Default__c', dataValue('properties.date_of_default')),
-//       field(
-//         'Client_s_Symptoms_Improved__c',
-//         dataValue('properties.Client_Improved')
-//       ),
-//       field('Case_Type__c', dataValue('properties.Case_Type')),
-//       field('Follow_Up_By_Date__c', state => {
-//         var date = dataValue('properties.Follow-Up_By_Date')(state);
-//         return date && date !== '' ? date : undefined;
-//       }),
-//       field('Date__c', state =>
-//         new Date(state.data.properties.date_opened).toISOString()
-//       ),
-//       field(
-//         'Reason_for_Service__c',
-//         dataValue('properties.Reason_for_Service')
-//       ),
-//       field('Type_of_Service__c', dataValue('properties.Type_of_Service')),
-//       field('Malaria_Status__c', dataValue('properties.Malaria_Status')),
-//       field(
-//         'Home_Treatment_Date__c',
-//         dataValue('properties.home_treatment_date')
-//       ),
-//       field(
-//         'Malaria_Home_Test_Date__c',
-//         dataValue('properties.malaria_test_date')
-//       ),
-//       field('Home_ORS__c', dataValue('properties.clinic_ors')),
-//       field('Home_Zinc__c', dataValue('properties.clinic_zinc')),
-//       field('Height__c', dataValue('properties.height')),
-//       field('Weight__c', dataValue('properties.weight')),
-//       field('MUAC__c', dataValue('properties.muac')),
-//       field('Nutrition_Status__c', dataValue('properties.Nutrition_Status')),
-//       //===== NEW MAPPINGS - JAN 14 ===========================//
-//       field('Pregnancy_Danger_Signs__c', state => {
-//         var check = dataValue('properties.pregnancy_danger_signs')(state);
-//         var value =
-//           check && check !== ''
-//             ? check
-//                 .replace(/ /gi, ';')
-//                 .split(';')
-//                 .map(value => {
-//                   return state.pregDangerMap[value] || value;
-//                 })
-//             : undefined;
-//         return value ? value.join(';') : undefined;
-//       }),
-//       field('Child_Danger_Signs__c', state => {
-//         var check = dataValue('properties.Other_Danger_Signs')(state);
-//         var value =
-//           check && check !== ''
-//             ? check
-//                 .replace(/ /gi, ';')
-//                 .split(';')
-//                 .map(value => {
-//                   return state.childSignMap[value] || value;
-//                 })
-//             : undefined;
-//         return value ? value.join(';') : undefined;
-//       }),
-//       field('Delayed_Milestone__c', state => {
-//         var check = dataValue('properties.which_delayed_milestone')(state);
-//         var value =
-//           check && check !== ''
-//             ? check
-//                 .replace(/ /gi, ';')
-//                 .split(';')
-//                 .map(value => {
-//                   return state.milestoneTypeMap[value] || value;
-//                 })
-//             : undefined;
-//         return value ? value.join(';') : undefined;
-//       }),
-//       field('Serious_Symptoms__c', state => {
-//         var check = dataValue('properties.symptoms_check_other')(state);
-//         var value =
-//           check && check !== ''
-//             ? check
-//                 .replace(/ /gi, ';')
-//                 .split(';')
-//                 .map(value => {
-//                   return state.symptomsMap[value] || value;
-//                 })
-//             : undefined;
-//         return value ? value.join(';') : undefined;
-//       }),
-//       field('Other_Referral_Reasons__c', state => {
-//         var check = dataValue('properties.Other_Referral_Reasons')(state);
-//         var value =
-//           check && check !== ''
-//             ? check
-//                 .replace(/ /gi, ';')
-//                 .split(';')
-//                 .map(value => {
-//                   return state.otherReferralMap[value] || value;
-//                 })
-//             : undefined;
-//         return value ? value.join(';') : undefined;
-//       }),
-//       field('Home_Based_Care_Rendered__c', state => {
-//         var check = dataValue('properties.Home_Based_Care_Provided')(state);
-//         var value =
-//           check && check !== ''
-//             ? check
-//                 .replace(/ /gi, ';')
-//                 .split(';')
-//                 .map(value => {
-//                   return state.homeCareMap[value] || value;
-//                 })
-//             : undefined;
-//         return value ? value.join(';') : undefined;
-//       }),
-//       field('PSBI_Visit__c', state => {
-//         var number = dataValue('properties.psbi_task')(state);
-//         return number && number !== '' ? `Day ${number}` : undefined; //sample output: 'Day 3'
-//       }),
-//       field('Clinical_Services__c', state => {
-//         var check = dataValue('properties.TT5_Clinical_Service')(state);
-//         return check ? state.clinicalMap[check] : check;
-//       }),
-//       field('Referred_Facility__c', state => {
-//         var check = dataValue('properties.referred_facility')(state);
-//         return check ? state.facilityMap[check] : check;
-//       }),
-//       field('HAWI_Clinical_Services__c', state => {
-//         var check = dataValue('properties.HAWI_Clinical_Service')(state);
-//         return check ? state.serviceMap[check] : check;
-//       }),
-//       field('ECD_Clinical_Services__c', state => {
-//         var check = dataValue('properties.ECD_Clinical_Service')(state);
-//         var value =
-//           check && check !== ''
-//             ? check
-//                 .replace(/ /gi, ';')
-//                 .split(';')
-//                 .map(value => {
-//                   return state.ecdMap[value] || value;
-//                 })
-//             : undefined;
-//         return value ? value.join(';') : undefined;
-//       })
-//       //=====================================//
-//     ),
-//   })
-// );
