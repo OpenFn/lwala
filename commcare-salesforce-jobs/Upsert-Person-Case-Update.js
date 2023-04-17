@@ -311,11 +311,12 @@ fn(state => {
       //     relation.charAt(0).toUpperCase() + relation.slice(1);
       //   return toTitleCase;
       // }
+
       const relation = p.properties.relation_to_hh;
-      if (relation) return relation.toString().replace(/_/g, ' ');
 
       const relationToTheHead = relation
-        ? relation.charAt(0).toUpperCase() + relation.slice(1)
+        ? relation.toString().replace(/_/g, ' ').charAt(0).toUpperCase() +
+          relation.toString().replace(/_/g, ' ').slice(1)
         : null;
 
       const cStatus = p.properties.Child_Status;
@@ -638,7 +639,16 @@ fn(state => {
     });
   });
 
-  // console.log(JSON.stringify(sfRecordMapping, null, 2));
+  // TODO clean up after QA
+  // console.log(JSON.stringify(caregiverMapping, null, 2), 'careGiver');
+  // console.log(JSON.stringify(motherMapping, null, 2), 'Mother');
+  // console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
+  // console.log(JSON.stringify(householdMapping, null, 2), 'householdMapping');
+  // console.log(
+  //   JSON.stringify(headOfHouseholdMapping, null, 2),
+  //   'headOfHouseholdMapping'
+  // );
+
   return {
     ...state,
     motherMapping,
