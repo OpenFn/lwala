@@ -235,9 +235,7 @@ fn(state => {
     )
     .map(p => {
       return {
-        'Mother__r.CommCare_ID__c': () => {
-          return (caregiver = p.properties.mother_case_id);
-        },
+        'Mother__r.CommCare_ID__c': p.properties.mother_case_id,
         CommCare_ID__c: p.case_id,
       };
     });
@@ -252,9 +250,8 @@ fn(state => {
     )
     .map(p => {
       return {
-        'Primary_Caregiver_Lookup__r.CommCare_ID__c': () => {
-          return (caregiver = p.properties.caretaker_case_id);
-        },
+        'Primary_Caregiver_Lookup__r.CommCare_ID__c':
+          p.properties.caretaker_case_id,
         CommCare_ID__c: p.case_id,
       };
     });
@@ -270,8 +267,130 @@ fn(state => {
           'deworming_medication__c',
           dataValue('form.TT5.Child_Information.Deworming')
         ),depracated field*/
+
+      // For unbornOrName
+      const name1 = p.properties.Person_Name; //check
+      const unborn = p.properties.name; //check
+      const name2 =
+        name1 === undefined || name1 === '' || name1 === null
+          ? unborn
+          : name1.replace(/\w\S*/g, function (txt) {
+              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+      const unbornOrName = name1 !== null ? name2 : 'Unborn Child';
+
+      // For chronicIllness
+      const chronicChoice =
+        p.properties.please_specify_which_chronic_illness_the_person_has;
+      const choice2 = handleMultiSelect(chronicChoice);
+      const chronicIllness = choice2 ? choice2.replace(/_/g, ' ') : '';
+
+      const disabilityC =
+        p.properties.disability !== undefined
+          ? p.properties.disability
+              .toLowerCase()
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(';')
+          : null;
+
+      const otherDisability =
+        p.properties.other_disability !== undefined
+          ? p.properties.other_disability
+              .toLowerCase()
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(';')
+          : null;
+
+      // newRelation.charAt(0).toUpperCase() + newRelation.slice(1);
+      // if (relation) {
+      //   relation = relation.toString().replace(/_/g, ' ');
+      //   const toTitleCase =
+      //     relation.charAt(0).toUpperCase() + relation.slice(1);
+      //   return toTitleCase;
+      // }
+      const relation = p.properties.relation_to_hh;
+      if (relation) return relation.toString().replace(/_/g, ' ');
+
+      const relationToTheHead = relation
+        ? relation.charAt(0).toUpperCase() + relation.slice(1)
+        : null;
+
+      const cStatus = p.properties.Child_Status;
+      const cRt = p.properties.Record_Type;
+      const childStatus =
+        cStatus && cRt === 'Unborn'
+          ? (cStatus = 'Unborn')
+          : cStatus && cRt === 'Born'
+          ? (cStatus = 'Born')
+          : cStatus;
+      //check that this is the right one
+      // if (cStatus && cRt === 'Unborn') {
+      //   cStatus = 'Unborn';
+      // } else if (cStatus && cRt === 'Born') {
+      //   cStatus = 'Born';
+      // }
+      // return cStatus;
+
+      const childDangerSigns = p.properties.Other_Danger_Signs
+        ? p.properties.Other_Danger_Signs.toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(';')
+            .toString()
+            .replace(/_/g, ' ')
+        : p.properties.Other_Danger_Signs;
+
+      //clientCounselled
+      const clientChoices = p.properties.counsel_topic;
+      const choiceGroups = clientChoices ? clientChoices.split(' ') : null;
+      const clientCounselled = choiceGroups
+        ? choiceGroups
+            .map(cg => {
+              return counselMap[cg];
+            })
+            .join(';')
+        : choiceGroups;
+
+      // fpMethodDistributed
+      const fpStatus = p.properties.FP_commodity;
+      const fpValue =
+        fpStatus && fpStatus !== ''
+          ? fpStatus
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return fpMethodMap[value] || value;
+              })
+          : undefined;
+      const fpMethodDistributed = fpValue ? fpValue.join(';') : undefined;
+
+      // placeOfDelivery
+      const pFacility = p.properties.Delivery_Type;
+      const placeOfDelivery =
+        pFacility === 'Skilled'
+          ? 'Facility'
+          : pFacility === 'Unskilled'
+          ? 'Home'
+          : undefined;
+
+      // reasonForNotTakingFP
+      const rStatus = p.properties.No_FPmethod_reason;
+      const rValue =
+        rStatus && rStatus !== ''
+          ? rStatus
+              .replace(/ /gi, ';')
+              .split(';')
+              .map(value => {
+                return reasonMapping[value] || value;
+              })
+          : undefined;
+      const reasonForNotTakingFP = rValue ? rValue.join(';') : undefined;
+
       return {
-        Source__c: 1,
+        // TODO @aleksa, Source__c is causing an error
+        // Source__c: '1',
         CommCare_ID__c: p.case_id,
         'Household__r.CommCare_Code__c': p.indices.parent.case_id,
         commcare_location_id__c: p.properties.commcare_location_id,
@@ -284,80 +403,21 @@ fn(state => {
         Catchment__c: catchmentNewId(p.properties.owner_id),
         Area__c: areaNewId(p.properties.owner_id),
         Household_Village__c: villageNewId(p.properties.owner_id),
-        Name: () => {
-          var name1 = p.properties.Person_Name; //check
-          var unborn = p.properties.name; //check
-          var name2 =
-            name1 === undefined || name1 === '' || name1 === null
-              ? unborn
-              : name1.replace(/\w\S*/g, function (txt) {
-                  return (
-                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-                  );
-                });
-          return name1 !== null ? name2 : 'Unborn Child';
-        },
-        Chronic_illness__c: () => {
-          var choice =
-            p.properties.please_specify_which_chronic_illness_the_person_has;
-          var choice2 = handleMultiSelect(choice);
-          return choice2 ? choice2.replace(/_/g, ' ') : '';
-        },
+        Name: unbornOrName,
+        Chronic_illness__c: chronicIllness,
 
         Currently_enrolled_in_school__c: p.properties.enrolled_in_school,
-        Education_Level__c: () => {
-          var level = p.properties.Education_Level;
-          return level ? level.toString().replace(/_/g, ' ') : null;
-        },
-        Relation_to_the_head_of_the_household__c: () => {
-          var relation = p.properties.relation_to_hh;
-          if (relation) {
-            relation = relation.toString().replace(/_/g, ' ');
-            var toTitleCase =
-              relation.charAt(0).toUpperCase() + relation.slice(1);
-            return toTitleCase;
-          }
-
-          return null;
-        },
+        Education_Level__c: p.properties.Education_Level
+          ? p.properties.Education_Level.toString().replace(/_/g, ' ')
+          : null,
+        Relation_to_the_head_of_the_household__c: relationToTheHead,
         Gender__c: p.properties.Gender,
-        Disability__c: () => {
-          var disability = p.properties.disability;
-          var toTitleCase =
-            disability !== undefined
-              ? disability
-                  .toLowerCase()
-                  .split(' ')
-                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(';')
-              : null;
-          return toTitleCase;
-        },
-        Other_disability__c: () => {
-          var disability = p.properties.other_disability;
-          var toTitleCase =
-            disability !== undefined
-              ? disability
-                  .toLowerCase()
-                  .split(' ')
-                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(';')
-              : null;
-          return toTitleCase;
-        },
+        Disability__c: disabilityC,
+        Other_disability__c: otherDisability,
         Use_mosquito_net__c: p.properties.sleep_under_net,
         // Birth_Certificate__c,p.properties.birth_certificate,
         Birth_Certificate__c: p.properties.birth_certificate,
-        Child_Status__c: () => {
-          var status = p.properties.Child_Status;
-          var rt = p.properties.Record_Type; //check that this is the right one
-          if (status && rt === 'Unborn') {
-            status = 'Unborn';
-          } else if (status && rt === 'Born') {
-            status = 'Born';
-          }
-          return status;
-        },
+        Child_Status__c: childStatus,
         //===================================================//
         // relationship('RecordType', 'Name', state => {
         //   var rt = p.properties.Record_Type;
@@ -367,28 +427,15 @@ fn(state => {
         // }),
         //TT5 Mother Information  =====================//
         MCH_booklet__c: p.properties.mch_booklet,
-        Reason_for_not_taking_a_pregnancy_test__c: () => {
-          var reason = p.properties.No_Preg_Test;
-          return reason ? reason.toString().replace(/_/g, ' ') : undefined;
-        },
-        Pregnancy_danger_signs__c: () => {
-          var signs = p.properties.pregnancy_danger_signs;
-          return signs ? pregDangerMap[signs] : undefined;
-        },
+        Reason_for_not_taking_a_pregnancy_test__c: p.properties.No_Preg_Test
+          ? p.properties.No_Preg_Test.toString().replace(/_/g, ' ')
+          : undefined,
+        Pregnancy_danger_signs__c: p.properties.pregnancy_danger_signs
+          ? pregDangerMap[p.properties.pregnancy_danger_signs]
+          : undefined,
         Individual_birth_plan_counselling__c:
           p.properties.individual_birth_plan,
-        Child_Danger_Signs__c: () => {
-          var signs = p.properties.Other_Danger_Signs;
-          return signs
-            ? signs
-                .toLowerCase()
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(';')
-                .toString()
-                .replace(/_/g, ' ')
-            : signs;
-        },
+        Child_Danger_Signs__c: childDangerSigns,
         //HAWI =====================//
 
         Unique_Patient_Code__c: p.properties.Unique_Patient_Code,
@@ -396,10 +443,7 @@ fn(state => {
         Preferred_Care_Facility__c: p.properties.Preferred_Care_Facility,
         Currently_on_ART_s__c: p.properties.ART,
         ART_Regimen__c: p.properties.ARVs,
-        HAWI_Defaulter__c: () => {
-          var hawi = p.properties.default;
-          return hawi === 'Yes' ? true : false;
-        },
+        HAWI_Defaulter__c: p.properties.default === 'Yes' ? true : false,
         Date_of_Default__c: p.properties.date_of_default,
         Know_HIV_status__c: p.properties.known_hiv_status,
         HIV_Status__c: p.properties.hiv_status,
@@ -409,10 +453,9 @@ fn(state => {
         Current_Malaria_Status__c: p.properties.malaria_test_results,
         Malaria_test__c: p.properties.malaria_test,
         Last_Malaria_Home_Test__c: p.properties.malaria_test_date,
-        Last_Malaria_Home_Treatment__c: () => {
-          var choice = p.properties.malaria_test_date;
-          return cleanChoice(choice);
-        },
+        Last_Malaria_Home_Treatment__c: cleanChoice(
+          p.properties.malaria_test_date
+        ),
         Cough_over_14days__c: p.properties.symptoms_check_cough,
         TB_patients_therapy_observed__c: p.properties.observed_tb_therapy,
         Injuries_or_wounds__c: p.properties.wounds_or_injuries,
@@ -421,92 +464,40 @@ fn(state => {
         Oxygen_Concentration_Pulse_Oximeter__c:
           p.properties.oxygen_concentration,
         Can_child_drink__c: p.properties.can_child_drink,
-        Antibiotic_provided_for_fast_breathing__c: () => {
-          var choice = p.properties.antibiotic_fast_breathing;
-          return cleanChoice(choice);
-        },
-        Antibiotic_provided_for_chest_indrawing__c: () => {
-          var choice = p.properties.antibiotic_chest_indrawing;
-          return cleanChoice(choice);
-        },
-        Default_on_TB_treatment__c: () => {
-          var choice = p.properties.default_tb_treatment; //check
-          return cleanChoice(choice);
-        },
-        Treatment_Distribution__c: () => {
-          var choice = p.properties.distributed_treatments;
-          return cleanChoice(choice);
-        },
+        Antibiotic_provided_for_fast_breathing__c: cleanChoice(
+          p.properties.antibiotic_fast_breathing
+        ),
+        Antibiotic_provided_for_chest_indrawing__c: cleanChoice(
+          p.properties.antibiotic_chest_indrawing
+        ),
+        Default_on_TB_treatment__c: cleanChoice(
+          p.properties.default_tb_treatment
+        ),
+        Treatment_Distribution__c: cleanChoice(
+          p.properties.distributed_treatments
+        ),
         //Delivery  =====================//
         Immediate_Breastfeeding__c: p.properties.Breastfeeding_Delivery,
-        Place_of_Delivery__c: () => {
-          var facility = p.properties.Delivery_Type;
-          return facility === 'Skilled'
-            ? 'Facility'
-            : facility === 'Unskilled'
-            ? 'Home'
-            : undefined;
-        },
-        Delivery_Facility__c: () => {
-          var facility = p.properties.Delivery_Facility;
-          return facility ? facility.toString().replace(/_/g, ' ') : null;
-        },
+        Place_of_Delivery__c: placeOfDelivery,
+        Delivery_Facility__c: p.properties.Delivery_Facility
+          ? p.properties.Delivery_Facility.toString().replace(/_/g, ' ')
+          : null,
         Delivery_Facility_Other__c: p.properties.Delivery_Facility_Other,
         //Family Planning  =====================//
         LMP__c: p.properties.LMP,
         Family_Planning__c: p.properties.family_planning,
         Family_Planning_Method__c: p.properties.family_planning_method,
-        FP_Method_Distributed__c: () => {
-          var status = p.properties.FP_commodity;
-          var value =
-            status && status !== ''
-              ? status
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return fpMethodMap[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
-        Reasons_for_not_taking_FP_method__c: () => {
-          var status = p.properties.No_FPmethod_reason;
-          var value =
-            status && status !== ''
-              ? status
-                  .replace(/ /gi, ';')
-                  .split(';')
-                  .map(value => {
-                    return reasonMapping[value] || value;
-                  })
-              : undefined;
-          return value ? value.join(';') : undefined;
-        },
-        Pregnant__c: () => {
-          var preg = p.properties.Pregnant;
-          return preg === 'Yes' ? true : false;
-        },
+        FP_Method_Distributed__c: fpMethodDistributed,
+        Reasons_for_not_taking_FP_method__c: reasonForNotTakingFP,
+        Pregnant__c: p.properties.Pregnant === 'Yes' ? true : false,
         Date_of_Delivery__c: p.properties.delivery_date,
         Counselled_on_FP_Methods__c: p.properties.CounselledFP_methods,
-        Client_counselled_on__c: () => {
-          var choices = p.properties.counsel_topic;
-          var choiceGroups = choices ? choices.split(' ') : null;
-          var choicesMulti = choiceGroups
-            ? choiceGroups
-                .map(cg => {
-                  return counselMap[cg];
-                })
-                .join(';')
-            : choiceGroups;
-          return choicesMulti;
-        },
-        Client_provided_with_FP__c: () => {
-          var choice =
-            p.properties[
-              'was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
-            ];
-          return cleanChoice(choice);
-        },
+        Client_counselled_on__c: clientCounselled,
+        Client_provided_with_FP__c: cleanChoice(
+          p.properties[
+            'was_the_woman_15-49yrs_provided_with_family_planning_commodities_by_chv'
+          ]
+        ),
         Received_pregnancy_test__c:
           p.properties.did_you_adminsiter_a_pregnancy_test,
         Pregnancy_test_result__c: p.properties.pregnancy_test_result,
@@ -517,16 +508,14 @@ fn(state => {
         Counselled_on_Exclusive_Breastfeeding__c: p.properties.counseling,
         Newborn_visited_48_hours_of_delivery__c:
           p.properties.newborn_visited_48_hours_of_delivery,
-        Newborn_visit_counselling__c: () => {
-          var choice = p.properties.did_you_consel_the_mother_on1;
-          return cleanChoice(choice);
-        },
+        Newborn_visit_counselling__c: cleanChoice(
+          p.properties.did_you_consel_the_mother_on1
+        ),
         mother_visited_48_hours_of_the_delivery__c:
           p.properties.visit_mother_48,
-        Mother_visit_counselling__c: () => {
-          var choice = p.properties.did_you_consel_the_mother_on2;
-          return cleanChoice(choice);
-        },
+        Mother_visit_counselling__c: cleanChoice(
+          p.properties.did_you_consel_the_mother_on2
+        ),
         Newborn_visited_by_a_CHW_within_6_days__c:
           p.properties.visit_6_days_from_delivery,
         //Nutrition  =====================//
@@ -535,72 +524,58 @@ fn(state => {
         Caretaker_muac_findings__c:
           p.properties.mother_screened_child_muac_result,
         Food_groups_3_times_a_day__c: p.properties.food_groups,
-        Caretaker_screened_for_muac_this__c: () => {
-          var choice = p.properties.mother_screened_child_muac;
-          return cleanChoice(choice);
-        },
-        Caretaker_trained_in_muac__c: () => {
-          var choice = p.properties.mother_trained_muac;
-          return cleanChoice(choice);
-        },
+        Caretaker_screened_for_muac_this__c: cleanChoice(
+          p.properties.mother_screened_child_muac
+        ),
+        Caretaker_trained_in_muac__c: cleanChoice(
+          p.properties.mother_trained_muac
+        ),
         of_Caretaker_MUAC_screenings__c: p.properties.mother_nb_screening,
-        Current_Weight__c: p.properties.Current_Weight, //Only on task update
+        // TODO @Aleksa this field Current_Weight__c was not found
+        // Current_Weight__c: p.properties.Current_Weight, //Only on task update
         Current_Height__c: p.properties.current_height,
         Current_MUAC__c: p.properties.MUAC,
-        Current_Nutrition_Status__c: () => {
-          var status = p.properties.Nutrition_Status;
-          return status ? nutritionMap[status] : undefined;
-        },
+        Current_Nutrition_Status__c: p.properties.Nutrition_Status
+          ? nutritionMap[p.properties.Nutrition_Status]
+          : undefined,
         //TT5 & HAWI  =====================//
-        TT5_Mother_Registrant__c: () => {
-          var preg = p.properties.Pregnant;
-          return preg == 'Yes' ? 'Yes' : null;
-        },
-        Enrollment_Date__c: () => {
-          var age = p.properties.age;
-          var date = p.server_date_modified;
-          var preg = p.properties.Pregnant;
-          return age < 5 || preg == 'Yes' ? date : null;
-        },
-        HAWI_Enrollment_Date__c: () => {
-          var date = p.server_date_modified;
-          var status = p.properties.hiv_status;
-          return status == 'positive' ? date : null;
-        },
-        Thrive_Thru_5_Registrant__c: () => {
-          var age = p.properties.age;
-          var preg = p.properties.Pregnant;
-          return age < 5 || preg == 'Yes' ? 'Yes' : 'No';
-        },
-        HAWI_Registrant__c: () => {
-          var status = p.properties.hiv_status;
-          return status == 'positive' ? 'Yes' : 'No';
-        },
+        TT5_Mother_Registrant__c: p.properties.Pregnant == 'Yes' ? 'Yes' : null,
+        Enrollment_Date__c:
+          p.properties.age < 5 || p.properties.Pregnant == 'Yes'
+            ? p.server_date_modified
+            : null,
+        HAWI_Enrollment_Date__c:
+          p.properties.hiv_status == 'positive' ? p.server_date_modified : null,
+        Thrive_Thru_5_Registrant__c:
+          p.properties.age < 5 || p.properties.Pregnant == 'Yes' ? 'Yes' : 'No',
+        HAWI_Registrant__c:
+          p.properties.hiv_status == 'positive' ? 'Yes' : 'No',
         //ANC  =====================//
-        ANC_1__c: () => {
-          var date = p.properties.ANC_1;
-          return date && date !== '' ? date : undefined;
-        },
-        ANC_2__c: () => {
-          var date = p.properties.ANC_2;
-          return date && date !== '' ? date : undefined;
-        },
-        ANC_3__c: () => {
-          var date = p.properties.ANC_3;
-          return date && date !== '' ? date : undefined;
-        },
-        ANC_4__cL: () => {
-          var date = p.properties.ANC_4;
-          return date && date !== '' ? date : undefined;
-        },
-        ANC_5__c: () => {
-          var date = p.properties.ANC_5;
-          return date && date !== '' ? date : undefined;
-        },
-        Date_of_Birth__c: () => {
-          var date = p.properties.DOB;
-          return date && date !== '' ? date : undefined;
-        },
+        ANC_1__c:
+          p.properties.ANC_1 && p.properties.ANC_1 !== ''
+            ? p.properties.ANC_1
+            : undefined,
+        ANC_2__c:
+          p.properties.ANC_2 && p.properties.ANC_2 !== ''
+            ? p.properties.ANC_2
+            : undefined,
+        ANC_3__c:
+          p.properties.ANC_3 && p.properties.ANC_3 !== ''
+            ? p.properties.ANC_3
+            : undefined,
+        // ANC_4__cL was not found @aleksa
+        // ANC_4__cL:
+        //   p.properties.ANC_4 && p.properties.ANC_4 !== ''
+        //     ? p.properties.ANC_4
+        //     : undefined,
+        ANC_5__c:
+          p.properties.ANC_5 && p.properties.ANC_5 !== ''
+            ? p.properties.ANC_5
+            : undefined,
+        Date_of_Birth__c:
+          p.properties.DOB && p.properties.DOB !== ''
+            ? p.properties.DOB
+            : undefined,
         //Immunization  =====================//
         // Child_missed_immunization_type__c:
         //   p.form.TT5.Child_Information.Immunizations.immunization_type,
@@ -622,40 +597,33 @@ fn(state => {
         Deworming_18__c: p.properties.Deworming_2,
         Deworming_24__c: p.properties.Deworming_3,
         //ECD  =====================//
-        Did_you_counsel_caregiver_on__c: () => {
-          var choice =
-            p.properties.did_you_counsel_the_caregiver_on_delayed_milestones;
-          return cleanChoice(choice);
-        },
-        Delayed_Milestone__c: () => {
-          var choice = p.properties.does_the_child_has_a_delayed_milestone;
-          return cleanChoice(choice);
-        },
-        Child_has_2_or_more_play_items__c: () => {
-          var choice =
-            p.properties.does_the_child_has_2_or_more_play_items_at_home;
-          return cleanChoice(choice);
-        },
-        Child_has_3_or_more_picture_books__c: () => {
-          var choice = p.properties.does_the_child_has_3_or_more_picture_books;
-          return cleanChoice(choice);
-        },
-        Delayed_Milestones_Counselled_On__c: () => {
-          var ms =
-            p.properties
-              .which_delayed_milestone_area_did_you_counsel_the_caregiver_on;
-          return ms ? milestoneMap[ms] : undefined;
-        },
-        Delayed_Milestone_Type__c: () => {
-          var ms = p.properties.which_delayed_milestone;
-          return ms ? milestoneTypeMap[ms] : undefined;
-        },
+        Did_you_counsel_caregiver_on__c: cleanChoice(
+          p.properties.did_you_counsel_the_caregiver_on_delayed_milestones
+        ),
+        Delayed_Milestone__c: cleanChoice(
+          p.properties.does_the_child_has_a_delayed_milestone
+        ),
+        Child_has_2_or_more_play_items__c: cleanChoice(
+          p.properties.does_the_child_has_2_or_more_play_items_at_home
+        ),
+        Child_has_3_or_more_picture_books__c: cleanChoice(
+          p.properties.does_the_child_has_3_or_more_picture_books
+        ),
+        Delayed_Milestones_Counselled_On__c: p.properties
+          .which_delayed_milestone_area_did_you_counsel_the_caregiver_on
+          ? milestoneMap[
+              p.properties
+                .which_delayed_milestone_area_did_you_counsel_the_caregiver_on
+            ]
+          : undefined,
+        Delayed_Milestone_Type__c: p.properties.which_delayed_milestone
+          ? milestoneTypeMap[p.properties.which_delayed_milestone]
+          : undefined,
         //Death  =====================//
         Date_of_Death__c: p.properties.Date_of_Death,
-        Cause_of_Death__c: () => {
-          var death = p.properties.cause_of_death_dead;
-          return death ? death.toString().replace(/_/g, ' ') : death;
-        },
+        Cause_of_Death__c: p.properties.cause_of_death_dead
+          ? p.properties.cause_of_death_dead().toString().replace(/_/g, ' ')
+          : p.properties.cause_of_death_dead,
         Verbal_autopsy__c: p.properties.verbal_autopsy,
         //Closing  =====================//
         Last_Modified_Date_CommCare__c: p.date_modified,
@@ -665,7 +633,7 @@ fn(state => {
 
   sfRecordMapping.forEach(rec => {
     Object.entries(rec).forEach(([key, value]) => {
-      if (value === '') rec[key] = undefined;
+      if (value === '' || value === null) rec[key] = undefined;
     });
   });
 
@@ -680,20 +648,15 @@ fn(state => {
   };
 });
 
-// upsertIf(
-//   state.data.properties.commcare_username !== 'test.2021' &&
-//     state.data.properties.test_user !== 'Yes',
-//   'Household__c',
-//   'CommCare_Code__c',
-//   fields(
-//     field('CommCare_Code__c', state => {
-//       return (
-//         dataValue('indices.parent.case_id')(state) ||
-//         dataValue('properties.parent_id')(state)
-//       );
-//     })
-//   )
-// ),
+// TODO, Clean up when pass QA
+// fn(state => {
+//   state.sfRecordMapping.forEach(rec => {
+//     Object.entries(rec).forEach(([key, value]) => {
+//       if (typeof key !== 'string') throw `${key} is not a string`;
+//     });
+//   });
+//   return state;
+// });
 
 bulk(
   'Household__c',
@@ -709,6 +672,7 @@ bulk(
   }
 );
 
+// TODO, Clean up when pass QA
 // upsert data to SF
 // upsertIf(
 //   state.data.properties.commcare_username !== 'test.2021' &&
@@ -731,7 +695,7 @@ bulk(
     return state.sfRecordMapping;
   }
 );
-
+// TODO, Clean up when pass QA
 // upsertIf(
 //   state.data.properties.commcare_username !== 'test.2021' &&
 //     state.data.properties.test_user !== 'Yes' &&
@@ -761,6 +725,7 @@ bulk(
   }
 );
 
+// TODO, Clean up when pass QA
 // upsertIf(
 //   state.data.properties.commcare_username !== 'test.2021' &&
 //     state.data.properties.test_user !== 'Yes' &&
