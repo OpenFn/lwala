@@ -219,10 +219,9 @@ fn(state => {
     )
     .map(p => {
       return {
-        CommCare_Code__c: p.indices.parent.case_id,
-        // QUESTION: what if person does not exist yet already?
-        // 'Head_of_Household__r.CommCare_ID__c':
-        //   p.properties.head_of_household_case_id,
+        CommCare_Code__c: p.indices.parent.case_id || p.properties.parent_id,
+        'Head_of_Household__r.CommCare_ID__c':
+          p.properties.head_of_household_case_id,
       };
     });
 
