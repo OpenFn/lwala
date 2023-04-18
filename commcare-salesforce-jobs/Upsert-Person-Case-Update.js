@@ -372,7 +372,7 @@ fn(state => {
 
       return {
         // TODO @aleksa, Source__c is causing an error
-        Source__c: TRUE,
+        Source__c: true,
         CommCare_ID__c: p.case_id,
         'Household__r.CommCare_Code__c':
           p.properties.parent_id || p.indices.parent.case_id,
