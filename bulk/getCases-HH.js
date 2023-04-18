@@ -1,57 +1,51 @@
-get(state.configuration.baseUrl, {
-  query: '?type=Household&indexed_on_start=2023-01-01&limit=10',
+get(`${state.configuration.baseUrl}`, {
+  query: `?type=Household&indexed_on_start=${state.indexed_on_start}&limit=5000`,
   headers: { 'content-type': 'application/json' },
-  authentication: {
-    username: state.configuration.username,
-    password: state.configuration.password,
-  },
 });
 
-// fn(state => {
-//   const baseUrl =
-//     'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/case/';
+fn(state => {
+  const baseUrl =
+    'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/case/';
 
-//   const caseTypes = [
-//     'Household',
-//   ];
+  const caseTypes = ['Household'];
 
-//   const limit = 1000;
-//   const indexedOnStart = '2023-01-01';
-//   const receivedOnEnd = '2023-01-01';
-//   // const indexedOnStart = '2022-05-31';
-//   // const receivedOnEnd = '2022-05-01';
+  const limit = 1000;
+  const indexedOnStart = '2023-01-01';
+  const receivedOnEnd = '2023-01-01';
+  // const indexedOnStart = '2022-05-31';
+  // const receivedOnEnd = '2022-05-01';
 
-//   const queries = caseTypes.map(
-//     t =>
-//       `?type=${t}` +
-//       `?indexed_on_start=${indexedOnStart}` +
-//       // `&received_on_end=${receivedOnEnd}` +
-//       `&limit=${limit}`
-//   );
+  const queries = caseTypes.map(
+    t =>
+      `?type=${t}` +
+      `?indexed_on_start=${indexedOnStart}` +
+      // `&received_on_end=${receivedOnEnd}` +
+      `&limit=${limit}`
+  );
 
-//   return { ...state, queries, baseUrl, payloads: [] };
-// });
+  return { ...state, queries, baseUrl, payloads: [] };
+});
 
 // create a "recursiveGet" which will call itself if CommCare tells us there's
 // more data to fetch for the same form
-// fn(state => {
-//   const recursiveGet = url =>
-//     get(url, {}, nextState => {
-//       const { baseUrl, data, payloads } = nextState;
-//       const { meta, objects } = data;
-//       console.log('Metadata in CommCare response:', meta);
+fn(state => {
+  const recursiveGet = url =>
+    get(url, {}, nextState => {
+      const { baseUrl, data, payloads } = nextState;
+      const { meta, objects } = data;
+      console.log('Metadata in CommCare response:', meta);
 
-//       const finalState = { ...nextState, payloads: [...payloads, ...objects] };
+      const finalState = { ...nextState, payloads: [...payloads, ...objects] };
 
-//       if (meta.next) {
-//         console.log('Next query detected, recursing...');
-//         return recursiveGet(`${baseUrl}${meta.next}`)(finalState);
-//       }
-//       return finalState;
-//     });
+      if (meta.next) {
+        console.log('Next query detected, recursing...');
+        return recursiveGet(`${baseUrl}${meta.next}`)(finalState);
+      }
+      return finalState;
+    });
 
-//   return { ...state, recursiveGet };
-// });
+  return { ...state, recursiveGet };
+});
 
 // // for each initial query, fetch data recursively
 // each(
