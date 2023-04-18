@@ -220,7 +220,7 @@ fn(state => {
     .map(p => {
       return {
         CommCare_Code__c: p.indices.parent.case_id,
-        // @Aleksa - what if person does not exist yet?
+        // QUESTION: what if person does not exist yet already?
         // 'Head_of_Household__r.CommCare_ID__c':
         //   p.properties.head_of_household_case_id,
       };
@@ -264,14 +264,9 @@ fn(state => {
         p.properties.test_user !== 'Yes'
     )
     .map(p => {
-      /*  field(
-          'deworming_medication__c',
-          dataValue('form.TT5.Child_Information.Deworming')
-        ),depracated field*/
-
       // For unbornOrName
-      const name1 = p.properties.Person_Name; //check
-      const unborn = p.properties.name; //check
+      const name1 = p.properties.Person_Name;
+      const unborn = p.properties.name;
       const name2 =
         name1 === undefined || name1 === '' || name1 === null
           ? unborn
@@ -304,14 +299,6 @@ fn(state => {
               .join(';')
           : null;
 
-      // newRelation.charAt(0).toUpperCase() + newRelation.slice(1);
-      // if (relation) {
-      //   relation = relation.toString().replace(/_/g, ' ');
-      //   const toTitleCase =
-      //     relation.charAt(0).toUpperCase() + relation.slice(1);
-      //   return toTitleCase;
-      // }
-
       const relation = p.properties.relation_to_hh;
 
       const relationToTheHead = relation
@@ -327,13 +314,6 @@ fn(state => {
           : cStatus && cRt === 'Born'
           ? (cStatus = 'Born')
           : cStatus;
-      //check that this is the right one
-      // if (cStatus && cRt === 'Unborn') {
-      //   cStatus = 'Unborn';
-      // } else if (cStatus && cRt === 'Born') {
-      //   cStatus = 'Born';
-      // }
-      // return cStatus;
 
       const childDangerSigns = p.properties.Other_Danger_Signs
         ? p.properties.Other_Danger_Signs.toLowerCase()
@@ -392,9 +372,10 @@ fn(state => {
 
       return {
         // TODO @aleksa, Source__c is causing an error
-        // Source__c: '1',
+        Source__c: TRUE,
         CommCare_ID__c: p.case_id,
-        'Household__r.CommCare_Code__c': p.indices.parent.case_id,
+        'Household__r.CommCare_Code__c':
+          p.properties.parent_id || p.indices.parent.case_id,
         commcare_location_id__c: p.properties.commcare_location_id,
         CommCare_Username__c: p.properties.commcare_username,
         Telephone__c: p.properties.contact_phone_number,
@@ -417,7 +398,6 @@ fn(state => {
         Disability__c: disabilityC,
         Other_disability__c: otherDisability,
         Use_mosquito_net__c: p.properties.sleep_under_net,
-        // Birth_Certificate__c,p.properties.birth_certificate,
         Birth_Certificate__c: p.properties.birth_certificate,
         Child_Status__c: childStatus,
         //===================================================//
@@ -533,8 +513,6 @@ fn(state => {
           p.properties.mother_trained_muac
         ),
         of_Caretaker_MUAC_screenings__c: p.properties.mother_nb_screening,
-        // TODO @Aleksa this field Current_Weight__c was not found
-        // Current_Weight__c: p.properties.Current_Weight, //Only on task update
         Current_Height__c: p.properties.current_height,
         Current_MUAC__c: p.properties.MUAC,
         Current_Nutrition_Status__c: p.properties.Nutrition_Status
@@ -565,11 +543,10 @@ fn(state => {
           p.properties.ANC_3 && p.properties.ANC_3 !== ''
             ? p.properties.ANC_3
             : undefined,
-        // ANC_4__cL was not found @aleksa
-        // ANC_4__cL:
-        //   p.properties.ANC_4 && p.properties.ANC_4 !== ''
-        //     ? p.properties.ANC_4
-        //     : undefined,
+        ANC_4__c:
+          p.properties.ANC_4 && p.properties.ANC_4 !== ''
+            ? p.properties.ANC_4
+            : undefined,
         ANC_5__c:
           p.properties.ANC_5 && p.properties.ANC_5 !== ''
             ? p.properties.ANC_5
@@ -765,6 +742,7 @@ bulk(
   }
 );
 
+// TODO, Clean up when pass QA
 // upsertIf(
 //   state.data.properties.commcare_username !== 'test.2021' &&
 //     state.data.properties.test_user !== 'Yes' &&
