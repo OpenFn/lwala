@@ -276,8 +276,8 @@ fn(state => {
     .map(p => {
       // commCareVisitID
       const commCareCase_id = p.case_id;
-      const commCareSubmitted = p.properties.last_form_opened_date_and_time;
-      const commCareVisitID = commCareCase_id + '_' + commCareSubmitted;
+      const dateVisit = p.properties.date_opened;
+      const commCareVisitID = commCareCase_id + '_' + dateVisit;
 
       // personsSymptoms
       const psCheck = p.properties.symptoms_check_other;
@@ -293,7 +293,6 @@ fn(state => {
       const personsSymptoms = psValue ? psValue.join(';') : undefined;
 
       // familyPlanningMethod
-      //const fpmStatus = p.form.treatment_and_tracking.distribution.distributed_treatments;
       const fpmStatus = p.properties.family_planning_method;
       const fpmValue =
         fpmStatus && fpmStatus !== ''
@@ -307,7 +306,6 @@ fn(state => {
       const familyPlanningMethod = fpmValue ? fpmValue.join(';') : undefined;
 
       // fpMethodDistributed
-      //const status = p.form.treatment_and_tracking.distribution.distributed_treatments;
       const fpmdStatus = p.properties.FP_commodity;
       const fpmdValue =
         fpmdStatus && fpmdStatus !== ''
@@ -321,8 +319,6 @@ fn(state => {
       const fpMethodDistributed = fpmdValue ? fpmdValue.join(';') : undefined;
 
       // reasonForNotTakingFPMethod
-      // const reason = p.form.TT5.Mother_Information.No_FPmethod_reason;
-      // return reason ? reasonMap[reason] : undefined;
       const rfntStatus = p.properties.No_FPmethod_reason;
       const rfntValue =
         rfntStatus && rfntStatus !== ''
@@ -383,49 +379,29 @@ fn(state => {
       const supervisorVisit = svValue ? svValue.join(';') : undefined;
 
       return {
-        //CommCare_ID__c: p.form.case.@case_id,
-        // CommCare_ID__c: p.id,
-        //CommCare_ID__c: () => {
-        //  const case_id = p.case_id;
-        //  const submitted = p.properties.last_form_opened_date_and_time;
-        //  return case_id + '_' +  submitted;
-        //},
-        CommCare_ID__c: p.case_id,
-
-        // relationship(
-        //   'Person__r',
-        //   'CommCare_ID__c',
-        //   p.indices.parent.case_id')
-        // ),
-        'Person__r.CommCare_ID__c': p.indices.parent.case_id,
-        /*relationship(
-        'Household_CHW__r', 
-        'CommCare_ID__c', 
-        p.properties.sfid,*/
-        // CommCare_Visit_ID__c: p.metadata.instanceID,
+        CommCare_ID__c: p.case_id, //'visit' case_id
+        'Person__r.CommCare_ID__c':
+          p.indices.parent.case_id || p.properties.parent_id,
         CommCare_Visit_ID__c: commCareVisitID,
         Date__c: p.properties.Date,
-        // @aleksa  Field name not found : Form_Submitted__c
-        // Form_Submitted__c: p.properties.last_form_opened_name,
         Birth_Status__c: p.properties.child_status,
         Catchment__c: fetchReference(p.properties.owner_id, 'catchment'),
-        /*
-      //HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
-      relationship('RecordType', 'Name: () => {
-            const rt = p.properties.RecordType;
-            if (rt === 'Unborn' || rt === 'Child') {
-              return 'Child Visit';
-            };
-            if (rt === 'Youth') {
-              return 'Youth Visit';
-            };
-            if (rt === 'Male Adult') {
-              return 'Adult Male Visit';
-            };
-            if (rt === 'Female Adult') {
-              return 'Adult Female Visit';
-            };
-          },*/
+        // HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
+        // relationship('RecordType', 'Name: () => {
+        //     const rt = p.properties.RecordType;
+        //     if (rt === 'Unborn' || rt === 'Child') {
+        //       return 'Child Visit';
+        //     };
+        //     if (rt === 'Youth') {
+        //       return 'Youth Visit';
+        //     };
+        //     if (rt === 'Male Adult') {
+        //       return 'Adult Male Visit';
+        //     };
+        //     if (rt === 'Female Adult') {
+        //       return 'Adult Female Visit';
+        //     };
+        //   },
         Use_mosquito_net__c: cleanChoice(p.properties.sleep_under_net),
         Individual_birth_plan_counselling__c:
           p.properties.individual_birth_plan,
@@ -442,11 +418,6 @@ fn(state => {
           p.properties.malaria_test_results
         ),
         Malaria_Home_Test__c: p.properties.malaria_test_date,
-        /*Current_Malaria_Status__c: () => {
-        const choice = p.properties.Malaria_Status;
-        return cleanChoice(choice);
-      },*/
-        // Malaria_Home_Treatment__c: p.form.treatment_and_tracking.home_treatment,
         Malaria_Home_Treatment__c: p.properties.malaria_test_date,
         Persons_symptoms__c: personsSymptoms,
         Active_in_Support_Group__c: p.properties.Active_in_Support_Group,
@@ -466,19 +437,18 @@ fn(state => {
         TB_patients_therapy_observed__c: p.properties.observed_tb_therapy,
         Injuries_or_wounds__c: p.properties.wounds_or_injuries,
         Currently_on_ART_s__c: p.properties.ART,
-        /*ART_Regimen__c: () => {
-        const choice = dataValue(
-         'properties.ARVs;
-        return cleanChoice(choice);
-      },*/
+        // ART_Regimen__c: () => {
+        // const choice = dataValue(
+        //  'properties.ARVs;
+        // return cleanChoice(choice);
+        // },
         Immediate_Breastfeeding__c: p.properties.Breastfeeding_Delivery,
         Exclusive_Breastfeeding__c: p.properties.Exclusive_Breastfeeding,
         Counselled_on_Exclusive_Breastfeeding__c: p.properties.counseling,
         LMP__c: p.properties.when_was_your_lmp,
         Family_Planning__c: cleanChoice(p.properties.family_planning),
-        //HMN 12/01/2023 Failures on picklist within Salesforce
-        /*
-      Family_Planning_Method__c: p.properties.family_planning_method,*/
+        // HMN 12/01/2023 Failures on picklist within Salesforce
+        // Family_Planning_Method__c: p.properties.family_planning_method,
         Family_Planning_Method__c: familyPlanningMethod,
         FP_Method_Distributed__c: fpMethodDistributed,
         Reasons_for_not_taking_FP_method__c: reasonForNotTakingFPMethod,
@@ -505,7 +475,7 @@ fn(state => {
         Know_HIV_status__c: cleanChoice(p.properties.known_hiv_status),
         HIV_Status__c: p.properties.hiv_status,
         Treatment_Distribution__c: treatmentDistributionC,
-        // @aleksa Field name not found : Current_Weight__c
+        // QUESTION: Field name not found : Current_Weight__c
         // Current_Weight__c: p.properties.Current_Weight,
         Current_Height__c: p.properties.current_height,
         Current_MUAC__c: p.properties.MUAC,
@@ -535,22 +505,6 @@ fn(state => {
           p.properties.pregnancy_test_result
         ),
         Chronic_illness__c: chronicIllnesC,
-        /*field(
-            'Birth_Certificate__c',
-            p.form.Status.birth_certificate')
-          ),
-          field(
-            'Child_zinc__c',
-            dataValue(
-              'form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_zinc'
-            )
-          ),
-          field(
-            'Child_ORS__c',
-            dataValue(
-              'form.TT5.Child_Information.Clinical_Services.diarrhea_clinic_treatment_ORS'
-            )
-          ),*/
         Childs_breath_per_minute__c: p.properties.breaths_per_minuite,
         Child_chest_in_drawing__c: p.properties.Child_chest_in_drawing_c,
         Caregiver_counseled_on_delayed_milestone__c:
@@ -589,16 +543,9 @@ fn(state => {
         Antibiotic_provided_for_chest_indrawing__c:
           p.properties.antibiotic_chest_indrawing,
         Supervisor_Visit__c: supervisorVisit,
-        /*
-      //HMN- 05012023 - Removed Visit_Closed_Date__c: p.date_closed,
-      //Because I could not find it in Salesforce. It was causing errors on staging
-      Visit_Closed_Date__c: p.date_closed,
-      */
-        //Case_Closed_Date__c:  () => {
-        //  const closed = p.date_closed;
-        //  const date = p.date_modified;
-        //  return closed && closed == true ? date : undefined;
-        // })
+        // HMN- 05012023 - Removed Visit_Closed_Date__c
+        // Because I could not find it in Salesforce. It was causing errors on staging
+        // Visit_Closed_Date__c: p.date_closed,
       };
     });
 

@@ -252,6 +252,7 @@ fn(state => {
   return state;
 });
 
+// TODO clean up in QA
 // Uncomment this block to add cooldown
 // fn(state => {
 //   return new Promise((resolve, reject) => {
@@ -281,6 +282,7 @@ fn(state => {
   return state;
 });
 
+// TODO clean up in QA
 // Uncomment this block to add cooldown
 // fn(state => {
 //   return new Promise((resolve, reject) => {
