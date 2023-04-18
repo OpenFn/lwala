@@ -194,9 +194,13 @@ fn(state => {
     field('CommCare_ID__c', dataValue('case_id')),
     relationship(
       'Household__r',
-      'CommCare_Code__c',
-      (dataValue('properties.parent_id') || dataValue('indices.parent.case_id'))
-    ),
+      'CommCare_Code__c', state => {
+      // (dataValue('properties.parent_id') || dataValue('indices.parent.case_id'))
+       return (
+        dataValue('properties.parent_id')(state) ||
+        dataValue('indices.parent.case_id')(state)
+      );
+    }),
     field('commcare_location_id__c',dataValue('properties.commcare_location_id')),
     field('CommCare_Username__c',dataValue('properties.commcare_username')),
     field('Telephone__c', dataValue('properties.contact_phone_number')), 
