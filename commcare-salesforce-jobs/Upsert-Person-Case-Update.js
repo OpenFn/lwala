@@ -195,7 +195,7 @@ fn(state => {
     relationship(
       'Household__r',
       'CommCare_Code__c',
-      dataValue('indices.parent.case_id')
+      (dataValue('properties.parent_id') || dataValue('indices.parent.case_id')
     ),
     field('commcare_location_id__c',dataValue('properties.commcare_location_id')),
     field('CommCare_Username__c',dataValue('properties.commcare_username')),
