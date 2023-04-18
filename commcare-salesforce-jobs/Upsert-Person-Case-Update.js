@@ -265,7 +265,7 @@ fn(state => {
     )
     .map(p => {
       // For unbornOrName
-      const name1 = p.properties.Person_Name;
+      const name1 = p.properties.Person_Name || p.properties.case_name;
       const unborn = p.properties.name;
       const name2 =
         name1 === undefined || name1 === '' || name1 === null
@@ -274,6 +274,7 @@ fn(state => {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
       const unbornOrName = name1 !== null ? name2 : 'Unborn Child';
+      console.log('Person Name ::', unbornOrName);
 
       // For chronicIllness
       const chronicChoice =
@@ -388,7 +389,6 @@ fn(state => {
         Household_Village__c: villageNewId(p.properties.owner_id),
         Name: unbornOrName,
         Chronic_illness__c: chronicIllness,
-
         Currently_enrolled_in_school__c: p.properties.enrolled_in_school,
         Education_Level__c: p.properties.Education_Level
           ? p.properties.Education_Level.toString().replace(/_/g, ' ')

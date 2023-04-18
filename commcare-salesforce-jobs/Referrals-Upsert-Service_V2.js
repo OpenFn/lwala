@@ -335,17 +335,16 @@ fn(state => {
             : r.indices.parent.case_type === 'Case'
             ? state.ccId
             : undefined,
+        // 'Person__r.CommCare_ID__c':
+        //   r.indices.parent.case_type === 'Case' ? state.ccId : undefined,
         'Parent_Service__r.Service_UID__c':
           r.indices.parent.case_type === 'Case'
             ? r.indices.parent.case_id
             : undefined,
-        // 'Person__r.CommCare_ID__c':
-        //   r.indices.parent.case_type === 'Case' ? state.ccId : undefined,
         Service_UID__c: r.case_id,
         CommCare_Code__c: r.case_id,
         RecordTypeID: '01224000000YAuK',
-        //Household_CHW__c', 'a030Q000008XyXV'), //Sandbox MOTG test CHW
-        // relationship( //ADD BACK BEFORE PROD DEPLOYMENT; removed for sandbox testing
+        // relationship( //CHW is now a formula field
         //   'Household_CHW__r',
         //   'CommCare_ID__c',
         //   r.properties.CHW_ID')
@@ -369,10 +368,10 @@ fn(state => {
           r.properties.referral_compliance,
         Skillled_Delivery__c: r.properties.skilled_delivery,
         Child_received_immunizations__c: r.properties.immunization,
-        Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis, //CHW.Follow-Up.PSBI.psbi_diagnosis
-        Received_antibiotics_per_protocol__c: r.properties.antibiotic_8days, //CHW.Follow-Up.PSBI.antibiotic_8day
+        Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
+        Received_antibiotics_per_protocol__c: r.properties.antibiotic_8days, //Form: CHW.Follow-Up.PSBI.antibiotic_8day
         Distributed_Treatment_on_Last_Visit__c:
-          r.properties.distribute_treatment, //CHW.Follow-Up.distribute_treatment
+          r.properties.distribute_treatment, //Form: CHW.Follow-Up.distribute_treatment
         Person_had_an_adverse_drug_reaction__c:
           r.properties.adverse_drug_reaction,
         Defaulted__c:
