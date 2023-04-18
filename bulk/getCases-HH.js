@@ -5,11 +5,11 @@ fn(state => {
 
   const limit = 5000;
   const indexedOnStart = '2023-01-01T00:00:00';
-  const lastRunOn =
-    typeof state.lastRunOn !== 'undefined' ? state.lastRunOn : indexedOnStart;
+  const lastRunAt =
+    typeof state.lastRunAt !== 'undefined' ? state.lastRunAt : indexedOnStart;
 
   const queries = caseTypes.map(
-    t => `?type=${t}&indexed_on_start=${lastRunOn}&limit=${limit}`
+    t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
   );
 
   return { ...state, queries, baseUrl, payloads: [] };
@@ -40,7 +40,7 @@ fn(state => {
           console.log('Next query detected, recursing...');
           return recursiveGet(`${baseUrl}${meta.next}`)(finalState);
         }
-        finalState.lastRunOn = now.toISOString().slice(0, 19);
+        finalState.lastRunAt = now.toISOString().slice(0, 19);
         return finalState;
       }
     );
