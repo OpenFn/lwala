@@ -790,7 +790,12 @@ upsertIf(
   state.data.properties.head_of_household_case_id  !== undefined  && state.data.properties.head_of_household_case_id !== '', 
   'Household__c', 'CommCare_Code__c',
   fields(
-    field('CommCare_Code__c', dataValue('indices.parent.case_id')),
+    field('CommCare_Code__c', state => {
+      return (
+        dataValue('indices.parent.case_id')(state) ||
+        dataValue('properties.parent_id')(state)
+      )
+    }),
     relationship('Head_of_Household__r', 'CommCare_ID__c', dataValue('properties.head_of_household_case_id')),
       )
   )
