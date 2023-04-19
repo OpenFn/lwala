@@ -3,13 +3,14 @@ fn(state => {
 
   const caseTypes = ['Household'];
 
-  const limit = 5000;
+  //const limit = 5000;
+  const limit = 2; //for testing
   const indexedOnStart = '2023-01-01T00:00:00';
   const lastRunAt =
     typeof state.lastRunAt !== 'undefined' ? state.lastRunAt : indexedOnStart;
 
   const queries = caseTypes.map(
-    t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
+    t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}&indexed_on_end=2023-01-03T00:00:00`
   );
 
   return { ...state, queries, baseUrl, payloads: [] };
