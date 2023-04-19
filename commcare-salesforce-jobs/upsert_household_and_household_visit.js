@@ -1,5 +1,5 @@
 fn(state => {
-  const owner_ids = state.data.objects.map(data => data.properties.owner_id);
+  const owner_ids = state.paylods.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
   return { ...state, uniq_owner_ids };
@@ -56,7 +56,7 @@ fn(state => {
     none: 'None',
   };
 
-  const households = state.data.objects
+  const households = state.paylods
     .filter(
       h =>
         h.properties.commcare_username !== 'openfn.test' &&
@@ -144,7 +144,7 @@ fn(state => {
       };
     });
 
-  const housevisits = state.data.objects
+  const housevisits = state.paylods
     .filter(
       h =>
         h.properties.commcare_username !== 'openfn.test' &&
