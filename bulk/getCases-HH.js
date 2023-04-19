@@ -1,65 +1,62 @@
-get(state.configuration.baseUrl, {
-  query: '?type=Household&indexed_on_start=2023-01-01&limit=10',
-  headers: { 'content-type': 'application/json' },
-  authentication: {
-    username: state.configuration.username,
-    password: state.configuration.password,
-  },
+fn(state => {
+  const { baseUrl } = state.configuration;
+
+  const caseTypes = ['Household'];
+
+  const limit = 5000;
+  const indexedOnStart = '2023-01-01T00:00:00';
+  const lastRunAt =
+    typeof state.lastRunAt !== 'undefined' ? state.lastRunAt : indexedOnStart;
+
+  const queries = caseTypes.map(
+    t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
+  );
+
+  return { ...state, queries, baseUrl, payloads: [] };
 });
-
-// fn(state => {
-//   const baseUrl =
-//     'https://www.commcarehq.org/a/lwala-community-alliance/api/v0.5/case/';
-
-//   const caseTypes = [
-//     'Household',
-//   ];
-
-//   const limit = 1000;
-//   const indexedOnStart = '2023-01-01';
-//   const receivedOnEnd = '2023-01-01';
-//   // const indexedOnStart = '2022-05-31';
-//   // const receivedOnEnd = '2022-05-01';
-
-//   const queries = caseTypes.map(
-//     t =>
-//       `?type=${t}` +
-//       `?indexed_on_start=${indexedOnStart}` +
-//       // `&received_on_end=${receivedOnEnd}` +
-//       `&limit=${limit}`
-//   );
-
-//   return { ...state, queries, baseUrl, payloads: [] };
-// });
 
 // create a "recursiveGet" which will call itself if CommCare tells us there's
 // more data to fetch for the same form
-// fn(state => {
-//   const recursiveGet = url =>
-//     get(url, {}, nextState => {
-//       const { baseUrl, data, payloads } = nextState;
-//       const { meta, objects } = data;
-//       console.log('Metadata in CommCare response:', meta);
+fn(state => {
+  const recursiveGet = url =>
+    get(
+      url,
+      {
+        headers: { 'content-type': 'application/json' },
+      },
+      nextState => {
+        const now = new Date();
+        const { baseUrl, data, payloads } = nextState;
 
-//       const finalState = { ...nextState, payloads: [...payloads, ...objects] };
+        const { meta, objects } = data;
+        console.log('Metadata in CommCare response:', meta);
 
-//       if (meta.next) {
-//         console.log('Next query detected, recursing...');
-//         return recursiveGet(`${baseUrl}${meta.next}`)(finalState);
-//       }
-//       return finalState;
-//     });
+        const finalState = {
+          ...nextState,
+          payloads: [...payloads, ...objects],
+        };
 
-//   return { ...state, recursiveGet };
-// });
+        if (meta.next) {
+          console.log('Next query detected, recursing...');
+          return recursiveGet(`${baseUrl}${meta.next}`)(finalState);
+        }
+        finalState.lastRunAt = now.toISOString().slice(0, 19);
+        return finalState;
+      }
+    );
 
-// // for each initial query, fetch data recursively
-// each(
-//   '$.queries[*]',
-//   fn(state => state.recursiveGet(`${state.baseUrl}${state.data}`)(state))
-// );
-// // log the total number of payloads returned
-// fn(state => {
-//   console.log('Count of payloads', state.payloads.length);
-//   return { ...state, references: [], data: {} };
-// });
+  return { ...state, recursiveGet };
+});
+
+// for each initial query, fetch data recursively
+each(
+  '$.queries[*]',
+  fn(state => {
+    return state.recursiveGet(`${state.baseUrl}${state.data}`)(state);
+  })
+);
+// log the total number of payloads returned
+fn(state => {
+  console.log('Count of payloads', state.payloads.length);
+  return { ...state, references: [], data: {} };
+});
