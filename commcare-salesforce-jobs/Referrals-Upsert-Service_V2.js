@@ -2,7 +2,7 @@
 fn(state => {
   // state.type = state.data.indices.parent.case_type;
 
-  const caseType = state.data.objects
+  const caseType = state.payloads
     .filter(c => c.indices.parent.case_type === 'Case')
     .map(c => c.indices.parent.case_id);
 
