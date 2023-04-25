@@ -5,12 +5,13 @@ fn(state => {
 
   //NOTE: You can use 'limit' to modify this batch size as desired
   const limit = 1000; //E.g., change to 10 to process records in smaller batch sizes
+  
   //NOTE: indexedOnStart is the default sync start data the FIRST time the job runs
   const indexedOnStart = '2023-04-24T00:00:00'; 
+  
   //NOTE: After first job run, OpenFn will check the job sync data ("lastRunAt") to set as the indexedOnStart
   const lastRunAt =
     typeof state.lastRunAt !== 'undefined' ? state.lastRunAt : indexedOnStart;
-
 
   const queries = caseTypes.map(
     t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
