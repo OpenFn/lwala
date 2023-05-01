@@ -17,10 +17,13 @@ fn(state => {
   const [reference] = state.references;
 
   // console.log(JSON.stringify(reference, null, 2));
+  const records = reference.records; 
   const fetchReference = (owner_id, arg) => {
-    const result = reference.records.filter(
+    const result = records.length > 0 ? 
+    (records.filter(
       record => record.CommCare_User_ID__c === owner_id
-    );
+    )) 
+    : 0;
 
     result.length > 0 ? result[0][arg] : undefined;
   };
