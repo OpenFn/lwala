@@ -46,7 +46,7 @@ fn(state => {
   const catchmentNewId = owner_id =>
     reference.records.filter(
       record => record.CommCare_User_ID__c === owner_id
-    )[0].catchment;
+    )[0].catchment || 'a00G5000003IFLUIA4';
 
   const cleanChoice = choice => {
     if (choice) {
