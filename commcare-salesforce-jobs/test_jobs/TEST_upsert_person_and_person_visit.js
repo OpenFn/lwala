@@ -6,24 +6,24 @@ fn(state => {
 });
 
 fn(state => {
-  return query(
-    `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
-      "','"
-    )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
-  )(state);
+  if (state.uniq_owner_ids.length > 0)
+    return query(
+      `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
+        "','"
+      )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
+    )(state);
 });
 
 fn(state => {
   const [reference] = state.references;
 
   // console.log(JSON.stringify(reference, null, 2));
-  const records = reference.records; 
+  const records = reference.records;
   const fetchReference = (owner_id, arg) => {
-    const result = records.length > 0 ? 
-    (records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )) 
-    : 0;
+    const result =
+      records && records.length > 0
+        ? records.filter(record => record.CommCare_User_ID__c === owner_id)
+        : 0;
 
     result.length > 0 ? result[0][arg] : undefined;
   };
@@ -270,7 +270,7 @@ fn(state => {
     handleMultiSelectOriginal,
   } = state;
 
-  const personVisitMapping = state.data.objects
+  const personVisitMapping = state.payloads
     .filter(
       p =>
         p.properties.username !== 'test.2021' &&
