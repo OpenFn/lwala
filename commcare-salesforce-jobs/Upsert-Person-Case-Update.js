@@ -32,21 +32,23 @@ fn(state => {
   const [reference] = state.references;
 
   // console.log(JSON.stringify(reference.records, null, 2));
+  
+  const records = reference.records; 
 
   const villageNewId = owner_id =>
-    reference.records.filter(
+    records ? records.filter(
       record => record.CommCare_User_ID__c === owner_id
-    )[0].village;
+    )[0].village : 'a00G5000003IFLUIA4';
 
   const areaNewId = owner_id =>
-    reference.records.filter(
+    records ? records.filter(
       record => record.CommCare_User_ID__c === owner_id
-    )[0].area;
+    )[0].area : 'a00G5000003IFLUIA4';
 
   const catchmentNewId = owner_id =>
-    reference.records.filter(
+    records ? records.filter(
       record => record.CommCare_User_ID__c === owner_id
-    )[0].catchment || 'a00G5000003IFLUIA4';
+    )[0].catchment : 'a00G5000003IFLUIA4';
 
   const cleanChoice = choice => {
     if (choice) {
