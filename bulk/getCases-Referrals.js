@@ -67,7 +67,5 @@ each(
 // log the total number of payloads returned
 fn(state => {
   console.log('Count of payloads', state.payloads.length);
-  if (state.payloads.length == 0)
-    throw new Error("We don't have the data we need.");
   return { ...state, references: [], data: {} };
 });

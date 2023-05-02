@@ -1,4 +1,8 @@
 fn(state => {
+  console.log("here?")
+  console.log('state', state)
+  if (state.payloads.length == 0) return ({...state, personVisits: []});
+  console.log("there?")
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
@@ -6,6 +10,7 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
   if (state.uniq_owner_ids.length > 0)
     return query(
       `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
@@ -15,6 +20,7 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
   const [reference] = state.references;
 
   // console.log(JSON.stringify(reference, null, 2));
@@ -251,6 +257,7 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
   const {
     counselMap,
     serviceMap,
@@ -270,7 +277,7 @@ fn(state => {
     handleMultiSelectOriginal,
   } = state;
 
-  const personVisitMapping = state.payloads
+  const personVisits = state.payloads
     .filter(
       p =>
         p.properties.username !== 'test.2021' &&
@@ -552,15 +559,15 @@ fn(state => {
       };
     });
 
-  personVisitMapping.forEach(person => {
+    personVisits.forEach(person => {
     Object.entries(person).forEach(([key, value]) => {
       if (value === '' || value === null) person[key] = undefined;
     });
   });
 
-  // console.log(JSON.stringify(personVisitMapping, null, 2));
+  // console.log(JSON.stringify(personVisits, null, 2));
 
-  return { ...state, personVisitMapping };
+  return { ...state, personVisits };
 });
 
 bulk(
@@ -573,6 +580,6 @@ bulk(
   },
   state => {
     console.log('Bulk upserting person visit...');
-    return state.personVisitMapping;
+    return state.personVisits;
   }
 );
