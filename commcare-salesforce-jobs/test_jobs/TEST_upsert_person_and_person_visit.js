@@ -1,4 +1,6 @@
 fn(state => {
+  if (state.payloads.length == 0) return { ...state, personVisits: [] };
+
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
@@ -6,6 +8,8 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
+
   return query(
     `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
       "','"
@@ -14,16 +18,16 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
   const [reference] = state.references;
 
   // console.log(JSON.stringify(reference, null, 2));
-  const records = reference.records; 
+  const records = reference.records;
   const fetchReference = (owner_id, arg) => {
-    const result = records.length > 0 ? 
-    (records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )) 
-    : 0;
+    const result =
+      records && records.length > 0
+        ? records.filter(record => record.CommCare_User_ID__c === owner_id)
+        : 0;
 
     result.length > 0 ? result[0][arg] : undefined;
   };
@@ -251,6 +255,7 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
   const {
     counselMap,
     serviceMap,
@@ -270,7 +275,7 @@ fn(state => {
     handleMultiSelectOriginal,
   } = state;
 
-  const personVisitMapping = state.data.objects
+  const personVisits = state.payloads
     .filter(
       p =>
         p.properties.username !== 'test.2021' &&
@@ -552,15 +557,15 @@ fn(state => {
       };
     });
 
-  personVisitMapping.forEach(person => {
+  personVisits.forEach(person => {
     Object.entries(person).forEach(([key, value]) => {
       if (value === '' || value === null) person[key] = undefined;
     });
   });
 
-  // console.log(JSON.stringify(personVisitMapping, null, 2));
+  // console.log(JSON.stringify(personVisits, null, 2));
 
-  return { ...state, personVisitMapping };
+  return { ...state, personVisits };
 });
 
 bulk(
@@ -573,6 +578,6 @@ bulk(
   },
   state => {
     console.log('Bulk upserting person visit...');
-    return state.personVisitMapping;
+    return state.personVisits;
   }
 );

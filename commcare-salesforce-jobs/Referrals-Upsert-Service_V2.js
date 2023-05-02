@@ -1,6 +1,7 @@
 // NOTE: We perform a query before anything else if this is a 'Case'
 fn(state => {
   // state.type = state.data.indices.parent.case_type;
+  if (state.payloads.length == 0) return { ...state, services: [] };
 
   const caseType = state.payloads
     .filter(c => c.indices.parent.case_type === 'Case')
@@ -25,6 +26,7 @@ fn(state => {
 
 // NOTE: We construct a facilityMap and populate some conditional relationships
 fn(state => {
+  if (state.payloads.length == 0) return state;
   const facilityMap = {
     Lwala_Hospital: 'Lwala Hospital',
     Minyenya_Dispensary: 'Minyenya Dispensary',
@@ -190,11 +192,11 @@ fn(state => {
     other: 'Other',
   };
 
-  const caseType = state.data.objects
+  const caseType = state.payloads
     .filter(c => c.indices.parent.case_type === 'Case')
     .map(c => c.indices.parent.case_id);
 
-  const personType = state.data.objects
+  const personType = state.payloads
     .filter(c => c.indices.parent.case_type === 'Person')
     .map(c => c.indices.parent.case_id);
 
@@ -234,7 +236,8 @@ fn(state => {
 
 // NOTE: We finally upsert to the Service__c object in Salesforce
 fn(state => {
-  const serviceMapping = state.data.objects
+  if (state.payloads.length == 0) return state;
+  const services = state.payloads
     .filter(r => r.properties.owner_id !== '8e725928e3ce43d19b390dd604097069')
     .map(r => {
       // pregnancyDangerSigns
@@ -422,7 +425,7 @@ fn(state => {
       };
     });
 
-  return { ...state, serviceMapping };
+  return { ...state, services };
 });
 
 bulk(
@@ -435,6 +438,6 @@ bulk(
   },
   state => {
     console.log('Bulk upserting service...');
-    return state.serviceMapping;
+    return state.services;
   }
 );

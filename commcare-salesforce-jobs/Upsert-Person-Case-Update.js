@@ -1,4 +1,14 @@
 fn(state => {
+  if (state.payloads.length == 0)
+    return {
+      ...state,
+      householdMapping: [],
+      headOfHouseholdMapping: [],
+      motherMapping: [],
+      caregiverMapping: [],
+      sfRecordMapping: [],
+    };
+
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
@@ -7,6 +17,8 @@ fn(state => {
 
 // get data from SF
 fn(state => {
+  if (state.payloads.length == 0) return state;
+
   return query(
     `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
       "','"
@@ -15,6 +27,8 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
+
   const [reference] = state.references;
 
   // console.log(JSON.stringify(reference.records, null, 2));
@@ -176,6 +190,8 @@ fn(state => {
 
 // build sfRecord before upserting
 fn(state => {
+  if (state.payloads.length == 0) return state;
+
   const {
     areaNewId,
     counselMap,
@@ -193,7 +209,7 @@ fn(state => {
 
   const householdMapping = [
     ...new Map(
-      state.data.objects
+      state.payloads
         .filter(
           p =>
             p.properties.commcare_username !== 'test.2021' &&
@@ -209,7 +225,7 @@ fn(state => {
     ).values(),
   ];
 
-  const headOfHouseholdMapping = state.data.objects
+  const headOfHouseholdMapping = state.payloads
     .filter(
       p =>
         p.properties.commcare_username !== 'test.2021' &&
@@ -225,7 +241,7 @@ fn(state => {
       };
     });
 
-  const motherMapping = state.data.objects
+  const motherMapping = state.payloads
     .filter(
       p =>
         p.properties.commcare_username !== 'test.2021' &&
@@ -240,7 +256,7 @@ fn(state => {
       };
     });
 
-  const caregiverMapping = state.data.objects
+  const caregiverMapping = state.payloads
     .filter(
       p =>
         p.properties.commcare_username !== 'test.2021' &&
@@ -256,7 +272,7 @@ fn(state => {
       };
     });
 
-  const sfRecordMapping = state.data.objects
+  const sfRecordMapping = state.payloads
     .filter(
       p =>
         p.properties.commcare_username !== 'test.2021' &&
