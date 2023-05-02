@@ -1,4 +1,7 @@
 fn(state => {
+  if (state.payloads.length == 0)
+    return { ...state, housevisits: [], households: [] };
+
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
@@ -6,6 +9,8 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
+
   return query(
     `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c catchment WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
       "','"
@@ -14,12 +19,16 @@ fn(state => {
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
+
   console.log('Done querying ✅');
 
   return state;
 });
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
+
   console.log(
     'Filtering out unwanted users and applying mapping for households and housevisits'
   );
@@ -248,6 +257,8 @@ bulk(
 );
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
+
   console.log('house holds bulk upsert done');
   return state;
 });
@@ -278,6 +289,7 @@ bulk(
 );
 
 fn(state => {
+  if (state.payloads.length == 0) return state;
   console.log('house visits bulk upsert done');
   return state;
 });

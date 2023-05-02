@@ -1,8 +1,6 @@
 fn(state => {
-  console.log("here?")
-  console.log('state', state)
-  if (state.payloads.length == 0) return ({...state, personVisits: []});
-  console.log("there?")
+  if (state.payloads.length == 0) return { ...state, personVisits: [] };
+
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
@@ -11,12 +9,12 @@ fn(state => {
 
 fn(state => {
   if (state.payloads.length == 0) return state;
-  if (state.uniq_owner_ids.length > 0)
-    return query(
-      `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
-        "','"
-      )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
-    )(state);
+
+  return query(
+    `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
+      "','"
+    )}') GROUP BY Id, CommCare_User_ID__c, Parent_Geographic_Area__c, Parent_Geographic_Area__r.Name, Parent_Geographic_Area__r.Parent_Geographic_Area__c`
+  )(state);
 });
 
 fn(state => {
@@ -559,7 +557,7 @@ fn(state => {
       };
     });
 
-    personVisits.forEach(person => {
+  personVisits.forEach(person => {
     Object.entries(person).forEach(([key, value]) => {
       if (value === '' || value === null) person[key] = undefined;
     });
