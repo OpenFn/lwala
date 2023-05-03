@@ -171,6 +171,7 @@ fn(state => {
 
       const insuranceTypeC = () => {
         let status = h.properties.health_insurance;
+
         let value =
           status && status !== ''
             ? status
@@ -185,10 +186,14 @@ fn(state => {
 
       const openedC = () => {
         const form_opened = h.properties.last_form_opened_date_and_time;
-        const value1 = form_opened.split('-').slice(0, 2).join('-');
-        const value2 = form_opened.split('-').slice(2).join('-');
-        const formattedValue = [value1, value2].join(' ');
-        return new Date(formattedValue).toISOString();
+
+        if (form_opened) {
+          const value1 = form_opened.split('-').slice(0, 2).join('-');
+          const value2 = form_opened.split('-').slice(2).join('-');
+          const formattedValue = [value1, value2].join(' ');
+          return new Date(formattedValue).toISOString();
+        }
+        return undefined;
       };
 
       return {
