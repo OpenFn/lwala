@@ -32,23 +32,16 @@ fn(state => {
   const [reference] = state.references;
 
   // console.log(JSON.stringify(reference.records, null, 2));
-  
-  const records = reference.records; 
 
-  const villageNewId = owner_id =>
-    records ? records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].village : 'a00G5000003IFLUIA4';
+  const records = reference.records;
+  const fetchReference = (owner_id, arg) => {
+    const result =
+      records && records.length > 0
+        ? records.filter(record => record.CommCare_User_ID__c === owner_id)
+        : 0;
 
-  const areaNewId = owner_id =>
-    records ? records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].area : 'a00G5000003IFLUIA4';
-
-  const catchmentNewId = owner_id =>
-    records ? records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].catchment : 'a00G5000003IFLUIA4';
+    return result.length > 0 ? result[0][arg] : 'a00G5000003IFLUIA4';
+  };
 
   const cleanChoice = choice => {
     if (choice) {
@@ -182,11 +175,9 @@ fn(state => {
     nutritionMap,
     pregDangerMap,
     fpMethodMap,
-    areaNewId,
     cleanChoice,
-    villageNewId,
-    catchmentNewId,
     handleMultiSelect,
+    fetchReference,
   };
 });
 
@@ -195,10 +186,7 @@ fn(state => {
   if (state.payloads.length == 0) return state;
 
   const {
-    areaNewId,
     counselMap,
-    villageNewId,
-    catchmentNewId,
     reasonMapping,
     milestoneTypeMap,
     milestoneMap,
@@ -207,6 +195,7 @@ fn(state => {
     fpMethodMap,
     cleanChoice,
     handleMultiSelect,
+    fetchReference,
   } = state;
 
   const householdMapping = [
@@ -284,6 +273,7 @@ fn(state => {
       // For unbornOrName
       const name1 = p.properties.Person_Name || p.properties.case_name;
       const unborn = p.properties.name;
+
       const name2 =
         name1 === undefined || name1 === '' || name1 === null
           ? unborn
@@ -291,7 +281,7 @@ fn(state => {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
       const unbornOrName = name1 !== null ? name2 : 'Unborn Child';
-      console.log('Person Name ::', unbornOrName);
+      // console.log('Person Name ::', unbornOrName);
 
       // For chronicIllness
       const chronicChoice =
@@ -317,21 +307,19 @@ fn(state => {
               .join(';')
           : null;
 
-      const relation = p.properties.relation_to_hh;
+      const hh_relation = p.properties.relation_to_hh;
 
-      const relationToTheHead = relation
-        ? relation.toString().replace(/_/g, ' ').charAt(0).toUpperCase() +
-          relation.toString().replace(/_/g, ' ').slice(1)
+      const relationToTheHead = hh_relation
+        ? hh_relation.toString().replace(/_/g, ' ').charAt(0).toUpperCase() +
+          hh_relation.toString().replace(/_/g, ' ').slice(1)
         : null;
 
-      const cStatus = p.properties.Child_Status;
-      const cRt = p.properties.Record_Type;
       const childStatus =
-        cStatus && cRt === 'Unborn'
-          ? (cStatus = 'Unborn')
-          : cStatus && cRt === 'Born'
-          ? (cStatus = 'Born')
-          : cStatus;
+        p.properties.Child_Status && p.properties.Record_Type === 'Unborn'
+          ? (p.properties.Child_Status = 'Unborn')
+          : p.properties.Child_Status && p.properties.Record_Type === 'Born'
+          ? (p.properties.Child_Status = 'Born')
+          : p.properties.Child_Status;
 
       const childDangerSigns = p.properties.Other_Danger_Signs
         ? p.properties.Other_Danger_Signs.toLowerCase()
@@ -401,9 +389,9 @@ fn(state => {
         Consent_for_data_use__c: p.properties.data_sharing_consent,
         CommCare_HH_Code__c: p.indices.parent.case_id,
         Client_Status__c: p.properties.Client_Status,
-        Catchment__c: catchmentNewId(p.properties.owner_id),
-        Area__c: areaNewId(p.properties.owner_id),
-        Household_Village__c: villageNewId(p.properties.owner_id),
+        Catchment__c: fetchReference(p.properties.owner_id, 'catchment'),
+        Area__c: fetchReference(p.properties.owner_id, 'area'),
+        Household_Village__c: fetchReference(p.properties.owner_id, 'village'),
         Name: unbornOrName,
         Chronic_illness__c: chronicIllness,
         Currently_enrolled_in_school__c: p.properties.enrolled_in_school,
@@ -618,7 +606,7 @@ fn(state => {
         //Death  =====================//
         Date_of_Death__c: p.properties.Date_of_Death,
         Cause_of_Death__c: p.properties.cause_of_death_dead
-          ? p.properties.cause_of_death_dead().toString().replace(/_/g, ' ')
+          ? p.properties.cause_of_death_dead.toString().replace(/_/g, ' ')
           : p.properties.cause_of_death_dead,
         Verbal_autopsy__c: p.properties.verbal_autopsy,
         //Closing  =====================//

@@ -9,7 +9,6 @@ fn(state => {
 
 fn(state => {
   if (state.payloads.length == 0) return state;
-
   return query(
     `SELECT CommCare_User_ID__c, Id village, Parent_Geographic_Area__c area, Parent_Geographic_Area__r.Name name, Parent_Geographic_Area__r.Parent_Geographic_Area__c catchment FROM Location__c WHERE CommCare_User_ID__c IN ('${state.uniq_owner_ids.join(
       "','"
@@ -29,7 +28,7 @@ fn(state => {
         ? records.filter(record => record.CommCare_User_ID__c === owner_id)
         : 0;
 
-    result.length > 0 ? result[0][arg] : undefined;
+    return result.length > 0 ? result[0][arg] : undefined;
   };
   const cleanChoice = choice => {
     if (choice) {
