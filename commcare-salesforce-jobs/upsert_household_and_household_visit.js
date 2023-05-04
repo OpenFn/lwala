@@ -109,7 +109,7 @@ fn(state => {
         Source__c: true,
         // TODO: Prod mapping to add back before go-live =======================
         //Household_CHW__c: h.properties.CHW_ID, // Uncomment me to go live!
-        Household_CHW__c: 'a03AP000004B4KXYA0', // Comment me OUT to go live!
+        Household_CHW__c: 'a032400000GHpdsAAD', // Comment me OUT to go live!
         // =====================================================================
         Catchment__c: catchmentNewId(h.properties.owner_id),
         Area__c: areaNewId(h.properties.owner_id),
