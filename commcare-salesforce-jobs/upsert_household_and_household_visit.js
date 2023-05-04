@@ -108,8 +108,8 @@ fn(state => {
         CommCare_Code__c: h.case_id,
         Source__c: true,
         // TODO: Prod mapping to add back before go-live =======================
-        // Household_CHW__c, // Uncomment me to go live!
-        Household_CHW__c: 'a03G5000003bGIbIAM', // Comment me OUT to go live!
+        Household_CHW__c: h.properties.CHW_ID, // Uncomment me to go live!
+        //Household_CHW__c: 'a03G5000003bGIbIAM', // Comment me OUT to go live!
         // =====================================================================
         Catchment__c: catchmentNewId(h.properties.owner_id),
         Area__c: areaNewId(h.properties.owner_id),
