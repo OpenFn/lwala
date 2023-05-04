@@ -247,6 +247,11 @@ fn(state => {
   return { ...state, households, housevisits };
 });
 
+fn(state => {
+  console.log('HHs to upsert ::', JSON.stringify(state.households));
+  return state;
+});
+
 bulk(
   'Household__c',
   'upsert',
