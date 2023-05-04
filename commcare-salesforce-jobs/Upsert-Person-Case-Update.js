@@ -651,19 +651,19 @@ fn(state => {
 //   return state;
 // });
 
-bulk(
-  'Household__c',
-  'upsert',
-  {
-    extIdField: 'CommCare_Code__c',
-    failOnError: true,
-    allowNoOp: true,
-  },
-  state => {
-    console.log('Bulk upserting...');
-    return state.householdMapping;
-  }
-);
+// bulk(
+//   'Household__c',
+//   'upsert',
+//   {
+//     extIdField: 'CommCare_Code__c',
+//     failOnError: true,
+//     allowNoOp: true,
+//   },
+//   state => {
+//     console.log('Bulk upserting...');
+//     return state.householdMapping;
+//   }
+// );
 
 // TODO, Clean up when pass QA
 // upsert data to SF
