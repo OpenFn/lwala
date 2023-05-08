@@ -40,7 +40,8 @@ fn(state => {
         ? records.filter(record => record.CommCare_User_ID__c === owner_id)
         : 0;
 
-    return result.length > 0 ? result[0][arg] : 'a000800001tMobaAAC';
+    //TODO: Update default value for 'unknown location' before go-live
+    return result.length > 0 ? result[0][arg] : 'a000800001tMobaAAC' /*unknown location*/;
   };
 
   const cleanChoice = choice => {
