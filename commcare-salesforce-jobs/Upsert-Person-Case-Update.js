@@ -684,7 +684,8 @@ bulk(
     allowNoOp: true,
   },
   state => {
-    console.log('Bulk upserting person...');
+    console.log('Bulk upserting persons ::');
+    console.log(JSON.stringify(state.sfRecordMapping, null, 2));
     return state.sfRecordMapping;
   }
 );
@@ -713,7 +714,8 @@ bulk(
     allowNoOp: true,
   },
   state => {
-    console.log('Bulk upserting primary caregiver...');
+    console.log('Bulk upserting primary caregiver Persons ::');
+    console.log(JSON.stringify(state.caregiverMapping, null, 2));
     return state.caregiverMapping;
   }
 );
@@ -742,7 +744,8 @@ bulk(
     allowNoOp: true,
   },
   state => {
-    console.log('Bulk upserting mother...');
+    console.log('Bulk upserting mother Person::');
+    console.log(JSON.stringify(state.motherMapping, null, 2));
     return state.motherMapping;
   }
 );
@@ -774,7 +777,8 @@ bulk(
     allowNoOp: true,
   },
   state => {
-    console.log('Bulk upserting head of household...');
+    console.log('Bulk upserting head of household field on HH ::');
+    console.log(JSON.stringify(state.headOfHouseholdMapping, null, 2));
     return state.headOfHouseholdMapping;
   }
 );
