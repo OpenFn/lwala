@@ -40,7 +40,7 @@ fn(state => {
         ? records.filter(record => record.CommCare_User_ID__c === owner_id)
         : 0;
 
-    return result.length > 0 ? result[0][arg] : 'a00G5000003IFLUIA4';
+    return result.length > 0 ? result[0][arg] : 'a000800001tMobaAAC';
   };
 
   const cleanChoice = choice => {
