@@ -35,20 +35,20 @@ fn(state => {
 
   const [reference] = state.references;
 
-  const villageNewId = owner_id =>
-    reference.records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].village;
+  // console.log(JSON.stringify(reference.records, null, 2));
 
-  const areaNewId = owner_id =>
-    reference.records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].area;
+  const records = reference.records;
+  const fetchReference = (owner_id, arg) => {
+    const result =
+      records && records.length > 0
+        ? records.filter(record => record.CommCare_User_ID__c === owner_id)
+        : 0;
 
-  const catchmentNewId = owner_id =>
-    reference.records.filter(
-      record => record.CommCare_User_ID__c === owner_id
-    )[0].catchment;
+    //TODO: Update default value for 'unknown location' before go-live
+    return result.length > 0
+      ? result[0][arg]
+      : 'a000800001tMobaAAC' /*unknown location*/;
+  };
 
   const supervisorMap = {
     community_health_nurse: 'Community Health Nurse',
@@ -112,9 +112,9 @@ fn(state => {
         //Household_CHW__c: 'a032400000GHpdsAAD', // Comment me OUT to go live!
         Household_CHW__c: 'a03AW00000643nLYAQ',
         // =====================================================================
-        Catchment__c: catchmentNewId(h.properties.owner_id),
-        Area__c: areaNewId(h.properties.owner_id),
-        Village__c: villageNewId(h.properties.owner_id),
+        Catchment__c: fetchReference(h.properties.owner_id, 'catchment'),
+        Area__c: fetchReference(h.properties.owner_id, 'area'),
+        Village__c: fetchReference(h.properties.owner_id, 'village'),
         Household_Village__c: h.properties.village,
         Deaths_in_the_last_6_months__c:
           h.properties.deaths_in_past_6_months > 0 ? 'Yes' : 'No',
@@ -200,7 +200,7 @@ fn(state => {
       return {
         CommCare_Username__c: h.properties.commcare_username,
         CommCare_Visit_ID__c: visitIdC,
-        Catchment__c: catchmentNewId(h.properties.owner_id),
+        Catchment__c: fetchReference(h.properties.owner_id, 'catchment'),
         'Household__r.CommCare_Code__c': h.case_id,
         Date__c: h.properties.Date,
         Form_Submitted__c: h.properties.last_form_opened_name,
@@ -245,7 +245,7 @@ fn(state => {
       };
     });
 
-  return { ...state, households, housevisits };
+  return { ...state, households, housevisits, fetchReference };
 });
 
 fn(state => {
