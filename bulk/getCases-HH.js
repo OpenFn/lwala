@@ -4,7 +4,7 @@ fn(state => {
   const caseTypes = ['Household'];
 
   //NOTE: You can use 'limit' to modify this batch size as desired
-  const limit = 1000; //E.g., change to 10 to process records in smaller batch sizes
+  const limit = 1000; 
 
   //NOTE: indexedOnStart is the default sync start data the FIRST time the job runs
   const indexedOnStart = '2023-05-19T08:00:00';
