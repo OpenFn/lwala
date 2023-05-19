@@ -47,7 +47,8 @@ fn(state => {
     //TODO: Update default value for 'unknown location' before go-live
     return result.length > 0
       ? result[0][arg]
-      : 'a000800001tMobaAAC' /*unknown location*/;
+      //: 'a000800001tMobaAAC' /*unknown location*/;
+      : 'a00AW000004yKTvYAM'
   };
 
   const supervisorMap = {
