@@ -151,6 +151,10 @@ fn(state => {
         household_provided_with_seed_input_suppo__c:
           h.properties.when_was_the_household_provided_with_seed_input_support,
         MIYCN_Trained__c: h.properties.household_trained_on_MIYC,
+        // TODO: @Aleksa to find out if Case_Closed_Date__c still exist
+         Case_Closed_Date__c: h.date_closed && h.date_closed == true
+             ? h.server_modified_on
+             : undefined
       };
     });
 
@@ -238,10 +242,7 @@ fn(state => {
 
         Other_Health_Insurance__c: h.properties.if_other_please_specify,
         CommCare_Form_Opened__c: openedC(),
-        // TODO: @Aleksa to find out if Case_Closed_Date__c still exist
-         Case_Closed_Date__c: h.date_closed && h.date_closed == true
-             ? h.server_modified_on
-             : undefined
+        
       };
     });
 
