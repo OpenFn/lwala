@@ -108,9 +108,9 @@ fn(state => {
         CommCare_Code__c: h.case_id,
         Source__c: true,
         // TODO: Prod mapping to add back before go-live =======================
-        //Household_CHW__c: h.properties.CHW_ID, // Uncomment me to go live!
+        Household_CHW__c: h.properties.CHW_ID, // Uncomment me to go live!
         //Household_CHW__c: 'a032400000GHpdsAAD', // Comment me OUT to go live!
-        Household_CHW__c: 'a03AW00000643nLYAQ',
+      //  Household_CHW__c: 'a03AW00000643nLYAQ',
         // =====================================================================
         Catchment__c: catchmentNewId(h.properties.owner_id),
         Area__c: areaNewId(h.properties.owner_id),
@@ -239,9 +239,9 @@ fn(state => {
         Other_Health_Insurance__c: h.properties.if_other_please_specify,
         CommCare_Form_Opened__c: openedC(),
         // TODO: @Aleksa to find out if Case_Closed_Date__c still exist
-        // Case_Closed_Date__c: h.date_closed && h.date_closed == true
-        //     ? h.server_modified_on
-        //     : undefined;,
+         Case_Closed_Date__c: h.date_closed && h.date_closed == true
+             ? h.server_modified_on
+             : undefined
       };
     });
 
@@ -274,7 +274,7 @@ fn(state => {
   return state;
 });
 
-// TODO clean up in QA
+// TODO clean up in QA used for troubleshooting
 // Uncomment this block to add cooldown
 // fn(state => {
 //   return new Promise((resolve, reject) => {
@@ -305,7 +305,7 @@ fn(state => {
   return state;
 });
 
-// TODO clean up in QA
+// TODO clean up in QA for troubleshooting
 // Uncomment this block to add cooldown
 // fn(state => {
 //   return new Promise((resolve, reject) => {
