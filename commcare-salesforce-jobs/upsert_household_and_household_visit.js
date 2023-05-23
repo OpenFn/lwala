@@ -48,6 +48,7 @@ fn(state => {
     return result.length > 0
       ? result[0][arg]
       //: 'a000800001tMobaAAC' /*unknown location*/;
+      //HMN Testing parms below
       : 'a00AW000004yKTvYAM'
   };
 
