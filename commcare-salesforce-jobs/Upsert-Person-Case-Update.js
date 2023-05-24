@@ -381,6 +381,8 @@ fn(state => {
           : undefined;
       const reasonForNotTakingFP = rValue ? rValue.join(';') : undefined;
       
+      const recordType = p.properties.Record_Type;
+      
       return {
         // TODO @aleksa, Source__c is causing an error
         Source__c: true,
@@ -412,13 +414,9 @@ fn(state => {
         Use_mosquito_net__c: p.properties.sleep_under_net,
         Birth_Certificate__c: p.properties.birth_certificate,
         Child_Status__c: childStatus,
-        //===================================================//
-        // relationship('RecordType', 'Name', state => {
-        //   var rt = p.properties.Record_Type;
-        //   return rt === 'Unborn' || rt === ''
-        //     ? 'Child'
-        //     : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
-        // }),
+        'RecordType.Name': recordType === 'Unborn' || recordType === '' 
+          ? 'Child' 
+          : recordType.toString().replace(/_/g, ' '), //convert Unborn children to Child RT
         //TT5 Mother Information  =====================//
         MCH_booklet__c: p.properties.mch_booklet,
         Reason_for_not_taking_a_pregnancy_test__c: p.properties.No_Preg_Test
