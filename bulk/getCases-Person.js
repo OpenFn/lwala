@@ -12,6 +12,8 @@ fn(state => {
   //NOTE: After first job run, OpenFn will check the job sync data ("lastRunAt") to set as the indexedOnStart
   const lastRunAt =
     typeof state.lastRunAt !== 'undefined' ? state.lastRunAt : indexedOnStart;
+    
+  console.log('lastRunAt ::', lastRunAt);
 
   const queries = caseTypes.map(
     // t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
