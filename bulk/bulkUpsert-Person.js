@@ -43,9 +43,8 @@ fn(state => {
 
     //TODO: Update default value for 'unknown location' before go-live
     return result.length > 0 ? result[0][arg] 
-    //: 'a000800001tMobaAAC' /*unknown location*/;
-    //HMN testing params below
-    : 'a00AW000004yKTvYAM'
+    : 'a000800001tMobaAAC' /*unknown location*/;
+
   };
 
   const cleanChoice = choice => {
@@ -387,10 +386,10 @@ fn(state => {
         // TODO @aleksa, Source__c is causing an error
         Source__c: true,
         CommCare_ID__c: p.case_id,
-        //HMN testing params
-        'Household__r.CommCare_Code__c':'51d86768-106d-47c1-a30b-4b28263de975',
-//        'Household__r.CommCare_Code__c':
-//          p.properties.parent_id || p.indices.parent.case_id,
+        'Primary_Caregiver_Lookup__r.CommCare_ID__c':p.properties.caretaker_case_id,
+        'Mother__r.CommCare_ID__c': p.properties.mother_case_id,
+        'Household__r.CommCare_Code__c':
+          p.properties.parent_id || p.indices.parent.case_id,
         commcare_location_id__c: p.properties.commcare_location_id,
         CommCare_Username__c: p.properties.commcare_username,
         Telephone__c: p.properties.contact_phone_number,
