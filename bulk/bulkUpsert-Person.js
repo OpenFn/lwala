@@ -9,6 +9,7 @@ fn(state => {
       sfRecordMapping: [],
     };
 
+  console.log('cases before query :: ', JSON.stringify(state.payloads, null, 2));
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
@@ -42,7 +43,9 @@ fn(state => {
 
     //TODO: Update default value for 'unknown location' before go-live
     return result.length > 0 ? result[0][arg] 
-    : 'a000800001tMobaAAC' /*unknown location*/;
+    //: 'a000800001tMobaAAC' /*unknown location*/;
+    //HMN testing params below
+    : 'a00AW000004yKTvYAM'
   };
 
   const cleanChoice = choice => {
@@ -378,12 +381,16 @@ fn(state => {
           : undefined;
       const reasonForNotTakingFP = rValue ? rValue.join(';') : undefined;
       
+      const recordType = p.properties.Record_Type;
+      
       return {
         // TODO @aleksa, Source__c is causing an error
         Source__c: true,
-        CommCare_ID__c: p.case_id, 
-        'Household__r.CommCare_Code__c':
-        p.properties.parent_id || p.indices.parent.case_id,
+        CommCare_ID__c: p.case_id,
+        //HMN testing params
+        'Household__r.CommCare_Code__c':'51d86768-106d-47c1-a30b-4b28263de975',
+//        'Household__r.CommCare_Code__c':
+//          p.properties.parent_id || p.indices.parent.case_id,
         commcare_location_id__c: p.properties.commcare_location_id,
         CommCare_Username__c: p.properties.commcare_username,
         Telephone__c: p.properties.contact_phone_number,
@@ -407,13 +414,9 @@ fn(state => {
         Use_mosquito_net__c: p.properties.sleep_under_net,
         Birth_Certificate__c: p.properties.birth_certificate,
         Child_Status__c: childStatus,
-        //===================================================//
-        // relationship('RecordType', 'Name', state => {
-        //   var rt = p.properties.Record_Type;
-        //   return rt === 'Unborn' || rt === ''
-        //     ? 'Child'
-        //     : rt.toString().replace(/_/g, ' '); //convert Unborn children to Child RT
-        // }),
+        'RecordType.Name': recordType === 'Unborn' || recordType === '' 
+          ? 'Child' 
+          : recordType.toString().replace(/_/g, ' '), //convert Unborn children to Child RT
         //TT5 Mother Information  =====================//
         MCH_booklet__c: p.properties.mch_booklet,
         Reason_for_not_taking_a_pregnancy_test__c: p.properties.No_Preg_Test
