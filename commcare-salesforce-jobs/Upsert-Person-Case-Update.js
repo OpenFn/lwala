@@ -388,7 +388,7 @@ fn(state => {
         Source__c: true,
         CommCare_ID__c: p.case_id,
         //HMN catering for Primary caregiverMapping
-        	'Person__r.Primary_Caregiver_Lookup__c':'adfce2d4-679a-4742-8b65-aabd7b1c85ac',
+        	'Primary_Caregiver_Lookup__r.CommCare_ID__c':'adfce2d4-679a-4742-8b65-aabd7b1c85ac',
         //HMN testing params
         'Household__r.CommCare_Code__c':'51d86768-106d-47c1-a30b-4b28263de975',
 //        'Household__r.CommCare_Code__c':
