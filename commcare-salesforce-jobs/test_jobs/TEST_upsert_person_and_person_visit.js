@@ -544,7 +544,7 @@ fn(state => {
         Antibiotic_provided_for_chest_indrawing__c:
           p.properties.antibiotic_chest_indrawing,
         Supervisor_Visit__c: supervisorVisit,
-        Visit_Closed_Date__c: p.date_closed,
+        Visit_Closed_Date__c: p.properties.date_closed,
       };
     });
 
