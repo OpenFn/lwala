@@ -467,7 +467,7 @@ fn(state => {
         LMP__c: p.properties.when_was_your_lmp,
         Family_Planning__c: cleanChoice(p.properties.family_planning),
         // HMN 12/01/2023 Failures on picklist within Salesforce
-        // Family_Planning_Method__c: p.properties.family_planning_method,
+        Family_Planning_Method__c: p.properties.family_planning_method,
         Family_Planning_Method__c: familyPlanningMethod,
         FP_Method_Distributed__c: fpMethodDistributed,
         Reasons_for_not_taking_FP_method__c: reasonForNotTakingFPMethod,
