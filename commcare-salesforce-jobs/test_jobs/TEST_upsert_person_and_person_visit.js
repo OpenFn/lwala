@@ -544,7 +544,8 @@ fn(state => {
         Antibiotic_provided_for_chest_indrawing__c:
           p.properties.antibiotic_chest_indrawing,
         Supervisor_Visit__c: supervisorVisit,
-        Visit_Closed_Date__c: p.properties.date_closed,
+        //HMN commented this one due to error "Error: InvalidBatch : Field name not found : Visit_Closed_Date__c"
+        //Visit_Closed_Date__c: p.properties.date_closed,
       };
     });
 
