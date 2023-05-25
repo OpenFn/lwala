@@ -404,23 +404,6 @@ fn(state => {
           : recordType === 'Female Adult'
           ? 'Adult Female Visit'
           :undefined,
-          //: recordType.toString().replace(/_/g, ' '),
-        // HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
-        // relationship('RecordType', 'Name: () => {
-        //     const rt = p.properties.RecordType;
-        //     if (rt === 'Unborn' || rt === 'Child') {
-        //       return 'Child Visit';
-        //     };
-        //     if (rt === 'Youth') {
-        //       return 'Youth Visit';
-        //     };
-        //     if (rt === 'Male Adult') {
-        //       return 'Adult Male Visit';
-        //     };
-        //     if (rt === 'Female Adult') {
-        //       return 'Adult Female Visit';
-        //     };
-        //   },
         Use_mosquito_net__c: cleanChoice(p.properties.sleep_under_net),
         Individual_birth_plan_counselling__c:
           p.properties.individual_birth_plan,
@@ -466,7 +449,6 @@ fn(state => {
         Counselled_on_Exclusive_Breastfeeding__c: p.properties.counseling,
         LMP__c: p.properties.when_was_your_lmp,
         Family_Planning__c: cleanChoice(p.properties.family_planning),
-        // HMN 12/01/2023 Failures on picklist within Salesforce
         Family_Planning_Method__c: p.properties.family_planning_method,
         Family_Planning_Method__c: familyPlanningMethod,
         FP_Method_Distributed__c: fpMethodDistributed,
@@ -562,8 +544,6 @@ fn(state => {
         Antibiotic_provided_for_chest_indrawing__c:
           p.properties.antibiotic_chest_indrawing,
         Supervisor_Visit__c: supervisorVisit,
-        // HMN- 05012023 - Removed Visit_Closed_Date__c
-        // Because I could not find it in Salesforce. It was causing errors on staging
         Visit_Closed_Date__c: p.date_closed,
       };
     });
