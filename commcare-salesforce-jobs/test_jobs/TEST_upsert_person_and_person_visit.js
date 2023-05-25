@@ -403,7 +403,7 @@ fn(state => {
           ? 'Adult Male Visit'
           : rt === 'Female Adult'
           ? 'Adult Female Visit'
-         // : recordType.toString().replace(/_/g, ' ')
+          : recordType.toString().replace(/_/g, ' '),
         // HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
         // relationship('RecordType', 'Name: () => {
         //     const rt = p.properties.RecordType;
