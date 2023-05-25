@@ -564,7 +564,7 @@ fn(state => {
         Supervisor_Visit__c: supervisorVisit,
         // HMN- 05012023 - Removed Visit_Closed_Date__c
         // Because I could not find it in Salesforce. It was causing errors on staging
-        // Visit_Closed_Date__c: p.date_closed,
+        Visit_Closed_Date__c: p.date_closed,
       };
     });
 
