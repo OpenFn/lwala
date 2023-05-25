@@ -449,8 +449,7 @@ fn(state => {
         Counselled_on_Exclusive_Breastfeeding__c: p.properties.counseling,
         LMP__c: p.properties.when_was_your_lmp,
         Family_Planning__c: cleanChoice(p.properties.family_planning),
-        // HMN 12/01/2023 Failures on picklist within Salesforce
-        // Family_Planning_Method__c: p.properties.family_planning_method,
+        Family_Planning_Method__c: p.properties.family_planning_method,
         Family_Planning_Method__c: familyPlanningMethod,
         FP_Method_Distributed__c: fpMethodDistributed,
         Reasons_for_not_taking_FP_method__c: reasonForNotTakingFPMethod,
@@ -545,9 +544,8 @@ fn(state => {
         Antibiotic_provided_for_chest_indrawing__c:
           p.properties.antibiotic_chest_indrawing,
         Supervisor_Visit__c: supervisorVisit,
-        // HMN- 05012023 - Removed Visit_Closed_Date__c
-        // Because I could not find it in Salesforce. It was causing errors on staging
-        // Visit_Closed_Date__c: p.date_closed,
+        //HMN commented this one due to error "Error: InvalidBatch : Field name not found : Visit_Closed_Date__c"
+        //Visit_Closed_Date__c: p.properties.date_closed,
       };
     });
 
