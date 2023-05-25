@@ -395,13 +395,13 @@ fn(state => {
         Birth_Status__c: p.properties.child_status,
         Catchment__c: fetchReference(p.properties.owner_id, 'catchment'),
         //HMN Accommodating Record Type in Visit
-        'RecordType.Name': rt === 'Unborn' || rt === 'Child' 
+        'RecordType.Name': recordType === 'Unborn' || recordType === 'Child' 
           ? 'Child Visit' 
-          :rt === 'Youth'
+          :recordType === 'Youth'
           ? 'Youth Visit'
-          :rt === 'Male Adult'
+          :recordType === 'Male Adult'
           ? 'Adult Male Visit'
-          : rt === 'Female Adult'
+          : recordType === 'Female Adult'
           ? 'Adult Female Visit'
           : recordType.toString().replace(/_/g, ' '),
         // HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
