@@ -384,6 +384,7 @@ fn(state => {
               })
           : undefined;
       const supervisorVisit = svValue ? svValue.join(';') : undefined;
+      const recordType = p.properties.RecordType;
 
       return {
         CommCare_ID__c: p.case_id, //'visit' case_id
@@ -393,6 +394,16 @@ fn(state => {
         Date__c: p.properties.Date,
         Birth_Status__c: p.properties.child_status,
         Catchment__c: fetchReference(p.properties.owner_id, 'catchment'),
+        //HMN Accommodating Record Type in Visit
+        'RecordType.Name': rt === 'Unborn' || rt === 'Child' 
+          ? 'Child Visit' 
+          :rt === 'Youth'
+          ? 'Youth Visit'
+          :rt === 'Male Adult'
+          ? 'Adult Male Visit'
+          : rt === 'Female Adult'
+          ? 'Adult Female Visit'
+         // : recordType.toString().replace(/_/g, ' ')
         // HMN 05/01/2022 Caused alot of failures, removed this RecordType Field
         // relationship('RecordType', 'Name: () => {
         //     const rt = p.properties.RecordType;
