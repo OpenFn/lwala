@@ -373,7 +373,7 @@ fn(state => {
         Follow_Up_Date__c: r['properties.Follow-Up_Date'],
         //HMN commemted Person_Complied_w_Referral_in_24_hrs__c
         //Person_Complied_w_Referral_in_24_hrs__c:
-          r.properties.referral_compliance,
+         // r.properties.referral_compliance,
         Skillled_Delivery__c: r.properties.skilled_delivery,
         Child_received_immunizations__c: r.properties.immunization,
         Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
