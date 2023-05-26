@@ -361,10 +361,10 @@ fn(state => {
             ? r['properties.Follow-Up']
             : undefined,
         Follow_Up_Date__c: r['properties.Follow-Up_Date'],
-        Person_Complied_w_Referral_in_24_hrs__c
-          : r.properties.referral_compliance=='yes'
-          ? 'Yes'
-          : 'No',
+        //Person_Complied_w_Referral_in_24_hrs
+        
+       // Person_Complied_w_Referral_in_24_hrs__c
+        pers__c:r.properties.referral_compliance,
         Skillled_Delivery__c: r.properties.skilled_delivery,
         Child_received_immunizations__c: r.properties.immunization,
         //HMN3 come back for this one 
