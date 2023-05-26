@@ -365,7 +365,9 @@ fn(state => {
         Received_a_diagnosis_for_PSBI__c,Received_antibiotics_per_protocol__c,
         Skillled_Delivery__c: r.properties.skilled_delivery,
         Child_received_immunizations__c: r.properties.immunization,
-        Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
+        Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis !== ''
+            ? r.properties.psbi_diagnosis
+            : undefined, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
         Received_antibiotics_per_protocol__c: r.properties.antibiotic_8days, //Form: CHW.Follow-Up.PSBI.antibiotic_8day
         //HMN saw a pattern and commented out all of these for troublehsooting
         /*
