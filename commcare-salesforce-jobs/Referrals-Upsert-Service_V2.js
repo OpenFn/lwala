@@ -442,7 +442,7 @@ fn(state => {
 });
 
 fn(state => {
-  console.log('Services to upsert ::', JSON.stringify(state.households));
+  console.log('Services to upsert ::', JSON.stringify(state.services));
   return state;
 });
 
