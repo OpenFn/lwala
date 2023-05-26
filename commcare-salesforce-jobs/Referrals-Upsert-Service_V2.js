@@ -370,7 +370,8 @@ fn(state => {
             //HMN Changed CHW_Followed_Up_with_the_Client
        // CHW_Followed_Up_with_the_Client__c: r.properties.Follow-Up,
        // CHW_Followed_Up_with_the_Client__c: r['properties.Follow-Up'],
-        Follow_Up_Date__c: r['properties.Follow-Up_Date'],
+       //HMN commented Follow_Up_Date__c
+        //Follow_Up_Date__c: r['properties.Follow-Up_Date'],
         //HMN commemted Person_Complied_w_Referral_in_24_hrs__c
         //Person_Complied_w_Referral_in_24_hrs__c:
          // r.properties.referral_compliance,
