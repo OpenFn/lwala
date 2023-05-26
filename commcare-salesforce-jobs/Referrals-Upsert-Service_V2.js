@@ -341,7 +341,9 @@ fn(state => {
         Service_UID__c: r.case_id,
         CommCare_Code__c: r.case_id,
         RecordTypeID: '01224000000YAuK',
-        'Household_CHW__r.CommCare_ID__c': r.properties.CHW_ID,
+        //HMN uncomment the CHW
+        //'Household_CHW__r.CommCare_ID__c': r.properties.CHW_ID,
+        'Household_CHW__r.CommCare_ID__c':'a03AW00000643nLYAQ',
         //HMN commented Parent_Service__r because of error
 
         // relationship( //CHW is now a formula field
