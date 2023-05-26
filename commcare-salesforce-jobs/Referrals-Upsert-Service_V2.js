@@ -345,6 +345,8 @@ fn(state => {
         //'Household_CHW__r.CommCare_ID__c': r.properties.CHW_ID,
         'Household_CHW__r.CommCare_ID__c':'a03AW00000643nLYAQ',
         Open_Case__c: r.closed === false ? true : false,
+        //HMN uncomment closed date
+       // Case_Closed_Date__c: r.properties.date_closed,
         Age_Time_of_Service__c: r.properties.age,
         Source__c: r.properties.Source === '1',
         Clinical_facility__c: r.properties.Facility_Visited
@@ -368,8 +370,6 @@ fn(state => {
             ? r.properties.psbi_diagnosis
             : undefined, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
         Received_antibiotics_per_protocol__c: r.properties.antibiotic_8days, //Form: CHW.Follow-Up.PSBI.antibiotic_8day
-        
-        //HMN saw a pattern and commented out all of these for troublehsooting
         
         Distributed_Treatment_on_Last_Visit__c:
           r.properties.distribute_treatment, //Form: CHW.Follow-Up.distribute_treatment
@@ -422,7 +422,6 @@ fn(state => {
           : r.properties.HAWI_Clinical_Service,
         ECD_Clinical_Services__c: ecdClinicalService,
         
-        //END HMN
       };
     });
 
