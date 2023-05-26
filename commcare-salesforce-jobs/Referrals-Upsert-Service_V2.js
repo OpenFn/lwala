@@ -344,16 +344,9 @@ fn(state => {
         //HMN uncomment the CHW
         //'Household_CHW__r.CommCare_ID__c': r.properties.CHW_ID,
         'Household_CHW__r.CommCare_ID__c':'a03AW00000643nLYAQ',
-        //HMN commented Parent_Service__r because of error
-
-        // relationship( //CHW is now a formula field
-        //   'Household_CHW__r',
-        //   'CommCare_ID__c',
-        //   r.properties.CHW_ID')
-        // ),
         Open_Case__c: r.closed === false ? true : false,
         //HMN commented Case_Closed_Date__c becuase it is not founf in the object
-        //Case_Closed_Date__c: r.date_closed,
+        Case_Closed_Date__c: r.properties.date_closed,
         Age_Time_of_Service__c: r.properties.age,
         Source__c: r.properties.Source === '1',
         Clinical_facility__c: r.properties.Facility_Visited
