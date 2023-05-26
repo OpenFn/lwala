@@ -7,7 +7,7 @@ fn(state => {
     .filter(c => c.indices.parent.case_type === 'Case')
     .map(c => c.indices.parent.case_id);
 
-  // console.log(JSON.stringify(caseType, null, 2));
+   console.log(JSON.stringify(caseType, null, 2));
 
   if (caseType.length > 0)
     return query(
@@ -354,7 +354,8 @@ fn(state => {
         //   r.properties.CHW_ID')
         // ),
         Open_Case__c: r.closed === false ? true : false,
-        Case_Closed_Date__c: r.date_closed,
+        //HMN commented Case_Closed_Date__c becuase it is not founf in the object
+        //Case_Closed_Date__c: r.date_closed,
         Age_Time_of_Service__c: r.properties.age,
         Source__c: r.properties.Source === '1',
         Clinical_facility__c: r.properties.Facility_Visited
