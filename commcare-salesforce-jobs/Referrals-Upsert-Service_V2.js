@@ -360,9 +360,8 @@ fn(state => {
         CHW_Followed_Up_with_the_Client__c: r['properties.Follow-Up']!== ''
             ? r['properties.Follow-Up']
             : undefined,
-       // CHW_Followed_Up_with_the_Client__c: r['properties.Follow-Up'],
        //HMN commented Follow_Up_Date__c
-        //Follow_Up_Date__c: r['properties.Follow-Up_Date'],
+        Follow_Up_Date__c: r['properties.Follow-Up_Date'],
         //HMN commemted Person_Complied_w_Referral_in_24_hrs__c
         //Person_Complied_w_Referral_in_24_hrs__c:
          // r.properties.referral_compliance,
