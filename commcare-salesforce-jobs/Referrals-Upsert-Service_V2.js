@@ -362,16 +362,15 @@ fn(state => {
             : undefined,
         Follow_Up_Date__c: r['properties.Follow-Up_Date'],
         Person_Complied_w_Referral_in_24_hrs__c: r.properties.referral_compliance,
-        Received_a_diagnosis_for_PSBI__c,Received_antibiotics_per_protocol__c,
         Skillled_Delivery__c: r.properties.skilled_delivery,
         Child_received_immunizations__c: r.properties.immunization,
         //HMN3 come back for this one 
-        /*
+        
         Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis !== ''
             ? r.properties.psbi_diagnosis
             : undefined, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
         Received_antibiotics_per_protocol__c: r.properties.antibiotic_8days, //Form: CHW.Follow-Up.PSBI.antibiotic_8day
-        */
+        
         //HMN saw a pattern and commented out all of these for troublehsooting
         
         Distributed_Treatment_on_Last_Visit__c:
