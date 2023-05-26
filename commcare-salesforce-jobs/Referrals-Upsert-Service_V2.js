@@ -411,8 +411,7 @@ fn(state => {
         Weight__c: r.properties.weight,
         MUAC__c: r.properties.muac,
         Nutrition_Status__c: r.properties.Nutrition_Status,
-        */
-        //END HMN
+        
         //===== NEW MAPPINGS - JAN 14 ===========================//
         Pregnancy_Danger_Signs__c: pregnancyDangerSigns,
         Child_Danger_Signs__c: childDangerSigns,
@@ -434,6 +433,8 @@ fn(state => {
           ? state.serviceMap[r.properties.HAWI_Clinical_Service]
           : r.properties.HAWI_Clinical_Service,
         ECD_Clinical_Services__c: ecdClinicalService,
+        */
+        //END HMN
       };
     });
 
