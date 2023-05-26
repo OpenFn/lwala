@@ -555,8 +555,8 @@ fn(state => {
     });
   });
 
-  //HMN comment this console.log
-   console.log(JSON.stringify(personVisits, null, 2));
+  // JSON logging of records
+  // console.log(JSON.stringify(personVisits, null, 2));
 
   return { ...state, personVisits };
 });
