@@ -249,10 +249,12 @@ fn(state => {
   return { ...state, households, housevisits, fetchReference };
 });
 
+/* JSON logging of records
 fn(state => {
   console.log('HHs to upsert ::', JSON.stringify(state.households));
   return state;
 });
+*/
 
 bulk(
   'Household__c',
