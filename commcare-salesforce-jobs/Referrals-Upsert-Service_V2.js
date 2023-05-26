@@ -356,7 +356,7 @@ fn(state => {
           r.properties.Facility_Date === undefined
             ? undefined
             : r.properties.Facility_Date,
-            //HMN Changed CHW_Followed_Up_with_the_Client
+            //HMN2 Changed CHW_Followed_Up_with_the_Client
         CHW_Follow_Client__c: r['properties.Follow-Up']!== ''
             ? r['properties.Follow-Up']
             : undefined,
