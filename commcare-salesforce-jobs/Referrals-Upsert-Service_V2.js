@@ -368,7 +368,7 @@ fn(state => {
             ? undefined
             : r.properties.Facility_Date,
             //HMN Changed CHW_Followed_Up_with_the_Client
-        CHW_Followed_Up_with_the_Client__c: r.properties.Follow-Up,
+       // CHW_Followed_Up_with_the_Client__c: r.properties.Follow-Up,
        // CHW_Followed_Up_with_the_Client__c: r['properties.Follow-Up'],
         Follow_Up_Date__c: r['properties.Follow-Up_Date'],
         Person_Complied_w_Referral_in_24_hrs__c:
