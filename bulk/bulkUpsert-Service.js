@@ -424,11 +424,12 @@ fn(state => {
 
   return { ...state, services };
 });
-
+/* JSON logging of records
 fn(state => {
   console.log('Services to upsert ::', JSON.stringify(state.services));
   return state;
 });
+*/
 
 bulk(
   'Service__c',
