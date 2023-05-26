@@ -8,8 +8,8 @@ fn(state => {
       caregiverMapping: [],
       sfRecordMapping: [],
     };
-
-  console.log('cases before query :: ', JSON.stringify(state.payloads, null, 2));
+    // JSON logging of records
+  //console.log('cases before query :: ', JSON.stringify(state.payloads, null, 2));
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
