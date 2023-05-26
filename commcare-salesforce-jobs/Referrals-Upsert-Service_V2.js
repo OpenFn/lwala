@@ -381,6 +381,8 @@ fn(state => {
         //Child_received_immunizations__c: r.properties.immunization,
         //Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
         //Received_antibiotics_per_protocol__c: r.properties.antibiotic_8days, //Form: CHW.Follow-Up.PSBI.antibiotic_8day
+        //HMN saw a pattern and commented out all of these for troublehsooting
+        /*
         Distributed_Treatment_on_Last_Visit__c:
           r.properties.distribute_treatment, //Form: CHW.Follow-Up.distribute_treatment
         Person_had_an_adverse_drug_reaction__c:
@@ -409,6 +411,8 @@ fn(state => {
         Weight__c: r.properties.weight,
         MUAC__c: r.properties.muac,
         Nutrition_Status__c: r.properties.Nutrition_Status,
+        */
+        //END HMN
         //===== NEW MAPPINGS - JAN 14 ===========================//
         Pregnancy_Danger_Signs__c: pregnancyDangerSigns,
         Child_Danger_Signs__c: childDangerSigns,
