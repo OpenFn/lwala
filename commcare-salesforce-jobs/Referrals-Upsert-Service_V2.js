@@ -340,7 +340,8 @@ fn(state => {
             : undefined,
         // 'Person__r.CommCare_ID__c':
         //   r.indices.parent.case_type === 'Case' ? state.ccId : undefined,
-        'Parent_Service__r.Service_UID__c':
+        //HMN commented Parent_Service__r because of error
+        //'Parent_Service__r.Service_UID__c':
           r.indices.parent.case_type === 'Case'
             ? r.indices.parent.case_id
             : undefined,
