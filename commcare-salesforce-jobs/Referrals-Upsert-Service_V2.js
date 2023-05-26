@@ -341,10 +341,10 @@ fn(state => {
         // 'Person__r.CommCare_ID__c':
         //   r.indices.parent.case_type === 'Case' ? state.ccId : undefined,
         //HMN commented Parent_Service__r because of error
-        //'Parent_Service__r.Service_UID__c':
+        /*'Parent_Service__r.Service_UID__c':
           r.indices.parent.case_type === 'Case'
             ? r.indices.parent.case_id
-            : undefined,
+            : undefined,*/
         Service_UID__c: r.case_id,
         CommCare_Code__c: r.case_id,
         RecordTypeID: '01224000000YAuK',
