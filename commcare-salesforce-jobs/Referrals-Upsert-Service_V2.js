@@ -376,9 +376,10 @@ fn(state => {
         //Person_Complied_w_Referral_in_24_hrs__c:
          // r.properties.referral_compliance,
          //HMN commented Skillled_Delivery__c,Child_received_immunizations__c
+         //Received_a_diagnosis_for_PSBI__c
        // Skillled_Delivery__c: r.properties.skilled_delivery,
         //Child_received_immunizations__c: r.properties.immunization,
-        Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
+        //Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
         Received_antibiotics_per_protocol__c: r.properties.antibiotic_8days, //Form: CHW.Follow-Up.PSBI.antibiotic_8day
         Distributed_Treatment_on_Last_Visit__c:
           r.properties.distribute_treatment, //Form: CHW.Follow-Up.distribute_treatment
