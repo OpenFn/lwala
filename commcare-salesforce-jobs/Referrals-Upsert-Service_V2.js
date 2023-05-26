@@ -356,14 +356,14 @@ fn(state => {
           r.properties.Facility_Date === undefined
             ? undefined
             : r.properties.Facility_Date,
-           
-        CHW_Followed_Up_with_the_Client__c: r['properties.Follow-Up']!== ''
+         //HMN come back to this one   
+        /*CHW_Followed_Up_with_the_Client__c: r['properties.Follow-Up']!== ''
             ? r['properties.Follow-Up']
             : undefined,
-        Follow_Up_Date__c: r['properties.Follow-Up_Date'],
-         //HMN come back to this one
-        //Person_Complied_w_Referral_in_24_hrs__c:r.properties.referral_compliance,
-        //Skillled_Delivery__c: r.properties.skilled_delivery,
+        Follow_Up_Date__c: r['properties.Follow-Up_Date'],*/
+        
+        Person_Complied_w_Referral_in_24_hrs__c:r.properties.referral_compliance,
+        Skillled_Delivery__c: r.properties.skilled_delivery,
         Child_received_immunizations__c: r.properties.immunization,
         Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis !== ''
             ? r.properties.psbi_diagnosis
