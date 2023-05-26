@@ -365,12 +365,15 @@ fn(state => {
         Received_a_diagnosis_for_PSBI__c,Received_antibiotics_per_protocol__c,
         Skillled_Delivery__c: r.properties.skilled_delivery,
         Child_received_immunizations__c: r.properties.immunization,
+        //HMN3 come back for this one 
+        /*
         Received_a_diagnosis_for_PSBI__c: r.properties.psbi_diagnosis !== ''
             ? r.properties.psbi_diagnosis
             : undefined, //Form: CHW.Follow-Up.PSBI.psbi_diagnosis
         Received_antibiotics_per_protocol__c: r.properties.antibiotic_8days, //Form: CHW.Follow-Up.PSBI.antibiotic_8day
+        */
         //HMN saw a pattern and commented out all of these for troublehsooting
-        /*
+        
         Distributed_Treatment_on_Last_Visit__c:
           r.properties.distribute_treatment, //Form: CHW.Follow-Up.distribute_treatment
         Person_had_an_adverse_drug_reaction__c:
@@ -421,7 +424,7 @@ fn(state => {
           ? state.serviceMap[r.properties.HAWI_Clinical_Service]
           : r.properties.HAWI_Clinical_Service,
         ECD_Clinical_Services__c: ecdClinicalService,
-        */
+        
         //END HMN
       };
     });
