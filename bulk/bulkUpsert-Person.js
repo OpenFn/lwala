@@ -689,7 +689,8 @@ bulk(
   },
   state => {
     console.log('Bulk upserting persons ::');
-    console.log(JSON.stringify(state.sfRecordMapping, null, 2));
+    //HMN commented this  
+    //console.log(JSON.stringify(state.sfRecordMapping, null, 2));
     return state.sfRecordMapping;
   }
 );
