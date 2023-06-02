@@ -28,6 +28,7 @@ fn(state => {
 
 // create a "recursiveGet" which will call itself if CommCare tells us there's
 // more data to fetch for the same form
+/*HMN 
 fn(state => {
   const recursiveGet = url =>
     get(
@@ -71,4 +72,4 @@ fn(state => {
   console.log('Count of payloads', state.payloads.length);
 
   return { ...state, references: [], data: {} };
-});
+}); HMN */
