@@ -780,6 +780,7 @@ bulk(
     extIdField: 'CommCare_Code__c',
     failOnError: true,
     allowNoOp: true,
+    concurrencyMode: 'serial',
   },
   state => {
     console.log('Bulk upserting head of household field on HH ::');
