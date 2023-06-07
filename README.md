@@ -5,8 +5,8 @@ Lwala uses OpenFn to integrate its Salesforce database and CommCare CHW mobile a
 *N.B. Any commits to the `master` branch will be automatically deployed to
 Lwala's OpenFn project*
 
-## Data Flows
-OpenFn jobs are used to automate the following data flows between CommCare and Salesforce. This integration is event-driven (triggered whenever a record is created/ updated). [This diagram](https://lucid.app/lucidchart/e3411bda-1f0e-492f-b35d-6baf2dd3972a/edit?view_items=laxJTiq3D_aN&invitationId=inv_269ce3a1-612b-49b8-ab06-4805e3e483de#) provides an overview of how data flows from CommCare forms to Salesforce objects through OpenFn jobs.
+## Worflows
+OpenFn jobs are used to automate the following workflows between CommCare and Salesforce. This integration is event-driven (triggered whenever a record is created/ updated). [This diagram](https://lucid.app/lucidchart/e3411bda-1f0e-492f-b35d-6baf2dd3972a/edit?view_items=laxJTiq3D_aN&invitationId=inv_269ce3a1-612b-49b8-ab06-4805e3e483de#) provides an overview of how data flows from CommCare forms to Salesforce objects through OpenFn jobs.
 
 ### Reference Tables
 There are some reference data tables that need to be consistent across the CommCare and Salesforce applications to ensure successful integration: 
@@ -17,6 +17,28 @@ There are some reference data tables that need to be consistent across the CommC
 ### (1) CommCare --> Salesforce
 CHWs register households, patients, and visits, and use CommCare as a tool for ongoing data collection and case management. As soon as the following CommCare forms are submitted, these [`CommCare-Salesforce-Jobs`](https://github.com/OpenFn/lwala/tree/master/commcare-salesforce-jobs) execute to forward data to Salesforce. 
 
+#### Bulk Workflows
+_In Q2 2023, new workflows were implemented to fetch cases from CommCare and sync to Salesforce in bulk. The aim was to reduce traffic and the number of OpenFn transactions, and to bulkify this process so that the updates run on a timer-basis, rather than in real-time after every small edit to a case record in CommCare._
+
+Note that each workflow contains 2 jobs (the 1st to get cases from CommCare; the 2nd to map & bulk upsert records in Salesforce using the Bulk API). These jobs are configured as `flow` jobs on OpenFn.org, and their source code is saved in the [/bulk](https://github.com/OpenFn/lwala/tree/master/bulk) directory in this repository.
+
+**Bulk Workflow 1: Households & HH Visits Sync**
+1. bulkGetCases-HH.js
+2. bulkUpsert-HHandHHVisit.js
+
+**Bulk Workflow 2: Person Sync**
+1. bulkGetCases-Person.js
+2. bulkUpsert-Person.js
+
+**Bulk Workflow 3: Person Visit Sync**
+1. bulkGetCases-PersonVisit.js
+2. bulkUpsert-PersonVisit.js
+
+**Bulk Workflow 4: Services Sync**
+1. bulkGetCases-Service.js
+2. bulkUpsert-Service.js
+
+[See the 'bulkifying' diagrams via this link](https://lucid.app/lucidchart/e3411bda-1f0e-492f-b35d-6baf2dd3972a/edit?viewport_loc=42%2C-390%2C5151%2C2725%2CTUoMvxAey_47&invitationId=inv_218cd740-0c18-446b-b225-b327e581f1b8) for the LucidChart workflow diagram documentation. 
 
 #### New MOH Data Collection Forms
 _These forms were introduced to support MOH partnership requirements, but are only live in some areas... to be rolled out widely in July 2021_
