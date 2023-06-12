@@ -159,12 +159,14 @@ fn(state => {
     });
 
   const housevisits = state.payloads
+  //HMN remove test user filters 
+  /*
     .filter(
       h =>
         h.properties.commcare_username !== 'openfn.test' &&
         h.properties.commcare_username !== 'test.2021' &&
         h.properties.test_user !== 'Yes'
-    )
+    )*/
     .map(h => {
       // Special calculations ==================================================
       const visitIdC =
