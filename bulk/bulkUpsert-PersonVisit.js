@@ -547,7 +547,7 @@ fn(state => {
         //HMN commented this one due to error "Error: InvalidBatch : Field name not found : Visit_Closed_Date__c"
         //Visit_Closed_Date__c: p.properties.date_closed,
         //29/06/2023 Added Malaria Vaccine mapping 
-       /* malaria_vaccine_received__c:
+        malaria_vaccine_received__c:
           p.properties.malaria_vaccine_received,
         rts_s_1_date__c:
           p.properties.rts_s_1_date,
@@ -557,7 +557,7 @@ fn(state => {
           p.properties.rts_s_3_date, 
         rts_s_4_date__c:
           p.properties.rts_s_4_date, 
-          */
+          
           //HMN 29/06/2023
       };
     });
