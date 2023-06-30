@@ -275,11 +275,13 @@ fn(state => {
   } = state;
 
   const personVisits = state.payloads
+    //HMN 30/06/2023 Allow test user to post
+    /*
     .filter(
       p =>
         p.properties.username !== 'test.2021' &&
         p.properties.test_user !== 'Yes'
-    )
+    )*/
     .map(p => {
       // commCareVisitID
       const commCareCase_id = p.case_id;
@@ -569,7 +571,7 @@ fn(state => {
   });
 
   // JSON logging of records
-  // console.log(JSON.stringify(personVisits, null, 2));
+   console.log(JSON.stringify(personVisits, null, 2));
 
   return { ...state, personVisits };
 });
