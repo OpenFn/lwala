@@ -15,11 +15,11 @@ fn(state => {
   console.log('Filtering cases with indexed_on_start > than ::', lastRunAt);
 //May 31st, 2023 at 3:00:13 PM.
   const queries = caseTypes.map(
-    t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
+   // t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
     //NOTE: If for testing, you want to fetch data for a specific historical range (e.g., between April 23 and 24)...
     //...then use the query string below instead of the one above on L16, and custom adjust the index_on start/end dates
     //t => `?type=${t}&indexed_on_start=2023-03-03T00:00:00&limit=${limit}&indexed_on_end=2023-03-06T00:00:00` //returns 14 records
-    //t => `?type=${t}&indexed_on_start=2023-06-02T20:00:00&limit=${limit}&indexed_on_end=2023-06-02T21:05:00` 
+    t => `?type=${t}&indexed_on_start=2023-06-29T11:00:00&limit=${limit}&indexed_on_end=2023-07-01T09:00:00` 
   );
 
   return { ...state, queries, baseUrl, payloads: [] };
