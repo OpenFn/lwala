@@ -205,7 +205,8 @@ fn(state => {
   const householdMapping = [
     ...new Map(
       state.payloads
-       /*HMN 05072023 .filter(
+       /*HMN 05072023 
+       .filter(
           p =>
             p.properties.commcare_username !== 'test.2021' &&
             p.properties.test_user !== 'Yes'
