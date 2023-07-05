@@ -205,11 +205,11 @@ fn(state => {
   const householdMapping = [
     ...new Map(
       state.payloads
-        .filter(
+       /*HMN 05072023 .filter(
           p =>
             p.properties.commcare_username !== 'test.2021' &&
             p.properties.test_user !== 'Yes'
-        )
+        )*/
         .map(p => {
           return {
             CommCare_Code__c:
@@ -223,8 +223,9 @@ fn(state => {
   const headOfHouseholdMapping = state.payloads
     .filter(
       p =>
-        p.properties.commcare_username !== 'test.2021' &&
+        /*HMN 050723 p.properties.commcare_username !== 'test.2021' &&
         p.properties.test_user !== 'Yes' &&
+        */
         p.properties.head_of_household_case_id !== undefined &&
         p.properties.head_of_household_case_id !== ''
     )
@@ -239,8 +240,9 @@ fn(state => {
   const motherMapping = state.payloads
     .filter(
       p =>
-        p.properties.commcare_username !== 'test.2021' &&
+       /*HMN 050723 p.properties.commcare_username !== 'test.2021' &&
         p.properties.test_user !== 'Yes' &&
+        */
         p.properties.mother_case_id !== undefined &&
         p.properties.mother_case_id !== ''
     )
@@ -254,8 +256,9 @@ fn(state => {
   const caregiverMapping = state.payloads
     .filter(
       p =>
-        p.properties.commcare_username !== 'test.2021' &&
+       /*HMN 070523 p.properties.commcare_username !== 'test.2021' &&
         p.properties.test_user !== 'Yes' &&
+        */
         p.properties.caretaker_case_id !== undefined &&
         p.properties.caretaker_case_id !== ''
     )
@@ -268,11 +271,11 @@ fn(state => {
     });
 
   const sfRecordMapping = state.payloads
-    .filter(
+   /*HMN 050723 .filter(
       p =>
         p.properties.commcare_username !== 'test.2021' &&
         p.properties.test_user !== 'Yes'
-    )
+    ) */
     .map(p => {
       // For unbornOrName
       const name1 = p.properties.Person_Name || p.properties.case_name;
@@ -386,8 +389,8 @@ fn(state => {
         // TODO @aleksa, Source__c is causing an error
         Source__c: true,
         CommCare_ID__c: p.case_id,
-        'Primary_Caregiver_Lookup__r.CommCare_ID__c':p.properties.caretaker_case_id,
-        'Mother__r.CommCare_ID__c': p.properties.mother_case_id,
+        //HMN 05072023 'Primary_Caregiver_Lookup__r.CommCare_ID__c':p.properties.caretaker_case_id,
+        //HMN 05072023 'Mother__r.CommCare_ID__c': p.properties.mother_case_id,
         'Household__r.CommCare_Code__c':
           p.properties.parent_id || p.indices.parent.case_id,
         commcare_location_id__c: p.properties.commcare_location_id,
