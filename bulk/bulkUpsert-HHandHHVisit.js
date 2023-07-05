@@ -66,12 +66,14 @@ fn(state => {
   };
 
   const households = state.payloads
+    /* HMN 050723 
     .filter(
       h =>
         h.properties.commcare_username !== 'openfn.test' &&
         h.properties.commcare_username !== 'test.2021' &&
         h.properties.test_user !== 'Yes'
     )
+    */
     .map(h => {
       // Special calculations ==================================================
       const insuranceStatus = h.properties.health_insurance;
