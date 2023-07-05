@@ -8,10 +8,13 @@ fn(state => {
 
   //NOTE: indexedOnStart is the default sync start data the FIRST time the job runs
   const indexedOnStart = '2023-07-03T07:00:00';
+  
 
   //NOTE: After first job run, OpenFn will check the job sync data ("lastRunAt") to set as the indexedOnStart
   const lastRunAt =
     typeof state.lastRunAt !== 'undefined' ? state.lastRunAt : indexedOnStart;
+  
+  console.log('indexedOnStart cursor to query on::', lastRunAt);
 
   const queries = caseTypes.map(
     t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
