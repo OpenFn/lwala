@@ -99,11 +99,12 @@ fn(state => {
         ? reason.toString().replace(/_/g, ' ')
         : null;
 
-      const chw = h.properties.CHW_ID;
+     /*HMN remove this dependancy 07/07/2023
+     const chw = h.properties.CHW_ID;
       const Household_CHW__c =
         chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
       // =======================================================================
-
+*/
       return {
         CommCare_Username__c: h.properties.commcare_username,
         MOH_household_code__c: h.properties.moh_code,
