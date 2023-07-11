@@ -68,6 +68,8 @@ each(
 // log the total number of payloads returned
 fn(state => {
   console.log('Count of payloads', state.payloads.length);
+  //HMN 11072023
+  console.log(JSON.stringify(state.payloads, null, 2));
 
   return { ...state, references: [], data: {} };
 });
