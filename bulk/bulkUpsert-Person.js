@@ -385,8 +385,9 @@ fn(state => {
       const reasonForNotTakingFP = rValue ? rValue.join(';') : undefined;
       
       const recordType = p.properties.Record_Type;
-      const test_caseid = p.case_id;
-         console.log('The case id ::',test_caseid);
+     // HMN 11/07 testing for undefined case_id
+     //const test_caseid = p.case_id;
+       //  console.log('The case id ::',test_caseid);
       
       return {
         // TODO @aleksa, Source__c is causing an error
