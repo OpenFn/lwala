@@ -566,7 +566,7 @@ fn(state => {
             : undefined,
         Date_of_Birth__c:
           p.properties.DOB && p.properties.DOB !== ''
-            ? p.properties.DOB.toString().replace(/\\/g, '-')
+            ? p.properties.DOB.replace(/\\/g, '-')
             : undefined,
         //Immunization  =====================//
         // Child_missed_immunization_type__c:
