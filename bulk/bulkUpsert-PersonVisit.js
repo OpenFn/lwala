@@ -571,7 +571,7 @@ fn(state => {
   });
 
   // JSON logging of records
-   console.log(JSON.stringify(personVisits, null, 2));
+ //  console.log(JSON.stringify(personVisits, null, 2));
 
   return { ...state, personVisits };
 });
