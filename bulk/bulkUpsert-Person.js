@@ -385,11 +385,14 @@ fn(state => {
       const reasonForNotTakingFP = rValue ? rValue.join(';') : undefined;
       
       const recordType = p.properties.Record_Type;
+      const test_caseid = p.case_id;
+         console.log('The case id ::',test_caseid);
       
       return {
         // TODO @aleksa, Source__c is causing an error
         Source__c: true,
         CommCare_ID__c: p.case_id,
+  
         //HMN 05072023 'Primary_Caregiver_Lookup__r.CommCare_ID__c':p.properties.caretaker_case_id,
         //HMN 05072023 'Mother__r.CommCare_ID__c': p.properties.mother_case_id,
         'Household__r.CommCare_Code__c':
