@@ -32,7 +32,7 @@ fn(state => {
 
   const [reference] = state.references;
 
-   console.log(JSON.stringify(reference.records, null, 2));
+  // console.log(JSON.stringify(reference.records, null, 2));
 
   const records = reference.records;
   const fetchReference = (owner_id, arg) => {
@@ -738,7 +738,7 @@ bulk(
   },
   state => {
     console.log('Bulk upserting primary caregiver Persons ::');
-    console.log(JSON.stringify(state.caregiverMapping, null, 2));
+    //console.log(JSON.stringify(state.caregiverMapping, null, 2));
     return state.caregiverMapping;
   }
 );
@@ -768,7 +768,7 @@ bulk(
   },
   state => {
     console.log('Bulk upserting mother Person::');
-    console.log(JSON.stringify(state.motherMapping, null, 2));
+   // console.log(JSON.stringify(state.motherMapping, null, 2));
     return state.motherMapping;
   }
 );
@@ -802,7 +802,7 @@ bulk(
   },
   state => {
     console.log('Bulk upserting head of household field on HH ::');
-    console.log(JSON.stringify(state.headOfHouseholdMapping, null, 2));
+   // console.log(JSON.stringify(state.headOfHouseholdMapping, null, 2));
     return state.headOfHouseholdMapping;
   }
 );
