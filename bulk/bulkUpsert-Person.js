@@ -272,11 +272,15 @@ fn(state => {
     });
 
   const sfRecordMapping = state.payloads
-   /*HMN 050723 .filter(
+  .filter(
       p =>
+       /*HMN 050723 
         p.properties.commcare_username !== 'test.2021' &&
         p.properties.test_user !== 'Yes'
-    ) */
+        */
+        p.case_id !== undefined &&
+        p.case_id !== ''
+    ) 
     .map(p => {
       // For unbornOrName
       const name1 = p.properties.Person_Name || p.properties.case_name;
