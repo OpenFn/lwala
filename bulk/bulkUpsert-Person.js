@@ -245,7 +245,8 @@ fn(state => {
         p.properties.test_user !== 'Yes' &&
         */
         p.properties.mother_case_id !== undefined &&
-        p.properties.mother_case_id !== ''
+        p.properties.mother_case_id !== '' &&
+        p.case_id!== undefined
     )
     .map(p => {
       return {
@@ -261,7 +262,8 @@ fn(state => {
         p.properties.test_user !== 'Yes' &&
         */
         p.properties.caretaker_case_id !== undefined &&
-        p.properties.caretaker_case_id !== ''
+        p.properties.caretaker_case_id !== '' &&
+        p.case_id!== undefined
     )
     .map(p => {
       return {
