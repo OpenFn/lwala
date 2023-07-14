@@ -32,7 +32,7 @@ fn(state => {
 
   const [reference] = state.references;
 
-  // console.log(JSON.stringify(reference.records, null, 2));
+   console.log(JSON.stringify(reference.records, null, 2));
 
   const records = reference.records;
   const fetchReference = (owner_id, arg) => {
