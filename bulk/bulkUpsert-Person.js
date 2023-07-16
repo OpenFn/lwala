@@ -205,13 +205,15 @@ fn(state => {
   const householdMapping = [
     ...new Map(
       state.payloads
-       
        .filter(
           p =>
         /*HMN 05072023 
             p.properties.commcare_username !== 'test.2021' &&
             p.properties.test_user !== 'Yes'
             */
+            
+            p.case_id !== undefined &&
+            p.case_id !== '' &&
             p.indices.parent.case_id  !== undefined &&
             p.indices.parent.case_id  !== ''
         )
