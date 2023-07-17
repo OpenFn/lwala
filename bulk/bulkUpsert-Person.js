@@ -207,13 +207,6 @@ fn(state => {
       state.payloads
        .filter(
           p =>
-        /*HMN 05072023 
-            p.properties.commcare_username !== 'test.2021' &&
-            p.properties.test_user !== 'Yes'
-            */
-            
-            p.case_id !== undefined &&
-            p.case_id !== '' &&
             p.indices.parent.case_id  !== undefined &&
             p.indices.parent.case_id  !== ''
         )
@@ -230,9 +223,6 @@ fn(state => {
   const headOfHouseholdMapping = state.payloads
     .filter(
       p =>
-        /*HMN 050723 p.properties.commcare_username !== 'test.2021' &&
-        p.properties.test_user !== 'Yes' &&
-        */
         p.properties.head_of_household_case_id !== undefined &&
         p.properties.head_of_household_case_id !== ''
     )
