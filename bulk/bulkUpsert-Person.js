@@ -727,7 +727,6 @@ bulk(
     extIdField: 'CommCare_ID__c',
     failOnError: true,
     allowNoOp: true,
-    concurrencyMode: 'serial',
   },
   state => {
     console.log('Bulk upserting primary caregiver Persons ::');
@@ -758,7 +757,6 @@ bulk(
     extIdField: 'CommCare_ID__c',
     failOnError: true,
     allowNoOp: true,
-    concurrencyMode: 'serial',
   },
   state => {
     console.log('Bulk upserting mother Person::');
@@ -792,7 +790,6 @@ bulk(
     extIdField: 'CommCare_Code__c',
     failOnError: true,
     allowNoOp: true,
-    concurrencyMode: 'serial',
   },
   state => {
     console.log('Bulk upserting head of household field on HH ::');
