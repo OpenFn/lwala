@@ -306,7 +306,7 @@ fn(state => {
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';')
-          : null;
+          : "none";
 
       const otherDisability =
         p.properties.other_disability !== undefined
