@@ -301,12 +301,12 @@ fn(state => {
 
       const disabilityC =
         p.properties.disability !== undefined
-          ? p.properties.disability
+          ?p.properties.disability
               .toLowerCase()
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';')
-          : "none";
+          : 'none';
 
       const otherDisability =
         p.properties.other_disability !== undefined
@@ -417,7 +417,8 @@ fn(state => {
           ? p.properties.Education_Level.toString().replace(/_/g, ' ')
           : null,
         Relation_to_the_head_of_the_household__c: relationToTheHead,
-        Gender__c: p.properties.Gender,
+        //HMN 18072023
+        Gender__c: p.properties.Gender !== undefined ? p.properties.Gender : null,
         Disability__c: disabilityC,
         Other_disability__c: otherDisability,
         Use_mosquito_net__c: p.properties.sleep_under_net,
