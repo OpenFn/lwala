@@ -419,7 +419,7 @@ fn(state => {
         Relation_to_the_head_of_the_household__c: relationToTheHead,
         //HMN 18072023
         Gender__c: p.properties.Gender !== undefined ? p.properties.Gender : null,
-        Disability__c: disabilityC,
+        Disability__c: disabilityC !== undefined ? disabilityC : null,
         Other_disability__c: otherDisability,
         Use_mosquito_net__c: p.properties.sleep_under_net,
         Birth_Certificate__c: p.properties.birth_certificate,
