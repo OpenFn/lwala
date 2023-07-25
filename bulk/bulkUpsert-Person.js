@@ -308,7 +308,7 @@ fn(state => {
           : 'none';
 
       const otherDisability =
-        p.properties.other_disability !== undefined
+        p.properties.other_disability !== undefined && p.properties.other_disability !=='---' && p.properties.other_disability !== null
           ? p.properties.other_disability
               .toLowerCase()
               .split(' ')
