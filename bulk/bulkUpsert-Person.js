@@ -305,8 +305,8 @@ fn(state => {
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';')
-          : 'none';
-
+          : null;
+console.log(disabilityC)
       const otherDisability =
         p.properties.other_disability !== undefined && p.properties.other_disability !=='---' && p.properties.other_disability !== null
           ? p.properties.other_disability
@@ -700,7 +700,7 @@ bulk(
   state => {
     console.log('Bulk upserting persons ::');
     //HMN commented this  
-    //console.log(JSON.stringify(state.sfRecordMapping, null, 2));
+    console.log(JSON.stringify(state.sfRecordMapping, null, 2));
     return state.sfRecordMapping;
   }
 );
