@@ -643,7 +643,7 @@ console.log(otherDisability)
   // TODO clean up after QA
   // console.log(JSON.stringify(caregiverMapping, null, 2), 'careGiver');
   // console.log(JSON.stringify(motherMapping, null, 2), 'Mother');
-   console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
+  // console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
   // console.log(JSON.stringify(householdMapping, null, 2), 'householdMapping');
   // console.log(
   //   JSON.stringify(headOfHouseholdMapping, null, 2),
@@ -660,6 +660,8 @@ console.log(otherDisability)
   };
 });
 
+//HMN remove
+console.log(JSON.stringify(state.sfRecordMapping, null, 2));
 // TODO, Clean up when pass QA
  /*fn(state => {
    state.sfRecordMapping.forEach(rec => {
