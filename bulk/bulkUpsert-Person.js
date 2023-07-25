@@ -324,7 +324,7 @@ console.log(otherDisability)
 //HMN
       const hh_relation = p.properties.relation_to_hh;
 
-      const relationToTheHead = hh_relation
+      const relationToTheHead = hh_relation !== undefined && hh_relation !== null
         ? hh_relation.toString().replace(/_/g, ' ').charAt(0).toUpperCase() +
           hh_relation.toString().replace(/_/g, ' ').slice(1)
         : null;
@@ -336,7 +336,7 @@ console.log(otherDisability)
           ? (p.properties.Child_Status = 'Born')
           : p.properties.Child_Status;
 
-      const childDangerSigns = p.properties.Other_Danger_Signs
+      const childDangerSigns = p.properties.Other_Danger_Signs !== undefined && p.properties.Other_Danger_Signs !== null 
         ? p.properties.Other_Danger_Signs.toLowerCase()
             .split(' ')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -416,7 +416,7 @@ console.log(otherDisability)
         Name: unbornOrName,
         Chronic_illness__c: chronicIllness,
         Currently_enrolled_in_school__c: p.properties.enrolled_in_school,
-        Education_Level__c: p.properties.Education_Level
+        Education_Level__c: p.properties.Education_Level !== null && p.properties.Education_Level !== undefined
           ? p.properties.Education_Level.toString().replace(/_/g, ' ')
           : null,
         Relation_to_the_head_of_the_household__c: relationToTheHead,
