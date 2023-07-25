@@ -306,7 +306,10 @@ fn(state => {
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';')
           : null;
+//HMN remove
+console.log(p.case_id)
 console.log(disabilityC)
+//
       const otherDisability =
         p.properties.other_disability !== undefined && p.properties.other_disability !=='---' && p.properties.other_disability !== null
           ? p.properties.other_disability
@@ -315,7 +318,9 @@ console.log(disabilityC)
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';')
           : null;
-
+//HMN remove
+console.log(otherDisability)
+//HMN
       const hh_relation = p.properties.relation_to_hh;
 
       const relationToTheHead = hh_relation
@@ -638,7 +643,7 @@ console.log(disabilityC)
   // TODO clean up after QA
   // console.log(JSON.stringify(caregiverMapping, null, 2), 'careGiver');
   // console.log(JSON.stringify(motherMapping, null, 2), 'Mother');
-  // console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
+   console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
   // console.log(JSON.stringify(householdMapping, null, 2), 'householdMapping');
   // console.log(
   //   JSON.stringify(headOfHouseholdMapping, null, 2),
@@ -656,7 +661,7 @@ console.log(disabilityC)
 });
 
 // TODO, Clean up when pass QA
- fn(state => {
+ /*fn(state => {
    state.sfRecordMapping.forEach(rec => {
     Object.entries(rec).forEach(([key, value]) => {
        if (typeof key !== 'string') throw `${key} is not a string`;
@@ -664,7 +669,7 @@ console.log(disabilityC)
    });
    return state;
  });
-
+*/
 // bulk(
 //   'Household__c',
 //   'upsert',
