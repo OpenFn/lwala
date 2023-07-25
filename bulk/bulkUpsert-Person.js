@@ -301,7 +301,7 @@ fn(state => {
 
       const disabilityC =
         p.properties.disability !== undefined
-          ?p.properties.disability
+          ? p.properties.disability
               .toLowerCase()
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
