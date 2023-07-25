@@ -391,9 +391,7 @@ console.log(otherDisability)
       const reasonForNotTakingFP = rValue ? rValue.join(';') : undefined;
       
       const recordType = p.properties.Record_Type;
-     // HMN 11/07 testing for undefined case_id
-     //const test_caseid = p.case_id;
-       //  console.log('The case id ::',test_caseid);
+     
       
       return {
         // TODO @aleksa, Source__c is causing an error
@@ -421,7 +419,6 @@ console.log(otherDisability)
           ? p.properties.Education_Level.toString().replace(/_/g, ' ')
           : null,
         Relation_to_the_head_of_the_household__c: relationToTheHead,
-        //HMN 18072023
         Gender__c: p.properties.Gender !== undefined ? p.properties.Gender : null,
         Disability__c: disabilityC,
         Other_disability__c: otherDisability,
@@ -643,7 +640,7 @@ console.log(otherDisability)
   // TODO clean up after QA
   // console.log(JSON.stringify(caregiverMapping, null, 2), 'careGiver');
   // console.log(JSON.stringify(motherMapping, null, 2), 'Mother');
-  // console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
+   console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
   // console.log(JSON.stringify(householdMapping, null, 2), 'householdMapping');
   // console.log(
   //   JSON.stringify(headOfHouseholdMapping, null, 2),
@@ -660,8 +657,7 @@ console.log(otherDisability)
   };
 });
 
-//HMN remove
-console.log(JSON.stringify(state.sfRecordMapping, null, 2));
+
 // TODO, Clean up when pass QA
  /*fn(state => {
    state.sfRecordMapping.forEach(rec => {
@@ -707,7 +703,7 @@ bulk(
   state => {
     console.log('Bulk upserting persons ::');
     //HMN commented this  
-    //console.log(JSON.stringify(state.sfRecordMapping, null, 2));
+    console.log(JSON.stringify(state.sfRecordMapping, null, 2));
     return state.sfRecordMapping;
   }
 );
