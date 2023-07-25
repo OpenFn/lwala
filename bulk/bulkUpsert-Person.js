@@ -298,7 +298,7 @@ fn(state => {
         p.properties.please_specify_which_chronic_illness_the_person_has;
       const choice2 = handleMultiSelect(chronicChoice);
       const chronicIllness = choice2 ? choice2.replace(/_/g, ' ') : '';
-
+/*HMN Revert 
       const disabilityC =
         p.properties.disability !== undefined && p.properties.disability !== null
           ? p.properties.disability
@@ -307,7 +307,7 @@ fn(state => {
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';')
           : 'none';
-
+*/
       const otherDisability =
         p.properties.other_disability !== undefined
           ? p.properties.other_disability
@@ -419,7 +419,7 @@ fn(state => {
         Relation_to_the_head_of_the_household__c: relationToTheHead,
         //HMN 18072023
         Gender__c: p.properties.Gender !== undefined ? p.properties.Gender : null,
-        Disability__c: disabilityC,
+       //HMN Revert Disability__c: disabilityC,
         Other_disability__c: otherDisability,
         Use_mosquito_net__c: p.properties.sleep_under_net,
         Birth_Certificate__c: p.properties.birth_certificate,
