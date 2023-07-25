@@ -294,13 +294,12 @@ fn(state => {
       // console.log('Person Name ::', unbornOrName);
 
       // For chronicIllness
-      const chronicChoice =
-        p.properties.please_specify_which_chronic_illness_the_person_has;
+      const chronicChoice =p.properties.please_specify_which_chronic_illness_the_person_has;
       const choice2 = handleMultiSelect(chronicChoice);
       const chronicIllness = choice2 ? choice2.replace(/_/g, ' ') : '';
 
       const disabilityC =
-        p.properties.disability !== undefined || p.properties.disability !=='---'||p.properties.disability !== null
+        p.properties.disability !== undefined && p.properties.disability !=='---' && p.properties.disability !== null
           ? p.properties.disability
               .toLowerCase()
               .split(' ')
