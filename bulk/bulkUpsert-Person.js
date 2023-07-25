@@ -656,14 +656,14 @@ console.log(disabilityC)
 });
 
 // TODO, Clean up when pass QA
-// fn(state => {
-//   state.sfRecordMapping.forEach(rec => {
-//     Object.entries(rec).forEach(([key, value]) => {
-//       if (typeof key !== 'string') throw `${key} is not a string`;
-//     });
-//   });
-//   return state;
-// });
+ fn(state => {
+   state.sfRecordMapping.forEach(rec => {
+    Object.entries(rec).forEach(([key, value]) => {
+       if (typeof key !== 'string') throw `${key} is not a string`;
+    });
+   });
+   return state;
+ });
 
 // bulk(
 //   'Household__c',
@@ -700,7 +700,7 @@ bulk(
   state => {
     console.log('Bulk upserting persons ::');
     //HMN commented this  
-    console.log(JSON.stringify(state.sfRecordMapping, null, 2));
+    //console.log(JSON.stringify(state.sfRecordMapping, null, 2));
     return state.sfRecordMapping;
   }
 );
