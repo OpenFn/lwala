@@ -10,7 +10,7 @@ fn(state => {
     };
     // JSON logging of records
     //HMN debug
-  console.log('cases before query :: ', JSON.stringify(state.payloads, null, 2));
+  //console.log('cases before query :: ', JSON.stringify(state.payloads, null, 2));
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
 
@@ -309,7 +309,7 @@ fn(state => {
           : null;
 //HMN remove
 console.log(p.case_id)
-console.log(disabilityC)
+//console.log(disabilityC)
 //
       const otherDisability =
         p.properties.other_disability !== undefined && p.properties.other_disability !=='---' && p.properties.other_disability !== null
@@ -320,7 +320,7 @@ console.log(disabilityC)
               .join(';')
           : null;
 //HMN remove
-console.log(otherDisability)
+//console.log(otherDisability)
 //HMN
       const hh_relation = p.properties.relation_to_hh;
 
@@ -704,7 +704,7 @@ bulk(
   state => {
     console.log('Bulk upserting persons ::');
     //HMN commented this  
-    console.log(JSON.stringify(state.sfRecordMapping, null, 2));
+    //console.log(JSON.stringify(state.sfRecordMapping, null, 2));
     return state.sfRecordMapping;
   }
 );
