@@ -300,7 +300,7 @@ fn(state => {
       const chronicIllness = choice2 ? choice2.replace(/_/g, ' ') : '';
 
       const disabilityC =
-        p?.properties?.disability !== undefined && p.properties.disability !== null
+        p.properties.disability !== undefined && p.properties.disability !== null
           ? p.properties.disability
               .toLowerCase()
               .split(' ')
