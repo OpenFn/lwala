@@ -20,8 +20,8 @@ fn(state => {
   if (state.payloads.length == 0) return state;
   const [reference] = state.references;
 
-  //HMN debugger 19/10/2023
-  console.log(JSON.stringify(reference, null, 2));
+  
+ // console.log(JSON.stringify(reference, null, 2));
   const records = reference.records;
   const fetchReference = (owner_id, arg) => {
     const result =
@@ -572,6 +572,7 @@ fn(state => {
   });
 
   // JSON logging of records
+  //HMN debugger 19/10/2023
  //  console.log(JSON.stringify(personVisits, null, 2));
 
   return { ...state, personVisits };
