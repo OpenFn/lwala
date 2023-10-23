@@ -7,7 +7,7 @@ fn(state => {
   const limit = 1000; 
 
   //NOTE: indexedOnStart is the default sync start data the FIRST time the job runs
-  const indexedOnStart = '2023-08-09T21:00:00';
+  const indexedOnStart = '2023-10-22T11:00:00';
 
   //NOTE: After first job run, OpenFn will check the job sync data ("lastRunAt") to set as the indexedOnStart
   const lastRunAt =
