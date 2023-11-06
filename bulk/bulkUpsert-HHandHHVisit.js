@@ -35,7 +35,8 @@ fn(state => {
 
   const [reference] = state.references;
 
-  // console.log(JSON.stringify(reference.records, null, 2));
+  //HMN 06/11/2023
+   console.log(JSON.stringify(reference.records, null, 2));
 
   const records = reference.records;
   const fetchReference = (owner_id, arg) => {
