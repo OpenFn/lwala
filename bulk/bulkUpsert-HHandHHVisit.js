@@ -8,8 +8,6 @@ fn(state => {
   return { ...state, uniq_owner_ids };
 });
 
- //HMN 06/11/2023
- console.log(JSON.stringify(h.properties, null, 2));
 
 fn(state => {
   if (state.payloads.length == 0) return state;
@@ -102,7 +100,8 @@ fn(state => {
       const Inactive_Reason__c = reason
         ? reason.toString().replace(/_/g, ' ')
         : null;
-
+ //HMN 06/11/2023
+ console.log(JSON.stringify(h.properties, null, 2));
      /*HMN remove this dependancy 07/07/2023
      const chw = h.properties.CHW_ID;
       const Household_CHW__c =
