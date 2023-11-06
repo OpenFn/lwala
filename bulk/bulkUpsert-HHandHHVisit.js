@@ -8,6 +8,9 @@ fn(state => {
   return { ...state, uniq_owner_ids };
 });
 
+ //HMN 06/11/2023
+ console.log(JSON.stringify(h.properties, null, 2));
+
 fn(state => {
   if (state.payloads.length == 0) return state;
 
@@ -257,10 +260,10 @@ fn(state => {
 
 //JSON logging of records
 //HMN 06/11/2023
-fn(state => {
+/*fn(state => {
   console.log('HHs to upsert ::', JSON.stringify(state.households));
   return state;
-});
+});*/
 
 
 bulk(
