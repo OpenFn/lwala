@@ -101,7 +101,7 @@ fn(state => {
         ? reason.toString().replace(/_/g, ' ')
         : null;
  //HMN 06/11/2023
- console.log(JSON.stringify(h.properties, null, 2));
+// console.log(JSON.stringify(h.properties, null, 2));
      /*HMN remove this dependancy 07/07/2023
      const chw = h.properties.CHW_ID;
       const Household_CHW__c =
