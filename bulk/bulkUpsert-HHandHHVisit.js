@@ -37,7 +37,7 @@ fn(state => {
   const [reference] = state.references;
 
   //HMN 06/11/2023
- //  console.log(JSON.stringify(reference.records, null, 2));
+  console.log(JSON.stringify(reference.records, null, 2));
 
   const records = reference.records;
   const fetchReference = (owner_id, arg) => {
@@ -259,10 +259,10 @@ fn(state => {
 
 //JSON logging of records
 //HMN 06/11/2023
-fn(state => {
+/*fn(state => {
   console.log('HHs to upsert ::', JSON.stringify(state.households));
   return state;
-});
+});*/
 
 
 bulk(
