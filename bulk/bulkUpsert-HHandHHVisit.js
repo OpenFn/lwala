@@ -259,10 +259,10 @@ fn(state => {
 
 //JSON logging of records
 //HMN 06/11/2023
-/*fn(state => {
+fn(state => {
   console.log('HHs to upsert ::', JSON.stringify(state.households));
   return state;
-});*/
+});
 
 
 bulk(
