@@ -19,7 +19,7 @@ fn(state => {
     //NOTE: If for testing, you want to fetch data for a specific historical range (e.g., between April 23 and 24)...
     //...then use the query string below instead of the one above on L16, and custom adjust the index_on start/end dates
     //t => `?type=${t}&indexed_on_start=2023-03-03T00:00:00&limit=${limit}&indexed_on_end=2023-03-06T00:00:00` //returns 14 records
-    t => `?type=${t}&indexed_on_start=2023-01-12T04:00:00&limit=${limit}&indexed_on_end=2023-01-15T04:59:59` 
+    t => `?type=${t}&indexed_on_start=2023-01-11T18:00:00&limit=${limit}&indexed_on_end=2023-01-15T16:59:59` 
   );
 
   return { ...state, queries, baseUrl, payloads: [] };
