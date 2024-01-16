@@ -69,5 +69,5 @@ each(
 fn(state => {
   console.log('Count of payloads', state.payloads.length);
 
-  return { ...state, references: [], data: {} };
+  return { ...state, references: [], data: {}, response:{}  };
 });
