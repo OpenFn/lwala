@@ -22,7 +22,7 @@ fn(state => {
     t => `?type=${t}&indexed_on_start=2023-05-19T08:12:18&limit=${limit}&indexed_on_end=2023-05-19T09:30:00` 
   );
 
-  return { ...state, queries, baseUrl, payloads: [] };
+  return { ...state, queries, baseUrl: `${baseUrl}/`, payloads: [] };
 });
 
 // create a "recursiveGet" which will call itself if CommCare tells us there's
