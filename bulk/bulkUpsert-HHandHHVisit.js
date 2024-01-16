@@ -8,6 +8,7 @@ fn(state => {
   return { ...state, uniq_owner_ids };
 });
 
+
 fn(state => {
   if (state.payloads.length == 0) return state;
 
@@ -35,7 +36,8 @@ fn(state => {
 
   const [reference] = state.references;
 
-  // console.log(JSON.stringify(reference.records, null, 2));
+  //HMN 06/11/2023
+ // console.log(JSON.stringify(reference.records, null, 2));
 
   const records = reference.records;
   const fetchReference = (owner_id, arg) => {
@@ -98,12 +100,14 @@ fn(state => {
       const Inactive_Reason__c = reason
         ? reason.toString().replace(/_/g, ' ')
         : null;
-
-      const chw = h.properties.CHW_ID;
+ //HMN 06/11/2023
+ console.log(JSON.stringify(h.properties, null, 2));
+     /*HMN remove this dependancy 07/07/2023
+     const chw = h.properties.CHW_ID;
       const Household_CHW__c =
         chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
       // =======================================================================
-
+*/
       return {
         CommCare_Username__c: h.properties.commcare_username,
         MOH_household_code__c: h.properties.moh_code,
@@ -253,12 +257,13 @@ fn(state => {
   return { ...state, households, housevisits, fetchReference };
 });
 
-/* JSON logging of records
-fn(state => {
+//JSON logging of records
+//HMN 06/11/2023
+/*fn(state => {
   console.log('HHs to upsert ::', JSON.stringify(state.households));
   return state;
-});
-*/
+});*/
+
 
 bulk(
   'Household__c',

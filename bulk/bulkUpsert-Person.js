@@ -8,6 +8,7 @@ fn(state => {
       caregiverMapping: [],
       sfRecordMapping: [],
     };
+  
   // JSON logging of records
   //console.log('cases before query :: ', JSON.stringify(state.payloads, null, 2));
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
@@ -205,12 +206,12 @@ fn(state => {
   const householdMapping = [
     ...new Map(
       state.payloads
-        /*HMN 05072023 
+
        .filter(
           p =>
-            p.properties.commcare_username !== 'test.2021' &&
-            p.properties.test_user !== 'Yes'
-        )*/
+            p.indices.parent.case_id  !== undefined &&
+            p.indices.parent.case_id  !== ''
+        )
         .map(p => {
           return {
             CommCare_Code__c:
@@ -224,9 +225,6 @@ fn(state => {
   const headOfHouseholdMapping = state.payloads
     .filter(
       p =>
-        /*HMN 050723 p.properties.commcare_username !== 'test.2021' &&
-        p.properties.test_user !== 'Yes' &&
-        */
         p.properties.head_of_household_case_id !== undefined &&
         p.properties.head_of_household_case_id !== ''
     )
@@ -245,7 +243,8 @@ fn(state => {
         p.properties.test_user !== 'Yes' &&
         */
         p.properties.mother_case_id !== undefined &&
-        p.properties.mother_case_id !== ''
+        p.properties.mother_case_id !== '' &&
+        p.case_id!== undefined
     )
     .map(p => {
       return {
@@ -261,7 +260,8 @@ fn(state => {
         p.properties.test_user !== 'Yes' &&
         */
         p.properties.caretaker_case_id !== undefined &&
-        p.properties.caretaker_case_id !== ''
+        p.properties.caretaker_case_id !== '' &&
+        p.case_id!== undefined
     )
     .map(p => {
       return {
@@ -272,11 +272,16 @@ fn(state => {
     });
 
   const sfRecordMapping = state.payloads
-    /*HMN 050723 .filter(
+
+  .filter(
       p =>
+       /*HMN 050723 
         p.properties.commcare_username !== 'test.2021' &&
         p.properties.test_user !== 'Yes'
-    ) */
+        */
+        p.case_id !== undefined &&
+        p.case_id !== ''
+    ) 
     .map(p => {
       // For unbornOrName
       const name1 = p.properties.Person_Name || p.properties.case_name;
@@ -292,32 +297,36 @@ fn(state => {
       // console.log('Person Name ::', unbornOrName);
 
       // For chronicIllness
-      const chronicChoice =
-        p.properties.please_specify_which_chronic_illness_the_person_has;
+      const chronicChoice =p.properties.please_specify_which_chronic_illness_the_person_has;
       const choice2 = handleMultiSelect(chronicChoice);
       const chronicIllness = choice2 ? choice2.replace(/_/g, ' ') : '';
 
       const disabilityC =
-        p.properties.disability !== undefined
+        p.properties.disability !== undefined && p.properties.disability !=='---' && p.properties.disability !== null
           ? p.properties.disability
               .toLowerCase()
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';')
           : null;
-
+//HMN remove
+console.log(p.case_id)
+//console.log(disabilityC)
+//
       const otherDisability =
-        p.properties.other_disability !== undefined
+        p.properties.other_disability !== undefined && p.properties.other_disability !=='---' && p.properties.other_disability !== null
           ? p.properties.other_disability
               .toLowerCase()
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(';')
           : null;
-
+//HMN remove
+//console.log(otherDisability)
+//HMN
       const hh_relation = p.properties.relation_to_hh;
 
-      const relationToTheHead = hh_relation
+      const relationToTheHead = hh_relation !== undefined && hh_relation !== null
         ? hh_relation.toString().replace(/_/g, ' ').charAt(0).toUpperCase() +
           hh_relation.toString().replace(/_/g, ' ').slice(1)
         : null;
@@ -329,7 +338,7 @@ fn(state => {
           ? (p.properties.Child_Status = 'Born')
           : p.properties.Child_Status;
 
-      const childDangerSigns = p.properties.Other_Danger_Signs
+      const childDangerSigns = p.properties.Other_Danger_Signs !== undefined && p.properties.Other_Danger_Signs !== null 
         ? p.properties.Other_Danger_Signs.toLowerCase()
             .split(' ')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -390,6 +399,7 @@ fn(state => {
         // TODO @aleksa, Source__c is causing an error
         Source__c: true,
         CommCare_ID__c: p.case_id,
+  
         //HMN 05072023 'Primary_Caregiver_Lookup__r.CommCare_ID__c':p.properties.caretaker_case_id,
         //HMN 05072023 'Mother__r.CommCare_ID__c': p.properties.mother_case_id,
         'Household__r.CommCare_Code__c':
@@ -407,11 +417,11 @@ fn(state => {
         Name: unbornOrName,
         Chronic_illness__c: chronicIllness,
         Currently_enrolled_in_school__c: p.properties.enrolled_in_school,
-        Education_Level__c: p.properties.Education_Level
+        Education_Level__c: p.properties.Education_Level !== null && p.properties.Education_Level !== undefined
           ? p.properties.Education_Level.toString().replace(/_/g, ' ')
           : null,
         Relation_to_the_head_of_the_household__c: relationToTheHead,
-        Gender__c: p.properties.Gender,
+        Gender__c: p.properties.Gender !== undefined ? p.properties.Gender : null,
         Disability__c: disabilityC,
         Other_disability__c: otherDisability,
         Use_mosquito_net__c: p.properties.sleep_under_net,
@@ -567,7 +577,7 @@ fn(state => {
             : undefined,
         Date_of_Birth__c:
           p.properties.DOB && p.properties.DOB !== ''
-            ? p.properties.DOB
+            ? p.properties.DOB.replace(/\\/g, '-')
             : undefined,
         //Immunization  =====================//
         // Child_missed_immunization_type__c:
@@ -633,7 +643,7 @@ fn(state => {
   // TODO clean up after QA
   // console.log(JSON.stringify(caregiverMapping, null, 2), 'careGiver');
   // console.log(JSON.stringify(motherMapping, null, 2), 'Mother');
-  // console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
+   //console.log(JSON.stringify(sfRecordMapping, null, 2), 'sfRecordMapping');
   // console.log(JSON.stringify(householdMapping, null, 2), 'householdMapping');
   // console.log(
   //   JSON.stringify(headOfHouseholdMapping, null, 2),
@@ -650,16 +660,17 @@ fn(state => {
   };
 });
 
-// TODO, Clean up when pass QA
-// fn(state => {
-//   state.sfRecordMapping.forEach(rec => {
-//     Object.entries(rec).forEach(([key, value]) => {
-//       if (typeof key !== 'string') throw `${key} is not a string`;
-//     });
-//   });
-//   return state;
-// });
 
+// TODO, Clean up when pass QA
+ /*fn(state => {
+   state.sfRecordMapping.forEach(rec => {
+    Object.entries(rec).forEach(([key, value]) => {
+       if (typeof key !== 'string') throw `${key} is not a string`;
+    });
+   });
+   return state;
+ });
+*/
 // bulk(
 //   'Household__c',
 //   'upsert',
@@ -727,7 +738,7 @@ bulk(
   },
   state => {
     console.log('Bulk upserting primary caregiver Persons ::');
-    console.log(JSON.stringify(state.caregiverMapping, null, 2));
+    //console.log(JSON.stringify(state.caregiverMapping, null, 2));
     return state.caregiverMapping;
   }
 );
@@ -758,7 +769,7 @@ bulk(
   },
   state => {
     console.log('Bulk upserting mother Person::');
-    console.log(JSON.stringify(state.motherMapping, null, 2));
+   // console.log(JSON.stringify(state.motherMapping, null, 2));
     return state.motherMapping;
   }
 );
@@ -793,7 +804,7 @@ bulk(
   },
   state => {
     console.log('Bulk upserting head of household field on HH ::');
-    console.log(JSON.stringify(state.headOfHouseholdMapping, null, 2));
+   // console.log(JSON.stringify(state.headOfHouseholdMapping, null, 2));
     return state.headOfHouseholdMapping;
   }
 );

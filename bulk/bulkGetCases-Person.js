@@ -7,7 +7,7 @@ fn(state => {
   const limit = 1000; //E.g., change to 10 to process records in smaller batch sizes
 
   //NOTE: indexedOnStart is the default sync start data the FIRST time the job runs
-  const indexedOnStart = '2023-07-05T11:00:00';
+  const indexedOnStart = '2023-11-06T14:00:00';
   
 
   //NOTE: After first job run, OpenFn will check the job sync data ("lastRunAt") to set as the indexedOnStart
@@ -19,7 +19,7 @@ fn(state => {
     t => `?type=${t}&indexed_on_start=${lastRunAt}&limit=${limit}`
     //NOTE: If for testing, you want to fetch data for a specific historical range (e.g., between April 23 and 24)...
     //...then use the query string below instead of the one above on L16, and custom adjust the index_on start/end dates
-     //t => `?type=${t}&indexed_on_start=2023-07-03T09:00:00&limit=${limit}&indexed_on_end=2023-07-03T12:00:00`
+   //  t => `?type=${t}&indexed_on_start=2023-10-20T16:00:00&limit=${limit}&indexed_on_end=2023-10-20T17:02:00`
   );
 
   return { ...state, queries, baseUrl, payloads: [] };
@@ -68,6 +68,8 @@ each(
 // log the total number of payloads returned
 fn(state => {
   console.log('Count of payloads', state.payloads.length);
+  //HMN 11072023
+ // console.log(JSON.stringify(state.payloads, null, 2));
 
   return { ...state, references: [], data: {} };
 });
