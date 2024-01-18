@@ -108,6 +108,8 @@ fn(state => {
         chw === 'a030800001zQrk' ? 'a030800001zQrk5' : chw ? chw : undefined;
       // =======================================================================
 */
+   //HMN 18/01/2024
+   console.log(h.date_closed)
       return {
         CommCare_Username__c: h.properties.commcare_username,
         MOH_household_code__c: h.properties.moh_code,
@@ -163,8 +165,7 @@ fn(state => {
              : undefined 
       };
     });
-   //HMN 18/01/2024
-   console.log(h.date_closed)
+
   const housevisits = state.payloads
   //HMN remove test user filters 
   /*
