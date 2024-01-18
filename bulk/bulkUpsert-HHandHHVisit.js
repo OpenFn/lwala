@@ -158,12 +158,13 @@ fn(state => {
           h.properties.when_was_the_household_provided_with_seed_input_support,
         MIYCN_Trained__c: h.properties.household_trained_on_MIYC,
         // TODO: @Aleksa to find out if Case_Closed_Date__c still exist
-         Case_Closed_Date__c: h.properties.date_closed && h.properties.date_closed == true
-             ? h.server_modified_on
+         Case_Closed_Date__c: h.date_closed && h.date_closed == true
+             ? h.date_closed
              : undefined 
       };
     });
-
+   //HMN 18/01/2024
+   console.log(h.date_closed)
   const housevisits = state.payloads
   //HMN remove test user filters 
   /*
@@ -175,12 +176,7 @@ fn(state => {
     )*/
     .map(h => {
       // Special calculations ==================================================
-      //HMN 18/2024
-       const dateClosedTest1 =
-        h.date_closed;
-        const dateClosedTest2 =
-        h.properties.date_closed;
-        console.log(dateClosedTest1,dateClosedTest2)
+    
       
       const visitIdC =
         h.case_id + '_' + h.properties.last_form_opened_date_and_time;
