@@ -175,6 +175,13 @@ fn(state => {
     )*/
     .map(h => {
       // Special calculations ==================================================
+      //HMN 18/2024
+       const dateClosedTest1 =
+        h.date_closed;
+        const dateClosedTest2 =
+        h.properties.date_closed;
+        console.log(dateClosedTest1,dateClosedTest2)
+      
       const visitIdC =
         h.case_id + '_' + h.properties.last_form_opened_date_and_time;
 
