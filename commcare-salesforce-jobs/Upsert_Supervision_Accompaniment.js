@@ -1,4 +1,4 @@
-//Job to integrate CommCare 'Accompaniement' form from the Supervision App
+//Job to integrate CommCare 'Accompaniement' form from the Supervision App.
 fn(state => {
 state.handleMultiSelect = function (state, multiField) {
     return multiField
