@@ -8,8 +8,8 @@ fn(state => {
       caregiverMapping: [],
       sfRecordMapping: [],
     };
-    // JSON logging of records
-    //HMN debug
+  
+  // JSON logging of records
   //console.log('cases before query :: ', JSON.stringify(state.payloads, null, 2));
   const owner_ids = state.payloads.map(data => data.properties.owner_id);
   const uniq_owner_ids = [...new Set(owner_ids)];
@@ -43,9 +43,9 @@ fn(state => {
         : 0;
 
     //TODO: Update default value for 'unknown location' before go-live
-    return result.length > 0 ? result[0][arg] 
-    : 'a000800001tMobaAAC' /*unknown location*/;
-
+    return result.length > 0
+      ? result[0][arg]
+      : 'a000800001tMobaAAC' /*unknown location*/;
   };
 
   const cleanChoice = choice => {
@@ -206,6 +206,7 @@ fn(state => {
   const householdMapping = [
     ...new Map(
       state.payloads
+
        .filter(
           p =>
             p.indices.parent.case_id  !== undefined &&
@@ -238,7 +239,7 @@ fn(state => {
   const motherMapping = state.payloads
     .filter(
       p =>
-       /*HMN 050723 p.properties.commcare_username !== 'test.2021' &&
+        /*HMN 050723 p.properties.commcare_username !== 'test.2021' &&
         p.properties.test_user !== 'Yes' &&
         */
         p.properties.mother_case_id !== undefined &&
@@ -255,7 +256,7 @@ fn(state => {
   const caregiverMapping = state.payloads
     .filter(
       p =>
-       /*HMN 070523 p.properties.commcare_username !== 'test.2021' &&
+        /*HMN 070523 p.properties.commcare_username !== 'test.2021' &&
         p.properties.test_user !== 'Yes' &&
         */
         p.properties.caretaker_case_id !== undefined &&
@@ -271,6 +272,7 @@ fn(state => {
     });
 
   const sfRecordMapping = state.payloads
+
   .filter(
       p =>
        /*HMN 050723 
@@ -390,10 +392,9 @@ console.log(p.case_id)
               })
           : undefined;
       const reasonForNotTakingFP = rValue ? rValue.join(';') : undefined;
-      
+
       const recordType = p.properties.Record_Type;
-     
-      
+
       return {
         // TODO @aleksa, Source__c is causing an error
         Source__c: true,
@@ -426,9 +427,10 @@ console.log(p.case_id)
         Use_mosquito_net__c: p.properties.sleep_under_net,
         Birth_Certificate__c: p.properties.birth_certificate,
         Child_Status__c: childStatus,
-        'RecordType.Name': recordType === 'Unborn' || recordType === '' 
-          ? 'Child' 
-          : recordType.toString().replace(/_/g, ' '), //convert Unborn children to Child RT
+        'RecordType.Name':
+          recordType === 'Unborn' || recordType === ''
+            ? 'Child'
+            : recordType.toString().replace(/_/g, ' '), //convert Unborn children to Child RT
         //TT5 Mother Information  =====================//
         MCH_booklet__c: p.properties.mch_booklet,
         Reason_for_not_taking_a_pregnancy_test__c: p.properties.No_Preg_Test
@@ -700,10 +702,11 @@ bulk(
     extIdField: 'CommCare_ID__c',
     failOnError: true,
     allowNoOp: true,
+    pollTimeout: 360000,
   },
   state => {
     console.log('Bulk upserting persons ::');
-    //HMN commented this  
+    //HMN commented this
     //console.log(JSON.stringify(state.sfRecordMapping, null, 2));
     return state.sfRecordMapping;
   }
@@ -731,6 +734,7 @@ bulk(
     extIdField: 'CommCare_ID__c',
     failOnError: true,
     allowNoOp: true,
+    pollTimeout: 360000,
   },
   state => {
     console.log('Bulk upserting primary caregiver Persons ::');
@@ -761,6 +765,7 @@ bulk(
     extIdField: 'CommCare_ID__c',
     failOnError: true,
     allowNoOp: true,
+    pollTimeout: 360000,
   },
   state => {
     console.log('Bulk upserting mother Person::');
@@ -794,6 +799,8 @@ bulk(
     extIdField: 'CommCare_Code__c',
     failOnError: true,
     allowNoOp: true,
+    concurrencyMode: 'serial',
+    pollTimeout: 360000,
   },
   state => {
     console.log('Bulk upserting head of household field on HH ::');
