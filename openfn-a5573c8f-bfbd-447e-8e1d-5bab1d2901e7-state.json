@@ -4,10 +4,6 @@
   "description": null,
   "inserted_at": "2024-03-22T14:37:07Z",
   "updated_at": "2024-11-18T12:16:49Z",
-  "scheduled_deletion": null,
-  "history_retention_period": 365,
-  "dataclip_retention_period": null,
-  "retention_policy": "retain_all",
   "project_credentials": {
     "rita@openfn.org-Lwala-Salesforce-Sandbox-(April-2024)": {
       "id": "96a3843d-5d9c-4f03-8289-508b87901c9b",
@@ -40,6 +36,10 @@
       "owner": "aleksa@openfn.org"
     }
   },
+  "scheduled_deletion": null,
+  "history_retention_period": 365,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
   "workflows": {
     "x-[archive]-Workflow-Register-Training": {
       "id": "07e2a931-d8ec-437b-b563-fbe934640707",
