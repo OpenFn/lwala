@@ -2,8 +2,9 @@
 
 Lwala uses OpenFn to integrate its Salesforce database and CommCare CHW mobile application. The OpenFn jobs in this repository automate a bi-directional dataflow between the CommCare and Salesforce systems, ensuring regular data syncs and feedback loops for CHWs. 
 
-*N.B. Any commits to the `master` branch will be automatically deployed to
-Lwala's OpenFn project*
+## Notes on Version Control
+
+Lwala is running on OpenFn v2, and is being backed up on the `v2_staging` branch. What currently is on the `master` branch is a *snapshot* of the project/the `v2_staging` branch. Any live changes going forward will be synced to `v2_staging`.
 
 ## Worflows
 OpenFn jobs are used to automate the following workflows between CommCare and Salesforce. This integration is event-driven (triggered whenever a record is created/ updated). [This diagram](https://lucid.app/lucidchart/e3411bda-1f0e-492f-b35d-6baf2dd3972a/edit?view_items=laxJTiq3D_aN&invitationId=inv_269ce3a1-612b-49b8-ab06-4805e3e483de#) provides an overview of how data flows from CommCare forms to Salesforce objects through OpenFn jobs.
